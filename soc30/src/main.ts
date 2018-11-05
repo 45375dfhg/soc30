@@ -1,12 +1,6 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+// this import should be first in order to load some required settings (like globals and reflect-metadata)
+import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { AppModule } from "./app/app.module";
 
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+platformNativeScriptDynamic().bootstrapModule(AppModule);

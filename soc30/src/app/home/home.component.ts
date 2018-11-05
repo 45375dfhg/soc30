@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { RouterExtensions } from "nativescript-angular/router";
+import { DataService, IDataItem } from "../core/data.service";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+    selector: "Home",
+    moduleId: module.id,
+    templateUrl: "./home.component.html"
 })
 export class HomeComponent implements OnInit {
-  title = 'soc30';
+    items: Array<IDataItem>;
 
-  constructor() { }
+    constructor(private itemService: DataService, private router: RouterExtensions) { }
 
-  ngOnInit() {
-  }
+    ngOnInit(): void {
+        this.items = this.itemService.getItems();
+    }
 }

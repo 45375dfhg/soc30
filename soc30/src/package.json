@@ -1,8 +1,6 @@
 {
-  "android": {
-    "v8Flags": "--expose_gc"
-  },
-  "main": "main.ns.js",
-  "name": "migration-ng",
-  "version": "4.1.0"
+    "main": "main.js",
+    "android": {
+        "v8Flags": "--expose_gc"
+    }
 }

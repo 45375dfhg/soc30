@@ -22,6 +22,8 @@ router.post('/entries', function (req, res, next) {
       message: req.body.message
     });
     // Search entries are only created in the name of one account for test purposes
+    // This is bad because it will work only with a user that is in our database, for running
+    // the following line has to be changed
     User.findById("5bdf1ab6e50e4feb14a87c48", function(err, result) {
       entry.user = result._id;
       entry.save(function (err) {

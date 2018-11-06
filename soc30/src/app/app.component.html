@@ -1,18 +1,28 @@
-<TabView androidTabsPosition="bottom">
+<TabView #tabview (swipe)="onSwipe($event)" androidTabsPosition="bottom">
 
     <page-router-outlet
-        *tabItem="{title: 'Home', iconSource: getIconSource('home')}"
+        *tabItem="{title: 'HOME', iconSource: getIconSource('home')}"
         name="homeTab">
     </page-router-outlet>
 
     <page-router-outlet
-        *tabItem="{title: 'Browse', iconSource: getIconSource('browse')}"
+        *tabItem="{title: 'HILFE', iconSource: getIconSource('browse')}"
         name="browseTab">
     </page-router-outlet>
 
     <page-router-outlet
-        *tabItem="{title: 'Search', iconSource: getIconSource('search')}"
+        *tabItem="{title: '', iconSource: getIconSource('search')}"
         name="searchTab">
     </page-router-outlet>
+
+    <page-router-outlet
+        *tabItem="{title: 'TERMINE', iconSource: getIconSource('home')}"
+        name="homeTab">
+    </page-router-outlet>
+
+    <page-router-outlet
+    *tabItem="{title: 'TERMINE', iconSource: getIconSource('home')}"
+    name="homeTab">
+</page-router-outlet>
 
 </TabView>

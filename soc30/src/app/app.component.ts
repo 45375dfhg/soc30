@@ -29,11 +29,37 @@ export class AppComponent implements OnInit {
     }
 
     onSwipe(event: SwipeGestureEventData) {
-        if (this.tabview.nativeElement.selectedIndex === 2 && event.direction === SwipeDirection.left){
-          this.tabview.nativeElement.selectedIndex = 3;
-        } else if(this.tabview.nativeElement.selectedIndex === 3 && event.direction === SwipeDirection.right){
-          this.tabview.nativeElement.selectedIndex = 2;
+        var selectIdx: number = this.tabview.nativeElement.selectedIndex;
+        var dir: SwipeDirection = event.direction;
+        switch (selectIdx) {
+            case 0: 
+                if (dir === SwipeDirection.left) {
+                    this.tabview.nativeElement.selectedIndex = 1;
+                }
+                break;
+            case 1:
+                if (dir === SwipeDirection.left) {
+                    this.tabview.nativeElement.selectedIndex = 3;
+                } else {
+                    this.tabview.nativeElement.selectedIndex = 0;
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                if (dir === SwipeDirection.left) {
+                    this.tabview.nativeElement.selectedIndex = 4;
+                } else {
+                    this.tabview.nativeElement.selectedIndex = 1;
+                }
+                break;
+            case 4:
+                if (dir === SwipeDirection.left) {
+                    this.tabview.nativeElement.selectedIndex = 0;
+                } else {
+                    this.tabview.nativeElement.selectedIndex = 3;
+                }
+                break;
         }
       }
-    
 }

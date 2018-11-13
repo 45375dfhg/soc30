@@ -11,7 +11,8 @@ var HenquirySchema = new Schema({
     postalcode: { type: String, required: true },
     startTime: { type: Date, required: true},
     endTime: { type: Date, required: true},
-    amountAide: { type: Number, default: 1}
+    amountAide: { type: Number, default: 1},
+    confirmation: {type: Boolean}
 });
 
 var Henquiry = mongoose.model('Henquiry', HenquirySchema);

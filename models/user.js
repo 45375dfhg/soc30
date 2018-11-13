@@ -4,9 +4,26 @@ var bcrypt = require('bcryptjs');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  email: { type: String, unique: true, required: true, trim: true },
+
   username: { type: String, unique: true, required: true, trim: true },
-  password: { type: String, required: true }
+  firstname: { type: String, unique: true, required: true, trim: true },
+  email: { type: String, unique: true, required: true, trim: true },
+  password: { type: String, required: true },
+  nickname: { type: String, required: true, trim: true },
+    address: {
+        postalcode: { type: Number, required: true },
+        street: { type: String,  required: true },
+        city: { type: String,  required: true, trim: true },
+        housenm: { type: String,  required: true }
+    },
+  auth: {type: Boolean},
+  foto: {type: Binary},
+  mobile: {type: String},
+  avatar: {type: Number, ref: 'Avatar' },
+
+
+
+
 });
 
 //authenticate input against database

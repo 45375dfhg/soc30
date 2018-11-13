@@ -10,10 +10,11 @@ router.get('/henquiries', henquiry_controller.henquiries_get);
 // POST route for henquiries page
 router.post('/henquiries', henquiry_controller.henquiries_create);
 
-// GET route for index page
-router.get('/', function (req, res, next) {
-  return res.redirect('/login');
-});
+// POST route for henquiries page
+router.post('/henquiries', henquiry_controller.henquiries_create);
+
+// GET route for mobille register
+router.get('/login', user_controller.login_get);
 
 // GET route for logging in / register
 router.get('/login', user_controller.login_get);

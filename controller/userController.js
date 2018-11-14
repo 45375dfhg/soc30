@@ -88,3 +88,9 @@ exports.profile = function (req, res, next) {
         }
       });
 };
+
+exports.calendar = (req, res, next) => {
+    Henquiry.find({'potentialAide' : { $in: req.session.userId}}, function(err, docs) {
+      return res.json(docs);
+    });
+};

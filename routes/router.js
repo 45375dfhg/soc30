@@ -27,4 +27,7 @@ router.get('/profile', user_controller.profile);
 // GET for logout
 router.get('/logout', user_controller.logout);
 
+// GET route for the calendar
+router.get('/calendar', user_controller.calendar);
+
 module.exports = router;

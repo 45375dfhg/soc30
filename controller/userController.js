@@ -11,37 +11,42 @@ exports.login_get = function(req, res, next) {
     return res.sendFile(path.join(path.dirname(__dirname) + '/public/login.html'));    
 };
 
-exports.login_register_post = function (req, res, next) {
-    // Register:
-    if (req.body.password !== req.body.passwordConf) {
-      var err = new Error('Passwords do not match.');
-      err.status = 400;
-      res.send("passwords dont match");
-      return next(err);
+exports.register_post = function (req, res, next) {
+  if (req.body.password !== req.body.passwordConf) {
+    var err = new Error('Passwords do not match.');
+    err.status = 400;
+    res.send("passwords dont match");
+    return next(err);
+  }
+
+  if (req.body.email &&
+    req.body.username &&
+    req.body.password &&
+    req.body.passwordConf) {
+
+    var userData = {
+      email: req.body.email,
+      username: req.body.username,
+      password: req.body.password,
     }
-  
-    if (req.body.email &&
-      req.body.username &&
-      req.body.password &&
-      req.body.passwordConf) {
-  
-      var userData = {
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
-        //passwordConf: req.body.passwordConf, 
+
+    User.create(userData, function (error, user) {
+      if (error) {
+        return next(error);
+      } else {
+        req.session.userId = user._id;
+        return res.redirect('/profile');
       }
-  
-      User.create(userData, function (error, user) {
-        if (error) {
-          return next(error);
-        } else {
-          req.session.userId = user._id;
-          return res.redirect('/profile');
-        }
-      });
-      // Login:
-    } else if (req.body.logemail && req.body.logpassword) {
+    });
+  } else {
+    var err = new Error('All fields required.');
+    err.status = 400;
+    return next(err);
+  } 
+};
+
+exports.login_post = function (req, res, next) {
+if (req.body.logemail && req.body.logpassword) {
       User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
         if (error || !user) {
           var err = new Error('Wrong email or password.');
@@ -72,8 +77,8 @@ exports.logout = function (req, res, next) {
     }
 };
 
-exports.profile = function (req, res, next) {
-    User.findById(req.session.userId)
+exports.profile_get = function (req, res, next) {
+    User.findById(req.session.userId, 'password')
       .exec(function (error, user) {
         if (error) {
           return next(error);
@@ -83,7 +88,7 @@ exports.profile = function (req, res, next) {
             err.status = 400;
             return next(err);
           } else {
-            return res.send('<h1>Name: </h1>' + user.username + '<h2>Mail: </h2>' + user.email + '<br><a href="/henquiries">Hilfegesuche</a> <a type="button" href="/logout">Logout</a>')
+            return res.json(user);
           }
         }
       });

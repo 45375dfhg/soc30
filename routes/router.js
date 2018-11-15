@@ -19,13 +19,19 @@ router.get('/login', user_controller.login_get);
 // GET route for logging in / register
 router.get('/login', user_controller.login_get);
 
-// POST route for logging in / register
-router.post('/login', user_controller.login_register_post);
+// POST route for logging in
+router.post('/login', user_controller.login_post);
+
+// POST route for register
+router.post('/register', user_controller.register_post);
 
 // GET route after registering
-router.get('/profile', user_controller.profile);
+router.get('/profile', user_controller.profile_get);
 
 // GET for logout
 router.get('/logout', user_controller.logout);
+
+// GET route for the calendar
+router.get('/calendar', henquiry_controller.calendar);
 
 module.exports = router;

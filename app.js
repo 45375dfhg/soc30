@@ -15,6 +15,7 @@ db.once('open', function () {
   // we're connected!
 });
 
+
 //use sessions for tracking logins
 app.use(session({
   secret: 'work hard', // has to be changed

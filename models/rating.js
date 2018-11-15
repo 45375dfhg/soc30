@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var RatingSchema = new Schema({
     name: {type:String},
-    image: {type: Binary}
+    image: {type: String } //Binary war hier
 });
 
 var Rating = mongoose.model('Rating', RatingSchema);

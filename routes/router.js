@@ -10,6 +10,9 @@ router.get('/henquiries', henquiry_controller.henquiries_get);
 // POST route for henquiries page
 router.post('/henquiries', henquiry_controller.henquiries_create);
 
+// GET index page, currently redirecting to login page
+router.get('', user_controller.login_get);
+
 // GET route for mobille register
 router.get('/login', user_controller.login_get);
 
@@ -21,6 +24,9 @@ router.post('/register', user_controller.register_post);
 
 // GET route after registering
 router.get('/profile', user_controller.profile_get);
+
+// POST route for profile editing
+router.post('/profile', user_controller.profile_edit_post);
 
 // GET for logout
 router.get('/logout', user_controller.logout);

@@ -77,19 +77,67 @@ exports.logout = function (req, res, next) {
     }
 };
 
-exports.profile_get = function (req, res, next) {
-    User.findById(req.session.userId, 'password')
+exports.profile_get = function (req, res, next) { 
+    if(!req.session.userId) {
+      var err = new Error('Please log in.')
+      err.status = 401;
+      return next(err);
+    }
+    var projection;
+    if(req.query.userId === req.session.userId) {
+      projection = '';
+      console.log("TRUE");
+    } else {
+      projection = 'firstname nickname auth foto avatar address.postalcode ratings';
+      console.log("FALSE");
+    }
+    User.findById(req.query.userId, projection)
       .exec(function (error, user) {
         if (error) {
-          return next(error);
+          return next(error); // Möglicher Fehler: Übergebene userId hat falsche Länge
         } else {
           if (user === null) {
-            var err = new Error('Not authorized! Go back!');
-            err.status = 400;
+            var err = new Error('User does not exist.');
+            err.status = 404;
             return next(err);
           } else {
             return res.json(user);
           }
         }
       });
+};
+
+exports.profile_edit_post = function (req, res, next) {
+  if(!req.session.userId) {
+    var err = new Error('Please log in.')
+    err.status = 401;
+    return next(err);
+  }
+  var data;
+  if(req.body.email) {data.email = req.body.email;}
+  if(req.body.surname) {data.surname = req.body.username;}
+  if(req.body.firstname) {data.firstname = req.body.firstname;}
+  //if(req.body.password == req.body.passwordConf) {data.password = req.body.password;}
+  if(req.body.nickname) {data.nickname = req.body.nickname;}
+  data.address.postalcode = 1;
+  data.street = "1";
+  data.city = "1";
+  data.housenm = "1";
+  if(req.body.foto) {data.foto = req.body.foto;}
+  if(req.body.mobile) {data.mobile = req.body.mobile;}
+  if(req.body.avatar) {data.avatar = req.body.avatar;}
+  console.log(data);
+  User.updateOne(req.session.userId, data, function (error, user) {
+    if(error) {
+      return next(error);
+    } else {
+      if (user === null) {
+        var err = new Error('User does not exist.');
+        err.status = 404;
+        return next(err);
+      } else {
+          res.json(updatedUser);
+      }
+    }
+  });
 };

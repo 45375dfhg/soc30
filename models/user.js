@@ -10,6 +10,10 @@ var UserSchema = new Schema({
   email: { type: String, unique: true, required: true, trim: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, trim: true },
+  ratings: [{ 
+    rating: {type: Schema.Types.ObjectId, ref: 'Rating'}, 
+    count: {type: Number} 
+  }],
     address: {
         postalcode: { type: Number, required: true },
         street: { type: String,  required: true },
@@ -18,7 +22,7 @@ var UserSchema = new Schema({
     },
   postident: {type: Boolean},
   auth: {type: Boolean},
-  foto: {type: Binary},
+  foto: {type: String}, // binary war hier
   mobile: {type: String},
   avatar: {type: Schema.Types.ObjectId, ref: 'Avatar' },
 

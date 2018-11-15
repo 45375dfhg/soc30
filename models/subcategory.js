@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var SubcategorySchema = new Schema({
     name: {type: String},
     image: {type: Binary},
-    categoryid: {type: Number, ref: 'Category'}
+    categoryID: {type: Schema.Types.ObjectId, ref: 'Category'}
 
 });
 

@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
 
-  username: { type: String, unique: true, required: true, trim: true },
-  firstname: { type: String, unique: true, required: true, trim: true },
+  surname: { type: String, required: true, trim: true },
+  firstname: { type: String, required: true, trim: true },
   email: { type: String, unique: true, required: true, trim: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, trim: true },
@@ -16,10 +16,11 @@ var UserSchema = new Schema({
         city: { type: String,  required: true, trim: true },
         housenm: { type: String,  required: true }
     },
+  postident: {type: Boolean},
   auth: {type: Boolean},
   foto: {type: Binary},
   mobile: {type: String},
-  avatar: {type: Number, ref: 'Avatar' },
+  avatar: {type: Schema.Types.ObjectId, ref: 'Avatar' },
 
 
 
@@ -45,7 +46,7 @@ UserSchema.statics.authenticate = function (email, password, callback) {
         }
       })
     });
-}
+};
 
 // hashing a password before saving it to the database
 UserSchema.pre('save', function (next) {

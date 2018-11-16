@@ -1,4 +1,4 @@
-import { Component, OnInit} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Item } from "../shared/models/item";
@@ -12,7 +12,7 @@ import { HttpErrorResponse } from "@angular/common/http";
     templateUrl: "./items.component.html",
 })
 export class ItemsComponent implements OnInit {
-    
+
     items: Item[] = [];
 
     // This pattern makes use of Angular’s dependency injection implementation to inject an instance of the ItemService service into this class.
@@ -29,7 +29,7 @@ export class ItemsComponent implements OnInit {
 
     navigateToDetails(id: number) {
         this.router.navigate([
-            '/navigation', {outlets: { itemsoutlet: ['items', id] } }
+            '/navigation', { outlets: { itemsoutlet: ['items', id] } }
         ])
     }
 }

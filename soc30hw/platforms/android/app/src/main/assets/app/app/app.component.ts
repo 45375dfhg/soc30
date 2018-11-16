@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import * as application from "tns-core-modules/application";
+import { isAndroid } from "tns-core-modules/platform";
 import { RouterExtensions } from "nativescript-angular/router";
+
 
 @Component({
     selector: "ns-app",
@@ -8,13 +10,16 @@ import { RouterExtensions } from "nativescript-angular/router";
     templateUrl: "./app.component.html",
 })
 export class AppComponent {
+
     public constructor(private router: RouterExtensions) { }
 
     public ngOnInit(): void {
+        if (!isAndroid) {
+            return;
+        }
         application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
             if (this.router.canGoBack()) {
                 args.cancel = true;
-                this.router.back();
             } else {
                 args.cancel = false;
             }

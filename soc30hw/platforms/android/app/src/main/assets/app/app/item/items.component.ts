@@ -1,4 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
+import { Router } from "@angular/router";
+
 
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
@@ -16,7 +18,7 @@ export class ItemsComponent implements OnInit {
 
     // This pattern makes use of Angular’s dependency injection implementation to inject an instance of the ItemService service into this class.
     // Angular knows about this service because it is included in your app’s main NgModule, defined in app.module.ts.
-    constructor(private itemService: ItemService) { }
+    constructor(private itemService: ItemService, private router: Router) { }
 
     ngOnInit(): void {
         this.receiveList();
@@ -24,5 +26,11 @@ export class ItemsComponent implements OnInit {
 
     receiveList() {
         this.itemService.getItems().subscribe(result => this.items = result);
+    }
+
+    navigateToDetails(id: number) {
+        this.router.navigate([
+            '/navigate', {outlets: { itemsoutlet: ['items', id] } }
+        ])
     }
 }

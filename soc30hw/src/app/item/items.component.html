@@ -23,11 +23,30 @@ These components make use of several CSS class names that are part of the Native
 core theme, such as p-20, btn, h2, and list-group. You can view a full list of the
 class names available for styling your app at https://docs.nativescript.org/ui/theme.
 -->
+
+<ListView [items]="items" class="list-group" height="100%">
+    <ng-template let-item="item">
+        <Label (tap)="navigateToDetails(item.id)" [text]="item.id" class="list-group-item">
+        </Label>
+    </ng-template>
+</ListView>
+
+<!--
 <StackLayout class="page">
     <ListView [items]="items" class="list-group">
         <ng-template let-item="item">
-            <Label [nsRouterLink]="['/item', item.id]" [text]="item.title"
-                class="list-group-item"></Label>
+            <Label (tap)="navigateToDetails(item.id)" [text]="item.name" class="list-group-item">
+            </Label>
         </ng-template>
     </ListView>
-</StackLayout>
+</StackLayout>    
+<ListView [items]="items" class="list-group" height="100%">
+    <ng-template let-item="item">
+        <Label (tap)="navigateToDetails(item.id)" [text]="item.name" class="list-group-item">
+        </Label>
+    </template>
+</ListView>
+            <Label [nsRouterLink]="['/navigation', { outlets: { itemsoutlet: ['items', 'id'] } } ]" [text]="item.title"
+                class="list-group-item">
+            </Label>
+-->

@@ -3,13 +3,13 @@ import { Router } from "@angular/router";
 
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
-import { map } from "rxjs/operators";
-import { HttpErrorResponse } from "@angular/common/http";
+
 
 @Component({
     selector: "ns-items",
     moduleId: module.id,
     templateUrl: "./items.component.html",
+    styleUrls:  ["./items.component.scss"]
 })
 export class ItemsComponent implements OnInit {
 
@@ -33,3 +33,4 @@ export class ItemsComponent implements OnInit {
         ])
     }
 }
+

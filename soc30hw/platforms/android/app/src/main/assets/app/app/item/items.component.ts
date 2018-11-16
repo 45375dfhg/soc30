@@ -1,7 +1,6 @@
 import { Component, OnInit} from "@angular/core";
 import { Router } from "@angular/router";
 
-
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
 import { map } from "rxjs/operators";
@@ -30,7 +29,7 @@ export class ItemsComponent implements OnInit {
 
     navigateToDetails(id: number) {
         this.router.navigate([
-            '/navigate', {outlets: { itemsoutlet: ['items', id] } }
+            '/navigation', {outlets: { itemsoutlet: ['items', id] } }
         ])
     }
 }

@@ -36,7 +36,6 @@ export class ItemService {
 
     getItem(id: number) {
         if (this.items != undefined) {
-            console.log('get item by id')
             return this.items.find(data => data.id === id);
         } else {
             return this.getItems().subscribe(items => this.getItem(id));

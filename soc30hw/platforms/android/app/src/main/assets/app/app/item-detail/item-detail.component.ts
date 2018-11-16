@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+// import * as application from "tns-core-modules/application";
 
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
@@ -14,13 +15,24 @@ export class ItemDetailComponent implements OnInit {
 
     constructor(
         private itemService: ItemService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
         const id = +this.route.snapshot.params['id'];
-        console.log(id);
         this.item = this.itemService.getItem(id);
-        console.log(`${this.item.id}`);
+        /*
+        application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
+            args.cancel = true;
+            this.goBack();
+        });
+        */
+    }
+
+    goBack() {
+        this.router.navigate([
+            'navigation', {outlets: { itemsoutlet: ['items']}}
+        ])
     }
 }

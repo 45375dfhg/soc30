@@ -1,6 +1,7 @@
 var User = require('../models/user');
 var Henquiry = require('../models/henquiry');
 var path = require('path');
+var bcrypt = require('bcryptjs');
 
 exports.login_get = function(req, res, next) {
     if(req.session.userId) {
@@ -20,14 +21,15 @@ exports.register_post = function (req, res, next) {
   }
 
   if (req.body.email &&
-    req.body.username &&
     req.body.password &&
-    req.body.passwordConf) {
+    req.body.passwordConf && req.body.surname && req.body.firstname && req.body.nickname) {
 
     var userData = {
       email: req.body.email,
-      username: req.body.username,
       password: req.body.password,
+      surname: req.body.surname,
+      firstname: req.body.firstname,
+      nickname: req.body.nickname
     }
 
     User.create(userData, function (error, user) {
@@ -113,31 +115,56 @@ exports.profile_edit_post = function (req, res, next) {
     err.status = 401;
     return next(err);
   }
-  var data;
+  var data = {};
+  data.address = {};
+  populateDataToBeUpdated(req, data);
+  // Altes PW muss noch geprüft werden
+  if(req.body.password) {
+    if(req.body.password === req.body.passwordConf) {
+      bcrypt.hash(req.body.password, 10, function (err, hash) {
+        if (err) {
+          return next(err);
+        }
+        console.log(hash);
+        data.password = hash;
+        updateUser(req, data, res);
+      })
+    } else {
+      res.send("PWs sind nicht gleich");
+    }
+  } else {
+    updateUser(req, data, res);
+  }
+  console.log("hier");
+};
+
+function populateDataToBeUpdated(req, data) {
   if(req.body.email) {data.email = req.body.email;}
-  if(req.body.surname) {data.surname = req.body.username;}
+  if(req.body.surname) {data.surname = req.body.surname;}
   if(req.body.firstname) {data.firstname = req.body.firstname;}
-  //if(req.body.password == req.body.passwordConf) {data.password = req.body.password;}
   if(req.body.nickname) {data.nickname = req.body.nickname;}
-  data.address.postalcode = 1;
-  data.street = "1";
-  data.city = "1";
-  data.housenm = "1";
+  if(req.body.postalcode) {data.address.postalcode = req.body.postalcode;}
+  if(req.body.street) {data.address.street = req.body.street;}
+  if(req.body.city) {data.address.city = req.body.city;}
+  if(req.body.housenm) {data.address.housenm = req.body.housenm;}
   if(req.body.foto) {data.foto = req.body.foto;}
   if(req.body.mobile) {data.mobile = req.body.mobile;}
   if(req.body.avatar) {data.avatar = req.body.avatar;}
-  console.log(data);
-  User.updateOne(req.session.userId, data, function (error, user) {
+}
+
+function updateUser(req, data, res) {
+  User.findByIdAndUpdate(req.session.userId, {$set : data}, function (error, user) {
     if(error) {
-      return next(error);
+      console.log(error);
+      return;
     } else {
       if (user === null) {
         var err = new Error('User does not exist.');
         err.status = 404;
         return next(err);
       } else {
-          res.json(updatedUser);
+          res.json(user);
       }
     }
   });
-};
+}

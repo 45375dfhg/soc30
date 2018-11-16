@@ -14,11 +14,11 @@ var UserSchema = new Schema({
     rating: {type: Schema.Types.ObjectId, ref: 'Rating'}, 
     count: {type: Number} 
   }],
-    address: {
-        postalcode: { type: Number, required: true },
-        street: { type: String,  required: true },
-        city: { type: String,  required: true, trim: true },
-        housenm: { type: String,  required: true }
+    address: { // muss alles required sein
+        postalcode: { type: Number  },
+        street: { type: String },
+        city: { type: String, trim: true },
+        housenm: { type: String }
     },
   postident: {type: Boolean},
   auth: {type: Boolean},

@@ -1,14 +1,16 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-// import { HttpClientModule } from '@angular/common/http';
 
 // used to create fake backend
 import { fakeBackendProvider } from './shared/helper/fake-backend'
 
 import { AppRoutingModule } from "./app-routing.module";
+
 import { AppComponent } from "./app.component";
 import { ItemsComponent } from "./item/items.component";
 import { ItemDetailComponent } from "./item-detail/item-detail.component";
+import { NavigationComponent } from "./navigation/navigation.component";
+import { CalenderComponent } from "./calender/calender.component";
 
 import { ItemService } from "./shared/services/item.service";
 
@@ -30,7 +32,9 @@ import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
     declarations: [
         AppComponent,
         ItemsComponent,
-        ItemDetailComponent
+        ItemDetailComponent,
+        NavigationComponent,
+        CalenderComponent,
     ],
     providers: [
         ItemService,

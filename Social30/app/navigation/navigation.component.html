@@ -1,0 +1,9 @@
+<ActionBar title="Nested Navigation" class="action-bar"></ActionBar>
+<TabView class="tab-view">
+  <StackLayout *tabItem="{title: 'Items'}">
+    <router-outlet name="itemsoutlet"></router-outlet>
+  </StackLayout>
+  <StackLayout *tabItem="{title: 'Calender'}">
+    <router-outlet name="calenderoutlet"></router-outlet>
+  </StackLayout>
+</TabView>

@@ -1,9 +1,15 @@
-<ActionBar title="Nested Navigation" class="action-bar"></ActionBar>
-<TabView class="tab-view">
-  <StackLayout *tabItem="{title: 'Items'}">
-    <router-outlet name="itemsoutlet"></router-outlet>
-  </StackLayout>
-  <StackLayout *tabItem="{title: 'Calender'}">
-    <router-outlet name="calenderoutlet"></router-outlet>
-  </StackLayout>
-</TabView>
+<StackLayout>
+  <GridLayout rows="auto,*">
+    <GridLayout row="1">
+      <TabView androidTabsPosition="top">
+
+        <page-router-outlet *tabItem="{title: 'Hilfegesuche'}" name="itemsoutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="{title: 'Kalender'}" name="calenderoutlet">
+        </page-router-outlet>
+
+      </TabView>
+    </GridLayout>
+  </GridLayout>
+</StackLayout>

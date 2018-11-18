@@ -1,16 +1,17 @@
-import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { NgModule, NO_ERRORS_SCHEMA, NgModuleFactoryLoader } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
+import { AppComponent } from "./app.component";
+import { AppRoutingModule } from "./app-routing.module";
 
+import { NSModuleFactoryLoader } from "nativescript-angular/router";
 // used to create fake backend
 import { fakeBackendProvider } from './shared/helper/fake-backend'
 
-import { AppRoutingModule } from "./app-routing.module";
-
-import { AppComponent } from "./app.component";
-import { ItemsComponent } from "./item/items.component";
-import { ItemDetailComponent } from "./item-detail/item-detail.component";
-import { NavigationComponent } from "./navigation/navigation.component";
-import { CalenderComponent } from "./calender/calender.component";
+import { LoginComponent } from "./login/login.component";
+//import { ItemsComponent } from "./item/items.component";
+// import { ItemDetailComponent } from "./item-detail/item-detail.component";
+// import { NavigationComponent } from "./navigation/navigation.component";
+// import { CalenderComponent } from "./calender/calender.component";
 
 import { ItemService } from "./shared/services/item.service";
 
@@ -31,13 +32,14 @@ import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
     ],
     declarations: [
         AppComponent,
-        ItemsComponent,
-        ItemDetailComponent,
-        NavigationComponent,
-        CalenderComponent,
+        //ItemsComponent,
+        //ItemDetailComponent,
+        //CalenderComponent,
+        LoginComponent,
     ],
     providers: [
         ItemService,
+        { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
         
         // provider used to create fake backend
         //fakeBackendProvider

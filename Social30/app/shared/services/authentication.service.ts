@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import * as appSettings from "tns-core-modules/application-settings";
 import { map } from 'rxjs/operators';
 
-import { Config } from "../config";
+import { Config } from '../config';
 
 @Injectable()
 export class AuthenticationService {

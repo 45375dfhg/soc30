@@ -4,8 +4,9 @@
     <label text="yeah"></label>
     <ListView [items]="items" class="list-group" height="100%">
         <ng-template let-item="item">
+            
             <GridLayout>
-    
+
             <StackLayout [nsRouterLink]="['../item', item._id]"  class="list-group-item ">
 
                 <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
@@ -43,4 +44,6 @@
         </ng-template>
     </ListView>
 </GridLayout>
+
+<!--<ng-template *ngIf="(items && items.length > 0)" let-item="item">-->
 

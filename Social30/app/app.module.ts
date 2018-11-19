@@ -19,6 +19,10 @@ import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { ReactiveFormsModule } from '@angular/forms';
 
+// helper
+import { TokenInterceptor } from './shared/helper/token.interceptor';
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+
 @NgModule({
     bootstrap: [
         AppComponent
@@ -37,6 +41,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     providers: [
         ItemService,
         AuthenticationService,
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
         // { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [

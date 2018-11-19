@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
@@ -9,14 +9,13 @@ import { Config } from "../config";
 
 @Injectable()
 export class ItemService {
-    
     baseUrl = Config.apiUrl + "henquiries";
 
     constructor(private http: HttpClient) { }
 
     private items: Item[];
 
-    getItems() {
+    public getItems() {
         return this.http.get<Item[]>(this.baseUrl)
             .pipe(
                 map(items => {
@@ -35,11 +34,11 @@ export class ItemService {
                     this.items = itemList;
                     return itemList; 
                 }),
-                catchError(this.handleErrors)
+                catchError(this.handleErrors('getItems'))
             );
     }
     
-    getItem(id: string) {
+    public getItem(id: string) {
         if (this.items != undefined) {
             return this.items.find(data => data._id === id);
         } else {
@@ -47,10 +46,15 @@ export class ItemService {
         }
     }
     
-    handleErrors(error: Response) {
-        console.log('reaching');
-        console.log(JSON.stringify(error.json()));
-        return Observable.throw(error);
+    private handleErrors(operation: string) {
+        return (err: any) => {
+            let errMsg = `error in ${operation}() retrieving ${this.baseUrl}`;
+            console.log(`${errMsg}:`, err);
+            if (err instanceof HttpErrorResponse) {
+                console.log(`Status: ${err.status}, ${err.statusText}`);
+            }
+            return Observable.throw(errMsg);
+        }
     }
 
     /*

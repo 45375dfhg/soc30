@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
-
+import {Page} from "ui/page";
 
 @Component({
     selector: "ns-items",
@@ -17,7 +17,9 @@ export class ItemsComponent implements OnInit {
 
     // This pattern makes use of Angular’s dependency injection implementation to inject an instance of the ItemService service into this class.
     // Angular knows about this service because it is included in your app’s main NgModule, defined in app.module.ts.
-    constructor(private itemService: ItemService, private router: Router) { }
+    constructor(private itemService: ItemService, private router: Router, page: Page) {
+        page.actionBarHidden = true;
+     }
 
     ngOnInit(): void {
         this.receiveList();

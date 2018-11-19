@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Page} from "ui/page";
+
 
 @Component({
 	moduleId: module.id,
@@ -9,7 +11,9 @@ import { Component, OnInit } from '@angular/core';
 
 export class CalenderComponent implements OnInit {
 
-	constructor() { }
+	constructor(page: Page) {
+        page.actionBarHidden = true;
+    }
 
 	ngOnInit() { }
 }

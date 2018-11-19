@@ -5,13 +5,13 @@
         <ng-template let-item="item">
             <GridLayout>
             
-            <StackLayout (tap)="navigateToDetails(item.id)" class="list-group-item ">
+            <StackLayout [nsRouterLink]="['../item',item.id]"  class="list-group-item ">
 
                 <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
                     <Label [text]="item.title" class="text-primary font-weight-bold"></Label>
  
                     <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2" ></StackLayout>
-                    <Image row="2" src="https://vignette.wikia.nocookie.net/fantendo/images/b/ba/100px-Redddtoaddd.png/revision/latest?cb=20090414173348" stretch="aspectFill" height="120" class="m-r-20"></Image>
+                    <Image row="2" [src]="getCategoryIconSource('flowers')" class="m-r-20"></Image>
                    
                     <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
                             <Label class="p-b-10">

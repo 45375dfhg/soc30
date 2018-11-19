@@ -11,7 +11,7 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "items" },
             { path: "items", component: ItemsComponent },
-            { path: "items/:id", component: ItemDetailComponent},
+            { path: "item/:id", component: ItemDetailComponent},
         ])
     ],
     declarations: [

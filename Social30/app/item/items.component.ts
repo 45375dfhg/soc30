@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
+
+import { getCategoryIconSource } from "../app.component";
+
+
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
 import {Page} from "ui/page";
@@ -34,5 +38,10 @@ export class ItemsComponent implements OnInit {
             '/navigation', { outlets: { itemsoutlet: ['items', id] } }
         ])
     }
+
+    getCategoryIconSource(icon: string): string {
+        return getCategoryIconSource(icon);
+    }
+
 }
 

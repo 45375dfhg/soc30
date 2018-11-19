@@ -19,24 +19,34 @@ export class ItemService {
     getItems() {
         // let headers = this.createRequestHeader();
         // /henquiries/
-        return this.http.get<Item[]>(`${Config.apiUrl}`)
-            .pipe(
+        console.log(this.baseUrl)
+        return this.http.get<Item[]>(this.baseUrl).subscribe(data => console.log(data));
+            
+        /*.pipe(
                 map(items => {
                     let itemList = [];
                     items.forEach((item) => {
                         itemList.push(
-                            new Item(item.userId, item.id, item.title, item.completed));
+                            new Item(
+                                item._id,
+                                item.text, 
+                                item.amountAide,
+                                item.postalcode,
+                                item.createdBy,
+                                item.startTime,
+                                item.endTime));
                     });
                     this.items = itemList;
                     return itemList; 
                 }),
                 catchError(this.handleErrors)
             );
+        */
     }
 
-    getItem(id: number) {
+    getItem(id: string) {
         if (this.items != undefined) {
-            return this.items.find(data => data.id === id);
+            return this.items.find(data => data._id === id);
         } else {
             return this.getItems().subscribe(items => this.getItem(id));
         }
@@ -44,6 +54,7 @@ export class ItemService {
     }
     
     handleErrors(error: Response) {
+        console.log('reaching');
         console.log(JSON.stringify(error.json()));
         return Observable.throw(error);
     }

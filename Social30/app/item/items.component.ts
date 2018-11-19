@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Page } from "tns-core-modules/ui/page";
 
 
 import { getCategoryIconSource } from "../app.component";
@@ -7,7 +8,7 @@ import { getCategoryIconSource } from "../app.component";
 
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
-import {Page} from "ui/page";
+
 
 @Component({
     selector: "ns-items",
@@ -35,7 +36,7 @@ export class ItemsComponent implements OnInit {
 
     navigateToDetails(id: number) {
         this.router.navigate([
-            '/navigation', { outlets: { itemsoutlet: ['items', id] } }
+            '../item', id
         ])
     }
 

@@ -76,6 +76,7 @@ exports.logout = function (req, res, next) {
 };
 
 exports.profile_get = function (req, res, next) { 
+    // TODO Muss noch raus, da Prüfung auf Login früher erfolgt
     if(!req.session.userId) {
       var err = new Error('Please log in.')
       err.status = 401;
@@ -83,7 +84,8 @@ exports.profile_get = function (req, res, next) {
     }
     var projection;
     if(req.query.userId === req.session.userId) {
-      projection = '';
+      // TODO Anzuzeigende Informationen aussuchen
+      projection = 'email';
     } else {
       projection = 'firstname nickname auth foto avatar address.postalcode ratings';
     }

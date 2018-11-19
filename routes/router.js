@@ -56,4 +56,8 @@ router.get('/messages', message_controller.messages_get);
 // POST route for messages
 router.post('/messages', message_controller.messages_post);
 
+// TEST ROUTE
+router.get('/test', (req, res, next) => {
+    res.json({claas: "moin"});
+});
 module.exports = router;

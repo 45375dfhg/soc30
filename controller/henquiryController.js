@@ -25,7 +25,7 @@ exports.henquiries_get = (req, res, next) => {
 // TODO: Subcategory fehlt
 // @param: text, postalcode, amountAide (, subcategory, startTime, endTime)
 exports.henquiries_create = (req, res, next) => {
-    if(!(req.body.text && req.amountAide && req.body.postalcode)) {
+    if(!(req.body.text && req.body.amountAide && req.body.postalcode)) {
       var err = new Error('All fields required.');
       err.status = 400;
       return next(err);
@@ -192,7 +192,7 @@ exports.cancel_post = (req, res, next) => {
 };
 
 exports.calendar = (req, res, next) => {
-  var userId = req.query.userId;
+  var userId = req.session.userId;
   Henquiry.find({$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]}, function(err, result) {
     if(err) {
       return next(err);

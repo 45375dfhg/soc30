@@ -1,3 +1,5 @@
+
+
 <GridLayout class="page-content icon">
     <label text="yeah"></label>
     <ListView [items]="items" class="list-group" height="100%">
@@ -42,45 +44,3 @@
     </ListView>
 </GridLayout>
 
-        <label text="yeah"></label>
-        <ListView [items]="items" class="list-group" height="100%">
-            <ng-template let-item="item">
-                <GridLayout>
-                
-                <StackLayout [nsRouterLink]="['../item', item._id]" class="list-group-item ">
-    
-                    <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
-                        <Label [text]="item.text" class="text-primary font-weight-bold"></Label>
-     
-                        <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2" ></StackLayout>
-                        <Image row="2" src="https://vignette.wikia.nocookie.net/fantendo/images/b/ba/100px-Redddtoaddd.png/revision/latest?cb=20090414173348" stretch="aspectFill" height="120" class="m-r-20"></Image>
-                       
-                        <StackLayout row="2" col="1" verticalAlignment="center" class="list-group-item-text">
-                                <Label class="p-b-10">
-                                    <FormattedString ios:fontFamily="system">
-                                        <Span text="&#xf017;" class="fa text-primary icon"></Span>
-                                        <Span text="{{ class }}"></Span>
-                                    </FormattedString>
-                                </Label>
-                                <Label class="p-b-10">
-                                    <FormattedString ios:fontFamily="system">
-                                        <Span text="&#xf085;   " class="fa text-primary"></Span>
-                                        <Span text="{{ transmission }}"></Span>
-                                        <Span text=" Transmission"></Span>
-                                    </FormattedString>
-                                </Label>
-                                <Label class="p-b-10">
-                                    <FormattedString ios:fontFamily="system">
-                                        <Span text="&#xf2dc;   " class="fa text-primary" ></Span>
-                                        <Span text="{{ hasAC ? 'Yes' : 'No' }}" ></Span>
-                                    </FormattedString>
-                                </Label>
-                            </StackLayout>
-    
-                    </GridLayout>
-    
-                </StackLayout>
-            </GridLayout>
-            </ng-template>
-        </ListView>
-    </GridLayout>

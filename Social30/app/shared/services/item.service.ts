@@ -95,11 +95,8 @@ export class ItemService {
     getItems(): Item[] {
         return this.items;
     }
-
     getItem(id: number): Item {
         return this.items.filter(item => item.id === id)[0];
     }
     */
 }
-
-

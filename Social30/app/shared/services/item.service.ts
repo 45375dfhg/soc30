@@ -17,20 +17,22 @@ export class ItemService {
     private items: Item[];
 
     getItems() {
-        // let headers = this.createRequestHeader();
-        // /henquiries/
-        console.log(this.baseUrl)
-        return this.http.get<Item[]>(this.baseUrl).subscribe(data => console.log(data));
-            
-        /*.pipe(
+        /*
+        let headers: HttpHeaders = new HttpHeaders();
+        headers = headers.append('Accept', 'application/json');
+        */
+        
+
+        return this.http.get<Item[]>(this.baseUrl)
+            .pipe(
                 map(items => {
                     let itemList = [];
                     items.forEach((item) => {
                         itemList.push(
                             new Item(
-                                item._id,
-                                item.text, 
                                 item.amountAide,
+                                item._id,
+                                item.text,
                                 item.postalcode,
                                 item.createdBy,
                                 item.startTime,
@@ -41,9 +43,8 @@ export class ItemService {
                 }),
                 catchError(this.handleErrors)
             );
-        */
     }
-
+    /*
     getItem(id: string) {
         if (this.items != undefined) {
             return this.items.find(data => data._id === id);
@@ -52,7 +53,7 @@ export class ItemService {
         }
         // return this.http.get<Item>(`${Config.apiUrl}/henquiries/${id}`)
     }
-    
+    */
     handleErrors(error: Response) {
         console.log('reaching');
         console.log(JSON.stringify(error.json()));

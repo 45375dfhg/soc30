@@ -14,12 +14,15 @@ var UserSchema = new Schema({
     rating: {type: Schema.Types.ObjectId, ref: 'Rating'}, 
     count: {type: Number} 
   }],
-    address: { // muss alles required sein
-        postalcode: { type: Number  },
-        street: { type: String },
-        city: { type: String, trim: true },
-        housenm: { type: String }
-    },
+  address: { // muss alles required sein
+      postalcode: { type: Number  },
+      street: { type: String },
+      city: { type: String, trim: true },
+      housenm: { type: String }
+  },
+  notifications: [{ 
+    message: { type: String }
+  }],
   postident: {type: Boolean},
   auth: {type: Boolean},
   foto: {type: String}, // binary war hier

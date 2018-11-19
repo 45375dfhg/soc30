@@ -4,11 +4,6 @@ var path = require('path');
 var bcrypt = require('bcryptjs');
 
 exports.login_get = function(req, res, next) {
-    if(req.session.userId) {
-        console.log("User ist eingeloggt.");
-    } else {
-        console.log("User ist nicht eingeloggt.");
-    }
     return res.sendFile(path.join(path.dirname(__dirname) + '/public/login.html'));    
 };
 
@@ -56,7 +51,8 @@ if (req.body.logemail && req.body.logpassword) {
           return next(err);
         } else {
           req.session.userId = user._id;
-          return res.redirect('/profile');
+          return res.json("{a:1}");
+          //return res.redirect('/profile');
         }
       });
     } else {
@@ -88,10 +84,8 @@ exports.profile_get = function (req, res, next) {
     var projection;
     if(req.query.userId === req.session.userId) {
       projection = '';
-      console.log("TRUE");
     } else {
       projection = 'firstname nickname auth foto avatar address.postalcode ratings';
-      console.log("FALSE");
     }
     User.findById(req.query.userId, projection)
       .exec(function (error, user) {

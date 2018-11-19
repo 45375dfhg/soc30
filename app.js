@@ -30,8 +30,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-// serve static files from template
-//app.use(express.static(__dirname + '/public'));
+// Checks, whether the user is logged in or not.
+// TODO Für den Gastmodus könnte man einen weiteren Router vor dieser Middle
+// einfügen. Wenn man nämlich nicht eingeloggt ist, soll diese Middleware immer auf
+// den Login redirecten.
+app.use(function(req, res, next) {
+  if(req.session.userId) {
+    console.log("app.js :: logged in, userId: " + req.session.userId);
+  } else {
+    console.log("app.js :: is not logged in");
+  }
+  next();
+})
 
 // include routes
 var routes = require('./routes/router');
@@ -51,8 +61,9 @@ app.use(function (err, req, res, next) {
   res.send(err.message);
 });
 
-
 // listen on port 3000
 app.listen(12345, function () {
   console.log('Express app listening on port 12345');
 });
+
+module.exports = app;

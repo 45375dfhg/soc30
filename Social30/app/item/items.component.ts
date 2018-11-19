@@ -2,6 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Page } from "tns-core-modules/ui/page";
 
+
+import { getCategoryIconSource } from "../app.component";
+
+
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
 
@@ -35,5 +39,10 @@ export class ItemsComponent implements OnInit {
             '../item', id
         ])
     }
+
+    getCategoryIconSource(icon: string): string {
+        return getCategoryIconSource(icon);
+    }
+
 }
 

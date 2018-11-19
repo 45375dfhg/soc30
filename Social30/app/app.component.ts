@@ -26,3 +26,9 @@ export class AppComponent {
         }); 
     }
 }
+
+export function getCategoryIconSource(icon: string): string {
+    const iconPrefix = isAndroid ? "res://" : "res://category_icons/";
+    console.log("YEEEEEET");
+    return iconPrefix + icon;
+}

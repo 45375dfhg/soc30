@@ -5,11 +5,11 @@
     <ListView [items]="items" class="list-group" height="100%">
         <ng-template let-item="item">
             <GridLayout>
-            
-            <StackLayout [nsRouterLink]="['../item',item.id]"  class="list-group-item ">
+    
+            <StackLayout [nsRouterLink]="['../item', item._id]"  class="list-group-item ">
 
                 <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
-                    <Label [text]="item.title" class="text-primary font-weight-bold"></Label>
+                    <Label [text]="item.text" class="text-primary font-weight-bold"></Label>
  
                     <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2" ></StackLayout>
                     <Image row="2" [src]="getCategoryIconSource('flowers')" class="m-r-20"></Image>

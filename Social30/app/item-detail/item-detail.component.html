@@ -1,9 +1,9 @@
 <ActionBar title="Details" class="action-bar"></ActionBar>
 <FlexboxLayout flexDirection="column" class="page">
     <FlexboxLayout class="m-15">
-       <Label class="h2" [text]="item.id + '. '"></Label>
-     <Label class="h2" [text]="item.userId"></Label>
+       <Label class="h2" [text]="item._id + '. '"></Label>
+     <Label class="h2" [text]="item.postalcode"></Label>
     </FlexboxLayout>
-    <Label class="h4" [text]="item.title"></Label>
+    <Label class="h4" [text]="item.createdBy"></Label>
     <Button text="Go Back" (tap)="goBack()"></Button>
 </FlexboxLayout>

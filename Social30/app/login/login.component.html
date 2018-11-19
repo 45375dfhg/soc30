@@ -1,4 +1,40 @@
-<StackLayout>
-    <Label text="Logged in!"></Label>
-    <Button text="Go To Home Page" [nsRouterLink]="['../home']"></Button>
+<StackLayout [formGroup]="signUpForm">
+        <TextField 
+            formControlName="email" 
+            hint="Email-Adresse" 
+            keyboardType="email"
+            autocorrect="false" 
+            autocapitalizationType="none"
+            [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.email.errors" 
+            class="invalid-feedback"
+            text="Der Nutzername fehlt, buddy.">
+        </Label>
+        <TextField 
+            formControlName="password" 
+            hint="Passwort"
+            secure="true"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.password.errors" 
+            class="invalid-feedback"
+            text="Dein Password, brah.">
+        </Label>
+        <Button 
+            text="AYYYY"  
+            (tap)="onSubmit()">
+        </Button>
+        <Button
+            text="SKIP CAUSE I A DEV U FUCKA"
+            [nsRouterLink]="['../home']">
+        </Button>
 </StackLayout>
+
+<!--<StackLayout [formGroup]="signUpForm">
+	<TextField formControlName="email" hint="Email" keyboardType="email"></TextField>
+    <TextField formControlName="username" hint="Username"></TextField>
+    <Button text="sign up"  (tap)="onSubmit()"></Button>
+</StackLayout>-->

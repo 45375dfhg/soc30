@@ -33,13 +33,13 @@ export class ItemsComponent implements OnInit {
     receiveList() {
         this.itemService.getItems().subscribe(result => this.items = result);
     }
-
-    navigateToDetails(id: number) {
+    /*
+    navigateToDetails(id: string) {
         this.router.navigate([
             '../item', id
         ])
     }
-
+    */
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }

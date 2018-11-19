@@ -1,25 +1,23 @@
 import { NgModule, NO_ERRORS_SCHEMA, NgModuleFactoryLoader } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-import { AppComponent } from "./app.component";
+
 import { AppRoutingModule } from "./app-routing.module";
+// import { NSModuleFactoryLoader } from "nativescript-angular/router";
 
-import { NSModuleFactoryLoader } from "nativescript-angular/router";
-// used to create fake backend
-import { fakeBackendProvider } from './shared/helper/fake-backend'
-
+// Component
+import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
-//import { ItemsComponent } from "./item/items.component";
-// import { ItemDetailComponent } from "./item-detail/item-detail.component";
-// import { NavigationComponent } from "./navigation/navigation.component";
-// import { CalenderComponent } from "./calender/calender.component";
 
+// Services
 import { ItemService } from "./shared/services/item.service";
+import { AuthenticationService } from './shared/services/authentication.service';
 
-// Uncomment and add to NgModule imports if you need to use two-way binding
-// import { NativeScriptFormsModule } from "nativescript-angular/forms";
-
-// Uncomment and add to NgModule imports if you need to use the HttpClient wrapper
+// HttpClient wrapper
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
+
+// two-way binding
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     bootstrap: [
@@ -28,21 +26,18 @@ import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
     imports: [
         NativeScriptModule,
         AppRoutingModule,
-        NativeScriptHttpClientModule
+        NativeScriptHttpClientModule,
+        NativeScriptFormsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         AppComponent,
-        //ItemsComponent,
-        //ItemDetailComponent,
-        //CalenderComponent,
         LoginComponent,
     ],
     providers: [
         ItemService,
-        { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
-        
-        // provider used to create fake backend
-        //fakeBackendProvider
+        AuthenticationService,
+        // { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [
         NO_ERRORS_SCHEMA

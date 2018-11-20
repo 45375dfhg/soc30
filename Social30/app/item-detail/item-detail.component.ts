@@ -9,6 +9,7 @@ import { ItemService } from "../shared/services/item.service";
     selector: "ns-details",
     moduleId: module.id,
     templateUrl: "./item-detail.component.html",
+    styleUrls:  ["./items-detail.component.scss"]
 })
 export class ItemDetailComponent implements OnInit {
     item: Item;
@@ -21,7 +22,8 @@ export class ItemDetailComponent implements OnInit {
 
     ngOnInit(): void {
         const id = this.route.snapshot.params['id'];
-        this.item = this.itemService.getItem(id);
+        //this.item = this.itemService.getItem(id);
+        this.item = this.itemService.getDummyItem(id);
     }
 
     /*

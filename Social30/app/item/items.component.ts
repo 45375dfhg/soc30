@@ -21,11 +21,12 @@ export class ItemsComponent implements OnInit {
     // This pattern makes use of Angular’s dependency injection implementation to inject an instance of the ItemService service into this class.
     // Angular knows about this service because it is included in your app’s main NgModule, defined in app.module.ts.
     constructor(private itemService: ItemService, private router: Router, page: Page) {
-        page.actionBarHidden = true;
+        //page.actionBarHidden = true;
      }
 
     ngOnInit(): void {
-        this.receiveList();
+        this.items = this.itemService.getDummyItems(10);
+        //this.receiveList();
     }
 
     receiveList() {
@@ -41,6 +42,8 @@ export class ItemsComponent implements OnInit {
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
+
+
 
 }
 

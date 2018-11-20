@@ -1,15 +1,15 @@
 <StackLayout>
   <GridLayout rows="auto,*">
     <GridLayout row="1">
-      <TabView androidTabsPosition="bottom">
+      <TabView androidTabsPosition="bottom" tabBackgroundColor="#F1631A" tabTextColor="white" class="tabviewItems">
 
-        <page-router-outlet *tabItem="{title: 'Hilfegesuche'}" name="itemsoutlet">
+        <page-router-outlet *tabItem="{title: '&#xf015;'}" name="itemsoutlet">
         </page-router-outlet>
 
-        <page-router-outlet *tabItem="{title: 'Erstellen'}" name="henquiryoutlet">
+        <page-router-outlet *tabItem="{title: '&#xf067;'}" name="henquiryoutlet">
         </page-router-outlet>
 
-        <page-router-outlet *tabItem="{title: 'Kalender'}" name="calenderoutlet">
+        <page-router-outlet *tabItem="{title: '&#xf073;'}" name="calenderoutlet">
         </page-router-outlet>
 
       </TabView>

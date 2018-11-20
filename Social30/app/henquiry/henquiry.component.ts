@@ -10,11 +10,12 @@ import { HenquiryModalComponent } from "../henquiry-modal/henquiry.modal";
     moduleId: module.id,
     selector: "henq",
     templateUrl: './henquiry.component.html',
+    styleUrls: ['./henquiry.component.scss']
 })
 export class HenquiryComponent {
     
     public constructor(private modal: ModalDialogService, private vcRef: ViewContainerRef, page: Page) { 
-        page.actionBarHidden = true;
+        //page.actionBarHidden = true;
     }
 
     public showModal() {

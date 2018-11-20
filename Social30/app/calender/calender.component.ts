@@ -6,13 +6,13 @@ import {Page} from "ui/page";
 	moduleId: module.id,
 	selector: 'calender',
 	templateUrl: './calender.component.html',
-	styleUrls: ['./calender.component.css']
+	styleUrls: ['./calender.component.scss']
 })
 
 export class CalenderComponent implements OnInit {
 
 	constructor(page: Page) {
-        page.actionBarHidden = true;
+        //page.actionBarHidden = true;
     }
 
 	ngOnInit() { }

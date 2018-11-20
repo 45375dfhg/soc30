@@ -1,20 +1,22 @@
 import { Component } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActivatedRoute } from "@angular/router";
-
 import { Page } from "tns-core-modules/ui/page";
+
 
 @Component({
     moduleId: module.id,
     templateUrl: "./navigation.component.html",
+    styleUrls:  ["./navigation.component.scss"]
 })
 export class NavigationComponent {
 
     constructor(
         private routerExtension: RouterExtensions,
         private activeRoute: ActivatedRoute,
-        page: Page) {
-            // page.actionBarHidden = true;
+        page: Page,
+        ) {
+            page.actionBarHidden = true;
         }
 
     ngOnInit() {

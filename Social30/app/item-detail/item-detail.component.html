@@ -2,8 +2,14 @@
 <FlexboxLayout flexDirection="column" class="page">
     <FlexboxLayout class="m-15">
        <Label class="h2" [text]="item._id + '. '"></Label>
-     <Label class="h2" [text]="item.postalcode"></Label>
     </FlexboxLayout>
-    <Label class="h4" [text]="item.createdBy"></Label>
+    <FlexboxLayout class="m-15">
+          <Label class="h2" [text]="'Postcode: ' + item.postalcode"></Label>
+         </FlexboxLayout>
+    <FlexboxLayout class="m-15">
+            <Label class="h2" [text]="item.startTime + 'Uhr - '"></Label>
+          <Label class="h2" [text]="item.endTime + 'Uhr'"></Label>
+         </FlexboxLayout>
+    <Label class="m-15" [text]="'Email: ' + item.createdBy.email"></Label>
     <Button text="Go Back" (tap)="goBack()"></Button>
 </FlexboxLayout>

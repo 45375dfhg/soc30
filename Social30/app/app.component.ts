@@ -4,6 +4,10 @@ import { isAndroid } from "tns-core-modules/platform";
 import { RouterExtensions } from "nativescript-angular/router";
 
 
+//StatusbarColor
+import { isIOS } from 'platform';
+import { topmost } from 'ui/frame';
+
 @Component({
     selector: "ns-app",
     moduleId: module.id,
@@ -11,7 +15,11 @@ import { RouterExtensions } from "nativescript-angular/router";
 })
 export class AppComponent {
 
-    public constructor(private router: RouterExtensions) { }
+    public constructor(private router: RouterExtensions) { 
+        if (isIOS){
+            topmost().ios.controller.navigationBar.barStyle = 1;
+        }
+    }
 
     public ngOnInit(): void {
         if (!isAndroid) {

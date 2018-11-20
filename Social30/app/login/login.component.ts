@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { first, catchError } from 'rxjs/operators';
-
+import { Page } from "tns-core-modules/ui/page";
 import { Observable } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 
@@ -12,7 +12,7 @@ import { AuthenticationService } from '../shared/services/authentication.service
 	moduleId: module.id,
 	selector: 'login',
 	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.css']
+	styleUrls: ['./login.component.scss']
 })
 
 export class LoginComponent implements OnInit {
@@ -25,9 +25,12 @@ export class LoginComponent implements OnInit {
 		private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService,
+		private authenticationService: AuthenticationService,
+		page: Page,
 		//private alertService: AlertService
-		) {	}
+		) {	
+			page.actionBarHidden = true;
+		}
 
 	ngOnInit() {
 		this.signUpForm = this.formBuilder.group({

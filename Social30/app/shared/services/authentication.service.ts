@@ -16,10 +16,15 @@ export class AuthenticationService {
         const headers = new HttpHeaders()
             .set('Content-Type', 'application/json; charset=utf-8');
         */
-        const params = new HttpParams()
+
+        // HttpParams is immutable so we need to concatinate
+        // the .sets on creation
+        let params = new HttpParams()
             .set('logemail', email)
             .set('logpassword', password);
 
+        // returns an Obserable and thus needs to be subscribed to otherwise
+        // this aint gonna work
         return this.http.post<any>(this.loginUrl, params)
             .pipe(
                 map(user => {

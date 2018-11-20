@@ -17,7 +17,8 @@ export class NavigationComponent {
         this.routerExtension.navigate([{
             outlets: {
                 itemsoutlet: ["items"],
-                calenderoutlet: ["calender"]
+                calenderoutlet: ["calender"],
+                henquiryoutlet: ["henquiry"]
             }
         }],
             { relativeTo: this.activeRoute });

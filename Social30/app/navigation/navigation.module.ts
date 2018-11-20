@@ -18,12 +18,17 @@ import { NavigationComponent } from "./navigation.component";
                     {   path: "calender",
                         outlet: "calenderoutlet",
                         component: NSEmptyOutletComponent,
-                        loadChildren: "./calender/calender.module#CalenderModule" }]
+                        loadChildren: "./calender/calender.module#CalenderModule" },
+                    {   path: "henquiry",
+                        outlet: "henquiryoutlet",
+                        component: NSEmptyOutletComponent,
+                        loadChildren: "./henquiry/henquiry.module#HenquiryModule" },
+                ]
             }
         ])
     ],
     declarations: [
-        NavigationComponent
+        NavigationComponent,
     ],
     providers: [
     ],

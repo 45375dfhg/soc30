@@ -15,7 +15,7 @@ export class NavigationComponent {
         private routerExtension: RouterExtensions,
         private activeRoute: ActivatedRoute,
         private page: Page) { 
-            page.actionBar.navigationButton.visibility = 'collapse'
+            // page.actionBar.navigationButton.visibility = 'collapse'
         }
 
     ngOnInit() {

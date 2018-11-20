@@ -6,13 +6,17 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 //connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/sandbox');
+
+// TODO: Auth-Daten in eine externe Datei auslagern, damit die hier nicht sichtbar sind
+// TODO: Neue Version auf den Server laden, bei Henquiries die Datumsprüfung erstmal rausnehmen
+// TODO: DB mit neuen Daten populaten
+mongoose.connect('mongodb://nameexception:g0rd0ns5fh@127.0.0.1:27017/sandbox?authSource=admin&w=1');
 var db = mongoose.connection;
 
 //handle mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  // we're connected!
+  
 });
 
 //use sessions for tracking logins
@@ -46,6 +50,8 @@ app.use(function(req, res, next) {
 // include routes
 var routes = require('./routes/router');
 app.use('/', routes);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

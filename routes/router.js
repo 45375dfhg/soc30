@@ -17,6 +17,9 @@ router.post('/henquiries', henquiry_controller.henquiries_create);
 // DELETE a henquiry
 router.delete('/henquiries', henquiry_controller.henquiries_delete);
 
+// POST route for confirming a henquiry
+router.post('/henquiries_confirm', henquiry_controller.henquiry_confirm);
+
 // POST route for applying
 router.post('/apply', henquiry_controller.apply_post);
 

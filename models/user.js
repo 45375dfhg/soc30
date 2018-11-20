@@ -20,9 +20,7 @@ var UserSchema = new Schema({
       city: { type: String, trim: true },
       housenm: { type: String }
   },
-  notifications: [{ 
-    message: { type: String }
-  }],
+  messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
   postident: {type: Boolean},
   auth: {type: Boolean},
   foto: {type: String}, // binary war hier

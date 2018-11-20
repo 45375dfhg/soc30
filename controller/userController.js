@@ -48,10 +48,11 @@ if (req.body.logemail && req.body.logpassword) {
         if (error || !user) {
           var err = new Error('Wrong email or password.');
           err.status = 401;
+          console.log(user);
           return next(err);
         } else {
           req.session.userId = user._id;
-          return res.json("{a:1}");
+          return res.json();
           //return res.redirect('/profile');
         }
       });

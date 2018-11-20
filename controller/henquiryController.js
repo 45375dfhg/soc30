@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 // @param: postalcode
 exports.henquiries_get = (req, res, next) => {
     //Henquiry.find({postalcode: req.body.postalcode})
-    Henquiry.find({})
+    Henquiry.find({confirmation: false})
     .select('amountAide startTime endTime text postalcode subcategoryId')
     .populate('createdBy', 'email nickname')
     .exec(function (err, list_henquiries) {
@@ -23,6 +23,8 @@ exports.henquiries_get = (req, res, next) => {
 };
 
 // TODO: Subcategory fehlt
+// TODO: Henquiries, deren startTime überschritten ist und die nicht angenommen wurden, verfallen.
+// => die Hilfe findet nicht statt und sie verschwinden aus der Liste
 // @param: text, postalcode, amountAide (, subcategory, startTime, endTime)
 exports.henquiries_create = (req, res, next) => {
     if(!(req.body.text && req.body.amountAide && req.body.postalcode)) {
@@ -30,6 +32,18 @@ exports.henquiries_create = (req, res, next) => {
       err.status = 400;
       return next(err);
     }
+    /*
+    if(req.body.startTime >= req.body.endTime) {
+      var err = new Error('Die Startzeit kann nicht nach der Endzeit liegen.');
+      err.status = 400;
+      return next(err);
+    }
+    if(req.body.startTime <= req.creationTime || req.body.end <= req.creationTime) {
+      var err = new Error('Die Start- oder Endzeit liegt in der Vergangenheit.');
+      err.status = 400;
+      return next(err);
+    }
+    */
     var henquiry = new Henquiry({
       text: req.body.text,
       amountAide: req.body.amountAide,
@@ -73,6 +87,7 @@ exports.henquiries_specific_get = (req, res, next) => {
   });
 };
 
+// TODO: Benachrichtung schicken
 exports.henquiries_delete = (req, res, next) => {
     var henquiryId = req.body.henquiryId;
     var userId = req.session.userId;
@@ -81,15 +96,31 @@ exports.henquiries_delete = (req, res, next) => {
         return next(err);
       }
       if(!result) {
-        return res.status(404).send("Das Hilfegesuch existiert nicht.")
+        return res.status(404).send("Das Hilfegesuch existiert nicht.");
       }
       if(result.createdBy == userId) {
+
         result.delete();
         return res.send("deleted");
       } else {
-        return res.status(403).send("Das ist nicht dein Hilfegesuch.")
+        return res.status(403).send("Das ist nicht dein Hilfegesuch.");
       }
     });
+};
+
+exports.henquiry_confirm = (req, res, next) => {
+  var userId = req.session.userId;
+  var henquiryId = req.body.henquiryId;
+  Henquiry.findById(henquiryId, function(error, result) {
+    if(!(req.session.userId == result.createdBy)) {
+      err = new Error('Das ist nicht dein Hilfegesuch digga.');
+      err.status = 403;
+      return next(err);
+    }
+    result.confirmation = true;
+    result.save();
+  });
+  res.send("ok");
 };
 
 // TODO: Fehlerbehandlung richtig machen
@@ -132,8 +163,10 @@ exports.apply_post = (req, res, next) => {
   });
 };
 
+// TODO: Benutzer benachrichtigen, dass er angenommen wurde
 exports.confirmation_post = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
+  console.log("oben:" + typeof henquiryId)
   var applicants = req.body.applicants;
   var messageData;
   Henquiry.findById(henquiryId, function(err, result) {
@@ -152,13 +185,37 @@ exports.confirmation_post = (req, res, next) => {
       messageData = {
         aide: applicants[i],
         filer: result.createdBy,
-        henquiry: henquiryId
+        henquiry: henquiryId,
+        message: {message: "moin, i bims", participant: 3}
       };
+      var aideId = applicants[i]
       Message.create(messageData, function(msgErr, msgResult) {
         if(msgErr) {
           return next(msgErr);
         }
+        User.findById(aideId, function(userErr, userResult) {
+          if(userErr) {
+            return next(userErr);
+          }
+          if(!userResult) {
+            console.log("Nix gefunden");
+          }
+          console.log(userResult)
+          userResult.messages.push(msgResult._id);
+          userResult.save();
 
+        });
+        User.findById(result.createdBy, function(userErr, userResult) {
+          if(userErr) {
+            return next(userErr);
+          }
+          if(!userResult) {
+            console.log("Nix gefunden");
+          }
+          console.log(userResult)
+          userResult.messages.push(msgResult._id);
+          userResult.save();
+        });
       });
       result.potentialAide.splice(result.potentialAide.indexOf(applicants[i]),1);
       result.aide.push(applicants[i]);

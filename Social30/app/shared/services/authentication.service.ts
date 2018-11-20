@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import * as appSettings from "tns-core-modules/application-settings";
 import { map } from 'rxjs/operators';
 
@@ -9,16 +9,26 @@ import { Config } from '../config';
 export class AuthenticationService {
     constructor(private http: HttpClient) { }
 
-    baseUrl = Config.apiUrl + "login";
+    loginUrl = Config.apiUrl + "login";
 
     login(email: string, password: string) {
-        return this.http.post<any>(this.baseUrl, { logemail: email, logpassword: password })
+        /*
+        const headers = new HttpHeaders()
+            .set('Content-Type', 'application/json; charset=utf-8');
+        */
+        const params = new HttpParams()
+            .set('logemail', email)
+            .set('logpassword', password);
+
+        return this.http.post<any>(this.loginUrl, params)
             .pipe(
                 map(user => {
                     // login successful if there's a jwt token in the response
                     if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                         appSettings.setString('currentUser', JSON.stringify(user));
+                        console.log(appSettings.getString('currentUser'));
+                        console.log(JSON.parse(appSettings.getString('currentUser')).token);
                     }
 
                 return user;

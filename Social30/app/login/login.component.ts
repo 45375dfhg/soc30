@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { first, catchError } from 'rxjs/operators';
+
+import { Observable } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
 
 import { AuthenticationService } from '../shared/services/authentication.service';
 
@@ -50,7 +53,8 @@ export class LoginComponent implements OnInit {
 		}
 
 		this.loading = true;
-		// this.router.navigate([this.returnUrl]); // placeholder
+	
+		
 		this.authenticationService.login(this.f.email.value, this.f.password.value)
 			.pipe(first())
 			.subscribe(
@@ -58,8 +62,19 @@ export class LoginComponent implements OnInit {
 					this.router.navigate([this.returnUrl]);
 				},
 				error => {
-					console.log('Login failed - Richards fault.')
-					this.loading = false;
-				});
-	 }
+					console.log(error);
+				});	
+	}
+	/*
+	 private handleErrors(operation: string) {
+        return (err: any) => {
+            let errMsg = `error in ${operation}()`;
+            console.log(`${errMsg}:`, err);
+            if (err instanceof HttpErrorResponse) {
+                console.log(`Status: ${err.status}, ${err.statusText}`);
+            }
+            return Observable.throw(errMsg);
+        }
+	}
+	*/
 }

@@ -41,7 +41,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
     providers: [
         ItemService,
         AuthenticationService,
-        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+        // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
         // { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [

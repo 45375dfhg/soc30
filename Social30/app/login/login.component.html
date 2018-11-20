@@ -1,4 +1,5 @@
-<StackLayout [formGroup]="signUpForm">
+<FlexboxLayout>
+    <StackLayout [formGroup]="signUpForm">
         <TextField 
             formControlName="email" 
             hint="Email-Adresse" 
@@ -31,8 +32,8 @@
             text="DEV SKIP"
             [nsRouterLink]="['../home']">
         </Button>
-</StackLayout>
-
+    </StackLayout>
+</FlexboxLayout>
 <!--<StackLayout [formGroup]="signUpForm">
 	<TextField formControlName="email" hint="Email" keyboardType="email"></TextField>
     <TextField formControlName="username" hint="Username"></TextField>

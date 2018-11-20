@@ -113,7 +113,7 @@ exports.henquiry_confirm = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(error, result) {
     if(!(req.session.userId == result.createdBy)) {
-      err = new Error('Das ist nicht dein Hilfegesuch digga.');
+      err = new Error('Das ist nicht dein Hilfegesuch.');
       err.status = 403;
       return next(err);
     }

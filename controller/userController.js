@@ -52,6 +52,7 @@ if (req.body.logemail && req.body.logpassword) {
           return next(err);
         } else {
           req.session.userId = user._id;
+          console.log(req.session);
           return res.json();
           //return res.redirect('/profile');
         }

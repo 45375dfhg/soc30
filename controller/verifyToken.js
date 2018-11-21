@@ -1,7 +1,11 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 function verifyToken(req, res, next) {
-  var token = req.headers['x-access-token'];
+  let token = req.headers['x-access-token'] || req.headers['Authorization']; // Express headers are auto converted to lowercase
+  if (token.startsWith('Bearer ')) {
+    // Remove Bearer from string
+    token = token.slice(7, token.length);
+  }
   if (!token)
     return res.status(403).send({ auth: false, message: 'No token provided.' });
   jwt.verify(token, config.secret, function(err, decoded) {

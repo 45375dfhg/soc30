@@ -1,3 +1,8 @@
+// For authentication
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
+var config = require('../config');
+
 var User = require('../models/user');
 var Henquiry = require('../models/henquiry');
 var path = require('path');
@@ -19,21 +24,23 @@ exports.register_post = function (req, res, next) {
     req.body.password &&
     req.body.passwordConf && req.body.surname && req.body.firstname && req.body.nickname) {
 
+    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+
     var userData = {
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
       surname: req.body.surname,
       firstname: req.body.firstname,
       nickname: req.body.nickname
     }
 
     User.create(userData, function (error, user) {
-      if (error) {
-        return next(error);
-      } else {
-        req.session.userId = user._id;
-        return res.redirect('/profile');
-      }
+      if (err) return res.status(500).send("There was a problem registering the user.")
+      // create a token
+      var token = jwt.sign({ id: user._id }, config.secret, {
+        expiresIn: 86400 // expires in 24 hours
+      });
+      res.status(200).send({ auth: true, token: token });
     });
   } else {
     var err = new Error('All fields required.');
@@ -44,19 +51,16 @@ exports.register_post = function (req, res, next) {
 
 exports.login_post = function (req, res, next) {
 if (req.body.logemail && req.body.logpassword) {
-      User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
-        if (error || !user) {
-          var err = new Error('Wrong email or password.');
-          err.status = 401;
-          console.log(user);
-          return next(err);
-        } else {
-          req.session.userId = user._id;
-          console.log(req.session);
-          return res.json();
-          //return res.redirect('/profile');
-        }
-      });
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (err) return res.status(500).send('Error on the server.');
+    if (!user) return res.status(404).send('No user found.');
+    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+    var token = jwt.sign({ id: user._id }, config.secret, {
+      expiresIn: 86400 // expires in 24 hours
+    });
+    res.status(200).send({ auth: true, token: token });
+  });
     } else {
       var err = new Error('All fields required.');
       err.status = 400;
@@ -65,27 +69,20 @@ if (req.body.logemail && req.body.logpassword) {
 };
 
 exports.logout = function (req, res, next) {
-    if (req.session) {
-      // delete session object
-      req.session.destroy(function (err) {
-        if (err) {
-          return next(err);
-        } else {
-          return res.redirect('/');
-        }
-      });
+    if (req.userId) { // SESSION
+      res.status(200).send({ auth: false, token: null });
     }
 };
 
 exports.profile_get = function (req, res, next) { 
     // TODO Muss noch raus, da Prüfung auf Login früher erfolgt
-    if(!req.session.userId) {
+    if(!req.userId) { // SESSION
       var err = new Error('Please log in.')
       err.status = 401;
       return next(err);
     }
     var projection;
-    if(req.query.userId === req.session.userId) {
+    if(req.query.userId === req.userId) { // SESSION
       // TODO Anzuzeigende Informationen aussuchen
       projection = 'email';
     } else {
@@ -108,7 +105,7 @@ exports.profile_get = function (req, res, next) {
 };
 
 exports.profile_edit_post = function (req, res, next) {
-  if(!req.session.userId) {
+  if(!req.userId) { // SESSION
     var err = new Error('Please log in.')
     err.status = 401;
     return next(err);
@@ -151,7 +148,7 @@ function populateDataToBeUpdated(req, data) {
 }
 
 function updateUser(req, data, res) {
-  User.findByIdAndUpdate(req.session.userId, {$set : data}, function (error, user) {
+  User.findByIdAndUpdate(req.userId, {$set : data}, function (error, user) { // SESSION
     if(error) {
       console.log(error);
       return;

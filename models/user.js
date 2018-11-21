@@ -31,7 +31,7 @@ var UserSchema = new Schema({
 
 
 });
-
+/*
 //authenticate input against database
 UserSchema.statics.authenticate = function (email, password, callback) {
   User.findOne({ email: email })
@@ -64,7 +64,7 @@ UserSchema.pre('save', function (next) {
     next();
   })
 });
-
+*/
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

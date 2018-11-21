@@ -10,7 +10,7 @@ var MongoStore = require('connect-mongo')(session);
 // TODO: Auth-Daten in eine externe Datei auslagern, damit die hier nicht sichtbar sind
 // TODO: Neue Version auf den Server laden, bei Henquiries die Datumsprüfung erstmal rausnehmen
 // TODO: DB mit neuen Daten populaten
-mongoose.connect('mongodb://127.0.0.1:27017/');
+mongoose.connect('mongodb://nameexception:g0rd0ns5fh@127.0.0.1:27017/sandbox');
 var db = mongoose.connection;
 
 //handle mongo error

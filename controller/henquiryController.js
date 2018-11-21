@@ -48,7 +48,7 @@ exports.henquiries_create = (req, res, next) => {
       text: req.body.text,
       amountAide: req.body.amountAide,
       postalcode: req.body.postalcode,
-      createdBy: req.session.userId,
+      createdBy: req.userId, // SESSION
       creationTime: new Date(),
       startTime: new Date(),
       endTime: new Date(),
@@ -79,7 +79,7 @@ exports.henquiries_specific_get = (req, res, next) => {
     if(!result) {
       return res.status(404).send("Dieses Hilfsgesuch existiert nicht.");
     }
-    if(result.createdBy == req.session.userId) {
+    if(result.createdBy == req.userId) { //SESSION
       return res.json(result);
     } else {
       return res.status(403).send("Das ist nicht dein Hilfegesuch.");
@@ -90,7 +90,7 @@ exports.henquiries_specific_get = (req, res, next) => {
 // TODO: Benachrichtung schicken
 exports.henquiries_delete = (req, res, next) => {
     var henquiryId = req.body.henquiryId;
-    var userId = req.session.userId;
+    var userId = req.userId; // SESSION
     Henquiry.findById(henquiryId, (err, result) => {
       if(err) {
         return next(err);
@@ -109,10 +109,10 @@ exports.henquiries_delete = (req, res, next) => {
 };
 
 exports.henquiry_confirm = (req, res, next) => {
-  var userId = req.session.userId;
+  var userId = req.userId; // SESSION
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(error, result) {
-    if(!(req.session.userId == result.createdBy)) {
+    if(!(req.userId == result.createdBy)) { // SESSION
       err = new Error('Das ist nicht dein Hilfegesuch.');
       err.status = 403;
       return next(err);
@@ -126,7 +126,7 @@ exports.henquiry_confirm = (req, res, next) => {
 // TODO: Fehlerbehandlung richtig machen
 exports.apply_post = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
-  var userId = new mongoose.mongo.ObjectId(req.session.userId);
+  var userId = new mongoose.mongo.ObjectId(req.userId); // SESSION
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
       return res.send(err); 
@@ -136,7 +136,7 @@ exports.apply_post = (req, res, next) => {
       if(result.confirmation) {
       }
       // Fehler, ein Nutzer kann sich nicht bei seinem eigenen Gesuch eintragen
-      else if(result.createdBy == req.session.userId) {
+      else if(result.createdBy == req.userId) { // SESSION
         console.log("apply_post :: eigenes Gesuch");
         error = new Error('Du kannst dich nicht bei deinem eigenen Hilfegesuch eintragen.');
         error.status = 402;
@@ -172,7 +172,7 @@ exports.confirmation_post = (req, res, next) => {
   Henquiry.findById(henquiryId, function(err, result) {
     if(!result) {
       return next(new Error('Das Hilfsgesuch existiert nicht.'));
-    } else if(!(req.session.userId == result.createdBy)) {
+    } else if(!(req.userId == result.createdBy)) { // SESSION
       return next(new Error('Das ist nicht dein eigenes Gesuch.'));
     } else if(!applicants) {
       return next(new Error('Es wurden keine Helfer übergeben.'));
@@ -249,7 +249,7 @@ exports.cancel_post = (req, res, next) => {
 };
 
 exports.calendar = (req, res, next) => {
-  var userId = req.session.userId;
+  var userId = req.userId; // SESSION
   Henquiry.find({$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]}, function(err, result) {
     if(err) {
       return next(err);

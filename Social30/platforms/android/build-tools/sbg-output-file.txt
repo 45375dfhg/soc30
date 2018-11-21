@@ -1,0 +1,1 @@
+/Users/pascalegner/VSCode/soc30/Social30/platforms/android/app/src/main/java

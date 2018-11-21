@@ -1,0 +1,18 @@
+<StackLayout>
+  <GridLayout rows="auto,*">
+    <GridLayout row="1">
+      <TabView androidTabsPosition="bottom" tabBackgroundColor="#F1631A" selectedTabTextColor="white" tabTextFontSize="45">
+
+        <page-router-outlet *tabItem="{title: '&#xf015;'}" name="itemsoutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="{title: '&#xf067;'}" name="henquiryoutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="{title: '&#xf073;'}" name="calenderoutlet">
+        </page-router-outlet>
+
+      </TabView>
+    </GridLayout>
+  </GridLayout>
+</StackLayout>

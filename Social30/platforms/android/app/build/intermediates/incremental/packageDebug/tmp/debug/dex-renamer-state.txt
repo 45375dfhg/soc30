@@ -1,0 +1,4 @@
+#Wed Nov 21 16:35:16 CET 2018
+base.0=/Users/pascalegner/VSCode/soc30/Social30/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

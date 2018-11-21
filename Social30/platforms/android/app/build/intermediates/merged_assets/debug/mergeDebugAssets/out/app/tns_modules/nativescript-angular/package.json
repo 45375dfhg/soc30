@@ -1,0 +1,117 @@
+{
+  "_from": "nativescript-angular@next",
+  "_id": "nativescript-angular@7.2.0-2018-11-20-164749-02",
+  "_inBundle": false,
+  "_integrity": "sha512-OXpIYTZzH2stXViiTVYzr2VEZEP2JenQvZk1BPNi8hC+31dsqwbfSmyMCnJpwg7qGRyXa068gVbkEgMY5Xb9Ew==",
+  "_location": "/nativescript-angular",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "nativescript-angular@next",
+    "name": "nativescript-angular",
+    "escapedName": "nativescript-angular",
+    "rawSpec": "next",
+    "saveSpec": null,
+    "fetchSpec": "next"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/nativescript-angular/-/nativescript-angular-7.2.0-2018-11-20-164749-02.tgz",
+  "_shasum": "873145512f1ec56c7475b695eb1255f815641d70",
+  "_spec": "nativescript-angular@next",
+  "_where": "/Users/pascalegner/VSCode/soc30/Social30",
+  "author": {
+    "name": "NativeScript Team"
+  },
+  "bin": {
+    "update-app-ng-deps": "./bin/update-app-ng-deps"
+  },
+  "bugs": {
+    "url": "https://github.com/NativeScript/nativescript-angular/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Hristo Deshev",
+      "email": "hristo.deshev@telerik.com"
+    },
+    {
+      "name": "Alexander Vakrilov",
+      "email": "alexander.vakrilov@progress.com"
+    },
+    {
+      "name": "Stanimira Vlaeva",
+      "email": "Stanimira.Vlaeva@progress.com"
+    }
+  ],
+  "dependencies": {
+    "nativescript-intl": "^3.0.0",
+    "reflect-metadata": "^0.1.8"
+  },
+  "deprecated": false,
+  "description": "An Angular renderer that lets you build mobile apps with NativeScript.",
+  "devDependencies": {
+    "@angular/animations": "~7.0.0",
+    "@angular/common": "~7.0.0",
+    "@angular/compiler": "~7.0.0",
+    "@angular/compiler-cli": "~7.0.0",
+    "@angular/core": "~7.0.0",
+    "@angular/forms": "~7.0.0",
+    "@angular/http": "~7.0.0",
+    "@angular/platform-browser": "~7.0.0",
+    "@angular/platform-browser-dynamic": "~7.0.0",
+    "@angular/router": "~7.0.0",
+    "codelyzer": "^4.3.0",
+    "rxjs": "~6.3.3",
+    "tns-core-modules": "next",
+    "tslint": "^5.5.0",
+    "typescript": "~3.1.1",
+    "zone.js": "^0.8.26"
+  },
+  "homepage": "https://www.nativescript.org/",
+  "keywords": [
+    "NativeScript",
+    "Angular"
+  ],
+  "license": "Apache-2.0",
+  "name": "nativescript-angular",
+  "nativescript": {
+    "platforms": {
+      "android": "3.0.0",
+      "ios": "3.0.0"
+    }
+  },
+  "peerDependencies": {
+    "@angular/platform-browser-dynamic": "~7.0.0",
+    "@angular/common": "~7.0.0",
+    "@angular/compiler": "~7.0.0",
+    "@angular/core": "~7.0.0",
+    "@angular/forms": "~7.0.0",
+    "@angular/http": "~7.0.0",
+    "@angular/platform-browser": "~7.0.0",
+    "@angular/router": "~7.0.0",
+    "rxjs": "^6.3.3",
+    "tns-core-modules": "^4.0.0 || >4.0.0- || >4.1.0-",
+    "zone.js": "^0.8.26",
+    "typescript": "~3.1.1"
+  },
+  "publishConfig": {
+    "tag": "next"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NativeScript/nativescript-angular.git"
+  },
+  "scripts": {
+    "ngc": "ngc -p tsconfig.json",
+    "postinstall": "node postinstall.js",
+    "prepare": "npm run ngc",
+    "tsc": "tsc -p tsconfig.json",
+    "tsc-w": "tsc -p tsconfig.json -w",
+    "tslint": "tslint --project tsconfig.json --config tslint.json",
+    "version": "rm -rf package-lock.json && conventional-changelog -p angular -i ../CHANGELOG.md -s && git add ../CHANGELOG.md"
+  },
+  "version": "7.2.0-2018-11-20-164749-02"
+}

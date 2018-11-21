@@ -24,6 +24,7 @@
     "@angular/router": "~6.1.0",
     "nativescript-angular": "next",
     "nativescript-theme-core": "~1.0.4",
+    "nativescript-ui-listview": "^4.0.0",
     "nativescript-unit-test-runner": "^0.3.4",
     "reflect-metadata": "~0.1.8",
     "rxjs": "~6.0.0-rc.1",

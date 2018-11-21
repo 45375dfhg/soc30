@@ -1,12 +1,10 @@
 import { Component } from "@angular/core";
 import * as application from "tns-core-modules/application";
-import { isAndroid } from "tns-core-modules/platform";
+import { isAndroid, isIOS } from "tns-core-modules/platform";
 import { RouterExtensions } from "nativescript-angular/router";
 
-
 //StatusbarColor
-import { isIOS } from 'platform';
-import { topmost } from 'ui/frame';
+import { topmost } from 'tns-core-modules/ui/frame';
 
 @Component({
     selector: "ns-app",
@@ -16,13 +14,26 @@ import { topmost } from 'ui/frame';
 export class AppComponent {
 
     public constructor(private router: RouterExtensions) { 
+        
+    }
+
+    public ngOnInit(): void {
+        application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
+            args.cancel = true;
+        });
         if (isIOS){
             topmost().ios.controller.navigationBar.barStyle = 1;
         }
     }
+}
 
-    public ngOnInit(): void {
-        if (!isAndroid) {
+export function getCategoryIconSource(icon: string): string {
+    const iconPrefix = isAndroid ? "res://" : "res://category_icons/";
+    return iconPrefix + icon;
+}
+
+/*
+if (!isAndroid) {
             return;
         }
         application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
@@ -32,10 +43,4 @@ export class AppComponent {
                 args.cancel = false;
             }
         }); 
-    }
-}
-
-export function getCategoryIconSource(icon: string): string {
-    const iconPrefix = isAndroid ? "res://" : "res://category_icons/";
-    return iconPrefix + icon;
-}
+*/

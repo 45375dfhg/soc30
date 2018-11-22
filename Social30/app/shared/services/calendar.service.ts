@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { catchError, map, groupBy, mergeMap, toArray, concatMap, mergeAll } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 
 import { Item } from "../models/item";
 import { Config } from "../config";
-import { forEach } from "@angular/router/src/utils/collection";
+
 
 @Injectable()
 export class CalendarService {
@@ -16,12 +16,24 @@ export class CalendarService {
     constructor(private http: HttpClient) { }
 
     public getEntries() {
-        return this.http.get<Item>(this.baseUrl)
+        return this.http.get<Item[]>(this.baseUrl)
             .pipe(
+                map(entries => {
+                    let entryList = [];
+                    entries.forEach((entry) => {
+                        entryList.push(entry)
+                    });
+                    this.entries = entryList;
+                    return entryList; 
+                }),
+                catchError(this.handleErrors('getEntries'))
+            );
+                /*
                 groupBy(henquiry => henquiry.amountAide),
                 mergeMap(group => group.pipe(toArray())),
                 mergeAll()
                 )
+                */
                 // henquiry.(new Date(henquiry.startTime)).getDate()),
                 // catchError(this.handleErrors('getItems'));
     }

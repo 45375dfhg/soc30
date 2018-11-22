@@ -6,6 +6,10 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
+// interceptor
+// import { TokenInterceptor } from '../shared/helper/token.interceptor';
+// import { HTTP_INTERCEPTORS } from "@angular/common/http";
+
 
 @NgModule({
     imports: [
@@ -23,6 +27,7 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
         ItemDetailComponent,
     ],
     providers: [
+        // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })

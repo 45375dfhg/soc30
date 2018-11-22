@@ -5,7 +5,7 @@ import { catchError, map } from "rxjs/operators";
 
 import { Item } from "../models/item";
 import { Config } from "../config";
-import { ItemsComponent } from "~/item/items.component";
+import { ItemsComponent } from "../../item/items.component";
 
 
 @Injectable()
@@ -29,7 +29,6 @@ export class ItemService {
     public getDummyItem(id: string) {
         return this.items.find(data => data._id == id);
     }
-
 
     public getItems() {
         return this.http.get<Item[]>(this.baseUrl)

@@ -3,6 +3,9 @@ import { NativeScriptRouterModule, NSEmptyOutletComponent } from "nativescript-a
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NavigationComponent } from "./navigation.component";
 
+// interceptor
+//import { TokenInterceptor } from '../shared/helper/token.interceptor';
+// import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
 @NgModule({
     imports: [
@@ -31,6 +34,7 @@ import { NavigationComponent } from "./navigation.component";
         NavigationComponent,
     ],
     providers: [
+        // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })

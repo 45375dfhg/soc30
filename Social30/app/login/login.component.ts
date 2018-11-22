@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
 	get f() { return this.signUpForm.controls; }
 
-	 onSubmit() {
+	onSubmit() {
 		this.submitted = true;
 
 		 // stop here if form is invalid
@@ -56,8 +56,7 @@ export class LoginComponent implements OnInit {
 		}
 
 		this.loading = true;
-	
-		
+
 		this.authenticationService.login(this.f.email.value, this.f.password.value)
 			.pipe(first())
 			.subscribe(
@@ -66,7 +65,7 @@ export class LoginComponent implements OnInit {
 				},
 				error => {
 					console.log(error);
-				});	
+				});		
 	}
 	/*
 	 private handleErrors(operation: string) {

@@ -1,4 +1,17 @@
 <ActionBar title="Aufgaben in meiner Nähe"></ActionBar>
+<RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)">
+    <ng-template tkListItemTemplate let-item="item">
+        <Label [text]="item.text" class="list-group-item"></Label>
+    </ng-template>
+    <ng-template tkTemplateKey="expanded" let-item="item">
+        <GridLayout rows="auto,auto" columns="auto,auto" class="list-group-item">
+            <Label row="0" col="0" [text]="item.text" class="font-weight-bold"></Label>
+            <Button row="1" col="0" text="Options" class="btn btn-primary"></Button>
+            <Button row="1" col="1" text="Cancel" class="btn btn-danger"></Button>
+        </GridLayout>
+    </ng-template>
+</RadListView>
+
 <!--
 <GridLayout class="page-content icon">
     <label text="yeah"></label>
@@ -50,16 +63,4 @@
 
 <!--<ng-template *ngIf="(items && items.length > 0)" let-item="item">-->
 
-                <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)">
-                    <ng-template tkListItemTemplate let-item="item">
-                        <Label [text]="item.text" class="list-group-item"></Label>
-                    </ng-template>
-                    <ng-template tkTemplateKey="expanded" let-item="item">
-                        <GridLayout rows="auto,auto" columns="auto,auto" class="list-group-item">
-                            <Label row="0" col="0" [text]="item.text" class="font-weight-bold"></Label>
-                            <Button row="1" col="0" text="Options" class="btn btn-primary"></Button>
-                            <Button row="1" col="1" text="Cancel" class="btn btn-danger"></Button>
-                        </GridLayout>
-                    </ng-template>
-                </RadListView>
 

@@ -5,30 +5,14 @@ import { catchError, map } from "rxjs/operators";
 
 import { Item } from "../models/item";
 import { Config } from "../config";
-import { ItemsComponent } from "../../item/items.component";
-
 
 @Injectable()
 export class ItemService {
     baseUrl = Config.apiUrl + "henquiries";
 
-    constructor(private http: HttpClient) { }
-
     private items: Item[];
 
-    public getDummyItems(amount: Number) {
-        let itemList = [];
-        for (let i = 1; i <= amount; i++) {
-            itemList.push(
-                            new Item(1, i, "Brauche Hilfe " + i, 69118 + i , { _id: 1000 + i, email: "fakemail@lolz.com", nickname: "Dieter" + i} ,9 + i, 10 + i));
-                }
-                this.items = itemList;
-                return itemList; 
-            }
-
-    public getDummyItem(id: string) {
-        return this.items.find(data => data._id == id);
-    }
+    constructor(private http: HttpClient) { }
 
     public getItems() {
         return this.http.get<Item[]>(this.baseUrl)
@@ -61,6 +45,20 @@ export class ItemService {
             return this.getItems().subscribe(items => this.getItem(id));
         }
     }
+
+    public getDummyItems(amount: Number) {
+        let itemList = [];
+        for (let i = 1; i <= amount; i++) {
+            itemList.push(
+                            new Item(1, i, "Brauche Hilfe " + i, 69118 + i , { _id: 1000 + i, email: "fakemail@lolz.com", nickname: "Dieter" + i} ,9 + i, 10 + i));
+                }
+                this.items = itemList;
+                return itemList; 
+            }
+
+    public getDummyItem(id: string) {
+        return this.items.find(data => data._id == id);
+    }
     
     private handleErrors(operation: string) {
         return (err: any) => {
@@ -72,12 +70,4 @@ export class ItemService {
             return Observable.throw(errMsg);
         }
     }
-
-    /*
-    private createRequestHeader() {
-        let headers = new HttpHeaders({
-            // ...
-        })
-    }
-    */
 }

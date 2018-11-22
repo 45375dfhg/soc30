@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-// import * as appSettings from "tns-core-modules/application-settings";
 import { map } from 'rxjs/operators';
 
+// shared services etc
 import { Config } from '../config';
 import { AppSettingsService } from '../services/appsettings.service';
 
@@ -26,8 +26,7 @@ export class AuthenticationService {
             .set('logemail', email)
             .set('logpassword', password);
 
-        // returns an Obserable and thus needs to be subscribed to otherwise
-        // this aint gonna work
+        // returns an Observable and thus this needs to be subscribed to 
         return this.http.post<any>(this.loginUrl, params, {headers: headers})
             .pipe(
                 map(user => {

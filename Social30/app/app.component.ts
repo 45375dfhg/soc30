@@ -31,16 +31,3 @@ export function getCategoryIconSource(icon: string): string {
     const iconPrefix = isAndroid ? "res://" : "res://category_icons/";
     return iconPrefix + icon;
 }
-
-/*
-if (!isAndroid) {
-            return;
-        }
-        application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
-            if (this.router.canGoBack()) {
-                args.cancel = true;
-            } else {
-                args.cancel = false;
-            }
-        }); 
-*/

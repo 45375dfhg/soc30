@@ -17,6 +17,7 @@ import { LoginComponent } from "./login/login.component";
 import { ItemService } from "./shared/services/item.service";
 import { AuthenticationService } from './shared/services/authentication.service';
 import { AppSettingsService } from './shared/services/appsettings.service';
+import { CalendarService } from './shared/services/calendar.service';
 
 // HttpClient wrapper
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
@@ -53,6 +54,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
         ItemService,
         AuthenticationService,
         AppSettingsService,
+        CalendarService,
         ModalDialogService,
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
         // { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }

@@ -11,7 +11,7 @@ export class TokenInterceptor implements HttpInterceptor {
     
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        console.log('intercept reached');
+        // first if in case user requests anything without token
         if(this.appSet.getUser('currentUser')) {
             let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
             if (currentUser && currentUser.token) {

@@ -24,7 +24,7 @@ export class NavigationComponent {
         this.routerExtension.navigate([{
             outlets: {
                 itemsoutlet: ["items"],
-                calenderoutlet: ["calender"],
+                calendaroutlet: ["calendar"],
                 henquiryoutlet: ["henquiry"]
             }
         }],

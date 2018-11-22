@@ -5,33 +5,49 @@ ActionBar {
 }
 
 
-.henquiry-name{
+
+Button{
+background-color: #F1631A;
+color: white;
+border-radius: 25;
+font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.willHelpButton:active{
+    background-color: #d8510e;
+}
+
+.willHelpButton{
+
+    margin:20 0 0 0;
+    font-size:13;
+}
+
+.filterButton:active{
+    background-color: #2D4757;
+    color: #E8EBED;
+}
+
+.filterButton{
+    font-size:15;
+    margin:10 10 5 10;
+    font-size:15;
+    background-color: #E8EBED;
+    color: #2D4757;
+    border-radius: 25;
+
+}
+
+  .gridItem{
+    background-color: #FFD9C6; 
+    color:#2D4757;
+  }
+
+.fa{
     font-family: 'Lato', 'Lato-Bold'; 
-    color: black;
-    font-size: 20;
 }
 
-.fa {
-    color: black;
-    font-size: 18;
-    
+.heading{
+    font-size: 17;
 }
-
-.icon {
-    font-family: 'FontAwesome';
-}
-
-
-.list-group-item-content {
-    padding: 8 15 4 15;
-    background-color: rgba(240, 97, 25, 0.25);
-    
-}
-
-
-
-.list-group-item {
-    padding: 0 0 8 0;
-    background-color: white;
-}
-
+ 

@@ -33,7 +33,7 @@ export class ItemsComponent implements OnInit {
     ngOnInit(): void {
         // console.log('currentuserItem: ', appSettings.getString('currentUser'));
         // console.log('currentUser.tokenItem ', JSON.parse(appSettings.getString('currentUser')).token);
-        //this.items = this.itemService.getDummyItems(10);
+        // this.items = this.itemService.getDummyItems(10);
         this.receiveList();
         
     }

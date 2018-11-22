@@ -1,28 +1,98 @@
 <ActionBar title="Aufgaben in meiner Nähe"></ActionBar>
-<RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)">
+
+<!--<RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)">
     <ng-template tkListItemTemplate let-item="item">
-        <Label [text]="item.text" class="list-group-item"></Label>
+        <StackLayout>
+            <Label [text]="item.text"></Label>
+            <Label text="10. November um 10.30 Uhr"></Label>
+            <Label text="500m entfernt"></Label>
+        </StackLayout>
     </ng-template>
     <ng-template tkTemplateKey="expanded" let-item="item">
         <GridLayout rows="auto,auto" columns="auto,auto" class="list-group-item">
             <Label row="0" col="0" [text]="item.text" class="font-weight-bold"></Label>
             <Button row="1" col="0" text="Options" class="btn btn-primary"></Button>
             <Button row="1" col="1" text="Cancel" class="btn btn-danger"></Button>
+
         </GridLayout>
     </ng-template>
-</RadListView>
+</RadListView>-->
+
+
+<StackLayout>
+    <!--<Button text="Die Suche eingrenzen" class="filterButton"></Button>-->
+    <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
+        style="height:100%">
+
+        <ng-template tkListItemTemplate let-item="item">
+            <FlexboxLayout flexDirection="row">
+                <GridLayout rows="33,33,34" columns="*, *, *, 15" margin="5 15" padding="10 10 10 15" borderRadius="20"
+                    class="border gridItem">
+                    <Label row="0" col="0" colSpan="2" [text]="item.text" verticalAlignment="center" height="25" class="fa heading"></Label>
+                    <Label row="1" col="0" colSpan="2" [text]="item.startTime" verticalAlignment="bottom" height="20"
+                        class="fa"></Label>
+                    <Label row="2" col="0" colSpan="2" [text]="item.postalcode" verticalAlignment="center" height="20"
+                        class="fa"></Label>
+                    <Image row="0" rowSpan="3" col="2" [src]="getCategoryIconSource('flowers')" height="100"
+                        verticalAlignment="center" horizontalAlignment="right"></Image>
+                    <Label row="3" col="3" text="&#xf078;" verticalAlignment="bottom"></Label>
+                </GridLayout>
+            </FlexboxLayout>
+        </ng-template>
+        <ng-template tkTemplateKey="expanded" let-item="item">
+            <FlexboxLayout flexDirection="row">
+                <GridLayout rows="33,33,34,*,*,*,*,*,*,3*,*" columns="*, *, *, 15" margin="5 15" padding="10 10 10 15"
+                    borderRadius="20" class="border-expanded gridItem">
+                    <Label row="0" col="0" colSpan="2" [text]="item.text" verticalAlignment="center" height="25" class="fa heading"></Label>
+                    <Label row="1" col="0" colSpan="2" [text]="item.startTime" verticalAlignment="bottom" height="20"
+                        class="fa"></Label>
+                    <Label row="2" col="0" colSpan="2" [text]="item.postalcode" verticalAlignment="center" height="20"
+                        class="fa"></Label>
+                    <Image row="0" rowSpan="3" col="2" [src]="getCategoryIconSource('flowers')" height="100"
+                        verticalAlignment="center" horizontalAlignment="right"></Image>
+
+                    <StackLayout row="3" class="hr-dark m-t-5 m-b-5" colSpan="4" ></StackLayout>
+
+                    <Label row="4" col="0" colSpan="2" text="Terra Belohnung" verticalAlignment="bottom" height="20"
+                        class="fa"></Label>
+                    <Label row="5" col="0" colSpan="2" text="Dauer" verticalAlignment="top" height="20"
+                        class="fa"></Label>
+
+
+
+
+
+
+                    <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')" height="80"
+                        verticalAlignment="center" horizontalAlignment="center"></Image>
+                    <Label row="6" col="1" colSpan="3" [text]="item.createdBy._id" horizontalAlignment="left" verticalAlignment="bottom"
+                        height="20" class="fa"></Label>
+                    <Label row="7" col="1" colSpan="3" [text]="item.createdBy.email" horizontalAlignment="left" verticalAlignment="center"
+                        height="20" class="fa"></Label>
+                    <Label row="8" col="1" colSpan="3" [text]="item.createdBy.nickname" horizontalAlignment="left"
+                        verticalAlignment="top" height="20" class="fa"></Label>
+                    <Button row="9" col="0" colSpan="3" text="Da will ich helfen!" class="willHelpButton"></Button>
+                    <Label row="10" col="3" text="&#xf077;" verticalAlignment="bottom"></Label>
+                </GridLayout>
+            </FlexboxLayout>
+        </ng-template>
+    </RadListView>
+</StackLayout>
+
+
+
 
 <!--
 <GridLayout class="page-content icon">
     <label text="yeah"></label>
     <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)">
-        <ng-template let-item="item">
+        <ng-template tkListItemTemplate let-item="item">
             <GridLayout>
             <StackLayout [nsRouterLink]="['../item', item._id]"  class="list-group-item ">
                 <GridLayout rows="*, *, *" columns="*, *" class="list-group-item-content">
                     <Label [text]="item.text" class="henquiry-name"></Label>
                     <StackLayout row="1" class="hr-light m-t-5 m-b-5" colSpan="2" ></StackLayout>
-        </ng-template>
+        
 
 
 
@@ -57,10 +127,8 @@
                 </GridLayout>
             </StackLayout>
         </GridLayout>
-        
+    </ng-template>
     </RadListView>
-</GridLayout>-->
+</GridLayout>
 
-<!--<ng-template *ngIf="(items && items.length > 0)" let-item="item">-->
-
-
+<ng-template *ngIf="(items && items.length > 0)" let-item="item">-->

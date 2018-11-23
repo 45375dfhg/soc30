@@ -21,6 +21,9 @@ router.delete('/henquiries', verifyToken, henquiry_controller.henquiries_delete)
 // POST route for confirming a henquiry
 router.post('/henquiries_confirm', verifyToken, henquiry_controller.henquiry_confirm);
 
+// POST route when help has happened successfully
+router.post('/henquiries_success', verifyToken, henquiry_controller.henquiry_success);
+
 // POST route for applying
 router.post('/apply', verifyToken, henquiry_controller.apply_post);
 
@@ -54,8 +57,11 @@ router.get('/logout', verifyToken, user_controller.logout);
 // GET route for the calendar
 router.get('/calendar', verifyToken, henquiry_controller.calendar);
 
-// GET route for messages
-router.get('/messages', verifyToken, message_controller.messages_get);
+// GET route for an overview of the messages
+router.get('/messages/overview', verifyToken, message_controller.messages_overview_get);
+
+// GET route for a specific chat
+router.get('/messages/specific', verifyToken, message_controller.messages_specific_get);
 
 // POST route for messages
 router.post('/messages', verifyToken, message_controller.messages_post);
@@ -64,4 +70,9 @@ router.post('/messages', verifyToken, message_controller.messages_post);
 router.get('/test', (req, res, next) => {
     res.json({claas: "moin"});
 });
+
+// TEST ROUTE Alle Hilfsgesuche mit allen Feldern laden, egal ob geschlossen
+// oder bereits abgeschlossen
+router.get('/test_henquiries', henquiry_controller.henquiry_test);
+
 module.exports = router;

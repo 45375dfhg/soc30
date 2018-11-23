@@ -13,7 +13,8 @@ var HenquirySchema = new Schema({
     startTime: { type: Date, required: true},
     endTime: { type: Date, required: true},
     amountAide: { type: Number, default: 1},
-    confirmation: {type: Boolean}
+    confirmation: {type: Boolean},
+    happened: {type: Boolean, default: false}
 }, {versionKey: false});
 
 var Henquiry = mongoose.model('Henquiry', HenquirySchema);

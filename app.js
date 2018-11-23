@@ -33,25 +33,9 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-// Checks, whether the user is logged in or not.
-// TODO Für den Gastmodus könnte man einen weiteren Router vor dieser Middle
-// einfügen. Wenn man nämlich nicht eingeloggt ist, soll diese Middleware immer auf
-// den Login redirecten.
-app.use(function(req, res, next) {
-  if(req.session.userId) {
-    console.log("app.js :: logged in, userId: " + req.session.userId);
-  } else {
-    console.log("app.js :: is not logged in");
-  }
-  next();
-})
-
 // include routes
 var routes = require('./routes/router');
 app.use('/', routes);
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

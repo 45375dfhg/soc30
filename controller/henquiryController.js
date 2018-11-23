@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 // Fetch all henquiries
 // @param: postalcode
 exports.henquiries_get = (req, res, next) => {
-    //Henquiry.find({postalcode: req.body.postalcode})
-    Henquiry.find({confirmation: false})
+    //Henquiry.find({confirmation: false, happened: false})
+    Henquiry.find({confirmation: false, happened: false})
     .select('amountAide startTime endTime text postalcode subcategoryId')
     .populate('createdBy', 'email nickname')
     .exec(function (err, list_henquiries) {
@@ -22,6 +22,14 @@ exports.henquiries_get = (req, res, next) => {
     //return res.sendFile(path.join(path.dirname(__dirname) + '/public/noindex.html'));
 };
 
+// TEST ROUTE FOR DEV
+exports.henquiry_test = (req, res, next) => {
+    Henquiry.find({}, function(err, result) {
+      if(err) {return next(err);}
+      return res.json(result);
+    });
+};
+
 // TODO: Subcategory fehlt
 // TODO: Henquiries, deren startTime überschritten ist und die nicht angenommen wurden, verfallen.
 // => die Hilfe findet nicht statt und sie verschwinden aus der Liste
@@ -32,7 +40,7 @@ exports.henquiries_create = (req, res, next) => {
       err.status = 400;
       return next(err);
     }
-    /*
+
     if(req.body.startTime >= req.body.endTime) {
       var err = new Error('Die Startzeit kann nicht nach der Endzeit liegen.');
       err.status = 400;
@@ -43,7 +51,7 @@ exports.henquiries_create = (req, res, next) => {
       err.status = 400;
       return next(err);
     }
-    */
+    
     var henquiry = new Henquiry({
       text: req.body.text,
       amountAide: req.body.amountAide,
@@ -109,7 +117,7 @@ exports.henquiries_delete = (req, res, next) => {
 };
 
 exports.henquiry_confirm = (req, res, next) => {
-  var userId = req.userId; // SESSION
+  console.log("TEST");
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(error, result) {
     if(!(req.userId == result.createdBy)) { // SESSION
@@ -123,6 +131,29 @@ exports.henquiry_confirm = (req, res, next) => {
   res.send("ok");
 };
 
+// TODO: Terra gutschreiben
+// TODO: happened auf true setzen 
+exports.henquiry_success = (req, res, next) => {
+  var henquiryId = req.body.henquiryId;
+  Henquiry.findById(henquiryId, function(err, result) {
+    if(err) {
+      return res.send(err);
+    }
+    if(!(result.createdBy == req.userId)) {
+      return res.send("Digga ist nicht dein Hilfegesuch");
+    }
+    //result.happened = true;
+    //result.save();
+  });
+  Message.find({henquiry: henquiryId}, function(err, result) {
+    if(err) {return next(err);}
+    for(var i = 0; i < result.length; i++) {
+      result[i].readOnly = true;
+    }
+    res.send(result);
+  });
+};
+
 // TODO: Fehlerbehandlung richtig machen
 exports.apply_post = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
@@ -134,6 +165,9 @@ exports.apply_post = (req, res, next) => {
       var error;
       // Fehler, es werden keine weiteren Bewerber angenommen.
       if(result.confirmation) {
+        console.log("apply_post :: Gesuch geschlossen");
+        error = new Error('Das Gesuch ist geschlossen, da die Bewerber bereits ausgesucht wurden.');
+        error.status = 402;
       }
       // Fehler, ein Nutzer kann sich nicht bei seinem eigenen Gesuch eintragen
       else if(result.createdBy == req.userId) { // SESSION
@@ -155,7 +189,6 @@ exports.apply_post = (req, res, next) => {
       if(error) {
         return next(error);
       }
-      console.log("apply_post :: nach den Fehlern");
       result.potentialAide.push(userId);
       result.save();
       res.json(result);
@@ -166,7 +199,6 @@ exports.apply_post = (req, res, next) => {
 // TODO: Benutzer benachrichtigen, dass er angenommen wurde
 exports.confirmation_post = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
-  console.log("oben:" + typeof henquiryId)
   var applicants = req.body.applicants;
   var messageData;
   Henquiry.findById(henquiryId, function(err, result) {
@@ -186,36 +218,13 @@ exports.confirmation_post = (req, res, next) => {
         aide: applicants[i],
         filer: result.createdBy,
         henquiry: henquiryId,
-        message: {message: "moin, i bims", participant: 3}
+        messages: {message: "moin, i bims", participant: 3}
       };
       var aideId = applicants[i]
       Message.create(messageData, function(msgErr, msgResult) {
         if(msgErr) {
           return next(msgErr);
         }
-        User.findById(aideId, function(userErr, userResult) {
-          if(userErr) {
-            return next(userErr);
-          }
-          if(!userResult) {
-            console.log("Nix gefunden");
-          }
-          console.log(userResult)
-          userResult.messages.push(msgResult._id);
-          userResult.save();
-
-        });
-        User.findById(result.createdBy, function(userErr, userResult) {
-          if(userErr) {
-            return next(userErr);
-          }
-          if(!userResult) {
-            console.log("Nix gefunden");
-          }
-          console.log(userResult)
-          userResult.messages.push(msgResult._id);
-          userResult.save();
-        });
       });
       result.potentialAide.splice(result.potentialAide.indexOf(applicants[i]),1);
       result.aide.push(applicants[i]);
@@ -248,6 +257,7 @@ exports.cancel_post = (req, res, next) => {
   res.json(result);
 };
 
+// TODO: Happened Henquiries dürfen nicht geladen werden
 exports.calendar = (req, res, next) => {
   var userId = req.userId; // SESSION
   Henquiry.find({$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]}, function(err, result) {

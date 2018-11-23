@@ -69,9 +69,9 @@ if (req.body.logemail && req.body.logpassword) {
 };
 
 exports.logout = function (req, res, next) {
-    if (req.userId) { // SESSION
+    //if (req.userId) { // SESSION
       res.status(200).send({ auth: false, token: null });
-    }
+    //}
 };
 
 exports.profile_get = function (req, res, next) { 

@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config');
 function verifyToken(req, res, next) {
-  let token = req.headers['x-access-token'] || req.headers['Authorization']; // Express headers are auto converted to lowercase
+  let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
   if (typeof token == 'undefined') {
     return res.status(403).send({ auth: false, message: 'No token provided.' });
   }

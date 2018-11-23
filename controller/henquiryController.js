@@ -6,8 +6,8 @@ var mongoose = require('mongoose');
 
 // Fetch all henquiries
 // @param: postalcode
+// TODO: Filtern nach Kategorien, falls etwas vom Frontend kommt
 exports.henquiries_get = (req, res, next) => {
-    //Henquiry.find({confirmation: false, happened: false})
     Henquiry.find({confirmation: false, happened: false})
     .select('amountAide startTime endTime text postalcode subcategoryId')
     .populate('createdBy', 'email nickname')
@@ -19,10 +19,9 @@ exports.henquiries_get = (req, res, next) => {
       res.status(200);
       return res.json(list_henquiries);
     });
-    //return res.sendFile(path.join(path.dirname(__dirname) + '/public/noindex.html'));
 };
 
-// TEST ROUTE FOR DEV
+// TEST ROUTE FOR DEV. Holt alle Henquiries, auch wenn confirmation oder happened = true
 exports.henquiry_test = (req, res, next) => {
     Henquiry.find({}, function(err, result) {
       if(err) {return next(err);}
@@ -37,6 +36,17 @@ exports.henquiry_test = (req, res, next) => {
 exports.henquiries_create = (req, res, next) => {
     if(!(req.body.text && req.body.amountAide && req.body.postalcode)) {
       var err = new Error('All fields required.');
+      err.status = 400;
+      return next(err);
+    }
+
+    var startTime = new Date(req.body.startTime);
+    var endTime = new Date(req.body.endTime);
+
+    console.log((startTime instanceof Date) + " " + (endTime instanceof Date));
+
+    if(!(startTime instanceof Date) || !(endTime instanceof Date)) {
+      var err = new Error('Invalides Datum übergeben');
       err.status = 400;
       return next(err);
     }
@@ -76,9 +86,8 @@ exports.henquiries_create = (req, res, next) => {
     });*/
 };
 
+// Fetch information about a specific query, such as potential aiders and aiders
 exports.henquiries_specific_get = (req, res, next) => {
-  // Fetch information about a specific query, such as potential aiders and aiders
-  // TODO Must only be available for the owner of the henquiry
   var henquiryId = req.query.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
@@ -116,8 +125,8 @@ exports.henquiries_delete = (req, res, next) => {
     });
 };
 
+// Hilfsgesuche für neue Bewerber schließen. Wird nicht mehr angezeigt werden.
 exports.henquiry_confirm = (req, res, next) => {
-  console.log("TEST");
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(error, result) {
     if(!(req.userId == result.createdBy)) { // SESSION
@@ -132,7 +141,6 @@ exports.henquiry_confirm = (req, res, next) => {
 };
 
 // TODO: Terra gutschreiben
-// TODO: happened auf true setzen 
 exports.henquiry_success = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
@@ -142,8 +150,8 @@ exports.henquiry_success = (req, res, next) => {
     if(!(result.createdBy == req.userId)) {
       return res.send("Digga ist nicht dein Hilfegesuch");
     }
-    //result.happened = true;
-    //result.save();
+    result.happened = true;
+    result.save();
   });
   Message.find({henquiry: henquiryId}, function(err, result) {
     if(err) {return next(err);}
@@ -257,10 +265,14 @@ exports.cancel_post = (req, res, next) => {
   res.json(result);
 };
 
-// TODO: Happened Henquiries dürfen nicht geladen werden
 exports.calendar = (req, res, next) => {
   var userId = req.userId; // SESSION
-  Henquiry.find({$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]}, function(err, result) {
+  Henquiry.find({
+    $and: [
+      {$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]},
+      {happened: false}
+    ]
+  }, function(err, result) {
     if(err) {
       return next(err);
     }

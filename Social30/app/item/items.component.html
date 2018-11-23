@@ -20,12 +20,12 @@
 
 
 <StackLayout>
-    <Button text="Die Suche eingrenzen" class="filterButton"></Button>
+    <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filteItems']"></Button>
     <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
 
-        <ng-template tkListItemTemplate let-item="item">
-            <FlexboxLayout flexDirection="row">
+        <ng-template tkListItemTemplate let-item="item" >
+            <FlexboxLayout flexDirection="row"> 
                 <GridLayout rows="33,33,34" columns="*, *, *, 15" margin="5 15" padding="10 10 10 15" borderRadius="20"
                     class="border gridItem">
                     <Label row="0" col="0" colSpan="2" [text]="item.text" verticalAlignment="center" height="25" class="fa heading"></Label>

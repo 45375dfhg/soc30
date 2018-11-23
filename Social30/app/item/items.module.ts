@@ -3,6 +3,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { ItemsComponent } from "./items.component";
 import { ItemDetailComponent } from "../item-detail/item-detail.component";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
+import { FilterItemsComponent } from "../filterItems/filterItems.component";
 
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
@@ -19,12 +20,14 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "items" },
             { path: "items", component: ItemsComponent },
+            { path: "filteItems", component: FilterItemsComponent},
             { path: "item/:id", component: ItemDetailComponent},
         ])
     ],
     declarations: [
         ItemsComponent,
         ItemDetailComponent,
+        FilterItemsComponent
     ],
     providers: [
         // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}

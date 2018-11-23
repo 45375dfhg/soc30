@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 // TODO: Filtern nach Kategorien, falls etwas vom Frontend kommt
 exports.henquiries_get = (req, res, next) => {
     Henquiry.find({confirmation: false, happened: false})
-    .select('amountAide startTime endTime text postalcode subcategoryId')
+    .select('amountAide startTime endTime text postalcode subcategoryId category')
     .populate('createdBy', 'email nickname')
     .exec(function (err, list_henquiries) {
       if(err) {

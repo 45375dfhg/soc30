@@ -13,30 +13,33 @@ border-radius: 25;
 font-family: 'Lato', 'Lato-Bold'; 
 }
 
-.willHelpButton:active{
-    background-color: #d8510e;
-}
+
 
 .willHelpButton{
-
     margin:20 0 0 0;
     font-size:13;
 }
 
-.filterButton:active{
-    background-color: #2D4757;
-    color: #E8EBED;
+.willHelpButton:active{
+    background-color: #d8510e;
 }
+
+
 
 .filterButton{
     font-size:15;
     margin:10 10 5 10;
     width: 300;
     font-size:15;
-    background-color: #E8EBED;
+    background-color: red;
     color: #2D4757;
     border-radius: 25;
+    opacity: 0.5;
+}
 
+.filterButton:active{
+    background-color: #2D4757;
+    color: #E8EBED;
 }
 
   .gridItem{

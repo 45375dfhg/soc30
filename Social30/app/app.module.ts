@@ -11,6 +11,7 @@ import { AppRoutingModule } from "./app-routing.module";
 // component
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
+import { WelcomeComponent } from "./welcome/welcome.component";
 // import { HenquiryModalComponent } from './henquiry-modal/henquiry.modal';
 
 // services
@@ -48,6 +49,8 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
     declarations: [
         AppComponent,
         LoginComponent,
+        WelcomeComponent
+        
         // HenquiryModalComponent
     ],
     providers: [

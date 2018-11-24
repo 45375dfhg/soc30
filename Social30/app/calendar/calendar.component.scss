@@ -1,10 +1,74 @@
 ActionBar {
-    background-color:  #F1631A;
+    background-color:  #FF6600;
     color: white;
     font-family: 'Lato', 'Lato-Bold'; 
 }
 
+.expandedHeading{
+    margin: 0 0 30 0;
+}
 
-.calendar {
 
+.border{
+    border-width: 2;
+    border-color: #FF6600;
+    border-radius:20;
+}
+
+
+
+.gridItem{
+    background-color: white;; 
+    color:#001144;
+    margin:5 15;
+    padding:10 0 10 0;
+  }
+
+
+ .henqueryItem{
+    background-color: white;; 
+    color:#001144;
+    margin:0 0 20 0;
+
+  }
+
+
+.henqueryDate{
+    
+  }
+ 
+.icon{
+    font-family: "FontAwesome";
+    margin: 0 10 0 0;
+}  
+
+
+.fa{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+
+.heading{
+    font-size: 14;
+}
+
+
+.dateDay{
+    font-size: 25;
+    color:#FF6600;
+}
+
+.dateMonth{
+    color:#FF6600;
+    font-size: 12;
+}
+
+
+.hequeryInfo{
+
+}
+
+.hequeryStatus{
+    font-size: 12;
+    color:#FF6600;
 }

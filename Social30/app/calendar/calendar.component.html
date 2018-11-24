@@ -1,14 +1,87 @@
 <ActionBar title="Mein Kalender"></ActionBar>
 
-<StackLayout *ngFor="let date of dates">
-        <StackLayout *ngFor="let entryarray of entries">
-            <Label text={{date}}></Label>
-            <Label *ngFor="let entry of entryarray" text={{entry.postalcode}}></Label>
-        </StackLayout>    	
+
+
+
+
+<StackLayout>
+    <RadListView [items]="entries" class="list-group" style="height:100%">
+        <ng-template tkListItemTemplate let-entrie="item">
+                <Label [text]="entrie.key"></Label>
+        </ng-template>
+    </RadListView>
 </StackLayout>
 
-<!-- <StackLayout *ngFor="let item of {'b': 1, 'a': 1}">
-    <Label *ngFor="let key of c | keys">{{key}}: {{c[key]}}></Label>
+<!--
+<StackLayout>
+   <StackLayout *ngFor="let date of entries">
+       <Label [text]="date.key"></Label>
+       <StackLayout *ngFor="let henquiry of date.value">
+               <Label [text]="henquiry.postalcode"></Label>
+               <Label [text]="henquiry.text"></Label>
+       </StackLayout>
+   </StackLayout>
 </StackLayout>
 -->
 
+
+
+<!--
+<StackLayout marginTop="5">
+    <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
+        style="height:100%">
+        <ng-template tkListItemTemplate let-item="item">
+            <FlexboxLayout flexDirection="row">
+                <GridLayout rows="*" columns="*, *, *, *" class="border gridItem">
+                    <Label row="0" col="0" colSpan="4" text="Januar" horizontalAlignment="center" verticalAlignment="center"
+                        class="fa heading"></Label>
+                    <Label row="1" col="4" text="&#xf078;" verticalAlignment="center" horizontalAlignment="right" class="icon"></Label>
+                </GridLayout>
+            </FlexboxLayout>
+        </ng-template>
+        <ng-template tkTemplateKey="expanded" let-item="item">
+            <FlexboxLayout flexDirection="row">
+                <GridLayout rows="* , auto" columns="*, *, *, *" class="border gridItem">
+                    <Label row="0" col="0" colSpan="4" text="Januar" horizontalAlignment="center" verticalAlignment="center"
+                        class="fa heading expandedHeading"></Label>
+                    <StackLayout row="1" col="0" colSpan="4">
+                        <RadListView [items]="items" class="list-group" style="height:100%">
+                            <ng-template let-item="item">
+                                <FlexboxLayout flexDirection="row">
+                                    <GridLayout rows="auto,*" columns="*,*,*,*" class="henqueryDate">
+                                        <Label row="0" col="0" text="02." horizontalAlignment="center"
+                                            verticalAlignment="top" class="fa dateDay"></Label>
+                                        <Label row="1" col="0" text="Januar" horizontalAlignment="center"
+                                            verticalAlignment="top" class="fa dateMonth"></Label>
+                                        <StackLayout row="0" rowSpan="2" col="1" colSpan="3">
+                                            <RadListView [items]="items" class="list-group" style="height:100%">
+                                                <ng-template let-item="item">
+                                                    <FlexboxLayout flexDirection="row">
+                                                        <GridLayout rows="*,*,*" columns="*" class="henqueryItem">
+                                                            <Label row="0" col="0" text="Fenster Putzen"
+                                                                horizontalAlignment="left" verticalAlignment="center"
+                                                                class="fa heading"></Label>
+                                                            <Label row="1" col="0" text="Jana kommt um 10:30Uhr vorbei!"
+                                                                horizontalAlignment="left" verticalAlignment="center"
+                                                                class="fa hequeryInfo"></Label>
+                                                            <Label row="2" col="0" text="Jana freut sich, dir helfen zu können"
+                                                                horizontalAlignment="left" verticalAlignment="center"
+                                                                class="fa hequeryStatus"></Label>
+                                                        </GridLayout>
+                                                    </FlexboxLayout>
+                                                </ng-template>
+                                            </RadListView>
+                                        </StackLayout>
+                                    </GridLayout>
+                                </FlexboxLayout>
+                            </ng-template>
+                        </RadListView>
+                    </StackLayout>
+                    <Label row="1" col="4" text="&#xf077;" verticalAlignment="bottom" horizontalAlignment="right" class="icon"></Label>
+                </GridLayout>
+            </FlexboxLayout>
+        </ng-template>
+    </RadListView>
+</StackLayout>
+
+-->

@@ -7,11 +7,13 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { topmost } from 'tns-core-modules/ui/frame';
 
 //Carousel
+/*
 import { registerElement } from 'nativescript-angular/element-registry';
 import { Carousel, CarouselItem } from 'nativescript-carousel';
 
 registerElement('Carousel', () => Carousel);
 registerElement('CarouselItem', () => CarouselItem);
+*/
 
 
 @Component({

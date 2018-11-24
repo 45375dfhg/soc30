@@ -1,15 +1,13 @@
 ActionBar {
-    background-color:  #F1631A;
+    background-color:  #FF6600;
     color: white;
     font-family: 'Lato', 'Lato-Bold'; 
 }
 
-StackLayout{
-    background-color:white;
-}
+
 
 Button{
-background-color: #F1631A;
+background-color: #FF6600;
 color: white;
 border-radius: 25;
 font-family: 'Lato', 'Lato-Bold'; 
@@ -30,25 +28,32 @@ font-family: 'Lato', 'Lato-Bold';
 
 .filterButton{
     font-size:15;
-    margin:10 10 5 10;
+    margin:5 10 5 10;
     width: 300;
     font-size:15;
     background-color: #E8EBED;
-    color: #2D4757;
+    color: #001144;
     border-radius: 25;
 }
 
 .filterButton:active{
-    background-color: #2D4757;
+    background-color: #001144;
     color: #E8EBED;
 }
 
   .gridItem{
     background-color: white;; 
-    color:#2D4757;
+    color:#001144;
     border-width: 2;
-    border-color: #2D4757;
+    border-color: #001144;
+    margin:5 15;
+    padding:10 10 10 15;
+    border-radius:20;
   }
+
+ .icon{
+     font-family: "FontAwesome";
+ }
 
 .fa{
     font-family: 'Lato', 'Lato-Bold'; 

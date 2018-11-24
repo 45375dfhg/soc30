@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Carousel, IndicatorAnimation } from 'nativescript-carousel';
+//import { Carousel, IndicatorAnimation } from 'nativescript-carousel';
 import { getCategoryIconSource } from "../app.component";
 import { Page } from "tns-core-modules/ui/page";
 
@@ -13,7 +13,7 @@ import { Page } from "tns-core-modules/ui/page";
 })
 
 export class WelcomeComponent implements OnInit {
-	@ViewChild('carousel') carouselRef: ElementRef;
+	//@ViewChild('carousel') carouselRef: ElementRef;
 	constructor(page: Page) {
 		page.actionBarHidden = true;
 	}

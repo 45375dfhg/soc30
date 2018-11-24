@@ -4,55 +4,57 @@ GridLayout{
 
 
 GridLayout Label{
-    color: #2D4757;
+    color: #001144;
     text-align: center;
 }
 
 .fa{
     margin:0 30 0 30;
-    font-size:20;
+    font-size:14;
 
 }
 
 .heading{
-    font-size:35;
+    font-size:24;
 }
 
 Button{
     margin:0 10 15 10;
     text-transform: none;
+    font-size:14;
 }
 
 .button-row-0{
     background-color: white;
-    color: #F1631A;
+    color: #FF6600;
     border-radius: 25;
     border-width: 2;
-    border-color: #F1631A;
+    border-color: #FF6600;
 }
 
 .button-row-0:active{
-    background-color: #F1631A;
+    background-color: #FF6600;
     color: white;
     border-radius: 25;
     border-width: 2;
-    border-color: #F1631A;
+    border-color: #FF6600;
 }
 
 .button-row-1{
     background-color: white;
-    color: #2D4757;
+    color: #001144;
     border-radius: 25;
     border-width: 2;
-    border-color: #2D4757;
+    border-color: #001144;
 }
 
 .button-row-1:active{
-    background-color: #2D4757;
+    background-color: #001144;
     color: white;
     border-radius: 25;
     border-width: 2;
-    border-color: #2D4757;
+    border-color: #001144;
 }
+
 
 

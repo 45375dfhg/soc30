@@ -32,9 +32,14 @@ import { TokenInterceptor } from './shared/helper/token.interceptor';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 // import { fromEventPattern } from "rxjs";
 
+<<<<<<< HEAD
 // pipes
 // import { PipeModule } from './shared/pipes/pipe.module';
 // import { KeysPipe } from './shared/pipes/keys.pipe';
+=======
+
+
+>>>>>>> 7e6ce5b9ae5cf897b9441b409f956021b78690cc
 
 @NgModule({
     bootstrap: [

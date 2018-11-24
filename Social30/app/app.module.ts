@@ -32,6 +32,10 @@ import { TokenInterceptor } from './shared/helper/token.interceptor';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 // import { fromEventPattern } from "rxjs";
 
+// pipes
+// import { PipeModule } from './shared/pipes/pipe.module';
+// import { KeysPipe } from './shared/pipes/keys.pipe';
+
 @NgModule({
     bootstrap: [
         AppComponent
@@ -42,6 +46,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
         NativeScriptHttpClientModule,
         NativeScriptFormsModule,
         ReactiveFormsModule,
+        // PipeModule.forRoot(),
     ],
     entryComponents: [
         // HenquiryModalComponent
@@ -49,8 +54,8 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
     declarations: [
         AppComponent,
         LoginComponent,
-        WelcomeComponent
-        
+        WelcomeComponent,
+        //KeysPipe
         // HenquiryModalComponent
     ],
     providers: [

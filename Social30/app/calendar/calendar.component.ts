@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Page } from "tns-core-modules/ui/page";
 
-import { Item } from "../shared/models/item";
 import { CalendarService } from "../shared/services/calendar.service";
+import { Item } from "../shared/models/item";
+
+import { KeysPipe } from '../shared/pipes/keys.pipe';
 
 import _ from "lodash";
 
@@ -15,27 +17,31 @@ import _ from "lodash";
 
 export class CalendarComponent implements OnInit {
 
-	entries: Item[] = [];
+	private entries = [];
+	private dates: string[] = [];
 
     constructor(private calendarService: CalendarService, page: Page) {
         //page.actionBarHidden = true;
      }
 
     ngOnInit(): void {
-        this.receiveAndOrder();
+		this.receiveAndOrder();
     }
 
-	// this needs to be changed to date
-	// but otherwise works just fine 
-    receiveAndOrder() {
+	receiveAndOrder() {
         this.calendarService.getEntries().subscribe(
 			result => {
-				let tmp = _.groupBy(result, function(entry) {
-					return entry.amountAide;
-				});
-				console.log(tmp);
+				let sortedEntries = _(result)
+					.groupBy(entry => {
+						let time = new Date(entry.startTime);
+						return time.getDate() + '-' +  time.getMonth() + '-' + time.getFullYear();
+					})
+					.forEach((henquiries, date) => {
+						this.dates.push(date);
+						this.entries.push(henquiries);
+					})
 			},
-			error => console.log('receiveAndOrder failed')
+			error => console.log(error)
 		);
 	}
 	

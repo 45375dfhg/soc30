@@ -1,3 +1,14 @@
 <ActionBar title="Mein Kalender"></ActionBar>
 
-<Label class="calendar" text="Calendar loaded successfully"></Label>
+<StackLayout *ngFor="let date of dates">
+        <StackLayout *ngFor="let entryarray of entries">
+            <Label text={{date}}></Label>
+            <Label *ngFor="let entry of entryarray" text={{entry.postalcode}}></Label>
+        </StackLayout>    	
+</StackLayout>
+
+<!-- <StackLayout *ngFor="let item of {'b': 1, 'a': 1}">
+    <Label *ngFor="let key of c | keys">{{key}}: {{c[key]}}></Label>
+</StackLayout>
+-->
+

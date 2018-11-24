@@ -19,7 +19,7 @@ export class CalendarService {
         return this.http.get<Item[]>(this.baseUrl)
             .pipe(
                 map(entries => {
-                    let entryList = [];
+                    let entryList: Item[] = [];
                     entries.forEach((entry) => {
                         entryList.push(entry)
                     });

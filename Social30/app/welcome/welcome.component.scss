@@ -24,7 +24,7 @@ Button{
     font-size:14;
 }
 
-.button-row-0{
+.orangeButton{
     background-color: white;
     color: #FF6600;
     border-radius: 25;
@@ -32,7 +32,7 @@ Button{
     border-color: #FF6600;
 }
 
-.button-row-0:active{
+.orangeButton:active{
     background-color: #FF6600;
     color: white;
     border-radius: 25;
@@ -40,7 +40,7 @@ Button{
     border-color: #FF6600;
 }
 
-.button-row-1{
+.blueButton{
     background-color: white;
     color: #001144;
     border-radius: 25;
@@ -48,7 +48,7 @@ Button{
     border-color: #001144;
 }
 
-.button-row-1:active{
+.blueButton:active{
     background-color: #001144;
     color: white;
     border-radius: 25;

@@ -41,9 +41,9 @@ export class CalendarComponent implements OnInit {
      }
 
     ngOnInit(): void {
-		this.receiveAndOrder();
+		//this.receiveAndOrder();
 
-		//this.items = this.itemService.getDummyItems(10);
+		this.items = this.itemService.getDummyItems(2);
     }
 
 receiveAndOrder() {

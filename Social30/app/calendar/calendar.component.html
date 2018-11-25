@@ -26,7 +26,7 @@
 
 
 
-<!--
+
 <StackLayout marginTop="5">
     <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
@@ -57,7 +57,7 @@
                                             <RadListView [items]="items" class="list-group" style="height:100%">
                                                 <ng-template let-item="item">
                                                     <FlexboxLayout flexDirection="row">
-                                                        <GridLayout rows="*,*,*" columns="*" class="henqueryItem">
+                                                        <GridLayout rows="auto,auto,auto" columns="*" class="henqueryItem">
                                                             <Label row="0" col="0" text="Fenster Putzen"
                                                                 horizontalAlignment="left" verticalAlignment="center"
                                                                 class="fa heading"></Label>
@@ -84,4 +84,3 @@
     </RadListView>
 </StackLayout>
 
--->

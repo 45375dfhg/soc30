@@ -3,6 +3,7 @@ import { getCategoryIconSource } from "../app.component";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Route } from '@angular/router';
 
+
 @Component({
 	moduleId: module.id,
 	selector: 'filterItems',
@@ -16,22 +17,24 @@ import { Route } from '@angular/router';
 export class FilterItemsComponent implements OnInit {
 	
 	
-	constructor(private router: RouterExtensions) { }
+	constructor(private router: RouterExtensions ) { }
 
 	ngOnInit() {
 
 	 }
 
 
-	 navigateAway(){
-		this.router.navigate(['/items'], {
-			transition: {
-				name: 'curlDown',
-				duration: 1000,
-				curve: 'linear'
-			}
-		})
-	}
+	 changeColor(args) {
+		var btn = args.object;
+		
+
+		if(btn.className === "orangeButton"){
+			btn.className = "orangeButtonSelected";
+		}else{
+			btn.className = "orangeButton";
+		}
+		
+	 }
 
 
 	 getCategoryIconSource(icon: string): string {

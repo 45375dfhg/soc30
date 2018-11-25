@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Page } from "tns-core-modules/ui/page";
-
+import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
 
 import { Item } from "../shared/models/item";
@@ -26,7 +26,7 @@ export class ItemsComponent implements OnInit {
 
     items: Item[] = [];
 
-    constructor(private itemService: ItemService, private router: Router, page: Page) {
+    constructor(private itemService: ItemService, private router: RouterExtensions, page: Page ) {
         //page.actionBarHidden = true;
      }
 
@@ -37,6 +37,7 @@ export class ItemsComponent implements OnInit {
         this.receiveList();
         
     }
+
 
     receiveList() {
         this.itemService.getItems().subscribe(result => {
@@ -74,6 +75,9 @@ export class ItemsComponent implements OnInit {
             listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
         }
     }
+
+
+    
 
 }
 

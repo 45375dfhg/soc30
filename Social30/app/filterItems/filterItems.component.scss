@@ -1,0 +1,66 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: white;
+    font-family: 'Lato', 'Lato-Bold';
+}
+
+
+GridLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.fa{
+    color: #001144;
+}
+
+Button{
+    text-transform: none;
+}
+
+.applyButton{
+    background-color: white;
+    color: #FF6600;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #FF6600;
+}
+
+.applyButton:active{
+    background-color: #FF6600;
+    color: white;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #FF6600;
+}
+
+.orangeButton{
+    background-color: white;
+    color: #FF6600;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #FF6600;
+}
+
+.orangeButtonSelected{
+    background-color: #FF6600;
+    color: white;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #FF6600;
+}
+
+.blueButton{
+    background-color: white;
+    color: #001144;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #001144;
+}
+
+.blueButton:active{
+    background-color: #001144;
+    color: white;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #001144;
+}

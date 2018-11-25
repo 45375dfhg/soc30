@@ -12,7 +12,7 @@ exports.login_get = function(req, res, next) {
     return res.sendFile(path.join(path.dirname(__dirname) + '/public/login.html'));    
 };
 
-exports.register_post = function (req, res, next) {
+exports.register = function (req, res, next) {
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match.');
     err.status = 400;
@@ -49,7 +49,7 @@ exports.register_post = function (req, res, next) {
   } 
 };
 
-exports.login_post = function (req, res, next) {
+exports.login = function (req, res, next) {
 if (req.body.logemail && req.body.logpassword) {
   User.findOne({ email: req.body.logemail }, function (err, user) {
     if (err) return res.status(500).send('Error on the server.');
@@ -69,21 +69,12 @@ if (req.body.logemail && req.body.logpassword) {
 };
 
 exports.logout = function (req, res, next) {
-    //if (req.userId) { // SESSION
       res.status(200).send({ auth: false, token: null });
-    //}
 };
 
-exports.profile_get = function (req, res, next) { 
-    // TODO Muss noch raus, da Prüfung auf Login früher erfolgt
-    if(!req.userId) { // SESSION
-      var err = new Error('Please log in.')
-      err.status = 401;
-      return next(err);
-    }
+exports.getProfile = function (req, res, next) { 
     var projection;
-    if(req.query.userId === req.userId) { // SESSION
-      // TODO Anzuzeigende Informationen aussuchen
+    if(req.query.userId === req.userId) {
       projection = 'email';
     } else {
       projection = 'firstname nickname auth foto avatar address.postalcode ratings';
@@ -104,12 +95,7 @@ exports.profile_get = function (req, res, next) {
       });
 };
 
-exports.profile_edit_post = function (req, res, next) {
-  if(!req.userId) { // SESSION
-    var err = new Error('Please log in.')
-    err.status = 401;
-    return next(err);
-  }
+exports.editProfile = function (req, res, next) {
   var data = {};
   data.address = {};
   populateDataToBeUpdated(req, data);

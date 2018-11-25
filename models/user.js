@@ -1,10 +1,8 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
 
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-
   surname: { type: String, required: true, trim: true },
   firstname: { type: String, required: true, trim: true },
   email: { type: String, unique: true, required: true, trim: true },
@@ -12,7 +10,7 @@ var UserSchema = new Schema({
   nickname: { type: String, required: true, trim: true },
   ratings: [{ 
     rating: {type: Schema.Types.ObjectId, ref: 'Rating'}, 
-    count: {type: Number} 
+    count: {type: Number}
   }],
   address: { // muss alles required sein
       postalcode: { type: Number  },
@@ -20,49 +18,23 @@ var UserSchema = new Schema({
       city: { type: String, trim: true },
       housenm: { type: String }
   },
-  //messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
   postident: {type: Boolean},
-  auth: {type: Boolean},
+  invite: {
+    // 0: Wurzel, 1: Freund 1. Grades, 2: Freund 2. Grades, sonst undefined
+    level: {type: Number},
+    codes: [{type: String}],
+    children: [{type: Schema.Types.ObjectId, ref: 'User'}]
+  },
   foto: {type: String}, // binary war hier
   mobile: {type: String},
+  // Ist halt die Frage, ob Avatare im Front- oder Backend gespeichert werden
   avatar: {type: Schema.Types.ObjectId, ref: 'Avatar' },
-  terra: {type: Number}
-
+  terra: {type: Number, default: 0},
+  coordinates: {
+    latitude: {type: Number},
+    longitude: {type: Number}
+  }
 });
-/*
-//authenticate input against database
-UserSchema.statics.authenticate = function (email, password, callback) {
-  User.findOne({ email: email })
-    .exec(function (err, user) {
-      if (err) {
-        return callback(err)
-      } else if (!user) {
-        var err = new Error('User not found.');
-        err.status = 401;
-        return callback(err);
-      }
-      bcrypt.compare(password, user.password, function (err, result) {
-        if (result === true) {
-          return callback(null, user);
-        } else {
-          return callback();
-        }
-      })
-    });
-};
-
-// hashing a password before saving it to the database
-UserSchema.pre('save', function (next) {
-  var user = this;
-  bcrypt.hash(user.password, 10, function (err, hash) {
-    if (err) {
-      return next(err);
-    }
-    user.password = hash;
-    next();
-  })
-});
-*/
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

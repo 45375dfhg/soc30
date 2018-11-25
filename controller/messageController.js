@@ -1,7 +1,7 @@
 var Message = require('../models/message');
 var mongoose = require('mongoose');
 
-exports.messages_overview_get = (req, res, next) => {
+exports.messagesOverview = (req, res, next) => {
     var userId = req.userId; // SESSION
     Message.find({$or: [{aide: userId}, {filer: userId}]})
     .select('filer aide read henquiry')
@@ -13,7 +13,7 @@ exports.messages_overview_get = (req, res, next) => {
     });
 };
 
-exports.messages_specific_get = (req, res, next) => {
+exports.messagesSpecific = (req, res, next) => {
     var userId = req.userId;
     var messageId = req.query.messageId;
     Message.findById(messageId, function(err, result) {
@@ -56,7 +56,7 @@ exports.messages_specific_get = (req, res, next) => {
 
 // param: a) henquiryId zu der die message gehört b) nachricht c) messageId
 // 1: Aide, 2: Filer
-exports.messages_post = (req, res, next) => {
+exports.sendMessage = (req, res, next) => {
     var userId = req.userId; // SESSION
     // TODO Nachricht trimmen
     var msg = req.body.message;

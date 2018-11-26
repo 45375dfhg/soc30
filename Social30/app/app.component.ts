@@ -38,6 +38,6 @@ export class AppComponent {
 }
 
 export function getCategoryIconSource(icon: string): string {
-    const iconPrefix = isAndroid ? "res://" : "res://category_icons/";
+    const iconPrefix = isAndroid ? "res://" : "res://";
     return iconPrefix + icon;
 }

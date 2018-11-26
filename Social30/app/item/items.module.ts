@@ -20,7 +20,7 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "items" },
             { path: "items", component: ItemsComponent },
-            { path: "filteItems", component: FilterItemsComponent},
+            { path: "filterItems", component: FilterItemsComponent},
             { path: "item/:id", component: ItemDetailComponent},
         ])
     ],

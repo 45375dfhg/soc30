@@ -20,7 +20,7 @@
 
 
 <StackLayout marginTop="5">
-    <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filteItems']" pageTransition="fade"></Button>
+    <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']" pageTransition="flip"></Button>
     <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
 

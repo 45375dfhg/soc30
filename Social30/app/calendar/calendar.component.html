@@ -3,7 +3,7 @@
 
 
 
-
+<!--
 <StackLayout>
     <RadListView [items]="entries" class="list-group" style="height:100%">
         <ng-template tkListItemTemplate let-entrie="item">
@@ -11,7 +11,7 @@
         </ng-template>
     </RadListView>
 </StackLayout>
-
+-->
 <!--
 <StackLayout>
    <StackLayout *ngFor="let date of entries">
@@ -23,6 +23,7 @@
    </StackLayout>
 </StackLayout>
 -->
+
 
 
 
@@ -39,7 +40,8 @@
                 </GridLayout>
             </FlexboxLayout>
         </ng-template>
-        <ng-template tkTemplateKey="expanded" let-item="item">
+        
+        <ng-template tkTemplateKey="expanded"  let-item="item">
             <FlexboxLayout flexDirection="row">
                 <GridLayout rows="* , auto" columns="*, *, *, *" class="border gridItem">
                     <Label row="0" col="0" colSpan="4" text="Januar" horizontalAlignment="center" verticalAlignment="center"

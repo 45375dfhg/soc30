@@ -5,6 +5,8 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 
 import { ModalDialogService } from "nativescript-angular/modal-dialog";
 import { HenquiryModalComponent } from '../henquiry-modal/henquiry.modal';
+import { HenquiryDetailComponent } from '../henquiry-detail/henquiry.detail.component';
+
 
 @NgModule({
     imports: [
@@ -13,6 +15,7 @@ import { HenquiryModalComponent } from '../henquiry-modal/henquiry.modal';
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "henquiry" },
             { path: "henquiry", component: HenquiryComponent },
+            { path: "henquiry-detail", component: HenquiryDetailComponent},
         ])
     ],
     entryComponents: [
@@ -20,7 +23,8 @@ import { HenquiryModalComponent } from '../henquiry-modal/henquiry.modal';
     ],
     declarations: [
         HenquiryComponent,
-        HenquiryModalComponent
+        HenquiryModalComponent,
+        HenquiryDetailComponent
     ],
     providers: [
         ModalDialogService,

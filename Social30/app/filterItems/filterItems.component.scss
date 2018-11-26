@@ -9,12 +9,18 @@ GridLayout{
     font-family: 'Lato', 'Lato-Bold'; 
 }
 
+Label{
+    margin:10 0 0 5;
+}
+
+
 .fa{
     color: #001144;
 }
 
 Button{
     text-transform: none;
+    
 }
 
 .applyButton{
@@ -23,30 +29,30 @@ Button{
     border-radius: 25;
     border-width: 2;
     border-color: #FF6600;
+    margin:10 10 15 10;
 }
 
 .applyButton:active{
     background-color: #FF6600;
     color: white;
-    border-radius: 25;
-    border-width: 2;
-    border-color: #FF6600;
 }
 
 .orangeButton{
     background-color: white;
     color: #FF6600;
-    border-radius: 25;
+    border-radius: 50;
     border-width: 2;
     border-color: #FF6600;
+    margin:10 5 0 5;
 }
 
 .orangeButtonSelected{
     background-color: #FF6600;
     color: white;
-    border-radius: 25;
+    border-radius: 50;
     border-width: 2;
     border-color: #FF6600;
+    margin:10 5 0 5;
 }
 
 .blueButton{
@@ -55,12 +61,10 @@ Button{
     border-radius: 25;
     border-width: 2;
     border-color: #001144;
+    margin:10 10 15 10;
 }
 
 .blueButton:active{
     background-color: #001144;
     color: white;
-    border-radius: 25;
-    border-width: 2;
-    border-color: #001144;
 }

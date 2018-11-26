@@ -1,0 +1,10 @@
+<ActionBar title="Hilfegesuch erstellen - Details"></ActionBar>
+
+
+<GridLayout rows="auto,auto">
+
+    <DatePicker row="0" (loaded)="onPickerLoaded($event)" (dateChange)="onDateChanged($event)" (dayChange)="onDayChanged($event)"
+        (monthChange)="onMonthChanged($event)" (yearChange)="onYearChanged($event)" verticalAlignment="center"></DatePicker>
+    <Button row="1" text="Zurück" [nsRouterLink]="['../henquiry']" pageTransition="slideRight"></Button>
+
+</GridLayout>

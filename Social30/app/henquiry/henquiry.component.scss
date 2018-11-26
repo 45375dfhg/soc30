@@ -3,3 +3,37 @@ ActionBar {
     color: white;
     font-family: 'Lato', 'Lato-Bold'; 
 }
+
+StackLayout{
+    color:#001144;
+}
+
+.border{
+    border-width: 2;
+    border-color: #FF6600;
+    border-radius:20;
+}
+
+.category{
+    margin:5 15;
+}
+
+.fa{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.heading{
+    font-size: 17;
+    margin:5 0 5 10;
+}
+
+.categoryDescription{
+    margin:0 0 5 10;
+}
+
+
+.icon{
+    font-family: "FontAwesome";
+    margin: 0 10 0 10;
+}
+ 

@@ -2,7 +2,7 @@
 <FlexboxLayout>
     <StackLayout [formGroup]="signUpForm">
             <Image
-            src="res://icon">
+            [src]="getCategoryIconSource('icon')">
         </Image>
         <TextField 
             formControlName="email" 

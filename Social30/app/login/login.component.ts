@@ -5,7 +5,7 @@ import { first, catchError } from 'rxjs/operators';
 import { Page } from "tns-core-modules/ui/page";
 import { Observable } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
-
+import { getCategoryIconSource } from "../app.component";
 import { AuthenticationService } from '../shared/services/authentication.service';
 
 @Component({
@@ -16,43 +16,47 @@ import { AuthenticationService } from '../shared/services/authentication.service
 })
 
 export class LoginComponent implements OnInit {
-	signUpForm: FormGroup;    
+	signUpForm: FormGroup;
 	loading = false;
 	submitted = false;
 	returnUrl: string;
-	
+
 	constructor(
 		private formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router,
+		private route: ActivatedRoute,
+		private router: Router,
 		private authenticationService: AuthenticationService,
 		page: Page,
 		//private alertService: AlertService
-		) {	
-			page.actionBarHidden = true;
-		}
+	) {
+		page.actionBarHidden = true;
+	}
 
 	ngOnInit() {
 		this.signUpForm = this.formBuilder.group({
-            email: ['', Validators.required],
-            password: ['', Validators.required]
-        });
-		
-		// reset login status
-        this.authenticationService.logout();
+			email: ['', Validators.required],
+			password: ['', Validators.required]
+		});
 
-        // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '../home';
-	 }
+		// reset login status
+		this.authenticationService.logout();
+
+		// get return url from route parameters or default to '/'
+		this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '../home';
+	}
+
+	getCategoryIconSource(icon: string): string {
+		return getCategoryIconSource(icon);
+	}
 
 	get f() { return this.signUpForm.controls; }
 
 	onSubmit() {
 		this.submitted = true;
 
-		 // stop here if form is invalid
-		 if (this.signUpForm.invalid) {
-            return;
+		// stop here if form is invalid
+		if (this.signUpForm.invalid) {
+			return;
 		}
 
 		this.loading = true;
@@ -65,7 +69,7 @@ export class LoginComponent implements OnInit {
 				},
 				error => {
 					console.log(error);
-				});		
+				});
 	}
 	/*
 	 private handleErrors(operation: string) {

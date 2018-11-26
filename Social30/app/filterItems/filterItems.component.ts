@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { getCategoryIconSource } from "../app.component";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Route } from '@angular/router';
-
+import { isAndroid, isIOS, device, screen } from "platform";
+import { View } from "ui/core/view";
 
 @Component({
 	moduleId: module.id,
@@ -35,6 +36,7 @@ export class FilterItemsComponent implements OnInit {
 		}
 		
 	 }
+
 
 
 	 getCategoryIconSource(icon: string): string {

@@ -28,9 +28,11 @@ export class AppComponent {
     }
 
     public ngOnInit(): void {
-        application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
-            args.cancel = true;
-        });
+        if (isAndroid) {
+            application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
+                args.cancel = true;
+            });
+        }
         if (isIOS){
             topmost().ios.controller.navigationBar.barStyle = 1;
         }

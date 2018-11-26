@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActivatedRoute } from "@angular/router";
-import { Page } from "tns-core-modules/ui/page";
+import { Page, isAndroid } from "tns-core-modules/ui/page";
 
 import * as application from "tns-core-modules/application";
 
@@ -29,10 +29,11 @@ export class NavigationComponent {
             }
         }],
             { relativeTo: this.activeRoute });
-        application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
-            args.cancel = true;
-        });
-        
+        if (isAndroid) {
+            application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
+                args.cancel = true;
+            });
+        }   
     }
 
     /*

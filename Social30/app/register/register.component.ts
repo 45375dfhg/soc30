@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 import { first } from 'rxjs/operators';
 
@@ -18,10 +18,12 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
+    returnUrl: string;
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
+        private route: ActivatedRoute,
         private authenticationService: AuthenticationService,
         private page: Page,
     ) { 
@@ -34,16 +36,22 @@ export class RegisterComponent implements OnInit {
                     Validators.required, 
                     Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
             password: ['', Validators.required],
-            confirmPassword: ['', Validators.required],
+            confPassword: ['', Validators.required],
             surname: ['', Validators.required],
             firstname: ['', Validators.required],
             nickname: ['', Validators.required],
         }, { validator: this.pwMatchValidator });
+
+         // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '../home';
+        
+        // reset login status
+		this.authenticationService.logout();
     }
 
     // https://stackoverflow.com/a/44449802
     pwMatchValidator(frm: FormGroup) {
-        return frm.get('password').value === frm.get('confirmPassword').value
+        return frm.get('password').value === frm.get('confPassword').value
            ? null : {'mismatch': true};
     }
 
@@ -62,7 +70,7 @@ export class RegisterComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.router.navigate(['/login']);
+                    this.router.navigate([this.returnUrl]);
                 },
                 error => {
                     console.log(error);

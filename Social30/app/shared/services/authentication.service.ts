@@ -37,7 +37,7 @@ export class AuthenticationService {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                         this.appSet.setUser('currentUser', JSON.stringify(user));
                     }
-                return user;
+                    return user;
                 }));
     }
 
@@ -46,6 +46,23 @@ export class AuthenticationService {
     }
 
     register(user) {
-        return this.http.post(this.registerUrl, user);
+        let params = new HttpParams()
+            .set('email', user.email)
+            .set('password', user.password)
+            .set('passwordConf', user.confPassword)
+            .set('surname', user.surname)
+            .set('firstname', user.firstname)
+            .set('nickname', user.nickname)
+
+        return this.http.post<any>(this.registerUrl, params)
+            .pipe(
+                map(user => {
+                    console.log('reached register map')
+                    if (user && user.token) {
+                        this.appSet.setUser('currentUser', JSON.stringify(user));
+                    }
+                    return user;
+                })
+            );
     }
 }

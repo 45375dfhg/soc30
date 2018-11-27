@@ -13,7 +13,7 @@ var UserSchema = new Schema({
     count: {type: Number}
   }],
   address: { // muss alles required sein
-      postalcode: { type: Number  },
+      postalcode: { type: Number },
       street: { type: String },
       city: { type: String, trim: true },
       housenm: { type: String }
@@ -22,9 +22,13 @@ var UserSchema = new Schema({
   invite: {
     // 0: Wurzel, 1: Freund 1. Grades, 2: Freund 2. Grades, sonst undefined
     level: {type: Number},
-    codes: [{type: String}],
+    codes: [{type: Number}],
     children: [{type: Schema.Types.ObjectId, ref: 'User'}]
   },
+  daysHelping: [{
+    day: {type: String},
+    count: {type: Number}
+  }],
   foto: {type: String}, // binary war hier
   mobile: {type: String},
   // Ist halt die Frage, ob Avatare im Front- oder Backend gespeichert werden
@@ -34,7 +38,12 @@ var UserSchema = new Schema({
     latitude: {type: Number},
     longitude: {type: Number}
   }
-});
+}, {versionKey: false},{
+  writeConcern: {
+    w: 1,
+    j: true,
+    wtimeout: 1000
+}});
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

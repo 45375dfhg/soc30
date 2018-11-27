@@ -17,7 +17,12 @@ var HenquirySchema = new Schema({
     happened: {type: Boolean, default: false},
     category: {type: Schema.Types.ObjectId, ref: 'Category'},
     distance: {type: Number}
-}, {versionKey: false});
+}, {versionKey: false}, {
+    writeConcern: {
+      w: 1,
+      j: true,
+      wtimeout: 1000
+  }});
 
 var Henquiry = mongoose.model('Henquiry', HenquirySchema);
 module.exports = Henquiry;

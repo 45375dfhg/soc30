@@ -5,12 +5,10 @@ var config = require('../config');
 
 var User = require('../models/user');
 var Henquiry = require('../models/henquiry');
+var Message = require('../models/message');
 var path = require('path');
 var bcrypt = require('bcryptjs');
-
-exports.login_get = function(req, res, next) {
-    return res.sendFile(path.join(path.dirname(__dirname) + '/public/login.html'));    
-};
+var mongoose = require('mongoose');
 
 exports.register = function (req, res, next) {
   if (req.body.password !== req.body.passwordConf) {
@@ -24,29 +22,39 @@ exports.register = function (req, res, next) {
     req.body.password &&
     req.body.passwordConf && req.body.surname && req.body.firstname && req.body.nickname) {
 
-    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    // Prüfung, ob die E-Mail bereits in der Datenbank existiert
+    User.findOne({email:req.body.email}, function(errEmail, resultEmail) {
+      if(errEmail) {return next(errEmail);}
+      if(!resultEmail) {
+        var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
-    var userData = {
-      email: req.body.email,
-      password: hashedPassword,
-      surname: req.body.surname,
-      firstname: req.body.firstname,
-      nickname: req.body.nickname
-    }
+        var userData = {
+          email: req.body.email,
+          password: hashedPassword,
+          surname: req.body.surname,
+          firstname: req.body.firstname,
+          nickname: req.body.nickname
+        }
 
-    User.create(userData, function (error, user) {
-      if (err) return res.status(500).send("There was a problem registering the user.")
-      // create a token
-      var token = jwt.sign({ id: user._id }, config.secret, {
-        expiresIn: 86400 // expires in 24 hours
-      });
-      res.status(200).send({ auth: true, token: token });
-    });
+        User.create(userData, function (error, user) {
+          if (err) return res.status(500).send("There was a problem registering the user.")
+          // create a token
+          var token = jwt.sign({ id: user._id }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
+          });
+          res.status(200).send({ auth: true, token: token });
+        });
+      } else {
+        var err = new Error('Diese E-Mail existiert bereits.');
+        err.status = 400;
+        return next(err);
+      }
+  });
   } else {
     var err = new Error('All fields required.');
     err.status = 400;
     return next(err);
-  } 
+  }
 };
 
 exports.login = function (req, res, next) {
@@ -59,7 +67,7 @@ if (req.body.logemail && req.body.logpassword) {
     var token = jwt.sign({ id: user._id }, config.secret, {
       expiresIn: 86400 // expires in 24 hours
     });
-    res.status(200).send({ auth: true, token: token });
+    res.status(200).send({ auth: true, token: token, _id: user._id });
   });
     } else {
       var err = new Error('All fields required.');
@@ -82,9 +90,9 @@ exports.getProfile = function (req, res, next) {
     User.findById(req.query.userId, projection)
       .exec(function (error, user) {
         if (error) {
-          return next(error); // Möglicher Fehler: Übergebene userId hat falsche Länge
+          return next(error);
         } else {
-          if (user === null) {
+          if (!user) {
             var err = new Error('User does not exist.');
             err.status = 404;
             return next(err);
@@ -95,6 +103,7 @@ exports.getProfile = function (req, res, next) {
       });
 };
 
+// TODO: Muss noch umgesetzt werden
 exports.editProfile = function (req, res, next) {
   var data = {};
   data.address = {};
@@ -106,7 +115,6 @@ exports.editProfile = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        console.log(hash);
         data.password = hash;
         updateUser(req, data, res);
       })
@@ -116,8 +124,115 @@ exports.editProfile = function (req, res, next) {
   } else {
     updateUser(req, data, res);
   }
-  console.log("hier");
 };
+
+exports.verifyProfile = function (req, res, next) {
+  var code = req.body.code;
+  var email = req.body.email;
+  User.findOne({email:email, "invite.codes":code}, function(err, resultHost) {
+    if(err) {return next(err);}
+    if(!resultHost) {
+      var err = new Error('Diese E-Mail oder dieser Code existiert nicht.');
+      err.status = 400;
+      return next(err);
+    }
+    User.findById(req.userId, function(errUser, resultNewUser) {
+      if(errUser) {return next(errUser);}
+      if(!resultNewUser) {
+        var err = new Error('resultUser nicht gefunden. kann eig nicht sein');
+        err.status = 400;
+        return next(err);
+      }
+      resultNewUser.invite.level = resultHost.invite.level+1;
+      if(resultHost.invite.level < 2) {
+        for(var i = 0; i < 4; i++) {
+          var codeToInsert = Math.floor(Math.random()*100000000000000000);
+          if(resultNewUser.invite.codes.indexOf(codeToInsert) > -1) {
+            i--;
+          } else {
+            resultNewUser.invite.codes.push(codeToInsert);
+          }
+        }
+      }
+      resultHost.invite.children.push(resultNewUser._id);
+      resultHost.invite.codes.splice(resultHost.invite.codes.indexOf(code),1);
+      resultHost.save();
+      resultNewUser.save();
+      res.send("ok");
+    });
+  });
+};
+
+// TODO: Profil muss gelöscht werden aus: Henquiries, Messages, Children bei Freunde werben
+exports.deleteProfile = (req, res, next) => {
+  var userId = req.userId;
+  if(req.body.password !== req.body.passwordConf) {
+    var err = new Error('Passwörter sind nicht gleich.');
+    err.status = 400;
+    return next(err);
+  }
+  Henquiry.find({$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]}, function(errHenquiry, resultHenquiry) {
+    if(errHenquiry) {return next(errHenquiry);}
+    if(resultHenquiry) {
+      for(var i = 0; i < resultHenquiry.length; i++) {
+        if(resultHenquiry[i].createdBy == userId) {
+          // Die Aider benachrichtigen
+          resultHenquiry[i].remove();
+        } else if(resultHenquiry[i].potentialAide.indexOf(userId) > -1) {
+          resultHenquiry[i].potentialAide.splice(resultHenquiry[i].potentialAide.indexOf(userId),1);
+        } else if(resultHenquiry[i].aide.indexOf(userId) > -1) {
+          // Den Filer benachrichtigen
+          resultHenquiry[i].aide.splice(resultHenquiry[i].aide.indexOf(userId),1);
+        }
+        resultHenquiry[i].save();
+      }
+    }
+    Message.find({$or: [{filer: userId}, {aide: userId}]}, function(errMsg, resultMsg) {
+      if(errMsg) {return next(errMsg);}
+      if(resultMsg) {
+        for(var i = 0; i < resultMsg.length; i++) {
+          if(resultMsg[i].aide == userId) {
+            // Den Chatpartner benachrichtigen
+          } else if(resultMsg[i].potentialAide == userId) {
+            // Den Chatpartner benachrichtigen
+          }
+          resultMsg[i].readOnly = true;
+          resultMsg[i].save();
+        }
+      }
+      User.find({"invite.children": userId}, function(errUser, resultUser) {
+        if(errUser) {return next(errUser);}
+        if(resultUser) {
+          for(var i = 0; i < resultUser.length; i++) {
+            resultUser[i].invite.children.splice(resultUser[i].invite.children.indexOf(userId),1);
+            resultUser[i].save();
+          }
+        }
+        res.send("ok");
+      });
+    });
+  });
+};
+
+exports.test = (req, res, next) => {
+  for(var i = 0; i < 10000; i++) {
+    User.create({
+      email: "test"+i,
+      password: "test",
+      surname: "test",
+      firstname: "test",
+      nickname: "test"
+    });
+  }
+res.send("ok");
+};
+
+exports.test2 = (req, res, next) => {
+    User.find({}, function(err, res) {
+      console.log(res.length);
+      res.send("ok");
+    });
+}
 
 function populateDataToBeUpdated(req, data) {
   if(req.body.email) {data.email = req.body.email;}

@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 // Fetch all henquiries
 // TODO: Filtern nach Kategorien, falls etwas vom Frontend kommt
 // TODO: Kilometeranzahl vom Frontend berücksichtigen (Radius der Henquiries)
+// TODO: Eigene Hilfsgesuche nicht anzeigen 
 exports.getHenquiries = (req, res, next) => {
     Henquiry.find({closed: false, happened: false, removed: false})
     .select('amountAide startTime endTime text postalcode subcategoryId category')
@@ -25,7 +26,7 @@ exports.getHenquiries = (req, res, next) => {
             list_henquiries[i].createdBy.coordinates.longitude, 
             userResult.coordinates.latitude,
             userResult.coordinates.longitude);
-          if(list_henquiries[i].distance > 99999) {
+          if(list_henquiries[i].distance > 99999 ) {
             list_henquiries.splice(i,1);
             i--;
           }
@@ -70,7 +71,7 @@ exports.createHenquiry = (req, res, next) => {
       return next(err);
     }
     if(req.body.startTime <= req.creationTime || req.body.end <= req.creationTime) {
-      var err = new Error('Die Start- oder Endzeit liegt in der Vergangenheit.');
+      var err = new Error('Die Start- und/oder Endzeit liegt in der Vergangenheit.');
       err.status = 400;
       return next(err);
     }
@@ -79,11 +80,10 @@ exports.createHenquiry = (req, res, next) => {
       text: req.body.text,
       amountAide: req.body.amountAide,
       postalcode: req.body.postalcode,
-      createdBy: req.userId, // SESSION
+      createdBy: req.userId,
       creationTime: new Date(),
-      startTime: new Date(),
-      endTime: new Date(),
-      closed: "false"
+      startTime: req.body.startTime,
+      endTime: req.body.endTime
     });
     Henquiry.create(henquiry, function(error, result) {
       if(error) {
@@ -118,7 +118,7 @@ exports.getSpecificHenquiry = (req, res, next) => {
 // TODO: Benachrichtung schicken
 exports.deleteHenquiry = (req, res, next) => {
     var henquiryId = req.body.henquiryId;
-    var userId = req.userId; // SESSION
+    var userId = req.userId; 
     Henquiry.findById(henquiryId, (err, result) => {
       if(err) {
         return next(err);
@@ -135,17 +135,18 @@ exports.deleteHenquiry = (req, res, next) => {
     });
 };
 
-// TODO: Fehlerbehandlung richtig machen
+// TODO: Man kann sich nur für x Henquiries, die am gleichen Tag
+// stattfinden, bewerben
 exports.apply = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
-  var userId = new mongoose.mongo.ObjectId(req.userId); // SESSION
+  var userId = new mongoose.mongo.ObjectId(req.userId);
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
       return res.send(err); 
     } else {
       var error;
       // Fehler, es werden keine weiteren Bewerber angenommen.
-      if(result.closed || result.removed) {
+      if(result.closed || result.removed || result.happened) {
         error = new Error('Du kannst dich für dieses Gesuch nicht mehr bewerben.');
         error.status = 402;
       }
@@ -167,39 +168,82 @@ exports.apply = (req, res, next) => {
       if(error) {
         return next(error);
       }
-      result.potentialAide.push(userId);
-      result.save();
-      res.json(result);
+      // Prüfen, ob der Bewerber weniger als 5 Hilfen an dem Tag der Hilfe leistet
+      //User.findById()
+      /*Henquiry.find({aide: userId}, function(errCheck, resultCheck) {
+        if(errCheck) {return next(errCheck);}
+        if(resultCheck) {
+          var days = {};
+          var date;
+          for(var i = 0; i < resultCheck.length; i++) {
+            date = resultCheck[i].startTime.getFullYear() + "-" + (resultCheck[i].startTime.getMonth()+1)
+            + "-" + resultCheck[i].startTime.getDate();
+            if(days[date] === undefined) {
+              days[date] = 0;
+            }
+              days[date]++;
+            if(days[date] >= 5) {
+              return res.status(400).send("Am " + date + " hilfst du bereits 5x.");
+            }
+          }
+        }
+        result.potentialAide.push(userId);
+        result.save();
+        return res.json(result);
+      });*/
     }
   });
 };
 
+// PROBLEM: Was ist bei folgendem Szenario:
+// - man hat sich irgendwo beworben
+// - der Hilfsbedürftige wählt einen aus
+// - man zieht seine Bewerbung zurück, nachdem geprüft wurde, dass
+// man im potenialAide-Array ist
+// - man wird ins aide-Array eingetragen, obwohl man seine Bewerbung
+// "erfolgreich" zurückgezogen hat (=> nach der Prüfung)
 exports.acceptApplicants = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
-  var messageData;
+  var messageData;    
+  if(!applicants) {
+    var err = new Error('Es wurden keine Bewerber übergeben.');
+    err.status = 400;
+    return next(err);
+  }
   // Da durch applicants iteriert wird, muss es auch bei einem einzigen übergebenen
   // Aide ein Array sein (bei > 1 aider ist es automatisch ein Array)
   if(!(applicants instanceof Array)) {
     applicants = new Array(applicants);
   }
   Henquiry.findById(henquiryId, function(err, result) {
+    if(err) {return next(err);}
     if(!result) {
       return next(new Error('Das Hilfsgesuch existiert nicht.'));
-    } else if(!(req.userId == result.createdBy)) {
-      return next(new Error('Das ist nicht dein eigenes Gesuch.'));
-    } else if(!applicants) {
-      return next(new Error('Es wurden keine Helfer übergeben.'));
     }
+    if(!(req.userId == result.createdBy)) {
+      return next(new Error('Das ist nicht dein eigenes Gesuch.'));
+    }
+    if(result.removed || result.closed || result.happened) {
+      err = new Error('Ungültige Abfrage.');
+      err.status = 400;
+      return next(err);
+    } 
+    // In dieser Schleife wird geprüft, ob ein Benutzer bereits als Helfer
+    // eingetragen ist bzw. nicht als Bewerber eingetragen ist.
     for(var i = 0; i < applicants.length; i++) {
       if(result.aide.indexOf(applicants[i]) > -1) {
-        // TODO: Nicht direkt den Fehler werfen, sondern erst, nachdem versucht wurde, alle einzufügen
-        return next(new Error('Der Helfer ist bereits im aide Array.'))
+        var err = new Error('Mindestens ein Helfer ist bereits eingetragen.');
+        err.status = 400;
+        return next(err);
       }
       if(result.potentialAide.indexOf(applicants[i]) == -1) {
-        // TODO: Nicht direkt den Fehler werfen, sondern erst, nachdem versucht wurde, alle einzufügen
-        return next(new Error('Der Helfer ist nicht im potentialAide Array.'));
+        var err = new Error('Mindestens ein Helfer hat sich nicht beworben.');
+        err.status = 400;
+        return next(err);
       }
+    }
+    for(var i = 0; i < applicants.length; i++) {
       messageData = {
         aide: applicants[i],
         filer: result.createdBy,
@@ -226,29 +270,41 @@ exports.acceptApplicants = (req, res, next) => {
       result.aide.push(applicants[i]);
       result.save(); // Kann man nach jedem mal saven oder erst am ende?
     }
-    res.send('ok');
+    res.status(204).send();
   });
 };
 
 // Hilfsgesuche für neue Bewerber schließen. Henquiry wird nicht mehr angezeigt werden.
 exports.closeHenquiry = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
-  Henquiry.findById(henquiryId, function(error, result) {
-    if(error) { return next(error);}
+  Henquiry.findById(henquiryId, function(err, result) {
+    if(err) { return next(err);}
+    if(!result) {
+      err = new Error('Das Hilfegesuch existiert nicht.');
+      err.status = 404;
+      return next(err);
+    }
     if(!(req.userId == result.createdBy)) {
       err = new Error('Das ist nicht dein Hilfegesuch.');
       err.status = 403;
       return next(err);
     }
+    // Eine if-Abfrage, statt drei wie in henquirySuccess.
+    if(result.closed || result.happened || result.removed) {
+      err = new Error('Ungültige Anfrage.');
+      err.status = 400;
+      return next(err);
+    }
     if(result.aide.length < 1) {
+      console.log("Länge kleiner 1");
       err = new Error('Du kannst ein Hilfegesuch nicht schliessen, wenn keine Helfer vorhanden sind.');
       err.status = 400;
       return next(err);
     }
     result.closed = true;
     result.save();
+    res.send("ok");
   });
-  res.send("ok");
 };
 
 // TODO: Terra gutschreiben
@@ -258,22 +314,34 @@ exports.henquirySuccess = (req, res, next) => {
     if(err) {
       return res.send(err);
     }
+    if(!result) {
+      err = new Error('Das Hilfegesuch existiert nicht.');
+      err.status = 404;
+      return next(err);
+    }
+    if(!result.closed || result.removed || result.happened) {
+      err = new Error('Ungültige Abfrage.');
+      err.status = 400;
+      return next(err);
+    }
     if(!(result.createdBy == req.userId)) {
-      return res.send("Digga ist nicht dein Hilfegesuch");
+      err = new Error('Das ist nicht dein Hilfegesuch.');
+      err.status = 403;
+      return next(err);
     }
     result.happened = true;
     result.save();
-  });
-  Message.find({henquiry: henquiryId}, function(err, result) {
-    if(err) {return next(err);}
-    if(!result) {
-      res.send("henquiry not found");
-    }
-    for(var i = 0; i < result.length; i++) {
-      result[i].readOnly = true;
-      result[i].save();
-    }
-    res.send(result);
+    Message.find({henquiry: henquiryId}, function(err, result) {
+      if(err) {return next(err);}
+      if(!result) {
+        res.send("Es existieren keine Messages zu diesem Henquiry.");
+      }
+      for(var i = 0; i < result.length; i++) {
+        result[i].readOnly = true;
+        result[i].save();
+      }
+      res.send(result);
+    });
   });
 };
 
@@ -299,7 +367,7 @@ exports.cancelApplication = (req, res, next) => {
     }
     result.save();
   });
-  res.status(201).send();
+  res.status(204).send();
 };
 
 exports.calendar = (req, res, next) => {
@@ -317,6 +385,8 @@ exports.calendar = (req, res, next) => {
   });
 };
 
+// From stackoverflow:
+// https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
 function GPSdistance(lat1, lon1, lat2, lon2) {
   var p = 0.017453292519943295;    // Math.PI / 180
   var c = Math.cos;

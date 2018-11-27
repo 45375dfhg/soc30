@@ -18,19 +18,19 @@ router.post('/henquiries', verifyToken, henquiry_controller.createHenquiry);
 // DELETE a henquiry
 router.delete('/henquiries/specific', verifyToken, henquiry_controller.deleteHenquiry);
 
-// POST route for applying
+// PUT route for applying
 router.put('/henquiries/apply', verifyToken, henquiry_controller.apply);
 
-// POST route for closing a henquiry
+// PUT route for closing a henquiry
 router.put('/henquiries/close', verifyToken, henquiry_controller.closeHenquiry);
 
-// POST route for accepting applicants
+// PUT route for accepting applicants
 router.put('/henquiries/accept', verifyToken, henquiry_controller.acceptApplicants);
 
-// POST route when help has happened successfully
+// PUT route when help has happened successfully
 router.put('/henquiries/success', verifyToken, henquiry_controller.henquirySuccess);
 
-// POST route for canceling an application
+// PUT route for canceling an application
 router.put('/henquiries/cancel', verifyToken, henquiry_controller.cancelApplication);
 
 /*
@@ -50,8 +50,14 @@ router.post('/register', user_controller.register);
 // GET route after registering
 router.get('/profile', verifyToken, user_controller.getProfile);
 
-// POST route for profile editing
+// PUT route for profile editing
 router.put('/profile', verifyToken, user_controller.editProfile);
+
+// PUT route for Freunde werben
+router.put('/profile/verify', verifyToken, user_controller.verifyProfile);
+
+// DELETE route for deleting a specific profile
+router.delete('/profile/specific', verifyToken, user_controller.deleteProfile)
 
 // GET for logout
 router.get('/logout', verifyToken, user_controller.logout);
@@ -69,9 +75,7 @@ router.get('/messages/specific', verifyToken, message_controller.messagesSpecifi
 router.post('/messages', verifyToken, message_controller.sendMessage);
 
 // TEST ROUTE
-router.get('/test', (req, res, next) => {
-    res.json({claas: "moin"});
-});
+router.get('/test', user_controller.test);
 
 // TEST ROUTE Alle Hilfsgesuche mit allen Feldern laden, egal ob geschlossen
 // oder bereits abgeschlossen

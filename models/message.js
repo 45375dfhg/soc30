@@ -20,7 +20,12 @@ var MessageSchema = new Schema({
         participant: {type: Number},
         timeSent: {type: Date}
     }]
-});
+}, {versionKey: false},{
+    writeConcern: {
+      w: 1,
+      j: true,
+      wtimeout: 1000
+  }});
 
 var Message = mongoose.model('Message', MessageSchema);
 module.exports = Message;

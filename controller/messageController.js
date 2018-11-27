@@ -2,7 +2,7 @@ var Message = require('../models/message');
 var mongoose = require('mongoose');
 
 exports.messagesOverview = (req, res, next) => {
-    var userId = req.userId; // SESSION
+    var userId = req.userId;
     Message.find({$or: [{aide: userId}, {filer: userId}]})
     .select('filer aide read henquiry')
     .exec(function(err, result) {
@@ -47,7 +47,7 @@ exports.messagesSpecific = (req, res, next) => {
             }
             res.json(copiedResult);
         } else {
-            var err = new Error('Habibi das ist nicht dein Nachrichtenverlauf.');
+            var err = new Error('Das ist nicht dein Nachrichtenverlauf.');
             err.status = 403;
             return next(err);
         }
@@ -57,7 +57,7 @@ exports.messagesSpecific = (req, res, next) => {
 // param: a) henquiryId zu der die message gehört b) nachricht c) messageId
 // 1: Aide, 2: Filer
 exports.sendMessage = (req, res, next) => {
-    var userId = req.userId; // SESSION
+    var userId = req.userId;
     // TODO Nachricht trimmen
     var msg = req.body.message;
     var messageId = req.body.messageId;
@@ -85,7 +85,7 @@ exports.sendMessage = (req, res, next) => {
             result.save();
             res.json(result);
         } else {
-            var err = new Error('Habibi das ist nicht dein Nachrichtenverlauf.');
+            var err = new Error('Das ist nicht dein Nachrichtenverlauf.');
             err.status = 403;
             return next(err);
         }

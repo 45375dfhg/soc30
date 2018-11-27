@@ -34,7 +34,7 @@ export class CalendarComponent implements OnInit {
      }
 
     ngOnInit(): void {
-		this.receiveAndOrder();
+		// this.receiveAndOrder();
 		this.items = this.itemService.getDummyItems(2); // placeholder
     }
 
@@ -54,7 +54,7 @@ export class CalendarComponent implements OnInit {
                     this.sortbyStartWithCurrentMonth
                 ])
                 (result);  
-                console.log(output);
+                console.log(output); // edit out
                 this.entries = output;  
     
             },

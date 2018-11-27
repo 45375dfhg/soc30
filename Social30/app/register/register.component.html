@@ -1,0 +1,160 @@
+<FlexboxLayout>
+    <StackLayout [formGroup]="registerForm">
+        <Image
+            [src]="getCategoryIconSource('icon')">
+        </Image>
+        <TextField 
+            formControlName="email" 
+            hint="Email-Adresse" 
+            keyboardType="email"
+            autocorrect="false" 
+            autocapitalizationType="none">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.email.errors?.required" 
+            class="invalid-feedback"
+            text="Keine E-Mail angegeben!">
+        </Label>
+        <Label
+            *ngIf="submitted && f.email.errors?.pattern"
+            class="invalid-feedback"
+            text="Keine valide E-Mail!">
+        </Label>
+
+        <TextField 
+            formControlName="surname" 
+            hint="Nachname" 
+            autocorrect="false">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.surname.errors?.required" 
+            class="invalid-feedback"
+            text="Es fehlt ein Nachname!">
+        </Label>
+
+        <TextField 
+            formControlName="firstname" 
+            hint="Vorname" 
+            autocorrect="false">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.firstname.errors?.required" 
+            class="invalid-feedback"
+            text="Es fehlt ein Vorname!">
+        </Label>
+
+        <TextField 
+            formControlName="nickname" 
+            hint="Spitzname" 
+            autocorrect="false">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.nickname.errors?.required" 
+            class="invalid-feedback"
+            text="Es fehlt ein Spitzname!">
+        </Label>
+
+
+        <TextField 
+            formControlName="password" 
+            hint="Passwort"
+            secure="true">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.password.errors?.required" 
+            class="invalid-feedback"
+            text="Es fehlt ein Password!">
+        </Label>
+
+        <TextField 
+            formControlName="confirmPassword" 
+            hint="Passwort bestätigen"
+            secure="true">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.confirmPassword.errors?.required" 
+            class="invalid-feedback"
+            text="Das Passwort wiederholen!">
+        </Label>
+        <Label
+            *ngIf="submitted && registerForm .errors?.mismatch"
+            class="invalid-feedback"
+            text="Passwörter stimmen nicht überein!">
+        </Label>
+
+        <Button 
+            [ngClass]="{ 'greyButton': loading }"
+            [disabled]="loading"
+            text="Mitmachen!"  
+            (tap)="onSubmit()">
+        </Button>
+    </StackLayout>
+</FlexboxLayout>
+
+<!--        <Label
+            style='color:#ff7355' 
+            *ngIf="registerForm.get('password']).value != registerForm.get('confirmPassword').value && registerForm.get('confirmPassword').value != null"
+            text="Die Passwörter sind nicht identisch.">
+        </Label>-->
+
+<!--<FlexboxLayout>
+    <StackLayout [formGroup]="registerForm">
+        <Image
+            [src]="getCategoryIconSource('icon')">
+        </Image>
+        <TextField 
+            formControlName="email" 
+            hint="Email-Adresse" 
+            keyboardType="email"
+            autocorrect="false" 
+            autocapitalizationType="none"
+            [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.email.errors.required" 
+            class="invalid-feedback"
+            text="Kein Nutzername angegeben!">
+        </Label>
+
+        <TextField 
+            formControlName="password" 
+            hint="Passwort"
+            secure="true"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.password.errors" 
+            class="invalid-feedback"
+            text="Es fehlt ein Password!">
+        </Label>
+
+        <TextField 
+            formControlName="confirmPassword" 
+            hint="Passwort"
+            secure="true"
+            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }">
+        </TextField>
+        <Label 
+            *ngIf="submitted && f.confirmPassword.errors" 
+            class="invalid-feedback"
+            text="Es fehlt ein Password!">
+        </Label>
+        <Label
+            *ngIf="f.confirmPassword.errors?.mismatch"
+            text="Passwörter stimmen nicht überein!">
+        </Label>
+
+        <Button 
+            [ngClass]="{ 'greyButton': loading }"
+            [disabled]="loading"
+            text="Mitmachen!"  
+            (tap)="onSubmit()">
+        </Button>
+    </StackLayout>
+</FlexboxLayout>
+
+<!--        <Label
+            style='color:#ff7355' 
+            *ngIf="registerForm.get('password']).value != registerForm.get('confirmPassword').value && registerForm.get('confirmPassword').value != null"
+            text="Die Passwörter sind nicht identisch.">
+        </Label>-->-->

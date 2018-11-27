@@ -23,13 +23,7 @@ registerElement('CarouselItem', () => CarouselItem);
 })
 export class AppComponent {
 
-<<<<<<< HEAD
     public constructor(private router: RouterExtensions) { }
-=======
-    public constructor(private router: RouterExtensions) {
-
-    }
->>>>>>> 1ade35f12abf6a8beda061a7e6095365951fcad1
 
     public ngOnInit(): void {
         if (isAndroid) {

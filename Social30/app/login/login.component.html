@@ -1,7 +1,7 @@
 
 <FlexboxLayout>
     <StackLayout [formGroup]="signUpForm">
-            <Image
+        <Image
             [src]="getCategoryIconSource('icon')">
         </Image>
         <TextField 
@@ -15,7 +15,7 @@
         <Label 
             *ngIf="submitted && f.email.errors" 
             class="invalid-feedback"
-            text="Der Nutzername fehlt, buddy.">
+            text="Kein Nutzername angegeben!">
         </Label>
         <TextField 
             formControlName="password" 
@@ -26,20 +26,13 @@
         <Label 
             *ngIf="submitted && f.password.errors" 
             class="invalid-feedback"
-            text="Dein Password, brah.">
+            text="Es fehlt ein Password!">
         </Label>
         <Button 
+            [ngClass]="{ 'greyButton': loading }"
+            [disabled]="loading"
             text="Durchstarten!"  
             (tap)="onSubmit()">
         </Button>
-        <Button
-            text="DEV SKIP"
-            [nsRouterLink]="['../home']">
-        </Button>
     </StackLayout>
 </FlexboxLayout>
-<!--<StackLayout [formGroup]="signUpForm">
-	<TextField formControlName="email" hint="Email" keyboardType="email"></TextField>
-    <TextField formControlName="username" hint="Username"></TextField>
-    <Button text="sign up"  (tap)="onSubmit()"></Button>
-</StackLayout>-->

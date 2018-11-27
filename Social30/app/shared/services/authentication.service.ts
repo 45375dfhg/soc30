@@ -13,6 +13,7 @@ export class AuthenticationService {
         private appSet: AppSettingsService) { }
 
     loginUrl = Config.apiUrl + "login";
+    registerUrl = Config.apiUrl + "register";
 
     login(email: string, password: string) {
         
@@ -42,5 +43,9 @@ export class AuthenticationService {
 
     logout() {
         this.appSet.removeUser('currentUser');
+    }
+
+    register(user) {
+        return this.http.post(this.registerUrl, user);
     }
 }

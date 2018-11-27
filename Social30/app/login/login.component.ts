@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Validators, AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first, catchError } from 'rxjs/operators';
 import { Page } from "tns-core-modules/ui/page";
 import { Observable } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
+
 import { getCategoryIconSource } from "../app.component";
 import { AuthenticationService } from '../shared/services/authentication.service';
 
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private authenticationService: AuthenticationService,
-		page: Page,
+		private page: Page,
 		//private alertService: AlertService
 	) {
 		page.actionBarHidden = true;
@@ -54,13 +55,12 @@ export class LoginComponent implements OnInit {
 	onSubmit() {
 		this.submitted = true;
 
-		// stop here if form is invalid
+		// form validation
 		if (this.signUpForm.invalid) {
 			return;
 		}
 
 		this.loading = true;
-
 		this.authenticationService.login(this.f.email.value, this.f.password.value)
 			.pipe(first())
 			.subscribe(
@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit {
 				},
 				error => {
 					console.log(error);
+					this.loading = false;
 				});
 	}
 	/*

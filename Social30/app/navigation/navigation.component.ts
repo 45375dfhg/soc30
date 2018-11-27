@@ -9,7 +9,7 @@ import * as application from "tns-core-modules/application";
 @Component({
     moduleId: module.id,
     templateUrl: "./navigation.component.html",
-    styleUrls:  ["./navigation.component.scss"]
+    styleUrls: ["./navigation.component.scss"]
 })
 export class NavigationComponent {
 
@@ -17,8 +17,8 @@ export class NavigationComponent {
         private routerExtension: RouterExtensions,
         private activeRoute: ActivatedRoute,
         page: Page) {
-            page.actionBarHidden = true;
-        }
+        page.actionBarHidden = true;
+    }
 
     ngOnInit() {
         this.routerExtension.navigate([{
@@ -33,7 +33,7 @@ export class NavigationComponent {
             application.android.on(application.AndroidApplication.activityBackPressedEvent, (args: any) => {
                 args.cancel = true;
             });
-        }   
+        }
     }
 
     /*

@@ -2,10 +2,10 @@
 </ActionBar>
 
 
-<GridLayout rows="auto, auto, auto, auto, auto">
+<GridLayout rows="auto,auto,auto,auto,*">
 
 
-        <GridLayout row="0" rows="*,*,*,*" columns="*, *">
+        <GridLayout row="0" rows="auto,auto,auto,auto" columns="*, *">
                 <Label row="0" col="0" colSpan="2" text="Bei welchen Tätigkeiten möchtest du gerne helfen?" class="fa"></Label>
                 <Button row="1" col="0" text="Schwerer Haushalt" class="orangeButton" (tap)="changeColor($event)"></Button>
                 <Button row="1" col="1" text="Leichter Haushalt" class="orangeButton" (tap)="changeColor($event)"></Button>
@@ -15,40 +15,47 @@
         </GridLayout>
 
 
-        <GridLayout row="1" rows="*,*" columns="*,*,*,*,*,*,*">
-                <Label row="0" col="0" colSpan="7" text="An welchen Tagen hast du Zeit?" class="fa"></Label>
-                <Button row="1" col="0" text="Mo" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="1" text="Di" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="2" text="Mi" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="3" text="Do" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="4" text="Fr" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="5" text="Sa" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="6" text="So" class="orangeButton" (tap)="changeColor($event)"></Button>
-        </GridLayout>
 
-        <GridLayout row="2" rows="*,*" columns="*,*,*,*,*,*,*">
-                <Label row="0" col="0" colSpan="7" text="Wie viele Minuten hast du Zeit?" class="fa"></Label>
-                <Button row="1" col="0" text="30" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="1" text="60" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="2" text="90" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="3" text="120" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="4" text="150" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="5" text="180" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="6" text="+" class="orangeButton" (tap)="changeColor($event)"></Button>
-        </GridLayout>
+        <ScrollView row="1" orientation="horizontal">
+                <GridLayout rows="*,*" columns="*,*,*,*,*,*,*">
+                        <Label row="0" col="0" colSpan="7" text="An welchen Tagen hast du Zeit?" class="fa"></Label>
+                        <Button row="1" col="0" text="Mo" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="1" text="Di" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="2" text="Mi" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="3" text="Do" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="4" text="Fr" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="5" text="Sa" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="6" text="So" class="orangeButton" (tap)="changeColor($event)"></Button>
+                </GridLayout>
+        </ScrollView>
 
 
-        <GridLayout row="3" rows="*,*" columns="*,*,*,*,*,*,*">
-                <Label row="0" col="0" colSpan="7" text="Wie viele Kilometer darf das Hilfegesuch entfernt sein?" class="fa"></Label>
-                <Button row="1" col="0" text="1" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="1" text="2" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="2" text="4" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="3" text="6" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="4" text="8" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="5" text="10" class="orangeButton" (tap)="changeColor($event)"></Button>
-                <Button row="1" col="6" text="+" class="orangeButton" (tap)="changeColor($event)"></Button>
-        </GridLayout>
+        <ScrollView row="2" orientation="horizontal">
+                <GridLayout rows="*,*" columns="*,*,*,*,*,*,*">
+                        <Label row="0" col="0" colSpan="7" text="Wie viele Minuten hast du Zeit?" class="fa"></Label>
+                        <Button row="1" col="0" text="30" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="1" text="60" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="2" text="90" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="3" text="120" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="4" text="150" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="5" text="180" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="6" text="+" class="orangeButton" (tap)="changeColor($event)"></Button>
+                </GridLayout>
+        </ScrollView>
 
+        <ScrollView row="3" orientation="horizontal">
+                <GridLayout rows="*,*" columns="*,*,*,*,*,*,*">
+                        <Label row="0" col="0" colSpan="7" text="Wie viele Kilometer darf das Hilfegesuch entfernt sein?"
+                                class="fa"></Label>
+                        <Button row="1" col="0" text="1" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="1" text="2" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="2" text="4" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="3" text="6" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="4" text="8" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="5" text="10" class="orangeButton" (tap)="changeColor($event)"></Button>
+                        <Button row="1" col="6" text="+" class="orangeButton" (tap)="changeColor($event)"></Button>
+                </GridLayout>
+        </ScrollView>
 
 
         <GridLayout row="4" rows="*" columns=" *, *">
@@ -56,8 +63,5 @@
                         pageTransition="fade"></Button>
                 <Button row="0" col="1" text="Danach suchen" class="applyButton" pageTransition="fade"></Button>
         </GridLayout>
-
-
-
 
 </GridLayout>

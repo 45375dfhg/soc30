@@ -20,11 +20,11 @@ export class WelcomeComponent implements OnInit {
 
 	ngOnInit() {
 
-	 }
+	}
 
 
-	 getCategoryIconSource(icon: string): string {
-        return getCategoryIconSource(icon);
-    }
+	getCategoryIconSource(icon: string): string {
+		return getCategoryIconSource(icon);
+	}
 
 }

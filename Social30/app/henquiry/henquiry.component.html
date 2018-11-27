@@ -1,5 +1,42 @@
 <ActionBar title="Hilfegesuch erstellen"></ActionBar>
-
-<StackLayout horizontalAlignment="center" verticalAlignment="center">
-    <Button text="Show Modal" (tap)="showModal()" class="btn btn-primary"></Button>
-</StackLayout>
+<ScrollView>
+    <StackLayout marginTop="5" marginBottom="5">
+        <GridLayout rows="auto,auto,auto,auto,auto">
+            <GridLayout row="0" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiry-detail']" pageTransition="slideLeft" class="border category">
+                <Label row="0" col="0" colSpan="3" text="Leichter Haushalt" class="fa heading"></Label>
+                <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></Label>
+                <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
+                    verticalAlignment="center" horizontalAlignment="right"></Image>
+                <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
+            </GridLayout>
+            <GridLayout row="1" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiry-detail']" pageTransition="slideLeft" class="border category">
+                <Label row="0" col="0" colSpan="3" text="Schwerer Haushalt" class="fa heading"></Label>
+                <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></Label>
+                <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
+                    verticalAlignment="center" horizontalAlignment="right"></Image>
+                <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
+            </GridLayout>
+            <GridLayout row="2" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiry-detail']" pageTransition="slideLeft" class="border category">
+                <Label row="0" col="0" colSpan="3" text="Gartenarbeit" class="fa heading"></Label>
+                <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></Label>
+                <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
+                    verticalAlignment="center" horizontalAlignment="right"></Image>
+                <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
+            </GridLayout>
+            <GridLayout row="3" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiry-detail']" pageTransition="slideLeft" class="border category">
+                <Label row="0" col="0" colSpan="3" text="Gesellschaft" class="fa heading"></Label>
+                <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></Label>
+                <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
+                    verticalAlignment="center" horizontalAlignment="right"></Image>
+                <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
+            </GridLayout>
+            <GridLayout row="4" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiry-detail']" pageTransition="slideLeft" class="border category">
+                <Label row="0" col="0" colSpan="3" text="Tiere" class="fa heading"></Label>
+                <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"></Label>
+                <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
+                    verticalAlignment="center" horizontalAlignment="right"></Image>
+                <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
+            </GridLayout>
+        </GridLayout>
+    </StackLayout>
+</ScrollView>

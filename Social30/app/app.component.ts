@@ -23,9 +23,7 @@ registerElement('CarouselItem', () => CarouselItem);
 })
 export class AppComponent {
 
-    public constructor(private router: RouterExtensions) { 
-        
-    }
+    public constructor(private router: RouterExtensions) { }
 
     public ngOnInit(): void {
         if (isAndroid) {
@@ -33,7 +31,7 @@ export class AppComponent {
                 args.cancel = true;
             });
         }
-        if (isIOS){
+        if (isIOS) {
             topmost().ios.controller.navigationBar.barStyle = 1;
         }
     }

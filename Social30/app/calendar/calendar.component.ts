@@ -42,13 +42,21 @@ export class CalendarComponent implements OnInit {
         this.calendarService.getEntries().subscribe(
             result => { 
                 // chaining the functions, using (result) as a initial value
+                // this needs to be redone but works for now
+                // new try at the very bottom of this file
                 let output = _.flow([
                     this.groupEntries,
                     this.formatEntries, 
                     this.sortEntries, 
-                    this.sortInnerEntries])
-                (result);
-                console.log(output);          
+                    this.sortInnerEntries,
+                    this.groupbyMonth,
+                    this.formatEntries,
+                    this.sortbyStartWithCurrentMonth
+                ])
+                (result);  
+                console.log(output);
+                this.entries = output;  
+    
             },
             error => console.log(error)
         )
@@ -75,7 +83,6 @@ export class CalendarComponent implements OnInit {
     // each objects "key" array
     sortEntries(input: {key: string[]; value: Item[];}[]) {
         return input.sort((date1, date2) => {
-            console.log(date1.key[0] > date2.key[0]);
             return (date1.key[2] > date2.key[2]) ? 1 : ((date1.key[2] < date2.key[2]) ? -1 : 
                 ((date1.key[1] > date2.key[1]) ? 1 : ((date1.key[1] < date2.key[1]) ? -1 :
                 (date1.key[0] > date2.key[0]) ? 1 : ((date1.key[0] < date2.key[0]) ? -1 : 0))));
@@ -91,12 +98,28 @@ export class CalendarComponent implements OnInit {
     sortInnerEntries(input: {key: string[]; value: Item[];}[]) {
         enum Months {JAN, FEB, MÄR, APR, MAI, JUN, JUL, AUG, SEP, OKT, NOV, DEZ};
         return input.map(date => 
-            ({ key: Object.assign([], date.key, {1: Months[+date.key[1]]}), value: date.value
+            ({ key: date.key, value: date.value
                 .sort((henquiry1, henquiry2) => {
                     return +new Date(henquiry1.startTime) - +new Date(henquiry2.startTime);
                 })
             })
         )
+    }
+
+    groupbyMonth(input: {key: any[] & string[] & {1: string;};value: Item[];}[]) {
+        // Object.assign([], date.key, {1: Months[+date.key[1]]})
+        return _.groupBy(input, entry => {
+            return entry.key[1];
+        })
+    }
+
+    sortbyStartWithCurrentMonth(input) {
+        let currMonth = +new Date(Date.now()).getMonth();
+        let tmp = input.sort((month1, month2) => {
+            return +month1.key < +month2.key
+        })
+        return tmp.slice(currMonth)
+            .concat(tmp.slice(0, currMonth)); 
     }
 
 	templateSelector(item: any, index: number, items: any): string {
@@ -121,35 +144,22 @@ export class CalendarComponent implements OnInit {
             listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
         }
     }
-	
 }
 
-
- /*
-        enum Months {JAN, FEB, MÄR, APR, MAI, JUN, JUL, AUG, SEP, OKT, NOV, DEZ};
-        this.calendarService.getEntries().subscribe(
-            result => {
-                let groupedEntries = _.groupBy(result, entry => {
+/*
+                let output = _.chain(result)
+                    .groupBy(entry => {
                         let time = new Date(entry.startTime);
                         return time.getDate() + '-' +  time.getMonth() + '-' + time.getFullYear();
-                })
-                let formattedEntries = Object.keys(groupedEntries).map(key => 
-                    ({ key: key.split('-'), value: groupedEntries[key] }));
-                let sortedEntries = formattedEntries.sort((date1, date2) => {
-                    console.log(date1.key[0] > date2.key[0]);
-                    return (date1.key[2] > date2.key[2]) ? 1 : ((date1.key[2] < date2.key[2]) ? -1 : 
-                        ((date1.key[1] > date2.key[1]) ? 1 : ((date1.key[1] < date2.key[1]) ? -1 :
-                        (date1.key[0] > date2.key[0]) ? 1 : ((date1.key[0] < date2.key[0]) ? -1 : 0))));
-                })
-                let sortedInnerEntries = sortedEntries.map(date => 
-                    ({ key: Object.assign([], date.key, {1: Months[+date.key[1]]}), value: date.value
-                        .sort((henquiry1, henquiry2) => {
-                            return +new Date(henquiry1.startTime) - +new Date(henquiry2.startTime);
-                        })
                     })
-                )
-                this.entries = sortedInnerEntries;
-            },
-            error => console.log(error)
-        );
-        */
+                    .toPairs()
+                    .groupBy(entry => {
+                        return entry[0].split('-')[1];
+                    })
+                    .toPairs()
+                    .sortBy(entry => {
+                        return 1;
+                    })
+                    .value()
+                console.log(output);
+*/

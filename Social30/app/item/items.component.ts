@@ -28,16 +28,14 @@ export class ItemsComponent implements OnInit {
 
     constructor(private itemService: ItemService, private router: RouterExtensions, page: Page ) {
         //page.actionBarHidden = true;
-     }
+    }
 
     ngOnInit(): void {
         // console.log('currentuserItem: ', appSettings.getString('currentUser'));
         // console.log('currentUser.tokenItem ', JSON.parse(appSettings.getString('currentUser')).token);
         // this.items = this.itemService.getDummyItems(10);
-        this.receiveList();
-        
+        this.receiveList();   
     }
-
 
     receiveList() {
         this.itemService.getItems().subscribe(result => {
@@ -59,8 +57,8 @@ export class ItemsComponent implements OnInit {
 
     onItemTap(event: ListViewEventData) {
         const listView = event.object,
-            rowIndex = event.index,
-            dataItem = event.view.bindingContext;
+                rowIndex = event.index,
+                dataItem = event.view.bindingContext;
 
         dataItem.expanded = !dataItem.expanded;
         if (isIOS) {

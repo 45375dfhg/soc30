@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 
 import { getCategoryIconSource } from "../app.component";
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { AlertService } from '../shared/services/alert.service';
 
 @Component({
 	moduleId: module.id,
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private authenticationService: AuthenticationService,
+        private alertService: AlertService,
         private page: Page,
     ) { 
         page.actionBarHidden = true;
@@ -73,7 +75,7 @@ export class RegisterComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    console.log(error);
+                    this.alertService.catchAndSelect(error);
                     this.loading = false;
                 }
             );

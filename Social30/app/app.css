@@ -13,7 +13,15 @@ refer to http://docs.nativescript.org/ui/theme.
 
 
 
-
-Button{
+/*
+Button is used to color the dialogs created by alert.service.
+Nativescript doesn't support any other options besides color and background-color.
+For more information: https://github.com/NativeScript/NativeScript/issues/5597
+*/
+Button {
     text-transform: none;
+    color: #001144;
+    background-color: #FF6600;
 }
+
+

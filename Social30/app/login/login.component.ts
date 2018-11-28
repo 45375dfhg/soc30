@@ -8,6 +8,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import { getCategoryIconSource } from "../app.component";
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { AlertService } from '../shared/services/alert.service';
 
 @Component({
 	moduleId: module.id,
@@ -27,8 +28,8 @@ export class LoginComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private authenticationService: AuthenticationService,
+		private alertService: AlertService,
 		private page: Page,
-		//private alertService: AlertService
 	) {
 		page.actionBarHidden = true;
 	}
@@ -68,20 +69,8 @@ export class LoginComponent implements OnInit {
 					this.router.navigate([this.returnUrl]);
 				},
 				error => {
-					console.log(error);
+					this.alertService.catchAndSelect(error);
 					this.loading = false;
 				});
 	}
-	/*
-	 private handleErrors(operation: string) {
-        return (err: any) => {
-            let errMsg = `error in ${operation}()`;
-            console.log(`${errMsg}:`, err);
-            if (err instanceof HttpErrorResponse) {
-                console.log(`Status: ${err.status}, ${err.statusText}`);
-            }
-            return Observable.throw(errMsg);
-        }
-	}
-	*/
 }

@@ -8,9 +8,7 @@ import { AppSettingsService } from '../services/appsettings.service';
 
 @Injectable()
 export class AuthenticationService {
-    constructor(
-        private http: HttpClient,
-        private appSet: AppSettingsService) { }
+    constructor(private http: HttpClient, private appSet: AppSettingsService) { }
 
     loginUrl = Config.apiUrl + "login";
     registerUrl = Config.apiUrl + "register";

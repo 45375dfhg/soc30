@@ -31,7 +31,7 @@ export class CalendarComponent implements OnInit {
 
     constructor(private calendarService: CalendarService, page: Page, private itemService: ItemService) {
         //page.actionBarHidden = true;
-     }
+    }
 
     ngOnInit(): void {
 		 this.receiveAndOrder();
@@ -51,7 +51,8 @@ export class CalendarComponent implements OnInit {
                     this.sortInnerEntries,
                     this.groupbyMonth,
                     this.formatEntries,
-                    this.sortbyStartWithCurrentMonth
+                    this.sortbyStartWithCurrentMonth,
+                    this.changeMonthNumToLiteral
                 ])
                 (result);  
                 console.log(output); // edit out
@@ -96,7 +97,6 @@ export class CalendarComponent implements OnInit {
     // sorting happens by extracting the startTime of each enquiry, using the unary operator to convert
     // the value to a number
     sortInnerEntries(input: {key: string[]; value: Item[];}[]) {
-        enum Months {JAN, FEB, MÄR, APR, MAI, JUN, JUL, AUG, SEP, OKT, NOV, DEZ};
         return input.map(date => 
             ({ key: date.key, value: date.value
                 .sort((henquiry1, henquiry2) => {
@@ -120,6 +120,14 @@ export class CalendarComponent implements OnInit {
         })
         return tmp.slice(currMonth)
             .concat(tmp.slice(0, currMonth)); 
+    }
+
+    changeMonthNumToLiteral(input) {
+        enum Months {JANUAR, FEBRUAR, MÄRZ, APRIL, MAI, JUNI, JULI, AUGUST, SEPTEMBER, OKTOBER, NOVEMBER, DEZEMBER};
+        console.log()
+        return input.map(month => 
+            ({ key: Months[+month.key[0]], value: month.value})
+        )
     }
 
 	templateSelector(item: any, index: number, items: any): string {

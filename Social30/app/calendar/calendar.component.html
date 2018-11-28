@@ -41,12 +41,14 @@
                             verticalAlignment="center" class="fa heading expandedHeading"></Label>
                         <StackLayout row="1" col="0" colSpan="4">
                             <StackLayout *ngFor="let day of month.value">
-                                <GridLayout rows="auto" columns="*,*,*,*" class="henqueryDate">
+                                <GridLayout rows="*" columns="*,*,*,*" class="henqueryDate">
+                                    <GridLayout row="0" rows="auto,auto">
                                     <Label row="0" col="0" [text]="day.key[0]" horizontalAlignment="center"
-                                        verticalAlignment="top" class="fa dateDay"></Label>
-                                    <Label row="0" col="0" [text]="day.key[3]" horizontalAlignment="center"
-                                        verticalAlignment="top" class="fa dateMonth"></Label>
-                                    <StackLayout row="0" rowSpan="2" col="1" colSpan="3">
+                                        verticalAlignment="center" class="fa dateDay"></Label>
+                                    <Label row="1" col="0" [text]="day.key[3]" horizontalAlignment="center"
+                                        verticalAlignment="center" class="fa dateDayname"></Label>
+                                    </GridLayout>
+                                    <StackLayout row="1" col="1" colSpan="3">
                                         <StackLayout *ngFor="let henquiry of day.value">
                                             <GridLayout rows="auto,auto,auto" columns="*" class="henqueryItem">
                                                 <Label row="0" col="0" [text]="henquiry.text" horizontalAlignment="left"

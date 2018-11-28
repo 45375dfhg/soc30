@@ -88,5 +88,11 @@
             text="Mitmachen!"  
             (tap)="onSubmit()">
         </Button>
+        <Button 
+            [ngClass]="{ 'greyButton': loading }"
+            [disabled]="loading"
+            text="Ein Schritt zurück"  
+            (tap)="goBack()">
+        </Button>
     </StackLayout>
 </FlexboxLayout>

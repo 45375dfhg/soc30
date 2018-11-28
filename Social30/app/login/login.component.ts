@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
+import { RouterExtensions } from "nativescript-angular/router";
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first, catchError } from 'rxjs/operators';
 import { Page } from "tns-core-modules/ui/page";
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private route: ActivatedRoute,
 		private router: Router,
+		private routerExtension: RouterExtensions,
 		private authenticationService: AuthenticationService,
 		private alertService: AlertService,
 		private page: Page,
@@ -73,4 +75,8 @@ export class LoginComponent implements OnInit {
 					this.loading = false;
 				});
 	}
+
+	public goBack() {
+        this.routerExtension.back();
+    }
 }

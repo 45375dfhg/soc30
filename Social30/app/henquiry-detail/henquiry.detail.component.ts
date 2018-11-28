@@ -14,12 +14,20 @@ import { getCategoryIconSource } from "../app.component";
 })
 export class HenquiryDetailComponent {
 
+    id;
+    idtype;
+
     constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, page: Page) { 
         //page.actionBarHidden = true;
     }
 
     ngOnInit(): void {
-        const id = this.route.snapshot.params['id'];
+        this.id = this.route.snapshot.params['id'];
+        this.idtype = typeof this.id;
+    }
+
+    public goBack() {
+        this.routerExtension.back();
     }
 
     getCategoryIconSource(icon: string): string {

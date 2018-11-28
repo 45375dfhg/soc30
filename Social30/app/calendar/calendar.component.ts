@@ -55,7 +55,7 @@ export class CalendarComponent implements OnInit {
                     this.changeMonthNumToLiteral
                 ])
                 (result);  
-                console.log(output); // edit out
+                this.log(output); // edit out
                 this.entries = output;  
     
             },
@@ -114,7 +114,6 @@ export class CalendarComponent implements OnInit {
     }
 
     groupbyMonth(input: {key: any[] & string[] & {1: string;};value: Item[];}[]) {
-        // Object.assign([], date.key, {1: Months[+date.key[1]]})
         return _.groupBy(input, entry => {
             return entry.key[1];
         })
@@ -160,6 +159,11 @@ export class CalendarComponent implements OnInit {
             listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
         }
     }
+
+    log = function() {
+        var context = "My Descriptive Logger Prefix:";
+        return Function.prototype.bind.call(console.log, console, context);
+    }();
 }
 
 /*

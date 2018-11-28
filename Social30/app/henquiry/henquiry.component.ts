@@ -14,6 +14,12 @@ import { HenquiryModalComponent } from "../henquiry-modal/henquiry.modal";
 })
 export class HenquiryComponent {
     
+    leicht: string = "Aufräumen, putzen, Plätzchen backen. Es sind die kleinen Dinge die Freude machen.";
+    schwer: string = "Bisschen Knöf, bisschen was in den Armen - jemand zum Anpacken wird gebraucht!";
+    garten: string = "Der Rasen ist schief, das Laub außer Kontrolle und der Maulwurf ein echter Vandalle.";
+    gesell: string = "In Ruhe bei Kaffee eine Runde Kartenspielen oder ausgelassen die Bingoparty sprengen.";
+    tiere: string = "Ob Wuff, Miau oder Muh - gesucht ist ein Nachbarn, der tierisch was drauf hat!";
+
     public constructor(private modal: ModalDialogService, private vcRef: ViewContainerRef, page: Page) { 
         //page.actionBarHidden = true;
     }

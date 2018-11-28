@@ -40,20 +40,22 @@
                         verticalAlignment="center" class="fa heading expandedHeading"></Label>
                     <StackLayout row="1" col="0" colSpan="4">
                         <StackLayout *ngFor="let day of month.value">
-                            <GridLayout rows="auto,*" columns="*,*,*,*" class="henqueryDate">
+                            <GridLayout rows="auto" columns="*,*,*,*" class="henqueryDate">
                                 <Label row="0" col="0" [text]="day.key[0]" horizontalAlignment="center"
                                     verticalAlignment="top" class="fa dateDay"></Label>
                                 <Label row="0" col="0" [text]="day.key[3]" horizontalAlignment="center"
-                                    verticalAlignment="bottom" class="fa dateMonth"></Label>
-                                <StackLayout row="0" rowSpan="2" col="1" colSpan="3" *ngFor="let henquiry of day.value">
-                                    <GridLayout rows="auto,auto,auto" columns="*" class="henqueryItem">
-                                        <Label row="0" col="0" [text]="henquiry.text" horizontalAlignment="left"
-                                            verticalAlignment="center" class="fa heading"></Label>
-                                        <Label row="1" col="0" [text]="henquiry.startTime" horizontalAlignment="left"
-                                            verticalAlignment="center" class="fa hequeryInfo"></Label>
-                                        <Label row="2" col="0" [text]="henquiry.postalcode" horizontalAlignment="left"
-                                            verticalAlignment="center" class="fa hequeryStatus"></Label>
-                                    </GridLayout>
+                                    verticalAlignment="top" class="fa dateMonth"></Label>
+                                <StackLayout row="0" rowSpan="2" col="1" colSpan="3">
+                                    <StackLayout *ngFor="let henquiry of day.value">
+                                        <GridLayout rows="auto,auto,auto" columns="*" class="henqueryItem">
+                                            <Label row="0" col="0" [text]="henquiry.text" horizontalAlignment="left"
+                                                verticalAlignment="center" class="fa heading"></Label>
+                                            <Label row="1" col="0" [text]="henquiry.startTime" horizontalAlignment="left"
+                                                verticalAlignment="center" class="fa hequeryInfo"></Label>
+                                            <Label row="2" col="0" [text]="henquiry.postalcode" horizontalAlignment="left"
+                                                verticalAlignment="center" class="fa hequeryStatus"></Label>
+                                        </GridLayout>
+                                    </StackLayout>
                                 </StackLayout>
                             </GridLayout>
                         </StackLayout>

@@ -26,6 +26,10 @@ export class ItemDetailComponent implements OnInit {
         this.item = this.itemService.getDummyItem(id);
     }
 
+    public goBack() {
+        this.routerExtension.back();
+    }
+
     /*
     goBack() {
         this.router.navigate([
@@ -33,8 +37,5 @@ export class ItemDetailComponent implements OnInit {
         ])
     }
     */
-    public goBack() {
-        this.routerExtension.back();
-    }
 
 }

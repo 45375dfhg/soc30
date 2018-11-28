@@ -67,7 +67,14 @@ export class CalendarComponent implements OnInit {
     groupEntries(input: Item[]) {
         return _.groupBy(input, entry => {
             let time = new Date(entry.startTime);
-            return time.getDate() + '-' +  time.getMonth() + '-' + time.getFullYear();
+            // since we are in the lodash namespace we cant easily access
+            // any outside functions so we just write the function here
+            let func = function(day: number) {
+                enum Days {SO, MO, DI, MI, DO, FR, SA};
+                return Days[day];
+            }
+            return time.getDate() + '-' +  time.getMonth() 
+                + '-' + time.getFullYear() + '-' + func(time.getDay());
         })
     }
 
@@ -124,9 +131,10 @@ export class CalendarComponent implements OnInit {
 
     changeMonthNumToLiteral(input) {
         enum Months {JANUAR, FEBRUAR, MÄRZ, APRIL, MAI, JUNI, JULI, AUGUST, SEPTEMBER, OKTOBER, NOVEMBER, DEZEMBER};
-        console.log()
+        // keyDay: Days[+month.key[3]], 
+        // Object.assign([], month.value, {key: }
         return input.map(month => 
-            ({ key: Months[+month.key[0]], value: month.value})
+            ({ key: Months[+month.key[0]], value: month.value })
         )
     }
 

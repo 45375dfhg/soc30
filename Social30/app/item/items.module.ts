@@ -21,7 +21,6 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
             { path: "", redirectTo: "items" },
             { path: "items", component: ItemsComponent },
             { path: "filterItems", component: FilterItemsComponent},
-            { path: "item/:id", component: ItemDetailComponent},
         ])
     ],
     declarations: [

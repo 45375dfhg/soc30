@@ -15,7 +15,7 @@ import { HenquiryDetailComponent } from '../henquiry-detail/henquiry.detail.comp
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "henquiry" },
             { path: "henquiry", component: HenquiryComponent },
-            { path: "henquiry-detail", component: HenquiryDetailComponent},
+            { path: "henquiry/:id", component: HenquiryDetailComponent},
         ])
     ],
     entryComponents: [

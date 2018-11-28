@@ -1,10 +1,10 @@
-import { Component, ViewContainerRef } from "@angular/core";
-import { ModalDialogService } from "nativescript-angular/directives/dialogs";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
+
 import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
-import { FontStyles, PropertyEditor, RadDataForm } from "nativescript-ui-dataform";
-
-
+// import { FontStyles, PropertyEditor, RadDataForm } from "nativescript-ui-dataform";
 
 @Component({
     moduleId: module.id,
@@ -14,19 +14,17 @@ import { FontStyles, PropertyEditor, RadDataForm } from "nativescript-ui-datafor
 })
 export class HenquiryDetailComponent {
 
-
-    public constructor(page: Page) { 
+    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, page: Page) { 
         //page.actionBarHidden = true;
     }
 
+    ngOnInit(): void {
+        const id = this.route.snapshot.params['id'];
+    }
 
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
-
-
-
-
 
 }
 

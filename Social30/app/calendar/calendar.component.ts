@@ -150,11 +150,11 @@ export class CalendarComponent implements OnInit {
         dataItem.expanded = !dataItem.expanded;
         if (isIOS) {
             // Uncomment the lines below to avoid default animation
-            // UIView.animateWithDurationAnimations(0, () => {
+            UIView.animateWithDurationAnimations(0, () => {
                 var indexPaths = NSMutableArray.new();
                 indexPaths.addObject(NSIndexPath.indexPathForRowInSection(rowIndex, event.groupIndex));
                 listView.ios.reloadItemsAtIndexPaths(indexPaths);
-            // });
+            });
         }
         if (isAndroid) {
             listView.androidListView.getAdapter().notifyItemChanged(rowIndex);

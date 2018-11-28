@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
 import { first } from 'rxjs/operators';
 
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
+        private routerExtension: RouterExtensions,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
         private page: Page,
@@ -79,6 +81,10 @@ export class RegisterComponent implements OnInit {
                     this.loading = false;
                 }
             );
+    }
+
+    public goBack() {
+        this.routerExtension.back();
     }
 
     getCategoryIconSource(icon: string): string {

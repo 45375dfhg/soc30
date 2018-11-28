@@ -10,6 +10,7 @@ import { ListViewEventData } from "nativescript-ui-listview";
 
 import _ from "lodash";
 import { ItemService } from "../shared/services/item.service";
+import { AppSettingsService } from '../shared/services/appsettings.service';
 
 declare var UIView, NSMutableArray, NSIndexPath;
 
@@ -29,7 +30,11 @@ export class CalendarComponent implements OnInit {
     private dates: string[] = [];
     
 
-    constructor(private calendarService: CalendarService, page: Page, private itemService: ItemService) {
+    constructor(
+        private calendarService: CalendarService, 
+        private page: Page, 
+        private itemService: ItemService,
+        private appSet: AppSettingsService) {
         //page.actionBarHidden = true;
     }
 
@@ -61,6 +66,13 @@ export class CalendarComponent implements OnInit {
             },
             error => console.log(error)
         )
+    }
+
+    // check whether the user who posted the henquiry is the same as
+    // the current user 
+    requestDirection(id: string) {
+        let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+        return (currentUser._id === id) ? true : false;
     }
 
     // groups the henquiries by their startTime (using date, month and year)

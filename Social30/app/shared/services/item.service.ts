@@ -46,6 +46,7 @@ export class ItemService {
         }
     }
 
+    /*
     public getDummyItems(amount: Number) {
         let itemList = [];
         for (let i = 1; i <= amount; i++) {
@@ -59,6 +60,7 @@ export class ItemService {
     public getDummyItem(id: string) {
         return this.items.find(data => data._id == id);
     }
+    */
     
     private handleErrors(operation: string) {
         return (err: any) => {

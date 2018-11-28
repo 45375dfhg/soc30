@@ -31,7 +31,7 @@ export class AuthenticationService {
                 map(user => {
                     console.log('reached map(user)')
                     // login successful if there's a jwt token in the response
-                    if (user && user.token) {
+                    if (user && user.token && user._id) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                         this.appSet.setUser('currentUser', JSON.stringify(user));
                     }

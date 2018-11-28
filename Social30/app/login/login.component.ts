@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { RouterExtensions } from "nativescript-angular/router";
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { first, catchError } from 'rxjs/operators';
+import { first} from 'rxjs/operators';
 import { Page } from "tns-core-modules/ui/page";
 import { Observable } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";

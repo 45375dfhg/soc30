@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var user_controller = require('../controller/userController');
+var category_controller = require('../controller/categoryController');
 var henquiry_controller = require('../controller/henquiryController');
 var message_controller = require('../controller/messageController');
 var verifyToken = require('../controller/verifyToken');
@@ -74,8 +75,12 @@ router.get('/messages/specific', verifyToken, message_controller.messagesSpecifi
 // POST route for messages
 router.post('/messages', verifyToken, message_controller.sendMessage);
 
+// POST route for populating category collection
+// Only available for a specific user (so that nobody else can do something there...)
+router.post('/categories', verifyToken, category_controller.populateCategoryCollection);
+
 // TEST ROUTE
-router.get('/test', user_controller.test);
+router.get('/test', verifyToken, user_controller.test);
 
 // TEST ROUTE Alle Hilfsgesuche mit allen Feldern laden, egal ob geschlossen
 // oder bereits abgeschlossen

@@ -215,16 +215,7 @@ exports.deleteProfile = (req, res, next) => {
 };
 
 exports.test = (req, res, next) => {
-  for(var i = 0; i < 10000; i++) {
-    User.create({
-      email: "test"+i,
-      password: "test",
-      surname: "test",
-      firstname: "test",
-      nickname: "test"
-    });
-  }
-res.send("ok");
+
 };
 
 exports.test2 = (req, res, next) => {

@@ -135,8 +135,10 @@ exports.deleteHenquiry = (req, res, next) => {
     });
 };
 
-// TODO: Man kann sich nur für x Henquiries, die am gleichen Tag
-// stattfinden, bewerben
+// ATM: Man kann sich nicht für weitere Henquiries bewerben, wenn man bereits
+// 5x an jenem Tag hilft. Frage: was passiert mit Bewerbungen, die am gleichen Tag
+// sind und dann angenommen werden? Einfache Lösung: Sobald 5 Bewerbungen da sind,
+// aus allen potentialAide-Arrays vom selben Tag streichen
 exports.apply = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = new mongoose.mongo.ObjectId(req.userId);
@@ -169,8 +171,30 @@ exports.apply = (req, res, next) => {
         return next(error);
       }
       // Prüfen, ob der Bewerber weniger als 5 Hilfen an dem Tag der Hilfe leistet
-      //User.findById()
-      /*Henquiry.find({aide: userId}, function(errCheck, resultCheck) {
+      /*User.findById(userId, function(errUser, resultUser) {
+        console.log("hier");
+        if(errUser) {return next(errUser);}
+        var date = result.startTime.getFullYear() + "-" + (result.startTime.getMonth()+1)
+        + "-" + result.startTime.getDate();
+        var idx = 0;
+        var dateFound = false;
+        while(!dateFound) {
+          if(resultUser.daysHelping[idx].day === date) {
+            dateFound = true;
+            //resultUser.daysHelping[idx].count++;
+            if(resultUser.daysHelping[idx].count >= 5) {
+              return res.status(400).send("Am " + date + " hilfst du bereits 5x.");
+            }
+          }
+          idx++;
+        }
+        console.log(resultUser);
+        resultUser.save();
+        result.potentialAide.push(userId);
+        result.save();
+        return res.json(result);
+      });*/
+      Henquiry.find({aide: userId}, function(errCheck, resultCheck) {
         if(errCheck) {return next(errCheck);}
         if(resultCheck) {
           var days = {};
@@ -181,7 +205,7 @@ exports.apply = (req, res, next) => {
             if(days[date] === undefined) {
               days[date] = 0;
             }
-              days[date]++;
+            days[date]++;
             if(days[date] >= 5) {
               return res.status(400).send("Am " + date + " hilfst du bereits 5x.");
             }
@@ -190,7 +214,7 @@ exports.apply = (req, res, next) => {
         result.potentialAide.push(userId);
         result.save();
         return res.json(result);
-      });*/
+      });
     }
   });
 };

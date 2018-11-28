@@ -25,7 +25,7 @@ export class CalendarComponent implements OnInit {
 
 	items: Item[] = []; // placeholder
 
-    private entries = [];
+    private entries;
     private dates: string[] = [];
     
 

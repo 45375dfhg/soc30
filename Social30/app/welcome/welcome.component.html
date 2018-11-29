@@ -39,18 +39,16 @@
             verticalAlignment="bottom"></Label>
         <Label class="fa" row="1"  text="Du hast Zeit und möchtest jemandem helfen? Sieh nach wer deine Hilfe brauchen könnte!"
             textWrap="true" horizontalAlignment="center" verticalAlignment="center"></Label>
-        <Image row="2" [src]="getCategoryIconSource('login03')"></Image>
+        <Image row="2" [src]="getCategoryIconSource('login03')" [nsRouterLink]="['../home']"></Image>
     </GridLayout>
 
     
-
-
     </GridLayout>
     <GridLayout row="1">
         <GridLayout rows="*,*" columns=" *, *">
             <Button class="orangeButton" row="0" col="0" text="Teil werden?" [nsRouterLink]="['../register']"></Button>
             <Button class="orangeButton" row="0" col="1" text="Bereits dabei?" [nsRouterLink]="['../login']"></Button>
-            <Button class="blueButton" row="1" col="0" colSpan="2" text="Reinschnuppern?" [nsRouterLink]="['../home']"></Button>
+            <Button class="blueButton" row="1" col="0" colSpan="2" text="Reinschnuppern?" [nsRouterLink]="['../home']" (onTap)="onTapGuest()"></Button>
         </GridLayout>
     </GridLayout>
 

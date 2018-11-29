@@ -6,6 +6,7 @@ import { getCategoryIconSource } from "../app.component";
 
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
+import { AppSettingsService } from '../shared/services/appsettings.service';
 
 // import * as application from "tns-core-modules/application";
 // import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
@@ -26,13 +27,24 @@ export class ItemsComponent implements OnInit {
 
     items: Item[] = [];
 
-    constructor(private itemService: ItemService, private router: RouterExtensions, page: Page ) {
+    constructor(
+        private itemService: ItemService, 
+        private router: RouterExtensions, 
+        private appSet: AppSettingsService,
+        private page: Page,
+        ) {
         //page.actionBarHidden = true;
     }
 
     ngOnInit(): void {
-        // this.items = this.itemService.getDummyItems(10);
-        this.receiveList();   
+        let guestBool = JSON.parse(this.appSet.getUser('guest'));
+        if (!guestBool) {
+            console.log('user is not a guest')
+            this.receiveList();
+        } else {
+            console.log('user is a guest');
+            // load dummy data
+        }
     }
 
     receiveList() {

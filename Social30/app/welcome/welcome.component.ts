@@ -3,6 +3,11 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { getCategoryIconSource } from "../app.component";
 import { Page } from "tns-core-modules/ui/page";
 
+import { AppSettingsService } from '../shared/services/appsettings.service';
+
+// clean before prod
+import { AuthenticationService } from '../shared/services/authentication.service';
+
 
 @Component({
 	moduleId: module.id,
@@ -14,14 +19,22 @@ import { Page } from "tns-core-modules/ui/page";
 
 export class WelcomeComponent implements OnInit {
 	//@ViewChild('carousel') carouselRef: ElementRef;
-	constructor(page: Page) {
+	constructor(
+		private page: Page, 
+		private appSet: AppSettingsService,
+		// clean before prod
+		private authenticationService: AuthenticationService) {
 		page.actionBarHidden = true;
 	}
 
-	ngOnInit() {
+	ngOnInit() { }
 
+	onTapGuest() {
+		// reset login status - clean before prod
+		this.authenticationService.logout();
+		// register user as guest
+		this.appSet.setUser('guest', 'true');
 	}
-
 
 	getCategoryIconSource(icon: string): string {
 		return getCategoryIconSource(icon);

@@ -39,8 +39,14 @@ export class CalendarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-		 this.receiveAndOrder();
-		//this.items = this.itemService.getDummyItems(2); // placeholder
+        let guestBool = JSON.parse(this.appSet.getUser('guest'));
+        if (!guestBool) {
+            console.log('user is not a guest')
+            this.receiveAndOrder();
+        } else {
+            console.log('user is a guest');
+            // load dummy data
+        }
     }
 
     receiveAndOrder() {
@@ -60,7 +66,7 @@ export class CalendarComponent implements OnInit {
                     this.changeMonthNumToLiteral
                 ])
                 (result);  
-                this.log(output); // edit out
+                // this.log(output);
                 this.entries = output;  
     
             },
@@ -142,8 +148,6 @@ export class CalendarComponent implements OnInit {
 
     changeMonthNumToLiteral(input) {
         enum Months {JANUAR, FEBRUAR, MÄRZ, APRIL, MAI, JUNI, JULI, AUGUST, SEPTEMBER, OKTOBER, NOVEMBER, DEZEMBER};
-        // keyDay: Days[+month.key[3]], 
-        // Object.assign([], month.value, {key: }
         return input.map(month => 
             ({ key: Months[+month.key[0]], value: month.value })
         )

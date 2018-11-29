@@ -54,9 +54,9 @@
                                                 <Label row="0" col="0" *ngIf="henquiry.createdBy.surname"
                                                     [text]="henquiry.text" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa heading"></Label>
-                                                <Label row="1" col="0" [text]="henquiry.startTime" horizontalAlignment="left"
+                                                <Label row="1" col="0" [text]="formatCategory(henquiry.category.category, henquiry.category.subcategory)" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa hequeryInfo"></Label>
-                                                <Label row="2" col="0" [text]="henquiry.distance" horizontalAlignment="left"
+                                                <Label row="2" col="0" [text]="formatStartTime(henquiry.startTime)" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa hequeryStatus"></Label>
                                             </GridLayout>
                                         </StackLayout>

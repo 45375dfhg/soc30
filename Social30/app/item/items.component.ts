@@ -58,7 +58,10 @@ export class ItemsComponent implements OnInit {
     receiveList() {
         this.itemService.getItems().subscribe(result => {
             if (result) {
-                this.items = result;
+                let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+                // filters entries made by the user, not very clean but whatever
+                // I blame those people working on the backend
+                this.items = result.filter(entry => currentUser._id != entry.createdBy._id);
             } else {
                 console.log('Didnt get any items')
             }

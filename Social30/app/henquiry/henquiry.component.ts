@@ -1,9 +1,12 @@
 import { Component, ViewContainerRef } from "@angular/core";
-import { ModalDialogService } from "nativescript-angular/directives/dialogs";
+import { Router, ActivatedRoute} from '@angular/router';
+import { RouterExtensions } from "nativescript-angular/router";
+//import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
-import { HenquiryModalComponent } from "../henquiry-modal/henquiry.modal";
+//import { HenquiryModalComponent } from "../henquiry-modal/henquiry.modal";
 import { ItemService } from "../shared/services/item.service";
+
 
 
 @Component({
@@ -27,19 +30,27 @@ export class HenquiryComponent {
 
     subNames: String[];
 
-    public constructor(page: Page, private itemService: ItemService) { 
-        //page.actionBarHidden = true;
-    }
+
+    setIcon = this.itemService.getCategoryIconName;
+
+    public constructor(
+        page: Page, 
+        private itemService: ItemService,
+        private route: ActivatedRoute,
+		private router: Router,
+		private routerExtension: RouterExtensions,) { 
+            //page.actionBarHidden = true;
+    }   
 
 
-    ngOnInit(): void {
+    ngOnInit(): void {}
 
-
-
+	public goBack() {
+        this.routerExtension.back();
     }
 
     switchStatus (id: number) {
-        this.categorySelected = true;
+        this.categorySelected = !this.categorySelected;
         this.categoryId = id;
         this.subNames = this.itemService.getSubElements(this.categoryId);
         console.log(this.subNames);

@@ -2,35 +2,35 @@
 <ScrollView *ngIf="!categorySelected; else subcategory">
     <StackLayout marginTop="5" marginBottom="5">
         <GridLayout rows="auto,auto,auto,auto,auto">
-            <GridLayout row="0" rows="auto,*" columns="*,*,*,*,auto" (onTap)="switchStatus(0)" pageTransition="slideLeft" class="border category">
+            <GridLayout row="0" rows="auto,*" columns="*,*,*,*,auto" (onTap)="switchStatus(1)" pageTransition="slideLeft" class="border category">
                 <Label row="0" col="0" colSpan="3" text="Leichter Haushalt" class="fa heading"></Label>
                 <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="{{leicht}}"></Label>
                 <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
                     verticalAlignment="center" horizontalAlignment="right"></Image>
                 <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
             </GridLayout>
-            <GridLayout row="1" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', 2]" pageTransition="slideLeft" class="border category">
+            <GridLayout row="1" rows="auto,*" columns="*,*,*,*,auto" (onTap)="switchStatus(0)" pageTransition="slideLeft" class="border category">
                 <Label row="0" col="0" colSpan="3" text="Schwerer Haushalt" class="fa heading"></Label>
                 <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="{{schwer}}"></Label>
                 <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
                     verticalAlignment="center" horizontalAlignment="right"></Image>
                 <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
             </GridLayout>
-            <GridLayout row="2" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', 3]" pageTransition="slideLeft" class="border category">
+            <GridLayout row="2" rows="auto,*" columns="*,*,*,*,auto" (onTap)="switchStatus(3)" pageTransition="slideLeft" class="border category">
                 <Label row="0" col="0" colSpan="3" text="Gartenarbeit" class="fa heading"></Label>
                 <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="{{garten}}"></Label>
                 <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
                     verticalAlignment="center" horizontalAlignment="right"></Image>
                 <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
             </GridLayout>
-            <GridLayout row="3" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', 4]" pageTransition="slideLeft" class="border category">
+            <GridLayout row="3" rows="auto,*" columns="*,*,*,*,auto" (onTap)="switchStatus(2)" pageTransition="slideLeft" class="border category">
                 <Label row="0" col="0" colSpan="3" text="Gesellschaft" class="fa heading"></Label>
                 <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="{{gesell}}"></Label>
                 <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
                     verticalAlignment="center" horizontalAlignment="right"></Image>
                 <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
             </GridLayout>
-            <GridLayout row="4" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', 5]" pageTransition="slideLeft" class="border category">
+            <GridLayout row="4" rows="auto,*" columns="*,*,*,*,auto" (onTap)="switchStatus(4)" pageTransition="slideLeft" class="border category">
                 <Label row="0" col="0" colSpan="3" text="Tiere" class="fa heading"></Label>
                 <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="{{tiere}}"></Label>
                 <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
@@ -41,8 +41,17 @@
     </StackLayout>
 </ScrollView>
 <ng-template #subcategory>
+    <ScrollView>
         <StackLayout>
-                <Button text="Zurück" class="filterButton" (tab)="goBack()" pageTransition="fade"></Button>
-           
+                <Button text="Zurück" (tap)="switchStatus(categoryId)"></Button>
+                
+                <StackLayout *ngFor="let sub of subNames; let i = index">
+                        <GridLayout rows="auto,auto">
+                               <Image row="0" [src]="setIcon(categoryId, i)" height="100"></Image>
+                            <Label row="1" [text]="sub"></Label>
+                        </GridLayout>
+                    </StackLayout>
+               
         </StackLayout>
+    </ScrollView>
 </ng-template>

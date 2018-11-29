@@ -73,8 +73,7 @@ exports.henquiry_test = (req, res, next) => {
 
 // TODO: Autogenerierten Text erstellen
 exports.createHenquiry = (req, res, next) => {
-    if(!(req.body.text && req.body.amountAide && req.body.postalcode && req.body.startTime && req.body.endTime
-    && req.body.category)) {
+    if(!(req.body.amountAide && req.body.startTime && req.body.endTime && req.body.category)) {
       var err = new Error('All fields required.');
       err.status = 400;
       return next(err);

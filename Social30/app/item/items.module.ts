@@ -1,7 +1,6 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { ItemsComponent } from "./items.component";
-import { ItemDetailComponent } from "../item-detail/item-detail.component";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { FilterItemsComponent } from "../filterItems/filterItems.component";
 
@@ -25,7 +24,6 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
     ],
     declarations: [
         ItemsComponent,
-        ItemDetailComponent,
         FilterItemsComponent
     ],
     providers: [

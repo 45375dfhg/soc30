@@ -29,6 +29,13 @@ export class CalendarComponent implements OnInit {
     private entries;
     private dates: string[] = [];
     
+    // imported this way to avoid angular namespace problems
+    formatDuration = this.itemService.formatDuration;
+    formatDistance = this.itemService.formatDistance;
+    formatStartTime = this.itemService.formatStartTime;
+    formatStartTimeLong = this.itemService.formatStartTimeLong;
+    formatCategory = this.itemService.formatCategory;
+    setIcon = this.itemService.getCategoryIconName;
 
     constructor(
         private calendarService: CalendarService, 

@@ -21,7 +21,7 @@ exports.register = function (req, res, next) {
   if (req.body.email &&
     req.body.password &&
     req.body.passwordConf && req.body.surname && req.body.firstname && req.body.nickname) {
-
+    console.log(req.body.coordinates);
     // Prüfung, ob die E-Mail bereits in der Datenbank existiert
     User.findOne({email:req.body.email}, function(errEmail, resultEmail) {
       if(errEmail) {return next(errEmail);}
@@ -32,7 +32,11 @@ exports.register = function (req, res, next) {
           password: hashedPassword,
           surname: req.body.surname,
           firstname: req.body.firstname,
-          nickname: req.body.nickname
+          nickname: req.body.nickname,
+          coordinates: {
+            latitude: req.body.coordinate.latitude,
+            longitude: req.body.coordinate.longitude
+          }
         }
 
         User.create(userData, function (error, user) {

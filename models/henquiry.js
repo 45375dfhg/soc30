@@ -17,7 +17,7 @@ var HenquirySchema = new Schema({
     happened: {type: Boolean, default: false},
     category: {
       category: {type: Number},
-      subCategory: {type: Number}
+      subcategory: {type: Number}
     },
     distance: {type: Number}
 }, {versionKey: false}, {

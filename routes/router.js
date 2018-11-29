@@ -34,6 +34,9 @@ router.put('/henquiries/success', verifyToken, henquiry_controller.henquirySucce
 // PUT route for canceling an application
 router.put('/henquiries/cancel', verifyToken, henquiry_controller.cancelApplication);
 
+// POST route for rating an aide
+router.post('/henquiries/rate', verifyToken, henquiry_controller.rate)
+
 /*
 // GET index page, currently redirecting to login page
 router.get('', user_controller.login_get);

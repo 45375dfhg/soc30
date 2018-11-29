@@ -15,6 +15,8 @@ export class AppSettingsService {
     }
 
     removeUser(key) {
-        util.remove('currentUser');
+        if (util.hasKey(key)) {
+            util.remove(key);
+        }
     }
 }

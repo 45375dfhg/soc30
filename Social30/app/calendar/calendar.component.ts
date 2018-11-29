@@ -39,8 +39,7 @@ export class CalendarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        let guestBool = JSON.parse(this.appSet.getUser('guest'));
-        if (!guestBool) {
+        if(!this.appSet.getUser('guest')) {
             console.log('user is not a guest')
             this.receiveAndOrder();
         } else {

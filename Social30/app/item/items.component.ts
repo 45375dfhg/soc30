@@ -14,7 +14,8 @@ import { AppSettingsService } from '../shared/services/appsettings.service';
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { ListViewEventData } from "nativescript-ui-listview";
 
-import * as appSettings from "tns-core-modules/application-settings";
+import { AuthenticationService } from '../shared/services/authentication.service';
+
 declare var UIView, NSMutableArray, NSIndexPath;
 
 @Component({
@@ -31,14 +32,14 @@ export class ItemsComponent implements OnInit {
         private itemService: ItemService, 
         private router: RouterExtensions, 
         private appSet: AppSettingsService,
+        private authenticationService: AuthenticationService,
         private page: Page,
         ) {
         //page.actionBarHidden = true;
     }
 
     ngOnInit(): void {
-        let guestBool = JSON.parse(this.appSet.getUser('guest'));
-        if (!guestBool) {
+        if(!this.appSet.getUser('guest')) {
             console.log('user is not a guest')
             this.receiveList();
         } else {
@@ -56,9 +57,10 @@ export class ItemsComponent implements OnInit {
             }
         });
     }
-   
-    getCategoryIconSource(icon: string): string {
-        return getCategoryIconSource(icon);
+
+    logout() {
+        this.authenticationService.logout();
+        this.router.navigate(["/welcome"], { clearHistory: true });
     }
 
     templateSelector(item: any, index: number, items: any): string {
@@ -84,8 +86,9 @@ export class ItemsComponent implements OnInit {
         }
     }
 
-
+    getCategoryIconSource(icon: string): string {
+        return getCategoryIconSource(icon);
+    }
     
-
 }
 

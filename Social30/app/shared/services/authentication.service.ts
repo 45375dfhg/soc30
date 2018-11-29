@@ -41,6 +41,7 @@ export class AuthenticationService {
 
     logout() {
         this.appSet.removeUser('currentUser');
+        this.appSet.removeUser('guest');
     }
 
     register(user) {

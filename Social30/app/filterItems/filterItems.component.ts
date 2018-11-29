@@ -6,6 +6,8 @@ import { isAndroid, isIOS, device, screen } from "platform";
 import { View } from "ui/core/view";
 import { ClientRequestArgs } from 'http';
 
+import { DataService } from '../shared/services/data.service';
+
 @Component({
 	moduleId: module.id,
 	selector: 'filterItems',
@@ -14,23 +16,31 @@ import { ClientRequestArgs } from 'http';
 
 })
 
-
-
 export class FilterItemsComponent implements OnInit {
 
-	selected = null;
+	private selected = null;
+	message: { categories: number[] , time: number ,distance: number };
 
-	constructor(private router: RouterExtensions) { }
+	constructor(private router: RouterExtensions, private data: DataService,) { }
 
-	ngOnInit() {
-
+	ngOnInit() { 
+		this.data.currentMessage.subscribe(message => {
+			this.message = message
+		})
 	}
 
+	newMessage(c, t, d) {
+		this.data.changeMessage(c,t,d);
+	}
+
+	handleTap(args, c = this.message.categories, t = this.message.time, d = this.message.distance) {
+		this.changeColor(args);
+		console.log(c,t,d);
+		this.newMessage(c,t,d);
+	}
 
 	changeColor(args) {
-
 		let btn = args.object; // tapped on object
-
 		if (btn.className === "orangeButton") { // tapped object is white
 			if (this.selected === null) {
 				btn.className = "orangeButtonSelected"; // change style
@@ -44,10 +54,7 @@ export class FilterItemsComponent implements OnInit {
 			btn.className = "orangeButton"; // deselect
 			this.selected = null;
 		}
-
 	}
-
-
 
 	getCategoryIconSource(icon: string): string {
 		return getCategoryIconSource(icon);

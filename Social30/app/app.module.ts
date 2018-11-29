@@ -21,6 +21,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
 import { AppSettingsService } from './shared/services/appsettings.service';
 import { CalendarService } from './shared/services/calendar.service';
 import { AlertService } from './shared/services/alert.service';
+import { DataService } from './shared/services/data.service';
 
 // HttpClient wrapper
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
@@ -69,6 +70,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
         AppSettingsService,
         CalendarService,
         AlertService,
+        DataService,
         // ModalDialogService,
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
         // { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }

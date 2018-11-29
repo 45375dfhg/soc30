@@ -27,7 +27,6 @@ exports.register = function (req, res, next) {
       if(errEmail) {return next(errEmail);}
       if(!resultEmail) {
         var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-
         var userData = {
           email: req.body.email,
           password: hashedPassword,

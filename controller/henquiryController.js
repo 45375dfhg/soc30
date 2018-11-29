@@ -8,9 +8,16 @@ var mongoose = require('mongoose');
 // Fetch all henquiries
 // TODO: Eigene Hilfsgesuche nicht anzeigen?
 exports.getHenquiries = (req, res, next) => {
-    var categories = JSON.parse(req.body.category);
-    var category = categories.category;
-    var subcategory = categories.subcategory;
+    var categories;
+    // Es wird nicht nach Kategorien gefiltert
+    if(req.body.category === null || req.body.category === undefined) {
+      categories = {};
+    // Es wird nach Kategorien gefiltert
+    } else {
+      categories = JSON.parse(req.body.category);
+      var category = categories.category;
+      var subcategory = categories.subcategory;
+    }
     var conditions;
     if(category === undefined && subcategory === undefined) {
       conditions = {closed: false, happened: false, removed: false};
@@ -34,6 +41,7 @@ exports.getHenquiries = (req, res, next) => {
         console.log("Im error");
         return next(err);
       }
+      console.log(list_henquiries);
       User.findById(req.userId, function(userErr, userResult) {
         if(userErr) {return next(userErr);}
         for(var i = 0; i < list_henquiries.length; i++) {
@@ -65,8 +73,8 @@ exports.henquiry_test = (req, res, next) => {
 
 // TODO: Autogenerierten Text erstellen
 exports.createHenquiry = (req, res, next) => {
-    if(!(req.body.text && req.body.amountAide && req.body.postalcode && req.body.startTime && req.body.endTime)
-    && req.body.category) {
+    if(!(req.body.text && req.body.amountAide && req.body.postalcode && req.body.startTime && req.body.endTime
+    && req.body.category)) {
       var err = new Error('All fields required.');
       err.status = 400;
       return next(err);
@@ -437,7 +445,13 @@ exports.calendar = (req, res, next) => {
 exports.rate = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = req.userId;
-  var aider = req.body.aider;
+  var aider = req.body.aide;
+  if(!(aider instanceof Array)) {
+    aider = new Array(aider);
+  }
+  for(var i = 0; i < aider.length; i++) {
+    aider[i] = JSON.parse(aider[i]);
+  }
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {return next(err);}
     if(!(userId == result.createdBy)) {
@@ -445,8 +459,8 @@ exports.rate = (req, res, next) => {
       err.status = 400;
       return next(err);
     }
-    if(!(result.happened)) {
-      err = new Error('Das Hilfegesuch hat noch nicht stattgefunden.');
+    /*if(!result.happened || !result.closed || result.removed) {
+      err = new Error('Ungültige Anfrage.');
       err.status = 400;
       return next(err);
     }
@@ -454,8 +468,27 @@ exports.rate = (req, res, next) => {
       err = new Error('Es wurden bereits alle Helfer bewertet.');
       err.status = 400;
       return next(err);
+    }*/
+    //console.log(aider);
+    var k = 0;
+    for(var i = 0; i < aider.length; i++) {
+        User.findById(aider[i].aideId, function(userErr, userResult) {
+          if(userErr) {return next(userErr);}
+          //console.log(aider[k]);
+          for(var j = 0; j < aider[k].ratings.length; j++) {
+            if(userResult.ratings[aider[k].ratings[j]] === undefined) {
+              userResult.ratings.set(aider[k].ratings[j],1);
+            } else {
+              userResult.ratings.set(aider[k].ratings[j],);
+            }
+          }
+          userResult.terra = 1;
+          console.log(userResult);
+          userResult.save();
+          k++;
+        });
     }
-    
+    return res.send("ok");
   });
 };
 

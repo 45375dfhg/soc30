@@ -8,10 +8,7 @@ var UserSchema = new Schema({
   email: { type: String, unique: true, required: true, trim: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, trim: true },
-  ratings: [{ 
-    rating: {type: Schema.Types.ObjectId, ref: 'Rating'}, 
-    count: {type: Number}
-  }],
+  ratings: [{type: Number}],
   address: { // muss alles required sein
       postalcode: { type: Number },
       street: { type: String },

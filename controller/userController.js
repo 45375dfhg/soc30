@@ -42,7 +42,7 @@ exports.register = function (req, res, next) {
           var token = jwt.sign({ id: user._id }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
-          res.status(200).send({ auth: true, token: token });
+          res.status(200).send({ auth: true, token: token , _id: user._id});
         });
       } else {
         var err = new Error('Diese E-Mail existiert bereits.');

@@ -4,7 +4,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { Item } from "../shared/models/item";
 import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
-
+import { ItemService } from "../shared/services/item.service";
 
 
 @Component({
@@ -14,14 +14,23 @@ import { getCategoryIconSource } from "../app.component";
     styleUrls: ['./henquiry.detail.component.scss']
 })
 export class HenquiryDetailComponent {
-    private _item: Item;
-
-
     id;
     idtype;
 
-    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, page: Page) {
+    subNames: String[];
+
+    setIcon = this.itemService.getCategoryIconName;
+
+    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, page: Page, private itemService: ItemService) {
         //page.actionBarHidden = true;
+    }
+
+
+    getCategoryIconSource(icon: string): string {
+        console.log(icon);
+        //return this.itemService.getCategoryIconName();
+        return "j";
+
     }
 
 
@@ -31,33 +40,23 @@ export class HenquiryDetailComponent {
         this.idtype = typeof this.id;
         let cat = this.id.slice(0,1);
         let sub = this.id.slice(1);
-        console.log(cat);
-        this._item = new Item(
-            Date.now() + (24 * 60 * 1000),
-            Date.now() + (24.5 * 60 * 1000),
-            1,
-            { category: 1, subcategory: 1 },
-            { _id: '', firstname: '', surname: '', nickname: '' },
-            9999,
-            '');
+
+
+        this.subNames = this.itemService.getSubElements(cat);
+        console.log(this.subNames);
+
+    
+
+        
+
 
         // console.log(this._item);
     }
 
-    get item(): Item {
-        return this._item;
-    }
 
     public goBack() {
         this.routerExtension.back();
     }
-
-    getCategoryIconSource(icon: string): string {
-        return getCategoryIconSource(icon);
-    }
-
-
-
 }
 
 

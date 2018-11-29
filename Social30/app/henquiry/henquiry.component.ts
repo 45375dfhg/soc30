@@ -3,6 +3,8 @@ import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
 import { HenquiryModalComponent } from "../henquiry-modal/henquiry.modal";
+import { ItemService } from "../shared/services/item.service";
+
 
 @Component({
     moduleId: module.id,
@@ -22,18 +24,33 @@ export class HenquiryComponent {
     categoryId;
     categorySubId;
 
-    public constructor(page: Page) { 
+
+    subNames: String[];
+
+    public constructor(page: Page, private itemService: ItemService) { 
         //page.actionBarHidden = true;
+    }
+
+
+    ngOnInit(): void {
+
+
+
     }
 
     switchStatus (id: number) {
         this.categorySelected = true;
         this.categoryId = id;
+        this.subNames = this.itemService.getSubElements(this.categoryId);
+        console.log(this.subNames);
     }
 
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
+
+
+    
 
 }
 

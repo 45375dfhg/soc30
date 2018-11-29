@@ -80,17 +80,26 @@ export class ItemService {
         return result[category][subcategory];
     }
 
+    public getSubElements(category) {
+        let result = [
+            ["Reparieren", "Umräumen", "Umziehen"],
+            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
+            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
+            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen", "Schlammschlacht"],
+            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
+        ];
+        return result[category];
+    }
+
 
     public getCategoryIconName(category, subcategory) {
         let result = [
             ["reparieren", "umraeumen", "umziehen"],
             ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "spruehflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
             ["kochen", "spazierengehen", "spielespielen", "vorlesen", "gesellschaft"],
-            ["blumengiessen", "blumenpflanzen", "blumentopfen", "gaertern", "heckenschneiden", "rechen", "schlammschlacht"],
+            ["blumengieen", "blumenpflanzen", "blumentopfen", "gaertern", "heckenschneiden", "rechen", "schlammschlacht"],
             ["gassigehen", "kaefigsaeubern", "tierefuettern"]
         ];
-
-
         const iconPrefix = isAndroid ? "res://" : "res://";
         return iconPrefix + result[category][subcategory];
     }

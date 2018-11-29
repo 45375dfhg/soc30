@@ -15,6 +15,7 @@ import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { ListViewEventData } from "nativescript-ui-listview";
 
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { DataService } from '../shared/services/data.service';
 
 declare var UIView, NSMutableArray, NSIndexPath;
 
@@ -27,6 +28,7 @@ declare var UIView, NSMutableArray, NSIndexPath;
 export class ItemsComponent implements OnInit {
 
     items: Item[] = [];
+    message: { categories: number[] , time: number ,distance: number };
     
     // imported this way to avoid angular namespace problems
     formatDuration = this.itemService.formatDuration;
@@ -40,12 +42,14 @@ export class ItemsComponent implements OnInit {
         private router: RouterExtensions, 
         private appSet: AppSettingsService,
         private authenticationService: AuthenticationService,
+        private data: DataService,
         private page: Page,
         ) {
             //page.actionBarHidden = true;
     }
 
     ngOnInit(): void {
+        this.data.currentMessage.subscribe(message => this.message = message);
         if(!this.appSet.getUser('guest')) {
             console.log('user is not a guest')
             this.receiveList();

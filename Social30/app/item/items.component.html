@@ -18,9 +18,8 @@
     </ng-template>
 </RadListView>-->
 
-
-
 <StackLayout marginTop="5" marginBottom="5">
+    <Label [text]="message.time"></Label>
     <Button text="logout" (onTap)="logout()"></Button>
     <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']" pageTransition="fade"></Button>
     <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"

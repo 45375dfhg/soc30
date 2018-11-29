@@ -22,13 +22,13 @@ export class ItemService {
                     items.forEach((item) => {
                         itemList.push(
                             new Item(
-                                item.amountAide,
-                                item._id,
-                                item.text,
-                                item.postalcode,
-                                item.createdBy,
                                 item.startTime,
-                                item.endTime));
+                                item.endTime,
+                                item.amountAide,
+                                item.category,
+                                item.createdBy,
+                                item.distance,
+                                item._id));
                     });
                     this.items = itemList;
                     return itemList; 

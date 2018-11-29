@@ -63,6 +63,24 @@ export class ItemsComponent implements OnInit {
         this.router.navigate(["/welcome"], { clearHistory: true });
     }
 
+    durationCalc(start,end) {
+        let s = new Date(start);
+        let e = new Date(end);
+        // convert to proper string
+        // convert to d:h:m
+        return e.getTime() - s.getTime();
+    }
+
+    distance(distance) {
+        // format distance
+        return;
+    }
+
+    startTimeConvert(start) {
+        // format start time to proper time
+        return;
+    }
+
     templateSelector(item: any, index: number, items: any): string {
         return item.expanded ? "expanded" : "default";
     }

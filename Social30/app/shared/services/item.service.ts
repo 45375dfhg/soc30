@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-
+import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { Item } from "../models/item";
 import { Config } from "../config";
 
@@ -31,36 +31,36 @@ export class ItemService {
                                 item._id));
                     });
                     this.items = itemList;
-                    return itemList; 
+                    return itemList;
                 }),
                 catchError(this.handleErrors('getItems'))
             );
     }
-    
+
     public getItem(id: string) {
         if (this.items != undefined) {
-            
+
             return this.items.find(data => data._id === id);
         } else {
             return this.getItems().subscribe(items => this.getItem(id));
         }
     }
 
-    public formatDuration(start,end) {
+    public formatDuration(start, end) {
         let st = new Date(start);
         let en = new Date(end);
         let timeRaw = en.getTime() - st.getTime();
         let timeMinutes = Math.round((timeRaw / 1000 / 60));
         return "Dauer: " + timeMinutes + " Minuten";
     }
-    
+
     public formatDistance(distance) {
         if (distance == 9999) {
             return "Das bin ich! Da wohne ich!"
         }
         return Math.round(distance) + "km von mir entfernt";
     }
-    
+
     public formatStartTimeLong(start) {
         enum Days { Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag }
         enum Months { Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember };
@@ -71,22 +71,38 @@ export class ItemService {
 
     public formatCategory(category, subcategory) {
         let result = [
-                        ["Reparieren", "Umräumen", "Umziehen"],
-                        ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
-                        ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen"],
-                        ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen", "Schlammschlacht"],
-                        ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
-                    ];
+            ["Reparieren", "Umräumen", "Umziehen"],
+            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
+            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
+            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen", "Schlammschlacht"],
+            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
+        ];
         return result[category][subcategory];
     }
 
+
+    public getCategoryIconName(category, subcategory) {
+        let result = [
+            ["reparieren", "umraeumen", "umziehen"],
+            ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "spruehflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
+            ["kochen", "spazierengehen", "spielespielen", "vorlesen", "gesellschaft"],
+            ["blumengiessen", "blumenpflanzen", "blumentopfen", "gaertern", "heckenschneiden", "rechen", "schlammschlacht"],
+            ["gassigehen", "kaefigsaeubern", "tierefuettern"]
+        ];
+
+
+        const iconPrefix = isAndroid ? "res://" : "res://";
+        return iconPrefix + result[category][subcategory];
+    }
+
+
     public formatStartTime(start) {
-        let time = new Date(start); 
-        return time.getDate() + "." + (time.getMonth() + 1) + 
-            ". um " + ((time.getHours() < 10) ? "0" + time.getHours(): time.getHours()) 
+        let time = new Date(start);
+        return time.getDate() + "." + (time.getMonth() + 1) +
+            ". um " + ((time.getHours() < 10) ? "0" + time.getHours() : time.getHours())
             + ":" + time.getMinutes() + " Uhr";
     }
-    
+
     private handleErrors(operation: string) {
         return (err: any) => {
             let errMsg = `error in ${operation}() retrieving ${this.baseUrl}`;

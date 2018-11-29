@@ -34,7 +34,7 @@
                         class="fa"></Label>
                     <Label row="2" col="0" colSpan="2" [text]="formatDuration(item.startTime, item.endTime)" verticalAlignment="center" height="20"
                         class="fa"></Label>
-                    <Image row="0" rowSpan="3" col="2" [src]="getCategoryIconSource('flowers')" height="100"
+                    <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)" height="100"
                         verticalAlignment="center" horizontalAlignment="right"></Image>
                     <Label row="3" col="3" text="&#xf078;" verticalAlignment="bottom" class="icon"></Label>
                 </GridLayout>
@@ -48,7 +48,7 @@
                         class="fa"></Label>
                     <Label row="2" col="0" colSpan="2" [text]="formatDistance(item.distance)" verticalAlignment="center" height="20"
                         class="fa"></Label>
-                    <Image row="0" rowSpan="3" col="2" [src]="getCategoryIconSource('flowers')" height="100"
+                    <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)" height="100"
                         verticalAlignment="center" horizontalAlignment="right"></Image>
 
                         <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>

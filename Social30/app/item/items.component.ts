@@ -34,6 +34,7 @@ export class ItemsComponent implements OnInit {
     formatStartTime = this.itemService.formatStartTime;
     formatStartTimeLong = this.itemService.formatStartTimeLong;
     formatCategory = this.itemService.formatCategory;
+    setIcon = this.itemService.getCategoryIconName;
 
     constructor(
         private itemService: ItemService, 

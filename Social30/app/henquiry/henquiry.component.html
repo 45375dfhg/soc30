@@ -1,8 +1,8 @@
 <ActionBar title="Hilfegesuch erstellen"></ActionBar>
-<ScrollView>
+<ScrollView *ngIf="!categorySelected; else subcategory">
     <StackLayout marginTop="5" marginBottom="5">
         <GridLayout rows="auto,auto,auto,auto,auto">
-            <GridLayout row="0" rows="auto,*" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', 1]" pageTransition="slideLeft" class="border category">
+            <GridLayout row="0" rows="auto,*" columns="*,*,*,*,auto" (onTap)="switchStatus()" pageTransition="slideLeft" class="border category">
                 <Label row="0" col="0" colSpan="3" text="Leichter Haushalt" class="fa heading"></Label>
                 <Label row="1" col="0" colSpan="3" class="fa categoryDescription" textWrap="true" text="{{leicht}}"></Label>
                 <Image row="0" rowSpan="2" col="3" [src]="getCategoryIconSource('flowers')" height="100"
@@ -40,3 +40,6 @@
         </GridLayout>
     </StackLayout>
 </ScrollView>
+<ng-template #subcategory>
+    <Label text="sub reached"></Label>
+</ng-template>

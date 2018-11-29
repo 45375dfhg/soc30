@@ -6,11 +6,12 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { ModalDialogService } from "nativescript-angular/modal-dialog";
 import { HenquiryModalComponent } from '../henquiry-modal/henquiry.modal';
 import { HenquiryDetailComponent } from '../henquiry-detail/henquiry.detail.component';
-
+import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
+        NativeScriptUIDataFormModule,
         NativeScriptRouterModule,
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "henquiry" },

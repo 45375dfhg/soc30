@@ -36,12 +36,12 @@ exports.getHenquiries = (req, res, next) => {
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
     .populate('createdBy', 'firstname surname nickname coordinates')
+    .populate('aide', 'firstname surname nickname')
     .exec(function (err, list_henquiries) {
       if(err) {
         console.log("Im error");
         return next(err);
       }
-      console.log(list_henquiries);
       User.findById(req.userId, function(userErr, userResult) {
         if(userErr) {return next(userErr);}
         for(var i = 0; i < list_henquiries.length; i++) {
@@ -391,14 +391,24 @@ exports.cancelApplication = (req, res, next) => {
   res.status(204).send();
 };
 
+// TODO: Zur Zeit wird ALLES aus dem Henquiry mitgeschickt.
+// Der Ersteller darf die Aide sehen, ein Helfer darf das nicht.
+// Einfach über FELD = undefined machen
 exports.calendar = (req, res, next) => {
+  /*Henquiry.find(conditions)
+  .select('amountAide startTime endTime text category')
+  // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
+  // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
+  .populate('createdBy', 'firstname surname nickname coordinates')
+  .populate('aide', 'firstname surname nickname')
+  .exec(function (err, list_henquiries) {*/
   var userId = req.userId;
   Henquiry.find({
     $and: [
       {$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]},
       {happened: false}
     ]
-  }, function(err, result) {
+  }).select('').populate('aide','firstname surname nickname').exec( function(err, result) {
     if(err) {
       return next(err);
     }

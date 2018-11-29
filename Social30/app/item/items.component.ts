@@ -27,6 +27,13 @@ declare var UIView, NSMutableArray, NSIndexPath;
 export class ItemsComponent implements OnInit {
 
     items: Item[] = [];
+    
+    // imported this way to avoid angular namespace problems
+    formatDuration = this.itemService.formatDuration;
+    formatDistance = this.itemService.formatDistance;
+    formatStartTime = this.itemService.formatStartTime;
+    formatStartTimeLong = this.itemService.formatStartTimeLong;
+    formatCategory = this.itemService.formatCategory;
 
     constructor(
         private itemService: ItemService, 
@@ -35,7 +42,7 @@ export class ItemsComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private page: Page,
         ) {
-        //page.actionBarHidden = true;
+            //page.actionBarHidden = true;
     }
 
     ngOnInit(): void {
@@ -61,24 +68,6 @@ export class ItemsComponent implements OnInit {
     logout() {
         this.authenticationService.logout();
         this.router.navigate(["/welcome"], { clearHistory: true });
-    }
-
-    durationCalc(start,end) {
-        let s = new Date(start);
-        let e = new Date(end);
-        // convert to proper string
-        // convert to d:h:m
-        return e.getTime() - s.getTime();
-    }
-
-    distance(distance) {
-        // format distance
-        return;
-    }
-
-    startTimeConvert(start) {
-        // format start time to proper time
-        return;
     }
 
     templateSelector(item: any, index: number, items: any): string {

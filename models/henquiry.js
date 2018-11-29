@@ -7,7 +7,6 @@ var HenquirySchema = new Schema({
     ratedAide: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     potentialAide: [{type: Schema.Types.ObjectId, ref: 'User'}],
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    text: { type: String, required: true, trim: true },
     creationTime: { type: Date, required: true},
     startTime: { type: Date, required: true},
     endTime: { type: Date, required: true},

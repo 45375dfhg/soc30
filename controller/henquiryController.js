@@ -107,9 +107,7 @@ exports.createHenquiry = (req, res, next) => {
         return next(err);
       }
       var henquiry = new Henquiry({
-        text: req.body.text,
         amountAide: req.body.amountAide,
-        postalcode: req.body.postalcode,
         createdBy: req.userId,
         creationTime: new Date(),
         startTime: req.body.startTime,

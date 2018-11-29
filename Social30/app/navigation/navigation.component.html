@@ -3,13 +3,19 @@
     <GridLayout row="1">
       <TabView androidTabsPosition="bottom" tabBackgroundColor="#E8EBED" selectedTabTextColor="#001144" tabTextColor="#95B2C3" >
 
-        <page-router-outlet *tabItem="{title: '&#xf015;'}" name="itemsoutlet">
+        <page-router-outlet *tabItem="{iconSource: 'res://homehalf'}" name="itemsoutlet">
         </page-router-outlet>
 
-        <page-router-outlet *tabItem="{title: '&#xf067;'}" name="henquiryoutlet">
+        <page-router-outlet *tabItem="{iconSource: 'res://calenderhalf'}" name="calendaroutlet">
         </page-router-outlet>
 
-        <page-router-outlet *tabItem="{title: '&#xf073;'}" name="calendaroutlet">
+        <page-router-outlet *tabItem="{iconSource: 'res://add'}" name="henquiryoutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="{iconSource: 'res://messageshalf'}">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="{iconSource: 'res://profilhalf'}">
         </page-router-outlet>
 
       </TabView>

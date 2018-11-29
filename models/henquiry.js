@@ -4,10 +4,10 @@ var Schema = mongoose.Schema;
 
 var HenquirySchema = new Schema({
     aide: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    potentialAide: [{type: Schema.Types.ObjectId, ref: 'User'}], // muss getestet werden
+    ratedAide: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    potentialAide: [{type: Schema.Types.ObjectId, ref: 'User'}],
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     text: { type: String, required: true, trim: true },
-    postalcode: { type: String, required: true },
     creationTime: { type: Date, required: true},
     startTime: { type: Date, required: true},
     endTime: { type: Date, required: true},
@@ -15,7 +15,10 @@ var HenquirySchema = new Schema({
     closed: {type: Boolean, default: false},
     removed: {type: Boolean, default: false},
     happened: {type: Boolean, default: false},
-    category: {type: Schema.Types.ObjectId, ref: 'Category'},
+    category: {
+      category: {type: Number},
+      subCategory: {type: Number}
+    },
     distance: {type: Number}
 }, {versionKey: false}, {
     writeConcern: {

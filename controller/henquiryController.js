@@ -1,19 +1,34 @@
 var User = require('../models/user');
 var Henquiry = require('../models/henquiry');
 var Message = require('../models/message');
-var path = require('path');
+var Category = require('../models/category');
+var Rating = require('../models/rating');
 var mongoose = require('mongoose');
 
 // Fetch all henquiries
-// TODO: Filtern nach Kategorien, falls etwas vom Frontend kommt
-// TODO: Kilometeranzahl vom Frontend berücksichtigen (Radius der Henquiries)
-// TODO: Eigene Hilfsgesuche nicht anzeigen 
+// TODO: Eigene Hilfsgesuche nicht anzeigen?
 exports.getHenquiries = (req, res, next) => {
-    Henquiry.find({closed: false, happened: false, removed: false})
-    .select('amountAide startTime endTime text postalcode subcategoryId category')
+    var categories = JSON.parse(req.body.category);
+    var category = categories.category;
+    var subcategory = categories.subcategory;
+    var conditions;
+    if(category === undefined && subcategory === undefined) {
+      conditions = {closed: false, happened: false, removed: false};
+    } else if(category !== undefined && subcategory === undefined) {
+      conditions = {closed: false, happened: false, removed: false, "category.category": category};
+    } else if(category !== undefined && subcategory !== undefined) {
+      conditions = {closed: false, happened: false, removed: false, "category.category": category,
+      "category.subcategory":subcategory};
+    } else {
+      var err = new Error('Es wurde keine Oberkategorie angegeben.');
+      err.status = 400;
+      return next(err);
+    }
+    Henquiry.find(conditions)
+    .select('amountAide startTime endTime text category')
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
-    .populate('createdBy', 'email nickname coordinates')
+    .populate('createdBy', 'firstname surname nickname coordinates')
     .exec(function (err, list_henquiries) {
       if(err) {
         console.log("Im error");
@@ -48,48 +63,58 @@ exports.henquiry_test = (req, res, next) => {
     });
 };
 
-// TODO: Subcategory fehlt
-// @param: text, postalcode, amountAide (, subcategory, startTime, endTime)
+// TODO: Autogenerierten Text erstellen
 exports.createHenquiry = (req, res, next) => {
-    if(!(req.body.text && req.body.amountAide && req.body.postalcode && req.body.startTime && req.body.endTime)) {
+    if(!(req.body.text && req.body.amountAide && req.body.postalcode && req.body.startTime && req.body.endTime)
+    && req.body.category) {
       var err = new Error('All fields required.');
       err.status = 400;
       return next(err);
     }
-
-    var startTime = new Date(req.body.startTime);
-    var endTime = new Date(req.body.endTime);
-
-    if(!(startTime instanceof Date) || !(endTime instanceof Date)) {
-      var err = new Error('Invalides Datum übergeben.');
-      err.status = 400;
-      return next(err);
-    }
-    if(req.body.startTime >= req.body.endTime) {
-      var err = new Error('Die Startzeit kann nicht nach der Endzeit liegen.');
-      err.status = 400;
-      return next(err);
-    }
-    if(req.body.startTime <= req.creationTime || req.body.end <= req.creationTime) {
-      var err = new Error('Die Start- und/oder Endzeit liegt in der Vergangenheit.');
-      err.status = 400;
-      return next(err);
-    }
-    
-    var henquiry = new Henquiry({
-      text: req.body.text,
-      amountAide: req.body.amountAide,
-      postalcode: req.body.postalcode,
-      createdBy: req.userId,
-      creationTime: new Date(),
-      startTime: req.body.startTime,
-      endTime: req.body.endTime
-    });
-    Henquiry.create(henquiry, function(error, result) {
-      if(error) {
-        return next(error);
+    // Übergebenes JSON in ein JS-Objekt parsen
+    var categoryParam = JSON.parse(req.body.category);
+    Category.findOne({categoryId: categoryParam.category, "subcategory.categoryId": categoryParam.subcategory},
+    function(errCategory, resultCategory) {
+      if(errCategory) {return next(errCategory);}
+      if(!resultCategory) {
+        var err = new Error('Diese Kategorie existiert nicht.');
+        err.status = 400;
+        return next(err);
       }
-      res.json(result);
+      var startTime = new Date(req.body.startTime);
+      var endTime = new Date(req.body.endTime);
+
+      if(!(startTime instanceof Date) || !(endTime instanceof Date)) {
+        var err = new Error('Invalides Datum übergeben.');
+        err.status = 400;
+        return next(err);
+      }
+      if(req.body.startTime >= req.body.endTime) {
+        var err = new Error('Die Startzeit kann nicht nach der Endzeit liegen.');
+        err.status = 400;
+        return next(err);
+      }
+      if(req.body.startTime <= req.creationTime || req.body.end <= req.creationTime) {
+        var err = new Error('Die Start- und/oder Endzeit liegt in der Vergangenheit.');
+        err.status = 400;
+        return next(err);
+      }
+      var henquiry = new Henquiry({
+        text: req.body.text,
+        amountAide: req.body.amountAide,
+        postalcode: req.body.postalcode,
+        createdBy: req.userId,
+        creationTime: new Date(),
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        category: categoryParam
+      });
+      Henquiry.create(henquiry, function(error, result) {
+        if(error) {
+          return next(error);
+        }
+        res.json(result);
+      });
     });
 };
 
@@ -406,6 +431,31 @@ exports.calendar = (req, res, next) => {
       return next(err);
     }
     res.json(result);
+  });
+};
+
+exports.rate = (req, res, next) => {
+  var henquiryId = req.body.henquiryId;
+  var userId = req.userId;
+  var aider = req.body.aider;
+  Henquiry.findById(henquiryId, function(err, result) {
+    if(err) {return next(err);}
+    if(!(userId == result.createdBy)) {
+      err = new Error('Das ist nicht dein Hilfegesuch.');
+      err.status = 400;
+      return next(err);
+    }
+    if(!(result.happened)) {
+      err = new Error('Das Hilfegesuch hat noch nicht stattgefunden.');
+      err.status = 400;
+      return next(err);
+    }
+    if(result.aide.length == 0) {
+      err = new Error('Es wurden bereits alle Helfer bewertet.');
+      err.status = 400;
+      return next(err);
+    }
+    
   });
 };
 

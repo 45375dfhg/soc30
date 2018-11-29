@@ -25,10 +25,6 @@ var UserSchema = new Schema({
     codes: [{type: Number}],
     children: [{type: Schema.Types.ObjectId, ref: 'User'}]
   },
-  daysHelping: [{
-    day: {type: String},
-    count: {type: Number}
-  }],
   foto: {type: String}, // binary war hier
   mobile: {type: String},
   // Ist halt die Frage, ob Avatare im Front- oder Backend gespeichert werden

@@ -452,12 +452,12 @@ exports.rate = (req, res, next) => {
   for(var i = 0; i < aider.length; i++) {
     aider[i] = JSON.parse(aider[i]);
   }
-  Henquiry.findById(henquiryId, function(err, result) {
-    if(err) {return next(err);}
-    if(!(userId == result.createdBy)) {
-      err = new Error('Das ist nicht dein Hilfegesuch.');
-      err.status = 400;
-      return next(err);
+  Henquiry.findById(henquiryId, function(errHenquiry, resultHenquiry) {
+    if(errHenquiry) {return next(errHenquiry);}
+    if(!(userId == resultHenquiry.createdBy)) {
+      errHenquiry = new Error('Das ist nicht dein Hilfegesuch.');
+      errHenquiry.status = 400;
+      return next(errHenquiry);
     }
     /*if(!result.happened || !result.closed || result.removed) {
       err = new Error('Ungültige Anfrage.');
@@ -470,22 +470,25 @@ exports.rate = (req, res, next) => {
       return next(err);
     }*/
     //console.log(aider);
-    var k = 0;
+    /*
+    aiderIndex: Index zum Durchlaufen aller Helfer, die übergeben wurden.
+    ratingIndex: Index zum Durchlaufen aller Bewertungen, die ein Helfer bekommen hat
+    Es wird nicht i zum Zugriff benutzt, sondern aiderIndex, da ein Callback in der
+    Schleife ist, was zur Folge hat, dass i zu schnell erhöht wird...
+    */
+    var aiderIndex = 0;
     for(var i = 0; i < aider.length; i++) {
         User.findById(aider[i].aideId, function(userErr, userResult) {
           if(userErr) {return next(userErr);}
-          //console.log(aider[k]);
-          for(var j = 0; j < aider[k].ratings.length; j++) {
-            if(userResult.ratings[aider[k].ratings[j]] === undefined) {
-              userResult.ratings.set(aider[k].ratings[j],1);
+          for(var ratingIndex = 0; ratingIndex < aider[aiderIndex].ratings.length; ratingIndex++) {
+            if(userResult.ratings[aider[aiderIndex].ratings[ratingIndex]] === undefined) {
+              userResult.ratings.set(aider[aiderIndex].ratings[ratingIndex],1);
             } else {
-              userResult.ratings.set(aider[k].ratings[j],);
+              userResult.ratings.set(aider[aiderIndex].ratings[ratingIndex],userResult.ratings[aider[aiderIndex].ratings[ratingIndex]]+1);
             }
           }
-          userResult.terra = 1;
-          console.log(userResult);
           userResult.save();
-          k++;
+          aiderIndex++;
         });
     }
     return res.send("ok");

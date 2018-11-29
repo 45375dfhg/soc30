@@ -21,11 +21,11 @@
                         <Label row="0" col="0" colSpan="7" text="Wie viele Minuten hast du Zeit?" class="fa"></Label>
                         <Button row="1" col="0" text="30" class="orangeButton" (tap)="handleTap($event, c, t=30, d)"></Button>
                         <Button row="1" col="1" text="60" class="orangeButton" (tap)="handleTap($event, c, t=60, d)"></Button>
-                        <Button row="1" col="2" text="90" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="3" text="120" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="4" text="150" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="5" text="180" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="6" text="+" class="orangeButton" (tap)="handleTap($event)"></Button>
+                        <Button row="1" col="2" text="90" class="orangeButton" (tap)="handleTap($event, c, t=90, d)"></Button>
+                        <Button row="1" col="3" text="120" class="orangeButton" (tap)="handleTap($event, c, t=120, d)"></Button>
+                        <Button row="1" col="4" text="150" class="orangeButton" (tap)="handleTap($event, c, t=150, d)"></Button>
+                        <Button row="1" col="5" text="180" class="orangeButton" (tap)="handleTap($event, c, t=180, d)"></Button>
+                        <Button row="1" col="6" text="+" class="orangeButton" (tap)="handleTap($event, c, t=9999, d)"></Button>
                 </GridLayout>
         </ScrollView>
 
@@ -33,13 +33,13 @@
                 <GridLayout rows="*,*" columns="*,*,*,*,*,*,*">
                         <Label row="0" col="0" colSpan="7" text="Wie viele Kilometer darf das Hilfegesuch entfernt sein?"
                                 class="fa"></Label>
-                        <Button row="1" col="0" text="1" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="1" text="2" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="2" text="4" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="3" text="6" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="4" text="8" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="5" text="10" class="orangeButton" (tap)="handleTap($event)"></Button>
-                        <Button row="1" col="6" text="+" class="orangeButton" (tap)="handleTap($event)"></Button>
+                        <Button row="1" col="0" text="1" class="orangeButton" (tap)="handleTap($event, c ,t, d=1)"></Button>
+                        <Button row="1" col="1" text="2" class="orangeButton" (tap)="handleTap($event, c ,t, d=2)"></Button>
+                        <Button row="1" col="2" text="4" class="orangeButton" (tap)="handleTap($event, c ,t, d=4)"></Button>
+                        <Button row="1" col="3" text="6" class="orangeButton" (tap)="handleTap($event, c ,t, d=6)"></Button>
+                        <Button row="1" col="4" text="8" class="orangeButton" (tap)="handleTap($event, c ,t, d=8)"></Button>
+                        <Button row="1" col="5" text="10" class="orangeButton" (tap)="handleTap($event, c ,t, d=10)"></Button>
+                        <Button row="1" col="6" text="+" class="orangeButton" (tap)="handleTap($event, c ,t, d=50)"></Button>
                 </GridLayout>
         </ScrollView>
 

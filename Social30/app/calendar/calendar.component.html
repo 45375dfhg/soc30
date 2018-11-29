@@ -51,12 +51,12 @@
                                     <StackLayout row="1" col="1" colSpan="3">
                                         <StackLayout *ngFor="let henquiry of day.value">
                                             <GridLayout rows="auto,auto,auto" columns="*" class="henqueryItem">
-                                                <Label row="0" col="0" *ngIf="requestDirection(henquiry.createdBy)"
+                                                <Label row="0" col="0" *ngIf="henquiry.createdBy.surname"
                                                     [text]="henquiry.text" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa heading"></Label>
                                                 <Label row="1" col="0" [text]="henquiry.startTime" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa hequeryInfo"></Label>
-                                                <Label row="2" col="0" [text]="henquiry.postalcode" horizontalAlignment="left"
+                                                <Label row="2" col="0" [text]="henquiry.distance" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa hequeryStatus"></Label>
                                             </GridLayout>
                                         </StackLayout>

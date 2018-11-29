@@ -18,8 +18,17 @@ export class HenquiryComponent {
     gesell: string = "In Ruhe bei Kaffee eine Runde Kartenspielen oder ausgelassen die Bingoparty sprengen.";
     tiere: string = "Ob Wuff, Miau oder Muh - gesucht ist ein Nachbar, der tierisch was drauf hat!";
 
+    categorySelected: boolean = false;
+    categoryId;
+    categorySubId;
+
     public constructor(page: Page) { 
         //page.actionBarHidden = true;
+    }
+
+    switchStatus (id: number) {
+        this.categorySelected = true;
+        this.categoryId = id;
     }
 
     getCategoryIconSource(icon: string): string {

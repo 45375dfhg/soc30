@@ -2,7 +2,7 @@
 </ActionBar>
 
 
-<GridLayout rows="auto,auto,auto,auto,*">
+<GridLayout rows="auto,auto,auto,auto">
 
 
         <GridLayout row="0" rows="auto,auto,auto,auto" columns="*, *">
@@ -18,20 +18,6 @@
 
         <ScrollView row="1" orientation="horizontal">
                 <GridLayout rows="*,*" columns="*,*,*,*,*,*,*">
-                        <Label row="0" col="0" colSpan="7" text="An welchen Tagen hast du Zeit?" class="fa"></Label>
-                        <Button row="1" col="0" text="Mo" class="orangeButton" (tap)="changeColor($event)"></Button>
-                        <Button row="1" col="1" text="Di" class="orangeButton" (tap)="changeColor($event)"></Button>
-                        <Button row="1" col="2" text="Mi" class="orangeButton" (tap)="changeColor($event)"></Button>
-                        <Button row="1" col="3" text="Do" class="orangeButton" (tap)="changeColor($event)"></Button>
-                        <Button row="1" col="4" text="Fr" class="orangeButton" (tap)="changeColor($event)"></Button>
-                        <Button row="1" col="5" text="Sa" class="orangeButton" (tap)="changeColor($event)"></Button>
-                        <Button row="1" col="6" text="So" class="orangeButton" (tap)="changeColor($event)"></Button>
-                </GridLayout>
-        </ScrollView>
-
-
-        <ScrollView row="2" orientation="horizontal">
-                <GridLayout rows="*,*" columns="*,*,*,*,*,*,*">
                         <Label row="0" col="0" colSpan="7" text="Wie viele Minuten hast du Zeit?" class="fa"></Label>
                         <Button row="1" col="0" text="30" class="orangeButton" (tap)="changeColor($event)"></Button>
                         <Button row="1" col="1" text="60" class="orangeButton" (tap)="changeColor($event)"></Button>
@@ -43,7 +29,7 @@
                 </GridLayout>
         </ScrollView>
 
-        <ScrollView row="3" orientation="horizontal">
+        <ScrollView row="2" orientation="horizontal">
                 <GridLayout rows="*,*" columns="*,*,*,*,*,*,*">
                         <Label row="0" col="0" colSpan="7" text="Wie viele Kilometer darf das Hilfegesuch entfernt sein?"
                                 class="fa"></Label>
@@ -58,7 +44,7 @@
         </ScrollView>
 
 
-        <GridLayout row="4" rows="*" columns=" *, *">
+        <GridLayout row="3" rows="*" columns=" *, *">
                 <Button row="0" col="0" text="Lieber wieder zurück" class="blueButton" [nsRouterLink]="['../items']"
                         pageTransition="fade"></Button>
                 <Button row="0" col="1" text="Danach suchen" class="applyButton" pageTransition="fade"></Button>

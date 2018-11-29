@@ -4,6 +4,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { Route } from '@angular/router';
 import { isAndroid, isIOS, device, screen } from "platform";
 import { View } from "ui/core/view";
+import { ClientRequestArgs } from 'http';
 
 @Component({
 	moduleId: module.id,
@@ -16,31 +17,40 @@ import { View } from "ui/core/view";
 
 
 export class FilterItemsComponent implements OnInit {
-	
-	
-	constructor(private router: RouterExtensions ) { }
+
+	selected = null;
+
+	constructor(private router: RouterExtensions) { }
 
 	ngOnInit() {
 
-	 }
+	}
 
 
-	 changeColor(args) {
-		var btn = args.object;
-		
+	changeColor(args) {
 
-		if(btn.className === "orangeButton"){
-			btn.className = "orangeButtonSelected";
-		}else{
-			btn.className = "orangeButton";
+		let btn = args.object; // tapped on object
+
+		if (btn.className === "orangeButton") { // tapped object is white
+			if (this.selected === null) {
+				btn.className = "orangeButtonSelected"; // change style
+				this.selected = btn; // assign tapped button to selected
+			} else {
+				this.selected.className = "orangeButton";
+				btn.className = "orangeButtonSelected";
+				this.selected = btn;
+			}
+		} else {
+			btn.className = "orangeButton"; // deselect
+			this.selected = null;
 		}
-		
-	 }
+
+	}
 
 
 
-	 getCategoryIconSource(icon: string): string {
-        return getCategoryIconSource(icon);
-    }
+	getCategoryIconSource(icon: string): string {
+		return getCategoryIconSource(icon);
+	}
 
 }

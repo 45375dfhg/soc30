@@ -21,7 +21,7 @@
 </StackLayout>
 -->
 
-<StackLayout *ngIf="entries; else noEntries" marginTop="5">
+<StackLayout #myDiv *ngIf="entries; else noEntries" marginTop="5">
         <RadListView [items]="entries" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
             style="height:100%">
             <ng-template tkListItemTemplate let-month="item">
@@ -52,10 +52,10 @@
                                         <StackLayout *ngFor="let henquiry of day.value">
                                             <GridLayout rows="auto,auto,auto" columns="*" class="henqueryItem">
                                                 <Label row="0" col="0" *ngIf="henquiry.createdBy.surname"
-                                                    [text]="henquiry.text" horizontalAlignment="left"
-                                                    verticalAlignment="center" class="fa heading"></Label>
-                                                <Label row="1" col="0" [text]="formatCategory(henquiry.category.category, henquiry.category.subcategory)" horizontalAlignment="left"
-                                                    verticalAlignment="center" class="fa hequeryInfo"></Label>
+                                                [text]="formatCategoryByUser(henquiry.category.category, henquiry.category.subcategory, henquiry.createdBy, henquiry.aide)" horizontalAlignment="left"
+                                                    verticalAlignment="center" class="fa heading" textWrap="true"></Label>
+                                                <Label row="1" col="0"  horizontalAlignment="left" textWrap="true"
+                                                    verticalAlignment="center" text="whatever" class="fa hequeryInfo"></Label>
                                                 <Label row="2" col="0" [text]="formatStartTime(henquiry.startTime)" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa hequeryStatus"></Label>
                                             </GridLayout>

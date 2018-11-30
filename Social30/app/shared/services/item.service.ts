@@ -6,13 +6,15 @@ import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { Item } from "../models/item";
 import { Config } from "../config";
 
+import { AppSettingsService } from './appsettings.service';
+
 @Injectable()
 export class ItemService {
     baseUrl = Config.apiUrl + "henquiries";
 
     private items: Item[];
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private appSet: AppSettingsService) { }
 
     public getItems() {
         return this.http.get<Item[]>(this.baseUrl)
@@ -115,12 +117,45 @@ export class ItemService {
     // formats the start time
     // adds azero before the day / hour if the return value of the corresponding function
     // returns a single digit number
+    // needs to be cleaned up too (just add some "lets" to avoid repeating function calls)
     public formatStartTime(start) {
         let time = new Date(start);
         return ((time.getDate() < 10) ? "0" + time.getDate() : time.getDate()) + "." 
                 + (((time.getMonth() + 1) < 10) ? "0" + (time.getMonth() + 1) : (time.getMonth() + 1)) 
                 + ". um " + ((time.getHours() < 10) ? "0" + time.getHours() : time.getHours())
                 + ":" + ((time.getMinutes() < 10) ? "0" + time.getMinutes() : time.getMinutes()) + " Uhr";
+    }
+
+    public formatCategoryByUser(cat, sub, creator, aide) {
+        let result = [
+            ["Reparieren", "Umräumen", "Umziehen"],
+            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
+            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
+            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen"],
+            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
+        ];
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            let stranger = '';
+            console.log(currentUser._id)
+            console.log(creator._id)
+            if (currentUser._id == creator._id) {
+                if (typeof aide == 'undefined' || aide.length == 0) {
+                    return result[cat][sub] + ": Wir suchen noch jemanden für dich!"
+                } else {
+                    stranger = aide[0].firstname;
+                    if (aide.length == 1) {
+                        return result[cat][sub] + ": " + stranger + " kommt vorbei!"
+                    } else {
+                        return result[cat][sub] + ": " + stranger 
+                            + "und " + (aide.length - 1) + " weitere Person kommt vorbei!"
+                    }
+                }
+            } else {
+                return result[cat][sub] + ": " + "Ich helfe " + creator.firstname + " aus!";
+            }
+        }
+        
     }
 
     public formatCategory(category, subcategory) {

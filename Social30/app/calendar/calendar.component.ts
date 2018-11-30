@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Page } from "tns-core-modules/ui/page";
 
 import { CalendarService } from "../shared/services/calendar.service";
@@ -22,12 +22,16 @@ declare var UIView, NSMutableArray, NSIndexPath;
 	styleUrls: ['./calendar.component.scss']
 })
 
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, AfterViewInit {
 
 	items: Item[] = []; // placeholder
 
     private entries;
     private dates: string[] = [];
+
+    // vars needs for the initial expand
+    @ViewChild('myDiv') myDiv: ElementRef;
+    private trigger: boolean = true;
     
     // imported this way to avoid angular namespace problems
     formatDuration = this.itemService.formatDuration;
@@ -35,15 +39,14 @@ export class CalendarComponent implements OnInit {
     formatStartTime = this.itemService.formatStartTime;
     formatStartTimeLong = this.itemService.formatStartTimeLong;
     formatCategory = this.itemService.formatCategory;
+    formatCategoryByUser = this.itemService.formatCategoryByUser;
     setIcon = this.itemService.getCategoryIconName;
 
     constructor(
         private calendarService: CalendarService, 
         private page: Page, 
         private itemService: ItemService,
-        private appSet: AppSettingsService) {
-        //page.actionBarHidden = true;
-    }
+        private appSet: AppSettingsService) { }
 
     ngOnInit(): void {
         if(!this.appSet.getUser('guest')) {
@@ -55,12 +58,28 @@ export class CalendarComponent implements OnInit {
         }
     }
 
+    ngAfterViewInit(): void {
+        // doesnt work just yet (WIP)
+        // this.triggerFalseFirstClick();
+    }
+
+    // we want to expand the first month in our list
+    // we do this by programmatically clicking it onInit()
+    // https://stackoverflow.com/a/45027961
+    triggerFalseFirstClick() {
+        if (this.trigger) {
+            this.trigger = false;
+            console.log(this.myDiv);
+            let el: HTMLElement = this.myDiv.nativeElement as HTMLElement;
+            el.click();
+        }
+    }
+
     receiveAndOrder() {
         this.calendarService.getEntries().subscribe(
             result => { 
                 // chaining the functions, using (result) as a initial value
                 // this needs to be redone but works for now
-                // new try at the very bottom of this file
                 let output = _.flow([
                     this.groupEntries,
                     this.formatEntries, 
@@ -72,7 +91,7 @@ export class CalendarComponent implements OnInit {
                     this.changeMonthNumToLiteral
                 ])
                 (result);  
-                // this.log(output);
+                // console.log(output);
                 this.entries = output;  
     
             },
@@ -143,13 +162,20 @@ export class CalendarComponent implements OnInit {
         })
     }
 
+    // first sorts months by their natural order
+    // then finds the index of the current months equal value
+    // afterwards rearrganges the array as that 
+    // everything after the and including the current month starts
     sortbyStartWithCurrentMonth(input) {
         let currMonth = +new Date(Date.now()).getMonth();
         let tmp = input.sort((month1, month2) => {
-            return +month1.key < +month2.key
+            return +month1.key > +month2.key
         })
-        return tmp.slice(currMonth)
-            .concat(tmp.slice(0, currMonth)); 
+        let tmpIdx = tmp.findIndex(month => {
+            return +month.key === currMonth;
+        })
+        return tmp.slice(tmpIdx)
+            .concat(tmp.slice(0, tmpIdx)); 
     }
 
     changeMonthNumToLiteral(input) {
@@ -181,27 +207,4 @@ export class CalendarComponent implements OnInit {
             listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
         }
     }
-
-    log = function() {
-        var context = "My Descriptive Logger Prefix:";
-        return Function.prototype.bind.call(console.log, console, context);
-    }();
 }
-
-/*
-                let output = _.chain(result)
-                    .groupBy(entry => {
-                        let time = new Date(entry.startTime);
-                        return time.getDate() + '-' +  time.getMonth() + '-' + time.getFullYear();
-                    })
-                    .toPairs()
-                    .groupBy(entry => {
-                        return entry[0].split('-')[1];
-                    })
-                    .toPairs()
-                    .sortBy(entry => {
-                        return 1;
-                    })
-                    .value()
-                console.log(output);
-*/

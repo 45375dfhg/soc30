@@ -86,7 +86,7 @@ export class ItemService {
             ["Reparieren", "Umräumen", "Umziehen"],
             ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
             ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
-            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen", "Schlammschlacht"],
+            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen"],
             ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
         ];
         return result[category][subcategory];
@@ -97,7 +97,7 @@ export class ItemService {
             ["Reparieren", "Umräumen", "Umziehen"],
             ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
             ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
-            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen", "Schlammschlacht"],
+            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen"],
             ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
         ];
         return result[category];
@@ -109,7 +109,7 @@ export class ItemService {
             ["reparieren", "umraeumen", "umziehen"],
             ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "sprhflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
             ["kochen", "spazierengehen", "spielespielen", "vorlesen", "gesellschaft"],
-            ["blumengieen", "blumenpflanzen", "blumentopf", "grtnern", "heckenschneiden", "rechen", "schlammschlacht"],
+            ["blumengieen", "blumenpflanzen", "blumentopf", "grtnern", "heckenschneiden", "rechen"],
             ["gassigehen", "kaefigsaeubern", "tierefuettern"]
         ];
         const iconPrefix = isAndroid ? "res://" : "res://";

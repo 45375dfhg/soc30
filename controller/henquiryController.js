@@ -77,7 +77,7 @@ exports.henquiry_test = (req, res, next) => {
       return res.json(result);
     });
 };
-
+// TODO: Ein Henquiry kann nur 30,60,90,120,150,180 Minuten dauern.
 exports.createHenquiry = (req, res, next) => {
     if(!(req.body.amountAide && req.body.startTime && req.body.endTime && req.body.category)) {
       var err = new Error('All fields required.');
@@ -124,7 +124,8 @@ exports.createHenquiry = (req, res, next) => {
         creationTime: new Date(),
         startTime: req.body.startTime,
         endTime: req.body.endTime,
-        category: {category: categoryParam.category, subcategory: categoryParam.subcategory}
+        category: {category: categoryParam.category, subcategory: categoryParam.subcategory},
+        terra: Math.ceil((endTime-startTime)/1800000)
       });
       Henquiry.create(henquiry, function(error, result) {
         if(error) {
@@ -422,7 +423,7 @@ exports.calendar = (req, res, next) => {
       {happened: false, removed: false}
     ]
   }).select('')
-  .populate('aide','firstname surname nickname address')
+  .populate('aide','firstname surname nickname')
   .populate('createdBy', 'firstname surname nickname address')
   .exec(function(err, result) {
     if(err) {
@@ -438,6 +439,7 @@ exports.calendar = (req, res, next) => {
   });
 };
 
+// TODO: Prüfen, ob es diese Bewertung überhaupt gibt
 exports.rate = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = req.userId;
@@ -455,7 +457,7 @@ exports.rate = (req, res, next) => {
       errHenquiry.status = 400;
       return next(errHenquiry);
     }
-    /*if(!result.happened || !result.closed || result.removed) {
+    if(!result.happened || !result.closed || result.removed) {
       err = new Error('Ungültige Anfrage.');
       err.status = 400;
       return next(err);
@@ -464,7 +466,7 @@ exports.rate = (req, res, next) => {
       err = new Error('Es wurden bereits alle Helfer bewertet.');
       err.status = 400;
       return next(err);
-    }*/
+    }
     
     // Prüfen, ob der Helfer überhaupt Helfer war
     for(var i = 0; i < aider.length; i++) {
@@ -491,6 +493,7 @@ exports.rate = (req, res, next) => {
               userResult.ratings.set(aider[aiderIndex].ratings[ratingIndex],userResult.ratings[aider[aiderIndex].ratings[ratingIndex]]+1);
             }
           }
+          userResult.terra += resultHenquiry.terra;
           userResult.save();
           resultHenquiry.ratedAide.push(aider[aiderIndex].aideId);
           resultHenquiry.aide.splice(resultHenquiry.aide.indexOf(aider[aiderIndex].aideId),1);

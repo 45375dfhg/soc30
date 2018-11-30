@@ -15,6 +15,7 @@ var HenquirySchema = new Schema({
     closed: {type: Boolean, default: false},
     removed: {type: Boolean, default: false},
     happened: {type: Boolean, default: false},
+    terra: {type: Number},
     category: {
       category: {type: Number},
       subcategory: {type: Number}

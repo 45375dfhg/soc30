@@ -99,12 +99,12 @@ exports.logout = function (req, res, next) {
 
 exports.getProfile = function (req, res, next) { 
     var projection;
-    if(req.query.userId === req.userId) {
-      projection = 'email';
+    if(!(req.body.userId === req.userId)) {
+      projection = 'nickname ratings postident avatar';
     } else {
-      projection = 'firstname nickname auth foto avatar address.postalcode ratings';
+      projection = 'surname firstname email nickname ratings address postident invite mobile avatar terra';
     }
-    User.findById(req.query.userId, projection)
+    User.findById(req.body.userId, projection)
       .exec(function (error, user) {
         if (error) {
           return next(error);
@@ -139,9 +139,45 @@ exports.editProfile = function (req, res, next) {
       res.send("PWs sind nicht gleich");
     }
   } else {
-    updateUser(req, data, res);
+    return res.status(403).send("Passwort nicht eingegeben.");
   }
 };
+
+function populateDataToBeUpdated(req, data) {
+  if(req.body.email) {data.email = req.body.email;}
+  if(req.body.surname) {data.surname = req.body.surname;}
+  if(req.body.firstname) {data.firstname = req.body.firstname;}
+  if(req.body.nickname) {data.nickname = req.body.nickname;}
+  if(req.body.postalcode) {data.address.postalcode = req.body.postalcode;}
+  if(req.body.street) {data.address.street = req.body.street;}
+  if(req.body.city) {data.address.city = req.body.city;}
+  if(req.body.housenm) {data.address.housenm = req.body.housenm;}
+  if(req.body.foto) {data.foto = req.body.foto;}
+  if(req.body.mobile) {data.mobile = req.body.mobile;}
+  if(req.body.avatar) {data.avatar = req.body.avatar;}
+}
+
+function updateUser(req, data, res) {
+  User.findByIdAndUpdate(req.userId, {$set : data}, function (error, user) {
+    if(error) {
+      console.log(error);
+      return;
+    } else {
+      if (user === null) {
+        var err = new Error('User does not exist.');
+        err.status = 404;
+        return next(err);
+      } else {
+          User.findById(req.userId, function(errReturnUser, resultReturnUser) {
+            if(errReturnUser) {
+              return res.status(500).send("Fehler.");
+            }
+            return res.json(resultReturnUser);
+          });
+      }
+    }
+  });
+}
 
 exports.verifyProfile = function (req, res, next) {
   var code = req.body.code;
@@ -228,6 +264,13 @@ exports.deleteProfile = (req, res, next) => {
         res.send("ok");
       });
     });
+    User.deleteOne({_id: userId}, function(errDelete) {
+      if(errDelete) {
+        console.log("IN DELETEPROFILE BEI DELETEONE");
+        console.log(errDelete);
+        return res.json("Fehler.");
+      }
+    });
   });
 };
 
@@ -240,35 +283,4 @@ exports.test2 = (req, res, next) => {
       console.log(res.length);
       res.send("ok");
     });
-}
-
-function populateDataToBeUpdated(req, data) {
-  if(req.body.email) {data.email = req.body.email;}
-  if(req.body.surname) {data.surname = req.body.surname;}
-  if(req.body.firstname) {data.firstname = req.body.firstname;}
-  if(req.body.nickname) {data.nickname = req.body.nickname;}
-  if(req.body.postalcode) {data.address.postalcode = req.body.postalcode;}
-  if(req.body.street) {data.address.street = req.body.street;}
-  if(req.body.city) {data.address.city = req.body.city;}
-  if(req.body.housenm) {data.address.housenm = req.body.housenm;}
-  if(req.body.foto) {data.foto = req.body.foto;}
-  if(req.body.mobile) {data.mobile = req.body.mobile;}
-  if(req.body.avatar) {data.avatar = req.body.avatar;}
-}
-
-function updateUser(req, data, res) {
-  User.findByIdAndUpdate(req.userId, {$set : data}, function (error, user) { // SESSION
-    if(error) {
-      console.log(error);
-      return;
-    } else {
-      if (user === null) {
-        var err = new Error('User does not exist.');
-        err.status = 404;
-        return next(err);
-      } else {
-          res.json(user);
-      }
-    }
-  });
 }

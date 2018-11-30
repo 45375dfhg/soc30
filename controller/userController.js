@@ -9,12 +9,32 @@ var Message = require('../models/message');
 var path = require('path');
 var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
+/*
+const {body, validationResult} = require('express-validator/check');
 
+exports.validate = (method) => {
+  switch(method) {
+    case 'register': {
+      return [
+        body('email').exists().isEmail(),
+        body('password').exists(),
+        body('passwordConf').exists(),
+        body('surname').exists(),
+        body('firstname').exists(),
+        body('nickname').exists()
+      ]
+    }
+  }
+}
+*/
 exports.register = function (req, res, next) {
+  /*const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(422).json({errors: errors.array()});
+  }*/
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match.');
     err.status = 400;
-    res.send("passwords dont match");
     return next(err);
   }
 

@@ -49,13 +49,20 @@ exports.getHenquiries = (req, res, next) => {
             list_henquiries[i].createdBy.coordinates.longitude, 
             userResult.coordinates.latitude,
             userResult.coordinates.longitude);
-          if(list_henquiries[i].distance > 99999 ) {
+          if(list_henquiries[i].distance > 99999) {
             list_henquiries.splice(i,1);
             i--;
           }
         }
+        // Eigene Henquiries werden nicht mitgeschickt
+        // Die Koordinaten werden wieder entfernt
         for(var i = 0; i < list_henquiries.length; i++) {
-          list_henquiries[i].createdBy.coordinates = undefined;
+          if(list_henquiries[i].createdBy._id == req.userId) {
+            list_henquiries.splice(i,1);
+            i--;
+          } else {
+            list_henquiries[i].createdBy.coordinates = undefined;
+          }
         }
         res.status(200);
         return res.json(list_henquiries);
@@ -71,7 +78,6 @@ exports.henquiry_test = (req, res, next) => {
     });
 };
 
-// TODO: Autogenerierten Text erstellen
 exports.createHenquiry = (req, res, next) => {
     if(!(req.body.amountAide && req.body.startTime && req.body.endTime && req.body.category)) {
       var err = new Error('All fields required.');
@@ -103,6 +109,12 @@ exports.createHenquiry = (req, res, next) => {
       }
       if(req.body.startTime <= req.creationTime || req.body.end <= req.creationTime) {
         var err = new Error('Die Start- und/oder Endzeit liegt in der Vergangenheit.');
+        err.status = 400;
+        return next(err);
+      }
+      // Hilfsgesuch dauert länger als drei Stunden. Drei Stunden sind das Maximum.
+      if(req.body.endTime - req.body.startTime > 10800000) {
+        var err = new Error('Das Hilfsgesuch darf höchstens drei Stunden dauern.');
         err.status = 400;
         return next(err);
       }
@@ -411,6 +423,7 @@ exports.calendar = (req, res, next) => {
     ]
   }).select('')
   .populate('aide','firstname surname nickname address')
+  .populate('createdBy', 'firstname surname nickname address')
   .exec(function(err, result) {
     if(err) {
       return next(err);

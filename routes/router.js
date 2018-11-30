@@ -6,7 +6,7 @@ var category_controller = require('../controller/categoryController');
 var henquiry_controller = require('../controller/henquiryController');
 var message_controller = require('../controller/messageController');
 var verifyToken = require('../controller/verifyToken');
-
+const {check,validationResult} = require('express-validator/check');
 // GET route for henquiries page
 router.get('/henquiries', verifyToken, henquiry_controller.getHenquiries);
 

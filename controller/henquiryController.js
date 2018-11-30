@@ -430,7 +430,7 @@ exports.calendar = (req, res, next) => {
     }
     for(var i = 0; i < result.length; i++) {
       result[i].ratedBy = result[i].closed = result[i].removed = result[i].happened = undefined;
-      if(!(userId == result[i].createdBy)) {
+      if(!(userId == result[i].createdBy._id)) {
         result[i].aide = result[i].ratedAide = result[i].potentialAide = result.updated = undefined;
       }
     }

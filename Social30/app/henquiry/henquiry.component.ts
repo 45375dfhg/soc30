@@ -50,7 +50,7 @@ export class HenquiryComponent {
         this.categorySelected = !this.categorySelected;
         this.categoryId = id;
         this.subNames = this.itemService.getSubElements(this.categoryId);
-        console.log(this.subNames);
+ 
     }
 
     getCategoryIconSource(icon: string): string {

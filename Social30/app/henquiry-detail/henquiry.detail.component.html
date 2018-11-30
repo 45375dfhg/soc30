@@ -8,3 +8,26 @@
 
 
 
+
+
+<GridLayout rows="auto,*,auto">
+
+
+    <RadDataForm row="0" tkExampleTitle tkToggleNavButton [source]="item">
+        <TKEntityProperty tkDataFormProperty name="startTime" index="0">
+            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="amountAide" index="1">
+            <TKPropertyEditor tkEntityPropertyEditor type="Stepper"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="duration" index="2">
+            <TKPropertyEditor tkEntityPropertyEditor type="Slider"></TKPropertyEditor>
+        </TKEntityProperty>
+    </RadDataForm>
+
+
+   <Button row="2" text="Zurück" (tap)="goBack()"></Button>
+</GridLayout>
+
+
+

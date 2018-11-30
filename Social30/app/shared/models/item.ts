@@ -36,7 +36,7 @@ export class Item {
     // public removed: boolean;
     public happened: boolean;
 
-    // constructor();
+    //constructor();
     // constructor(start, end, amount, category);
     constructor(start, end, amount, category, by, dist, id) {
         this.startTime = start || Date.now() + (24 * 60 * 1000);
@@ -46,8 +46,19 @@ export class Item {
         this.createdBy = by || { firstname: '', surname: '', _id: '', nickname: ''};
         this.distance = dist || 9999;
         this._id = id || '';
+    }  
+}
+
+export class ItemBase {
+    public startTime: Date;
+    public amountAide: number;
+    public duration: number;
+
+    constructor(startTime, amountAide, duration) {
+        this.startTime = startTime;
+        this.amountAide = amountAide;
+        this.duration = duration;
     }
-    
 }
 
 /*export class Item {

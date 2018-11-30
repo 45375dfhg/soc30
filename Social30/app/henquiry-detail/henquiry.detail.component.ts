@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
-import { Item } from "../shared/models/item";
+import { ItemBase } from "../shared/models/item";
 import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
 import { ItemService } from "../shared/services/item.service";
+
+
 
 
 @Component({
@@ -14,10 +16,11 @@ import { ItemService } from "../shared/services/item.service";
     styleUrls: ['./henquiry.detail.component.scss']
 })
 export class HenquiryDetailComponent {
+    private _item: ItemBase;
+    
+
     id;
     idtype;
-
-    subNames: String[];
 
     setIcon = this.itemService.getCategoryIconName;
 
@@ -26,33 +29,24 @@ export class HenquiryDetailComponent {
     }
 
 
-    getCategoryIconSource(icon: string): string {
-        console.log(icon);
-        //return this.itemService.getCategoryIconName();
-        return "j";
-
-    }
-
 
 
     ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
         this.idtype = typeof this.id;
-        let cat = this.id.slice(0,1);
+        let cat = this.id.slice(0, 1);
         let sub = this.id.slice(1);
 
-
-        this.subNames = this.itemService.getSubElements(cat);
-        console.log(this.subNames);
-
-    
-
-        
-
-
-        // console.log(this._item);
+        this._item = new ItemBase(
+            Date.now() + (24 * 60 * 1000),
+            1,
+            9999);
     }
 
+ 
+    get item(): ItemBase {
+        return this._item;
+    }
 
     public goBack() {
         this.routerExtension.back();

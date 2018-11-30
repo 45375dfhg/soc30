@@ -117,9 +117,10 @@ export class ItemService {
     // returns a single digit number
     public formatStartTime(start) {
         let time = new Date(start);
-        return (time.getDate() < 10) ? "0" + time.getHours() : time.getHours() + "." + (time.getMonth() + 1) +
-            ". um " + ((time.getHours() < 10) ? "0" + time.getHours() : time.getHours())
-            + ":" + time.getMinutes() + " Uhr";
+        return ((time.getDate() < 10) ? "0" + time.getDate() : time.getDate()) + "." 
+                + (((time.getMonth() + 1) < 10) ? "0" + (time.getMonth() + 1) : (time.getMonth() + 1)) 
+                + ". um " + ((time.getHours() < 10) ? "0" + time.getHours() : time.getHours())
+                + ":" + ((time.getMinutes() < 10) ? "0" + time.getMinutes() : time.getMinutes()) + " Uhr";
     }
 
     public formatCategory(category, subcategory) {

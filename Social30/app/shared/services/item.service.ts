@@ -37,6 +37,41 @@ export class ItemService {
             );
     }
 
+    
+    public getItem(id: string) {
+        if (this.items != undefined) {
+            return this.items.find(data => data._id === id);
+        } else {
+            return this.getItems().subscribe(items => this.getItem(id));
+        }
+    }
+
+    public getGuestItems(n: number) {
+        let itemList = [];
+        let date = Date.now();
+        for (let i = 0; i < n; i++) {
+            itemList.push(
+                new Item(
+                    new Date(date + (1000 * 60 * 30 * (i + 1))),
+                    new Date(date + ((1000 * 60 * 30 * (i + 1)) 
+                        + (1000 * 60 * 30 * (((i + 1) % 6) + 1)))),
+                    1,
+                    {category: (i % 5), subcategory: (i % 4)},
+                    {
+                        id: "5bfbaf927f0ef567ba67bd20",
+                        surname: "Musterman",
+                        firstname: "Max",
+                        nickname: "Das Beispiel"
+                    },
+                    0.8 * (i + 1),
+                    ''
+                ));
+            }
+        this.items = itemList;
+        return itemList; 
+    }
+    
+    // needs to be combined with formatDuration in some way
     public formatTerra(start, end) {
         let st = new Date(start);
         let en = new Date(end);
@@ -46,15 +81,8 @@ export class ItemService {
         return "Belohnung: " + value + " Terra";
     }
 
-    public getItem(id: string) {
-        if (this.items != undefined) {
-
-            return this.items.find(data => data._id === id);
-        } else {
-            return this.getItems().subscribe(items => this.getItem(id));
-        }
-    }
-
+    // get duration of event by substration the start from end
+    // converts the raw duration to rounded minutes
     public formatDuration(start, end) {
         let st = new Date(start);
         let en = new Date(end);
@@ -63,6 +91,9 @@ export class ItemService {
         return "Dauer: " + timeMinutes + " Minuten";
     }
 
+    // formats the distance to a displayable string
+    // if distance < 1 aka < 1km the value is rounded and converted to hundred meters
+    // otherwise return value string with a km value
     public formatDistance(distance) {
         if (distance == 9999) {
             return "Das bin ich! Da wohne ich!"
@@ -79,6 +110,17 @@ export class ItemService {
         let time = new Date(start);
         let day = Days[time.getDay()];
         return "Am " + day + ", dem " + time.getDate() + ". " + Months[time.getMonth()];
+    }
+
+    // formats the start time
+    // adds azero before the day / hour if the return value of the corresponding function
+    // returns a single digit number
+    public formatStartTime(start) {
+        let time = new Date(start);
+        return ((time.getDate() < 10) ? "0" + time.getDate() : time.getDate()) + "." 
+                + (((time.getMonth() + 1) < 10) ? "0" + (time.getMonth() + 1) : (time.getMonth() + 1)) 
+                + ". um " + ((time.getHours() < 10) ? "0" + time.getHours() : time.getHours())
+                + ":" + ((time.getMinutes() < 10) ? "0" + time.getMinutes() : time.getMinutes()) + " Uhr";
     }
 
     public formatCategory(category, subcategory) {
@@ -114,14 +156,6 @@ export class ItemService {
         ];
         const iconPrefix = isAndroid ? "res://" : "res://";
         return iconPrefix + result[category][subcategory];
-    }
-
-
-    public formatStartTime(start) {
-        let time = new Date(start);
-        return time.getDate() + "." + (time.getMonth() + 1) +
-            ". um " + ((time.getHours() < 10) ? "0" + time.getHours() : time.getHours())
-            + ":" + time.getMinutes() + " Uhr";
     }
 
     private handleErrors(operation: string) {

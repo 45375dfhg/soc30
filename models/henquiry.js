@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 
 var HenquirySchema = new Schema({
     aide: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    updated: {type: Boolean, default: false},
     ratedAide: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     potentialAide: [{type: Schema.Types.ObjectId, ref: 'User'}],
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },

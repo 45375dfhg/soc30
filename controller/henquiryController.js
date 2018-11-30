@@ -218,6 +218,7 @@ exports.apply = (req, res, next) => {
           }
         }
         result.potentialAide.push(userId);
+        result.updated = true;
         result.save();
         return res.json(result);
       });
@@ -406,13 +407,22 @@ exports.calendar = (req, res, next) => {
   Henquiry.find({
     $and: [
       {$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]},
-      {happened: false}
+      {happened: false, removed: false}
     ]
-  }).select('').populate('aide','firstname surname nickname').exec( function(err, result) {
+  }).select('')
+  .populate('aide','firstname surname nickname')
+  .exec(function(err, result) {
     if(err) {
       return next(err);
     }
-    res.json(result);
+    for(var i = 0; i < result.length; i++) {
+      result[i].ratedBy = result[i].closed = result[i].removed = result[i].happened = undefined;
+      if(!(userId == result[i].createdBy)) {
+        result[i].aide = result[i].ratedAide = result[i].potentialAide = result.updated = undefined;
+      }
+    }
+    console.log(result);
+    return res.json(result);
   });
 };
 

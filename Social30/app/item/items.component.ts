@@ -28,7 +28,7 @@ declare var UIView, NSMutableArray, NSIndexPath;
 export class ItemsComponent implements OnInit {
 
     items: Item[] = [];
-    message: { categories: number[] , time: number ,distance: number };
+    message: { categories: boolean[], time: number ,distance: number };
     
     // imported this way to avoid angular namespace problems
     formatDuration = this.itemService.formatDuration;
@@ -36,6 +36,7 @@ export class ItemsComponent implements OnInit {
     formatStartTime = this.itemService.formatStartTime;
     formatStartTimeLong = this.itemService.formatStartTimeLong;
     formatCategory = this.itemService.formatCategory;
+    formatTerra = this.itemService.formatTerra;
     setIcon = this.itemService.getCategoryIconName;
 
     constructor(

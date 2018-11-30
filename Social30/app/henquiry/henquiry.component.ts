@@ -27,9 +27,7 @@ export class HenquiryComponent {
     categoryId;
     categorySubId;
 
-
     subNames: String[];
-
 
     setIcon = this.itemService.getCategoryIconName;
 
@@ -41,7 +39,6 @@ export class HenquiryComponent {
 		private routerExtension: RouterExtensions,) { 
             //page.actionBarHidden = true;
     }   
-
 
     ngOnInit(): void {}
 
@@ -60,8 +57,6 @@ export class HenquiryComponent {
         return getCategoryIconSource(icon);
     }
 
-
-    
 
 }
 

@@ -37,6 +37,15 @@ export class ItemService {
             );
     }
 
+    public formatTerra(start, end) {
+        let st = new Date(start);
+        let en = new Date(end);
+        let timeRaw = en.getTime() - st.getTime();
+        let timeMinutes = Math.round((timeRaw / 1000 / 60));
+        let value = timeMinutes / 30;
+        return "Belohnung: " + value + " Terra";
+    }
+
     public getItem(id: string) {
         if (this.items != undefined) {
 
@@ -57,6 +66,9 @@ export class ItemService {
     public formatDistance(distance) {
         if (distance == 9999) {
             return "Das bin ich! Da wohne ich!"
+        }
+        if (distance < 1) {
+            return Math.floor(Math.round(distance * 10)) * 100 + "m von mir entfernt"
         }
         return Math.round(distance) + "km von mir entfernt";
     }
@@ -95,9 +107,9 @@ export class ItemService {
     public getCategoryIconName(category, subcategory) {
         let result = [
             ["reparieren", "umraeumen", "umziehen"],
-            ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "spruehflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
+            ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "sprhflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
             ["kochen", "spazierengehen", "spielespielen", "vorlesen", "gesellschaft"],
-            ["blumengieen", "blumenpflanzen", "blumentopfen", "gaertern", "heckenschneiden", "rechen", "schlammschlacht"],
+            ["blumengieen", "blumenpflanzen", "blumentopf", "grtnern", "heckenschneiden", "rechen", "schlammschlacht"],
             ["gassigehen", "kaefigsaeubern", "tierefuettern"]
         ];
         const iconPrefix = isAndroid ? "res://" : "res://";

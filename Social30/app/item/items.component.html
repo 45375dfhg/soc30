@@ -17,14 +17,12 @@
         </GridLayout>
     </ng-template>
 </RadListView>-->
+<!--<Label [text]="message.time"></Label>-->
 
 <StackLayout marginTop="5" marginBottom="5">
-    <Label [text]="message.time"></Label>
-    <Button text="logout" (onTap)="logout()"></Button>
     <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']" pageTransition="fade"></Button>
     <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
-
         <ng-template tkListItemTemplate let-item="item">
             <FlexboxLayout flexDirection="row">
                 <GridLayout rows="33,33,34" columns="*, *, *, 15" class="border gridItem">
@@ -52,7 +50,7 @@
 
                         <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>
 
-                    <Label row="4" col="0" colSpan="2" text="Terra Belohnung: 5 Einheiten" verticalAlignment="bottom" height="20"
+                    <Label row="4" col="0" colSpan="2" [text]="formatTerra(item.startTime, item.endTime)" verticalAlignment="bottom" height="20"
                         class="fa"></Label>
                     <Label row="5" col="0" colSpan="2" [text]="formatDuration(item.startTime, item.endTime)" verticalAlignment="top" height="20" class="fa"></Label>
 

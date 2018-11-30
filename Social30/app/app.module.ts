@@ -33,8 +33,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 // helper
 import { TokenInterceptor } from './shared/helper/token.interceptor';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-// import { fromEventPattern } from "rxjs";
-
 
 // pipes
 // import { PipeModule } from './shared/pipes/pipe.module';
@@ -51,18 +49,13 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
         NativeScriptHttpClientModule,
         NativeScriptFormsModule,
         ReactiveFormsModule,
-        // PipeModule.forRoot(),
     ],
-    entryComponents: [
-        // HenquiryModalComponent
-    ],
+    entryComponents: [],
     declarations: [
         AppComponent,
         LoginComponent,
         WelcomeComponent,
         RegisterComponent,
-        //KeysPipe
-        // HenquiryModalComponent
     ],
     providers: [
         ItemService,
@@ -71,9 +64,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
         CalendarService,
         AlertService,
         DataService,
-        // ModalDialogService,
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
-        // { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],
     schemas: [
         NO_ERRORS_SCHEMA

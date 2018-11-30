@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 export class DataService {
     
     private messageSource = new BehaviorSubject({
-        categories: [0,1,2,3,4,5],
+        categories: [true,true,true,true,true,true],
         time: 30,
         distance: 6,
     });

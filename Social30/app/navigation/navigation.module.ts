@@ -26,6 +26,10 @@ import { NavigationComponent } from "./navigation.component";
                         outlet: "henquiryoutlet",
                         component: NSEmptyOutletComponent,
                         loadChildren: "./henquiry/henquiry.module#HenquiryModule" },
+                    {   path: "profile",
+                        outlet: "profileoutlet",
+                        component: NSEmptyOutletComponent,
+                        loadChildren: "./profile/profile.module#ProfileModule" },
                 ]
             }
         ])
@@ -33,9 +37,7 @@ import { NavigationComponent } from "./navigation.component";
     declarations: [
         NavigationComponent,
     ],
-    providers: [
-        // { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-    ],
+    providers: [],
     schemas: [NO_ERRORS_SCHEMA]
 })
 export class NavigationModule { }

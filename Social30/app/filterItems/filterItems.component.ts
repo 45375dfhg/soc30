@@ -19,7 +19,7 @@ import { DataService } from '../shared/services/data.service';
 export class FilterItemsComponent implements OnInit {
 
 	private selected = null;
-	message: { categories: number[] , time: number ,distance: number };
+	message: { categories: boolean[] , time: number ,distance: number };
 
 	constructor(private router: RouterExtensions, private data: DataService,) { }
 

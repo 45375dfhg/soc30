@@ -7,11 +7,11 @@
 
         <GridLayout row="0" rows="auto,auto,auto,auto" columns="*, *">
                 <Label row="0" col="0" colSpan="2" text="Bei welchen Tätigkeiten möchtest du gerne helfen?" class="fa"></Label>
-                <Button row="1" col="0" text="Schwerer Haushalt" class="orangeButton" (tap)="handleTap($event)"></Button>
-                <Button row="1" col="1" text="Leichter Haushalt" class="orangeButton" (tap)="handleTap($event)"></Button>
-                <Button row="2" col="0" text="Gartenarbeit" class="orangeButton" (tap)="handleTap($event)"></Button>
-                <Button row="2" col="1" text="Gesellschaft" class="orangeButton" (tap)="handleTap($event)"></Button>
-                <Button row="3" col="0" text="Tiere" class="orangeButton" (tap)="handleTap($event)"></Button>
+                <Button row="1" col="0" text="Schwerer Haushalt" class="orangeButton" (tap)="handleTap($event, c , t, d)"></Button>
+                <Button row="1" col="1" text="Leichter Haushalt" class="orangeButton" (tap)="handleTap($event, c ,t, d)"></Button>
+                <Button row="2" col="0" text="Gartenarbeit" class="orangeButton" (tap)="handleTap($event, c ,t, d)"></Button>
+                <Button row="2" col="1" text="Gesellschaft" class="orangeButton" (tap)="handleTap($event, c ,t, d)"></Button>
+                <Button row="3" col="0" text="Tiere" class="orangeButton" (tap)="handleTap($event, c ,t, d)"></Button>
         </GridLayout>
 
 

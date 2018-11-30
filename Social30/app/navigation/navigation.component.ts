@@ -25,7 +25,8 @@ export class NavigationComponent {
             outlets: {
                 itemsoutlet: ["items"],
                 calendaroutlet: ["calendar"],
-                henquiryoutlet: ["henquiry"]
+                henquiryoutlet: ["henquiry"],
+                profileoutlet: ["profile"]
             }
         }],
             { relativeTo: this.activeRoute });

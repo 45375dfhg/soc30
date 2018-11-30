@@ -46,28 +46,32 @@ export class ItemsComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private data: DataService,
         private page: Page,
-        ) {
-            //page.actionBarHidden = true;
-    }
+        ) { }
 
     ngOnInit(): void {
+        // get the current filter settings (default values in this case)
         this.data.currentMessage.subscribe(message => this.message = message);
+        // checks whether the user is a guest or not
         if(!this.appSet.getUser('guest')) {
-            console.log('user is not a guest')
             this.receiveList();
         } else {
-            console.log('user is a guest');
-            // load dummy data
+            this.items = this.itemService.getGuestItems(12);
         }
     }
 
     receiveList() {
         this.itemService.getItems().subscribe(result => {
             if (result) {
-                let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
                 // filters entries made by the user, not very clean but whatever
                 // I blame those people working on the backend
-                this.items = result.filter(entry => currentUser._id != entry.createdBy._id);
+                // afterwards sorts them by date
+                let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+                this.items = result.filter(entry => currentUser._id != entry.createdBy._id)
+                    .sort((entry1, entry2) => {
+                            let date1 = new Date(entry1.startTime).getTime();
+                            let date2 = new Date(entry2.startTime).getTime();
+                            return date1 - date2
+                    });
             } else {
                 console.log('Didnt get any items')
             }

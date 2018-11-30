@@ -410,7 +410,7 @@ exports.calendar = (req, res, next) => {
       {happened: false, removed: false}
     ]
   }).select('')
-  .populate('aide','firstname surname nickname')
+  .populate('aide','firstname surname nickname address')
   .exec(function(err, result) {
     if(err) {
       return next(err);
@@ -421,7 +421,6 @@ exports.calendar = (req, res, next) => {
         result[i].aide = result[i].ratedAide = result[i].potentialAide = result.updated = undefined;
       }
     }
-    console.log(result);
     return res.json(result);
   });
 };

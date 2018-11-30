@@ -9,25 +9,30 @@
 
 
 
-
-<GridLayout rows="auto,*,auto">
-
-
-    <RadDataForm row="0" tkExampleTitle tkToggleNavButton [source]="item">
-        <TKEntityProperty tkDataFormProperty name="startTime" index="0">
-            <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
-        </TKEntityProperty>
-        <TKEntityProperty tkDataFormProperty name="amountAide" index="1">
-            <TKPropertyEditor tkEntityPropertyEditor type="Stepper"></TKPropertyEditor>
-        </TKEntityProperty>
-        <TKEntityProperty tkDataFormProperty name="duration" index="2">
-            <TKPropertyEditor tkEntityPropertyEditor type="Slider"></TKPropertyEditor>
-        </TKEntityProperty>
-    </RadDataForm>
-
-
-   <Button row="2" text="Zurück" (tap)="goBack()"></Button>
-</GridLayout>
-
-
-
+<ScrollView>
+    <GridLayout rows="auto,auto,auto,auto,auto">
+        <GridLayout row="0" row="auto,auto">
+            <Label row="0" text="An welchem Tag brauchst du Hilfe?" class="fa"></Label>
+            <DatePicker row="1" verticalAlignment="center"></DatePicker>
+        </GridLayout>
+        <GridLayout row="1" rows="auto,auto">
+            <Label row="0" text="Um wie viel Uhr brauchst du Hilfe?" class="fa"></Label>
+            <TimePicker row="1" verticalAlignment="center"></TimePicker>
+        </GridLayout>
+        <GridLayout row="2" rows="*,*" columns="*,*,*,*">
+            <Label row="0" col="0" colSpan="4" text="Wie lange dauert die Hilfe?" class="fa"></Label>
+            <Button row="1" col="0" text="30"></Button>
+            <Button row="1" col="1" text="60"></Button>
+            <Button row="1" col="2" text="90"></Button>
+            <Button row="1" col="6" text="+"></Button>
+        </GridLayout>
+        <GridLayout row="3" rows="*,*" columns="*,*,*,*">
+            <Label row="0" col="0" colSpan="4" text="Wie viele Leute brauchst du?" class="fa"></Label>
+            <Button row="1" col="0" text="1"></Button>
+            <Button row="1" col="1" text="2"></Button>
+            <Button row="1" col="2" text="3"></Button>
+            <Button row="1" col="6" text="4"></Button>
+        </GridLayout>
+        <Button row="4" text="Zurück" (tap)="goBack()"></Button>
+    </GridLayout>
+</ScrollView>

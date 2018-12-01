@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { Page } from "tns-core-modules/ui/page";
+import { RadListViewComponent } from "nativescript-ui-listview/angular";
 import { ListViewEventData } from "nativescript-ui-listview";
-import { TextView } from "tns-core-modules/ui/text-view";
 
 import { ItemService } from "../shared/services/item.service";
 import { AppSettingsService } from '../shared/services/appsettings.service';
@@ -22,14 +22,10 @@ declare var UIView, NSMutableArray, NSIndexPath;
 	styleUrls: ['./calendar.component.scss']
 })
 
-export class CalendarComponent implements OnInit, AfterViewInit {
+export class CalendarComponent implements OnInit {
 
     private entries;
     private dates: string[] = [];
-
-    // vars required for the initial expand
-    @ViewChild('myDiv') myDiv: ElementRef;
-    private trigger: boolean = true;
     
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
@@ -59,23 +55,6 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         } else {
             console.log('user is a guest');
             // load dummy data
-        }
-    }
-
-    ngAfterViewInit(): void {
-        // doesnt work just yet (WIP)
-        // this.triggerFalseFirstClick();
-    }
-
-    // we want to expand the first month in our list
-    // we do this by programmatically clicking it onInit()
-    // https://stackoverflow.com/a/45027961
-    triggerFalseFirstClick() {
-        if (this.trigger) {
-            this.trigger = false;
-            console.log(this.myDiv);
-            let el: HTMLElement = this.myDiv.nativeElement as HTMLElement;
-            el.click();
         }
     }
 
@@ -194,7 +173,11 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
 
 	templateSelector(item: any, index: number, items: any): string {
-        return item.expanded ? "expanded" : "default";
+        // expands the first element by default while the rest ain't
+        if (index == 0) {
+            return item.expanded ? "default" : "expanded";
+        }
+        return item.expanded ? "expanded" : "default";   
     }
 
     // expand functionality

@@ -21,7 +21,7 @@
 </StackLayout>
 -->
 
-<StackLayout #myDiv *ngIf="entries; else noEntries" marginTop="5">
+<StackLayout *ngIf="entries; else noEntries" marginTop="5">
         <RadListView [items]="entries" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
             style="height:100%">
             <ng-template tkListItemTemplate let-month="item">

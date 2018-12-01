@@ -48,8 +48,9 @@
         <GridLayout rows="*,*" columns=" *, *">
             <Button class="orangeButton" row="0" col="0" text="Teil werden?" [nsRouterLink]="['../register']"></Button>
             <Button class="orangeButton" row="0" col="1" text="Bereits dabei?" [nsRouterLink]="['../login']"></Button>
-            <Button class="blueButton" row="1" col="0" colSpan="2" text="Reinschnuppern?" [nsRouterLink]="['../home']" (onTap)="onTapGuest()"></Button>
+            <Button class="blueButton" row="1" col="0" colSpan="2" text="Reinschnuppern?" [nsRouterLink]="['../home']"></Button>
         </GridLayout>
     </GridLayout>
-
 </GridLayout>
+
+<!--(onTap)="onTapGuest()"-->

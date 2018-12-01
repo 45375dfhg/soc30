@@ -29,6 +29,19 @@ export class HenquiryComponent {
 
     subNames: String[];
 
+    // imported this way to avoid angular namespace problems
+    // cant use imported service functions inside html
+    formatDuration = this.itemService.formatDuration;
+    formatDistance = this.itemService.formatDistance;
+    formatStartTime = this.itemService.formatStartTime;
+    formatStartTimeLong = this.itemService.formatStartTimeLong;
+    formatCategory = this.itemService.formatCategory;
+    formatCategoryByUser = this.itemService.formatCategoryByUser;
+    formatTerra = this.itemService.formatTerra;
+    formatTime = this.itemService.formatTime;
+    formatLocation = this.itemService.formatLocation;
+    getSubStrings = this.itemService.getSubStrings;
+    getSubs = this.itemService.getSubs;
     setIcon = this.itemService.getCategoryIconName;
 
     public constructor(
@@ -36,9 +49,7 @@ export class HenquiryComponent {
         private itemService: ItemService,
         private route: ActivatedRoute,
 		private router: Router,
-		private routerExtension: RouterExtensions,) { 
-            //page.actionBarHidden = true;
-    }   
+		private routerExtension: RouterExtensions,) {}   
 
     ngOnInit(): void {}
 
@@ -46,18 +57,17 @@ export class HenquiryComponent {
         this.routerExtension.back();
     }
 
+    // used to flip between the two html structures while saving category id
+    // which is used for routing to details where its used to create an henquiry
     switchStatus (id: number) {
         this.categorySelected = !this.categorySelected;
         this.categoryId = id;
         this.subNames = this.itemService.getSubElements(this.categoryId);
- 
     }
 
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
 
-
 }
 
-// private modal: ModalDialogService, private vcRef: ViewContainerRef, 

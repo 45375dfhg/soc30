@@ -6,7 +6,6 @@ import { PipeModule } from '../shared/pipes/pipe.module';
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
 
-
 @NgModule({
     imports: [
         NativeScriptCommonModule,

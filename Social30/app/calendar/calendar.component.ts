@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Page } from "tns-core-modules/ui/page";
-
-import { CalendarService } from "../shared/services/calendar.service";
-import { Item } from "../shared/models/item";
 import { isIOS, isAndroid } from "tns-core-modules/platform";
+import { Page } from "tns-core-modules/ui/page";
 import { ListViewEventData } from "nativescript-ui-listview";
-// import { KeysPipe } from '../shared/pipes/keys.pipe';
-// import * as appSettings from "tns-core-modules/application-settings";
+import { TextView } from "tns-core-modules/ui/text-view";
 
-import _ from "lodash";
 import { ItemService } from "../shared/services/item.service";
 import { AppSettingsService } from '../shared/services/appsettings.service';
+import { CalendarService } from "../shared/services/calendar.service";
+import { Item } from "../shared/models/item";
+
+import _ from "lodash";
+
 
 declare var UIView, NSMutableArray, NSIndexPath;
 
@@ -24,22 +24,26 @@ declare var UIView, NSMutableArray, NSIndexPath;
 
 export class CalendarComponent implements OnInit, AfterViewInit {
 
-	items: Item[] = []; // placeholder
-
     private entries;
     private dates: string[] = [];
 
-    // vars needs for the initial expand
+    // vars required for the initial expand
     @ViewChild('myDiv') myDiv: ElementRef;
     private trigger: boolean = true;
     
     // imported this way to avoid angular namespace problems
+    // cant use imported service functions inside html
     formatDuration = this.itemService.formatDuration;
     formatDistance = this.itemService.formatDistance;
     formatStartTime = this.itemService.formatStartTime;
     formatStartTimeLong = this.itemService.formatStartTimeLong;
     formatCategory = this.itemService.formatCategory;
     formatCategoryByUser = this.itemService.formatCategoryByUser;
+    formatTerra = this.itemService.formatTerra;
+    formatTime = this.itemService.formatTime;
+    formatLocation = this.itemService.formatLocation;
+    getSubStrings = this.itemService.getSubStrings;
+    getSubs = this.itemService.getSubs;
     setIcon = this.itemService.getCategoryIconName;
 
     constructor(
@@ -75,11 +79,15 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         }
     }
 
+    // complete restructuring of the backend results to allow angular to 
+    // itterate as efficiently as possible inside the template
     receiveAndOrder() {
         this.calendarService.getEntries().subscribe(
             result => { 
                 // chaining the functions, using (result) as a initial value
                 // this needs to be redone but works for now
+                // technically a job for the backend but might scale badly
+                // so its getting outsourced to frontend
                 let output = _.flow([
                     this.groupEntries,
                     this.formatEntries, 
@@ -189,6 +197,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         return item.expanded ? "expanded" : "default";
     }
 
+    // expand functionality
     onItemTap(event: ListViewEventData) {
         const listView = event.object,
             rowIndex = event.index,

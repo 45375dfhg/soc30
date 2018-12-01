@@ -35,11 +35,12 @@ export class ItemService {
                     this.items = itemList;
                     return itemList;
                 }),
+                // needs to be rearranged to the error handler service
                 catchError(this.handleErrors('getItems'))
             );
     }
 
-    
+    // needs to be reworked but works for now
     public getItem(id: string) {
         if (this.items != undefined) {
             return this.items.find(data => data._id === id);
@@ -48,6 +49,7 @@ export class ItemService {
         }
     }
 
+    // creates dummy values for the guest access
     public getGuestItems(n: number) {
         let itemList = [];
         let date = Date.now();
@@ -73,24 +75,21 @@ export class ItemService {
         return itemList; 
     }
     
-    // needs to be combined with formatDuration in some way
+    // transforms the duration to terra
     public formatTerra(start, end) {
-        let st = new Date(start);
-        let en = new Date(end);
-        let timeRaw = en.getTime() - st.getTime();
-        let timeMinutes = Math.round((timeRaw / 1000 / 60));
-        let value = timeMinutes / 30;
+        let value = this.formatTime(start,end) / 30;
         return "Belohnung: " + value + " Terra";
     }
 
-    // get duration of event by substration the start from end
-    // converts the raw duration to rounded minutes
     public formatDuration(start, end) {
-        let st = new Date(start);
-        let en = new Date(end);
-        let timeRaw = en.getTime() - st.getTime();
-        let timeMinutes = Math.round((timeRaw / 1000 / 60));
+        let timeMinutes = this.formatTime(start,end);
         return "Dauer: " + timeMinutes + " Minuten";
+    }
+
+    // transforms end and start point to a duration in minutes
+    public formatTime(start, end) {
+        let st = new Date(start).getTime(), en = new Date(end).getTime();
+        return Math.round(((en - st) / 1000 / 60))
     }
 
     // formats the distance to a displayable string
@@ -106,6 +105,7 @@ export class ItemService {
         return Math.round(distance) + "km von mir entfernt";
     }
 
+    // no usage as of now (18-12-01)
     public formatStartTimeLong(start) {
         enum Days { Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag }
         enum Months { Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember };
@@ -115,82 +115,112 @@ export class ItemService {
     }
 
     // formats the start time
-    // adds azero before the day / hour if the return value of the corresponding function
-    // returns a single digit number
-    // needs to be cleaned up too (just add some "lets" to avoid repeating function calls)
+    // first checks whether the date is today (see: https://stackoverflow.com/a/8215631)
+    // then checks for tomrrow 
+    // (.getMonth() returns a value of 0 to 11 that's where the +1 comes from)
     public formatStartTime(start) {
-        let time = new Date(start);
-        return ((time.getDate() < 10) ? "0" + time.getDate() : time.getDate()) + "." 
-                + (((time.getMonth() + 1) < 10) ? "0" + (time.getMonth() + 1) : (time.getMonth() + 1)) 
-                + ". um " + ((time.getHours() < 10) ? "0" + time.getHours() : time.getHours())
-                + ":" + ((time.getMinutes() < 10) ? "0" + time.getMinutes() : time.getMinutes()) + " Uhr";
+        let time = new Date(start), today = new Date(), tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+        let mth = time.getMonth(), day = time.getDate(), hour = time.getHours(), min = time.getMinutes();
+        if (time.setHours(0,0,0,0) == today.setHours(0,0,0,0)) {
+            return "Heute" + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
+        }
+        // reset the time value which got mutated by setHours and so on
+        time = new Date(start)
+        if (time.setHours(0,0,0,0) == tomorrow.setHours(0,0,0,0)) {
+            return "Morgen" + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
+        }
+        // reset the time value which got mutated by setHours and so on
+        time = new Date(start);
+        return ((day < 10) ? "0" + day : day) + "." + (((mth + 1) < 10) ? "0" + (mth + 1) : (mth + 1)) 
+                + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
     }
 
-    public formatCategoryByUser(cat, sub, creator, aide) {
-        let result = [
-            ["Reparieren", "Umräumen", "Umziehen"],
-            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
-            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
-            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen"],
-            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
-        ];
+    // formats the subcategory, creatorId and aide[] to a string which shows the direction of help
+    // used by the calendar
+    public formatCategoryByUser(cat, creator, aide) {
+        let result = this.getSubs();
+        // currentUser exists to avoid conflicts with guest modus
         if (this.appSet.getUser('currentUser')) {
             let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
             let stranger = '';
-            console.log(currentUser._id)
-            console.log(creator._id)
+            // check whether the henquiry createdBy._id is the same as the currentUsers._id
+            // if identical its the currentUser who requested help
             if (currentUser._id == creator._id) {
-                if (typeof aide == 'undefined' || aide.length == 0) {
-                    return result[cat][sub] + ": Wir suchen noch jemanden für dich!"
-                } else {
+                // aide[] exists and contains more than one person to help
+                if (typeof aide != 'undefined' && aide.length > 0) {
                     stranger = aide[0].firstname;
                     if (aide.length == 1) {
-                        return result[cat][sub] + ": " + stranger + " kommt vorbei!"
+                        // result[cat.category][cat.subcategory] + ": " +
+                        return stranger + " kommt vorbei!"
                     } else {
-                        return result[cat][sub] + ": " + stranger 
-                            + "und " + (aide.length - 1) + " weitere Person kommt vorbei!"
+                        if (aide.length == 2) {
+                            return  stranger + "und eine weitere Person kommt vorbei!"
+                        }
+                        return  stranger + "und " + (aide.length - 1) + " weitere Personen kommen vorbei!"
                     }
+                } else {
+                    // no aides just yet
+                    // result[cat.category][cat.subcategory] + ": 
+                    return "Wir suchen noch jemanden für dich!"
                 }
             } else {
-                return result[cat][sub] + ": " + "Ich helfe " + creator.firstname + " aus!";
+                // you have a date with a stranger
+                // result[cat.category][cat.subcategory] + ": " + 
+                return "Ich helfe " + creator.firstname + " aus!";
             }
         }
-        
     }
 
+    public formatLocation(creator) {
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            if (currentUser._id == creator._id) {
+                return "Bei dir Zuhause!"
+            } else {
+                return "Creator.adresse sth"
+            }
+        }
+    }
+
+    // returns subcategory html string
     public formatCategory(category, subcategory) {
-        let result = [
-            ["Reparieren", "Umräumen", "Umziehen"],
-            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
-            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
-            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen"],
-            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
-        ];
+        let result = this.getSubs();
         return result[category][subcategory];
     }
 
+    // returns category html string array
     public getSubElements(category) {
-        let result = [
-            ["Reparieren", "Umräumen", "Umziehen"],
-            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
-            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
-            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtern", "Heckenschneiden", "Rechen"],
-            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
-        ];
+        let result = this.getSubs();
         return result[category];
     }
 
-
+    // returns subcategory icon string 
     public getCategoryIconName(category, subcategory) {
-        let result = [
+        let result = this.getSubStrings();
+        const iconPrefix = isAndroid ? "res://" : "res://";
+        return iconPrefix + result[category][subcategory];
+    }
+
+    // printable strings for html
+    public getSubs() {
+        return [
+            ["Reparieren", "Umräumen", "Umziehen"],
+            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
+            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
+            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtnern", "Heckenschneiden", "Rechen"],
+            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
+        ];
+    }
+
+    // strings that represent pictures
+    public getSubStrings() {
+        return [
             ["reparieren", "umraeumen", "umziehen"],
             ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "sprhflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
             ["kochen", "spazierengehen", "spielespielen", "vorlesen", "gesellschaft"],
             ["blumengieen", "blumenpflanzen", "blumentopf", "grtnern", "heckenschneiden", "rechen"],
             ["gassigehen", "kaefigsaeubern", "tierefuettern"]
         ];
-        const iconPrefix = isAndroid ? "res://" : "res://";
-        return iconPrefix + result[category][subcategory];
     }
 
     private handleErrors(operation: string) {
@@ -204,28 +234,3 @@ export class ItemService {
         }
     }
 }
-
-/*
-enum Category {"Schwerer Haushalt", "Leichter Haushalt", "Gesellschaft", "Gartenarbeit", "Tiere"};
-enum Schwer {Reparieren, Umräumen, Umziehen};
-enum Leicht {Bügeln, Einkaufen, Handschuhe, Kehren, Müllrausbringen, Schrubben, Spühlen, Sprühflasche, Staubsaugen, "Wäsche aufhängen", "Wäsche waschen"};
-enum Gesell {Kochen, Spazierengehen, "Brettspiele spielen", Vorlesen};
-enum Garten {Blumengießen, "Blumen pflanzen", "Blumen eintopfen", Gärtern, Heckenschneiden, Rechen, Schlammschlacht};
-enum Tiere {Gassigehen, Käfigsäubern, "Tiere füttern"};
-*/
-
-    /*
-    public getDummyItems(amount: Number) {
-        let itemList = [];
-        for (let i = 1; i <= amount; i++) {
-            itemList.push(
-                            new Item(1, i, "Brauche Hilfe " + i, 69118 + i , { _id: 1000 + i, email: "fakemail@lolz.com", nickname: "Dieter" + i} ,9 + i, 10 + i));
-                }
-                this.items = itemList;
-                return itemList; 
-            }
-
-    public getDummyItem(id: string) {
-        return this.items.find(data => data._id == id);
-    }
-    */

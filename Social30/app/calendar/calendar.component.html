@@ -50,14 +50,19 @@
                                     </GridLayout>
                                     <StackLayout row="1" col="1" colSpan="3">
                                         <StackLayout *ngFor="let henquiry of day.value">
-                                            <GridLayout rows="auto,auto,auto" columns="*" class="henqueryItem">
-                                                <Label row="0" col="0" *ngIf="henquiry.createdBy.surname"
-                                                [text]="formatCategoryByUser(henquiry.category.category, henquiry.category.subcategory, henquiry.createdBy, henquiry.aide)" horizontalAlignment="left"
+                                            <GridLayout rows="auto,auto,auto,auto" columns="*" class="henqueryItem">
+                                                <Label row="0" col="0"  horizontalAlignment="left" textWrap="true"
+                                                    verticalAlignment="center" [text]="formatCategory(henquiry.category.category, henquiry.category.subcategory)" class="fa hequeryInfo">
+                                                </Label>
+                                                <Label row="1" col="0" *ngIf="henquiry.createdBy.surname"
+                                                [text]="formatCategoryByUser(henquiry.category, henquiry.createdBy, henquiry.aide)" horizontalAlignment="left"
                                                     verticalAlignment="center" class="fa heading" textWrap="true"></Label>
-                                                <Label row="1" col="0"  horizontalAlignment="left" textWrap="true"
-                                                    verticalAlignment="center" text="whatever" class="fa hequeryInfo"></Label>
-                                                <Label row="2" col="0" [text]="formatStartTime(henquiry.startTime)" horizontalAlignment="left"
-                                                    verticalAlignment="center" class="fa hequeryStatus"></Label>
+                                                <Label row="2" col="0"  horizontalAlignment="left" textWrap="true"
+                                                    verticalAlignment="center" [text]="formatLocation(henquiry.createdBy)" class="fa hequeryInfo">
+                                                </Label>
+                                                <Label row="3" col="0" [text]="formatStartTime(henquiry.startTime)" horizontalAlignment="left"
+                                                    verticalAlignment="center" class="fa hequeryStatus">
+                                                </Label>
                                             </GridLayout>
                                         </StackLayout>
                                     </StackLayout>

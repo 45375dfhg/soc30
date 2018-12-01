@@ -31,12 +31,18 @@ export class ItemsComponent implements OnInit {
     message: { categories: boolean[], time: number ,distance: number };
     
     // imported this way to avoid angular namespace problems
+    // cant use imported service functions inside html
     formatDuration = this.itemService.formatDuration;
     formatDistance = this.itemService.formatDistance;
     formatStartTime = this.itemService.formatStartTime;
     formatStartTimeLong = this.itemService.formatStartTimeLong;
     formatCategory = this.itemService.formatCategory;
+    formatCategoryByUser = this.itemService.formatCategoryByUser;
     formatTerra = this.itemService.formatTerra;
+    formatTime = this.itemService.formatTime;
+    formatLocation = this.itemService.formatLocation;
+    getSubStrings = this.itemService.getSubStrings;
+    getSubs = this.itemService.getSubs;
     setIcon = this.itemService.getCategoryIconName;
 
     constructor(
@@ -46,13 +52,13 @@ export class ItemsComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private data: DataService,
         private page: Page,
-        ) { }
+        ) {}
 
     ngOnInit(): void {
         // get the current filter settings (default values in this case)
         this.data.currentMessage.subscribe(message => this.message = message);
         // checks whether the user is a guest or not
-        if(!this.appSet.getUser('guest')) {
+        if (!this.appSet.getUser('guest')) {
             this.receiveList();
         } else {
             this.items = this.itemService.getGuestItems(12);

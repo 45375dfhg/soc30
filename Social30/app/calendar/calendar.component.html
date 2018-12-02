@@ -77,7 +77,12 @@
         </RadListView>
 </StackLayout>
 <ng-template #noEntries>
-    <Label text="Dein Kalender ist leider leer"></Label>
+    <GridLayout rows="auto,auto,auto,auto" class="emptyScreen">
+            <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!" horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>
+            <Label row="1" text="Oder brauchst du selbst Hilfe? Dann setz einfach ein Hilfegesuch auf!" horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext2"></Label>
+            <Image row="2" [src]="getCategoryIconSource('kaffeetasse')" horizontalAlignment="center" verticalAlignment="center" height="25%" class="emptyimage1"></Image>
+            <Label row="3" text="Hier siehst du bald eine Übersicht, wann du verabredet bist um Hilfe zu bekommen oder zu geben." horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
+    </GridLayout>
 </ng-template>
 
 

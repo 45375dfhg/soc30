@@ -1,44 +1,25 @@
+<StackLayout [formGroup]="signUpForm">
+    <GridLayout rows="auto,*,auto,auto,auto,auto,auto,*,auto,auto,auto">
 
-<FlexboxLayout>
-    <StackLayout [formGroup]="signUpForm">
-        <Image
-            [src]="getCategoryIconSource('icon')">
-        </Image>
-        <TextField 
-            formControlName="email" 
-            hint="Email-Adresse" 
-            keyboardType="email"
-            autocorrect="false" 
-            autocapitalizationType="none"
-            [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        <Label row="0" text="Willkommen zurück!" class="heading"></Label>
+        <TextField row="2" formControlName="email" hint="Email-Adresse" keyboardType="email" autocorrect="false"
+            autocapitalizationType="none" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
         </TextField>
-        <Label 
-            *ngIf="submitted && f.email.errors" 
-            class="invalid-feedback"
-            text="Kein Nutzername angegeben!">
+        <Label row="3" *ngIf="submitted && f.email.errors" class="invalid-feedback" text="Kein Nutzername angegeben!">
         </Label>
-        <TextField 
-            formControlName="password" 
-            hint="Passwort"
-            secure="true"
-            [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        <TextField row="4" formControlName="password" hint="Passwort" secure="true" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
         </TextField>
-        <Label 
-            *ngIf="submitted && f.password.errors" 
-            class="invalid-feedback"
-            text="Es fehlt ein Password!">
+        <Label row="5" *ngIf="submitted && f.password.errors" class="invalid-feedback" text="Es fehlt ein Password!">
         </Label>
-        <Button 
-            [ngClass]="{ 'greyButton': loading }"
-            [disabled]="loading"
-            text="Durchstarten!"  
-            (tap)="onSubmit()">
+        <Label row="6" text="Angemeldet bleiben" class="remember" horizontalAlignment="left" verticalAlignment="center"></Label>
+        <Switch row="6" class="remember" horizontalAlignment="right" verticalAlignment="center"></Switch>
+        <Button row="8" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
         </Button>
-        <Button 
-            [ngClass]="{ 'greyButton': loading }"
-            [disabled]="loading"
-            text="Ein Schritt zurück"  
-            (tap)="goBack()">
+        <Button row="9" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="goBack()">
         </Button>
-    </StackLayout>
-</FlexboxLayout>
+        <Label row="10" class="mid" [nsRouterLink]="['../register']"><FormattedString><Span text="Du bist noch nicht dabei?" color="#001144"></Span><Span text=" Werde jetzt Teil!" color="#FF6600"></Span></FormattedString></Label>
+
+
+
+    </GridLayout>
+</StackLayout>

@@ -65,11 +65,25 @@ ActionBar {
 }
 
 
-.hequeryInfo{
-
-}
-
 .hequeryStatus{
     font-size: 12;
     color:#FF6600;
+}
+
+.emptyScreen{
+    font-family: 'Lato', 'Lato-Bold'; 
+    color:#001144;
+}
+
+.emptytext1{
+    margin:60 50 20 50;
+}
+
+.emptytext2{
+    margin:0 50 60 50;
+}
+
+.emptytext3{
+    font-size: 12;
+    margin:50 70 20 70;
 }

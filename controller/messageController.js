@@ -4,10 +4,19 @@ var mongoose = require('mongoose');
 exports.messagesOverview = (req, res, next) => {
     var userId = req.userId;
     Message.find({$or: [{aide: userId}, {filer: userId}]})
-    .select('filer aide read henquiry')
+    .select('filer aide readAide readFiler henquiry')
     .exec(function(err, result) {
         if(err) {
             return next(err);
+        }
+        // Aus jedem Chatverlauf nur seinen eigenen Lesestatus anzeigen
+        // (also ob man eine neue Nachricht hat oder nicht)
+        for(var i = 0; i < result.length; i++) {
+            if(result[i].aide == userId) {
+                result[i].readFiler = undefined;
+            } else {
+                result[i].readAide = undefined;
+            }
         }
         res.json(result);
     });
@@ -15,7 +24,7 @@ exports.messagesOverview = (req, res, next) => {
 
 exports.messagesSpecific = (req, res, next) => {
     var userId = req.userId;
-    var messageId = req.query.messageId;
+    var messageId = req.body.messageId;
     Message.findById(messageId, function(err, result) {
         if(err) {return next(err);}
         if(!result) {
@@ -28,12 +37,11 @@ exports.messagesSpecific = (req, res, next) => {
             var copiedResult = JSON.parse(JSON.stringify(result));
             if(result.aide == userId) {
                 result.readAide = true;
-                copiedResult.readFiler = undefined;
             } else {
                 result.readFiler = true;
-                copiedResult.readAide = undefined;
             }
             result.save();
+            copiedResult.readAide = copiedResult.readFiler = undefined;
             for(var i = 0; i < copiedResult.messages.length; i++) {
                 if(copiedResult.messages[i].participant == 3 && role == 4) {
                     console.log("Spliced 1, Index: " + i);

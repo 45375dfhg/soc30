@@ -2,11 +2,9 @@ var User = require('../models/user');
 var Henquiry = require('../models/henquiry');
 var Message = require('../models/message');
 var Category = require('../models/category');
-var Rating = require('../models/rating');
 var mongoose = require('mongoose');
 
-// Fetch all henquiries
-// TODO: Eigene Hilfsgesuche nicht anzeigen?
+// Alle Hilfsgesuche laden, eigene Hilfsgesuche werden nicht geladen
 exports.getHenquiries = (req, res, next) => {
     var categories;
     // Es wird nicht nach Kategorien gefiltert
@@ -18,38 +16,40 @@ exports.getHenquiries = (req, res, next) => {
       var category = categories.category;
       var subcategory = categories.subcategory;
     }
-    var conditions;
+    if(!req.body.distance) {
+      req.body.distance = 99999;
+    }
+    var conditionsForQuery;
     if(category === undefined && subcategory === undefined) {
-      conditions = {closed: false, happened: false, removed: false};
+      conditionsForQuery = {closed: false, happened: false, removed: false};
     } else if(category !== undefined && subcategory === undefined) {
-      conditions = {closed: false, happened: false, removed: false, "category.category": category};
+      conditionsForQuery = {closed: false, happened: false, removed: false, "category.category": category};
     } else if(category !== undefined && subcategory !== undefined) {
-      conditions = {closed: false, happened: false, removed: false, "category.category": category,
+      conditionsForQuery = {closed: false, happened: false, removed: false, "category.category": category,
       "category.subcategory":subcategory};
     } else {
-      var err = new Error('Es wurde keine Oberkategorie angegeben.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AA_001");
     }
-    Henquiry.find(conditions)
+    Henquiry.find(conditionsForQuery)
     .select('amountAide startTime endTime text category')
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
     .populate('createdBy', 'firstname surname nickname coordinates')
-    .populate('aide', 'firstname surname nickname')
     .exec(function (err, list_henquiries) {
       if(err) {
-        console.log("Im error");
-        return next(err);
+        console.log(err);
+        return res.status(500).send("AA_002");
       }
       User.findById(req.userId, function(userErr, userResult) {
         if(userErr) {return next(userErr);}
         for(var i = 0; i < list_henquiries.length; i++) {
+          // Der Nachname wird zensiert, nur den ersten Buchstaben schicken.
+          list_henquiries[i].createdBy.surname = list_henquiries[i].createdBy.surname.charAt(0).toUpperCase();
           list_henquiries[i].distance = GPSdistance(list_henquiries[i].createdBy.coordinates.latitude,
             list_henquiries[i].createdBy.coordinates.longitude, 
             userResult.coordinates.latitude,
             userResult.coordinates.longitude);
-          if(list_henquiries[i].distance > 99999) {
+          if(list_henquiries[i].distance > req.body.distance) {
             list_henquiries.splice(i,1);
             i--;
           }
@@ -64,8 +64,7 @@ exports.getHenquiries = (req, res, next) => {
             list_henquiries[i].createdBy.coordinates = undefined;
           }
         }
-        res.status(200);
-        return res.json(list_henquiries);
+        return res.status(200).json(list_henquiries);
       });
     });
 };
@@ -77,142 +76,156 @@ exports.henquiry_test = (req, res, next) => {
       return res.json(result);
     });
 };
+
 // TODO: Ein Henquiry kann nur 30,60,90,120,150,180 Minuten dauern.
 exports.createHenquiry = (req, res, next) => {
     if(!(req.body.amountAide && req.body.startTime && req.body.endTime && req.body.category)) {
-      var err = new Error('All fields required.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AB_001");
     }
+    if(req.body.endTime - req.body.startTime == 1800000 || req.body.endTime - req.body.startTime == 3600000 ||
+      req.body.endTime - req.body.startTime == 5400000 || req.body.endTime - req.body.startTime == 7200000 || 
+      req.body.endTime - req.body.startTime == 9000000 || req.body.endTime - req.body.startTime == 10800000) {
     // Übergebenes JSON in ein JS-Objekt parsen
     var categoryParam = JSON.parse(req.body.category);
     Category.findOne({categoryId: categoryParam.category, "subcategory.categoryId": categoryParam.subcategory},
     function(errCategory, resultCategory) {
-      if(errCategory) {return next(errCategory);}
+      if(errCategory) {
+        console.log(errCategory);
+        return res.status(500).send("AB_002");
+      }
       if(!resultCategory) {
-        var err = new Error('Diese Kategorie existiert nicht.');
-        err.status = 400;
-        return next(err);
+        return res.status(400).send("AB_003");
       }
       var startTime = new Date(req.body.startTime);
       var endTime = new Date(req.body.endTime);
 
       if(!(startTime instanceof Date) || !(endTime instanceof Date)) {
-        var err = new Error('Invalides Datum übergeben.');
-        err.status = 400;
-        return next(err);
+        return res.status(400).send("AB_004");
       }
       if(req.body.startTime >= req.body.endTime) {
-        var err = new Error('Die Startzeit kann nicht nach der Endzeit liegen.');
-        err.status = 400;
-        return next(err);
-      }
-      if(req.body.startTime <= req.creationTime || req.body.end <= req.creationTime) {
-        var err = new Error('Die Start- und/oder Endzeit liegt in der Vergangenheit.');
-        err.status = 400;
-        return next(err);
+        return res.status(400).send("AB_005");
       }
       // Hilfsgesuch dauert länger als drei Stunden. Drei Stunden sind das Maximum.
       if(req.body.endTime - req.body.startTime > 10800000) {
-        var err = new Error('Das Hilfsgesuch darf höchstens drei Stunden dauern.');
-        err.status = 400;
-        return next(err);
+        return res.status(400).send("AB_007");
       }
+
+      var tempTime = new Date();
+      tempTime.setHours(tempTime.getHours()+1);
       var henquiry = new Henquiry({
         amountAide: req.body.amountAide,
         createdBy: req.userId,
-        creationTime: new Date(),
+        creationTime: tempTime,
         startTime: req.body.startTime,
         endTime: req.body.endTime,
         category: {category: categoryParam.category, subcategory: categoryParam.subcategory},
         terra: Math.ceil((endTime-startTime)/1800000)
       });
+      if(req.body.startTime <= henquiry.creationTime || req.body.endTime <= henquiry.creationTime) {
+        return res.status(400).send("AB_006");
+      }
       Henquiry.create(henquiry, function(error, result) {
         if(error) {
-          return next(error);
+          console.log(error);
+          return res.status(500).send("AB_009");
         }
-        res.json(result);
+        return res.send("");
       });
     });
+  } else {
+    return res.status(400).send("AB_008");
+  }
 };
 
 // Informationen über ein bestimmtes Henquiry laden.
 // Unterschieden wird zwischen dem Ersteller und einem Bewerber/Helfer.
+// TODO: aide/potentialAide-Arrays populaten
 exports.getSpecificHenquiry = (req, res, next) => {
-  var henquiryId = req.query.henquiryId;
+  var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, {"closed":0, "removed":0, "happened":0},function(err, result) {
     if(err) {
-      return next(err);
+      console.log(err);
+      return res.status(500).send("AC_001");
     }
     if(!result) {
-      return res.status(404).send("Dieses Hilfsgesuch existiert nicht.");
+      return res.status(404).send("AC_002");
     }
     if(result.createdBy == req.userId) {
       return res.json(result);
     } else if(result.potentialAide.indexOf(req.userId) > -1 || result.aide.indexOf(req.userId) > -1) {
-      result.aide = result.potentialAide = undefined;
+      result.aide = result.potentialAide = result.ratedAide = result.updated = undefined;
       return res.json(result);
     } else {
-      return res.status(403).send("Du hast keine Verbindung zu diesem Hilfegesuch.");
+      return res.status(403).send("AC_003");
     }  
   });
 };
 
-// TODO: Benachrichtung schicken
+// TODO: Noch überlegen, was passiert, wenn es stattfindet und gelöscht wird (also Alternative zu erfolgreicher Hilfe)
 exports.deleteHenquiry = (req, res, next) => {
     var henquiryId = req.body.henquiryId;
     var userId = req.userId; 
     Henquiry.findById(henquiryId, (err, result) => {
       if(err) {
-        return next(err);
+        console.log(err);
+        return res.status(500).send("AD_001");
       }
       if(!result) {
-        return res.status(404).send("Das Hilfegesuch existiert nicht.");
+        return res.status(404).send("AD_002");
       }
       if(result.createdBy == userId) {
-        result.delete();
-        return res.send("deleted");
+        if(!result.closed) {
+          Message.find({henquiry: henquiryId}, function(errMsg, resultMsg) {
+            if(errMsg) {
+              console.log(errMsg);
+              return res.status(500).send("AD_006");
+            }
+            for(var i = 0; i < resultMsg.length; i++) {
+              resultMsg[i].readOnly = true;
+              resultMsg[i].messages.push({message: "Der Helfer hat sein Henquiry gelöscht.", participant: 3, timeSent: new Date()});
+              resultMsg[i].save();
+            }
+            result.delete();
+            return res.send("AD_003");
+          });
+        } else {
+          result.removed = true;
+          result.save();
+          return res.send("AD_005");
+        }
       } else {
-        return res.status(403).send("Das ist nicht dein Hilfegesuch.");
+        return res.status(403).send("AD_004");
       }
     });
 };
 
-// ATM: Man kann sich nicht für weitere Henquiries bewerben, wenn man bereits
-// 5x an jenem Tag hilft. Frage: was passiert mit Bewerbungen, die am gleichen Tag
-// sind und dann angenommen werden? Einfache Lösung: Sobald 5 Bewerbungen da sind,
-// aus allen potentialAide-Arrays vom selben Tag streichen
 exports.apply = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = new mongoose.mongo.ObjectId(req.userId);
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
-      return res.send(err); 
+      console.log(err);
+      return res.status(500).send("AE_001");
     } else {
-      var error;
       // Fehler, es werden keine weiteren Bewerber angenommen.
       if(result.closed || result.removed || result.happened) {
-        error = new Error('Du kannst dich für dieses Gesuch nicht mehr bewerben.');
-        error.status = 402;
+        return res.status(400).send("AE_002");
       }
       // Fehler, ein Nutzer kann sich nicht bei seinem eigenen Gesuch eintragen
       else if(result.createdBy == req.userId) {
-        error = new Error('Du kannst dich nicht bei deinem eigenen Hilfegesuch eintragen.');
-        error.status = 402;
+        return res.status(400).send("AE_003");
       }
       else if(result.potentialAide.indexOf(userId) > -1) {
         // Fehler, man hat sich bereits beworben
-        error = new Error('Du hast dich bereits beworben.');
-        error.status = 400;
+        return res.status(400).send("AE_004");
       }
       else if(result.aide.indexOf(userId) > -1) {
         // Fehler, man wurde bereits als Helfer angenommen
-        error = new Error('Du bist bereits Helfer.');
-        error.status = 401;
+        return res.status(400).send("AE_005");
       }
-      if(error) {
-        return next(error);
-      }
+      // Prüfung, ob man bereits am selben Tag 5x hilft. Wenn ja, Fehler.
+      // Z.Z. noch draußen
+      /*
       Henquiry.find({aide: userId}, function(errCheck, resultCheck) {
         if(errCheck) {return next(errCheck);}
         if(resultCheck) {
@@ -230,30 +243,22 @@ exports.apply = (req, res, next) => {
             }
           }
         }
-        result.potentialAide.push(userId);
-        result.updated = true;
-        result.save();
-        return res.json(result);
       });
+      */
+      result.potentialAide.push(userId);
+      result.updated = true;
+      result.save();
+      return res.send("");
     }
   });
 };
 
-// PROBLEM: Was ist bei folgendem Szenario:
-// - man hat sich irgendwo beworben
-// - der Hilfsbedürftige wählt einen aus
-// - man zieht seine Bewerbung zurück, nachdem geprüft wurde, dass
-// man im potenialAide-Array ist
-// - man wird ins aide-Array eingetragen, obwohl man seine Bewerbung
-// "erfolgreich" zurückgezogen hat (=> nach der Prüfung)
 exports.acceptApplicants = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
   var messageData;    
   if(!applicants) {
-    var err = new Error('Es wurden keine Bewerber übergeben.');
-    err.status = 400;
-    return next(err);
+    return res.status(400).send("AF_001");
   }
   // Da durch applicants iteriert wird, muss es auch bei einem einzigen übergebenen
   // Aide ein Array sein (bei > 1 aider ist es automatisch ein Array)
@@ -261,30 +266,27 @@ exports.acceptApplicants = (req, res, next) => {
     applicants = new Array(applicants);
   }
   Henquiry.findById(henquiryId, function(err, result) {
-    if(err) {return next(err);}
+    if(err) {
+      console.log(err);
+      return res.status(500).send("AF_002");
+    }
     if(!result) {
-      return next(new Error('Das Hilfsgesuch existiert nicht.'));
+      return res.status(404).send("AF_003");
     }
     if(!(req.userId == result.createdBy)) {
-      return next(new Error('Das ist nicht dein eigenes Gesuch.'));
+      return res.status(403).send("AF_004");
     }
     if(result.removed || result.closed || result.happened) {
-      err = new Error('Ungültige Abfrage.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AF_005");
     } 
     // In dieser Schleife wird geprüft, ob ein Benutzer bereits als Helfer
     // eingetragen ist bzw. nicht als Bewerber eingetragen ist.
     for(var i = 0; i < applicants.length; i++) {
       if(result.aide.indexOf(applicants[i]) > -1) {
-        var err = new Error('Mindestens ein Helfer ist bereits eingetragen.');
-        err.status = 400;
-        return next(err);
+        return res.status(400).send("AF_006");
       }
       if(result.potentialAide.indexOf(applicants[i]) == -1) {
-        var err = new Error('Mindestens ein Helfer hat sich nicht beworben.');
-        err.status = 400;
-        return next(err);
+        return res.status(400).send("AF_007");
       }
     }
     for(var i = 0; i < applicants.length; i++) {
@@ -296,49 +298,43 @@ exports.acceptApplicants = (req, res, next) => {
       };
       Message.create(messageData, function(msgErr, msgResult) {
         if(msgErr) {
-          return next(msgErr);
+          console.log(msgErr);
+          return res.status(500).send("AF_008");
         }
         msgResult.messages.push({message: "Schön, dass du dir diesen Helfer ausgesucht hast.", participant: 4, timeSent: new Date()});
         msgResult.save();
       });
       result.potentialAide.splice(result.potentialAide.indexOf(applicants[i]),1);
       result.aide.push(applicants[i]);
-      result.save(); // Kann man nach jedem mal saven oder erst am ende?
     }
-    res.status(204).send();
+    result.save(); // Kann man nach jedem mal saven oder erst am ende?
+    return res.status(200).send("");
   });
 };
 
-// Hilfsgesuche für neue Bewerber schließen. Henquiry wird nicht mehr angezeigt werden.
+// Hilfsgesuche für neue Bewerber schließen. Henquiry wird nicht mehr in der Suche angezeigt werden.
 exports.closeHenquiry = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
-    if(err) { return next(err);}
+    if(err) { 
+      console.log(err);
+      return res.status(500).send("AG_001");
+    }
     if(!result) {
-      err = new Error('Das Hilfegesuch existiert nicht.');
-      err.status = 404;
-      return next(err);
+      return res.status(404).send("AG_002");
     }
     if(!(req.userId == result.createdBy)) {
-      err = new Error('Das ist nicht dein Hilfegesuch.');
-      err.status = 403;
-      return next(err);
+      return res.status(403).send("AG_003");
     }
-    // Eine if-Abfrage, statt drei wie in henquirySuccess.
     if(result.closed || result.happened || result.removed) {
-      err = new Error('Ungültige Anfrage.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AG_004");
     }
     if(result.aide.length < 1) {
-      console.log("Länge kleiner 1");
-      err = new Error('Du kannst ein Hilfegesuch nicht schliessen, wenn keine Helfer vorhanden sind.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AG_005");
     }
     result.closed = true;
     result.save();
-    res.send("ok");
+    res.send("");
   });
 };
 
@@ -347,75 +343,78 @@ exports.henquirySuccess = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
-      return res.send(err);
+      console.log(err);
+      return res.status(500).send("AH_001");
     }
     if(!result) {
-      err = new Error('Das Hilfegesuch existiert nicht.');
-      err.status = 404;
-      return next(err);
+      return res.status(404).send("AH_002");
     }
     if(!result.closed || result.removed || result.happened) {
-      err = new Error('Ungültige Abfrage.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AH_003");
     }
     if(!(result.createdBy == req.userId)) {
-      err = new Error('Das ist nicht dein Hilfegesuch.');
-      err.status = 403;
-      return next(err);
+      return res.status(403).send("AH_004");
     }
     result.happened = true;
     result.save();
-    Message.find({henquiry: henquiryId}, function(err, result) {
-      if(err) {return next(err);}
-      if(!result) {
-        res.send("Es existieren keine Messages zu diesem Henquiry.");
+    // Alle Chats auf readOnly = true setzen, sodass nicht mehr gechattet werden kann
+    Message.find({henquiry: henquiryId}, function(errMsg, resultMsg) {
+      if(errMsg) {
+        console.log(errMsg);
+        return res.status(500).send("AH_005");
       }
-      for(var i = 0; i < result.length; i++) {
-        result[i].readOnly = true;
-        result[i].save();
+      if(!resultMsg) {
+        return res.status(404).send("AH_006");
       }
-      res.send(result);
+      for(var i = 0; i < resultMsg.length; i++) {
+        resultMsg[i].readOnly = true;
+        resultMsg[i].save();
+      }
+      return res.send("");
     });
   });
 };
 
-// TODO: Benachrichtigung an den Filer, falls der Aide im aide-Array war
 exports.cancelApplication = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = new mongoose.mongo.ObjectId(req.userId);
   Henquiry.findById(henquiryId, function(err, result) {
+    if(err) {
+      console.log(err);
+      return res.status(500).send("AI_001");
+    }
     if(!result) {
-      return next(new Error('Das Hilfsgesuch existiert nicht.'));
+      return res.status(404).send("AI_002");
     }
-    if(result.happened || result.removed) {
-      err = new Error('Das Hilfsgesuch ist nicht aktuell.');
-      err.status = 400;
-      return next(err);
+    if(result.happened || result.removed || result.closed) {
+      return res.status(400).send("AI_003");
     }
+    // Der Helfer ist als Bewerber eingetragen
     if(result.potentialAide.indexOf(userId) > -1) {
       result.potentialAide.splice(result.potentialAide.indexOf(userId),1);
+    // Der Helfer ist als angenommener Bewerber eingetragen
+    // Dann wird dem Hilfsbedürftigen eine Nachricht geschickt.
     } else if(result.aide.indexOf(userId) > -1) {
+      Message.findOne({henquiry: henquiryId}, function(errMsg, resultMsg) {
+        if(errMsg) {
+          console.log(errMsg);
+          return res.status(500).send("AI_005");
+        }
+        resultMsg.readOnly = true;
+        resultMsg.messages.push({message: "Der Helfer hat seine Hilfe zurückgezogen.", participant: 3, timeSent: new Date()});
+        resultMsg.save();
+      });
       result.aide.splice(result.aide.indexOf(userId),1);
     } else {
-      return next(new Error('Du bist nicht in diesem Hilfegesuch eingetragen.'));
+      return res.status(400).send("AI_004");
     }
     result.save();
   });
-  res.status(204).send();
+  return res.status(200).send();
 };
 
-// TODO: Zur Zeit wird ALLES aus dem Henquiry mitgeschickt.
-// Der Ersteller darf die Aide sehen, ein Helfer darf das nicht.
-// Einfach über FELD = undefined machen
+// TODO: Distanz berechnen
 exports.calendar = (req, res, next) => {
-  /*Henquiry.find(conditions)
-  .select('amountAide startTime endTime text category')
-  // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
-  // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
-  .populate('createdBy', 'firstname surname nickname coordinates')
-  .populate('aide', 'firstname surname nickname')
-  .exec(function (err, list_henquiries) {*/
   var userId = req.userId;
   Henquiry.find({
     $and: [
@@ -427,10 +426,11 @@ exports.calendar = (req, res, next) => {
   .populate('createdBy', 'firstname surname nickname address')
   .exec(function(err, result) {
     if(err) {
-      return next(err);
+      console.log(err);
+      return res.status(500).send("AJ_001");
     }
     for(var i = 0; i < result.length; i++) {
-      result[i].ratedBy = result[i].closed = result[i].removed = result[i].happened = undefined;
+      result[i].closed = result[i].removed = result[i].happened = undefined;
       if(!(userId == result[i].createdBy._id)) {
         result[i].aide = result[i].ratedAide = result[i].potentialAide = result.updated = undefined;
       }
@@ -440,6 +440,7 @@ exports.calendar = (req, res, next) => {
 };
 
 // TODO: Prüfen, ob es diese Bewertung überhaupt gibt
+// TODO: Gegenrichtung gar nicht vorhanden !!! Den Hilfsbedürftigen bewerten
 exports.rate = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = req.userId;
@@ -480,7 +481,6 @@ exports.rate = (req, res, next) => {
     @ratingIndex: Index zum Durchlaufen aller Bewertungen, die ein Helfer bekommen hat
     Es wird nicht i zum Zugriff benutzt, sondern aiderIndex, da ein Callback in der
     Schleife ist, was zur Folge hat, dass i zu schnell erhöht wird...
-
     */
     var aiderIndex = 0;
     for(var i = 0; i < aider.length; i++) {
@@ -520,9 +520,10 @@ function GPSdistance(lat1, lon1, lat2, lon2) {
 // Funktion, die in einem gewissen Zeitabstand prüft, ob es Henquiries gibt,
 // deren Startzeitpunkt in der Vergangenheit liegt. Diese werden dann closed,
 // wenn Helfer vorhanden sind, ansonsten removed mit einer Nachricht an den Filer.
+// TODO: In eine eigene Funktion auslagern.
 setInterval(() => {
   Henquiry.find({closed: false, happened: false, removed: false}, function(err, result) {
-    if(err) {return next(err);}
+    if(err) {console.log(err);}
     if(!result) {return;}
     for(var i = 0; i < result.length; i++) {
       if(result[i].startTime < new Date()) {

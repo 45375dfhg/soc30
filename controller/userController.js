@@ -41,6 +41,7 @@ exports.register = function (req, res, next) {
   if (req.body.email &&
     req.body.password &&
     req.body.passwordConf && req.body.surname && req.body.firstname && req.body.nickname) {
+    req.body.email = req.body.email.toLowerCase();
     // Prüfung, ob die E-Mail bereits in der Datenbank existiert
     User.findOne({email:req.body.email}, function(errEmail, resultEmail) {
       if(errEmail) {return next(errEmail);}
@@ -54,7 +55,7 @@ exports.register = function (req, res, next) {
           nickname: req.body.nickname,
         }
         User.create(userData, function (error, user) {
-          if (err) return res.status(500).send("There was a problem registering the user.")
+          if (error) return res.status(500).send("There was a problem registering the user.")
           // create a token
           var token = jwt.sign({ id: user._id }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
@@ -229,12 +230,10 @@ exports.deleteProfile = (req, res, next) => {
     if(resultHenquiry) {
       for(var i = 0; i < resultHenquiry.length; i++) {
         if(resultHenquiry[i].createdBy == userId) {
-          // Die Aider benachrichtigen
           resultHenquiry[i].remove();
         } else if(resultHenquiry[i].potentialAide.indexOf(userId) > -1) {
           resultHenquiry[i].potentialAide.splice(resultHenquiry[i].potentialAide.indexOf(userId),1);
         } else if(resultHenquiry[i].aide.indexOf(userId) > -1) {
-          // Den Filer benachrichtigen
           resultHenquiry[i].aide.splice(resultHenquiry[i].aide.indexOf(userId),1);
         }
         resultHenquiry[i].save();
@@ -245,9 +244,11 @@ exports.deleteProfile = (req, res, next) => {
       if(resultMsg) {
         for(var i = 0; i < resultMsg.length; i++) {
           if(resultMsg[i].aide == userId) {
-            // Den Chatpartner benachrichtigen
+            resultMsg[i].messages.push({message: "Der Hilfsbedürftige hat seinen Account gelöscht.", participant: 4, timeSent: new Date()});
+            resultMsg[i].readFiler = false;
           } else if(resultMsg[i].potentialAide == userId) {
-            // Den Chatpartner benachrichtigen
+            resultMsg[i].readAide = false;
+            resultMsg[i].messages.push({message: "Der Helfer hat seinen Account gelöscht.", participant: 3, timeSent: new Date()});
           }
           resultMsg[i].readOnly = true;
           resultMsg[i].save();

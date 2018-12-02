@@ -8,14 +8,18 @@ var UserSchema = new Schema({
   email: { type: String, unique: true, required: true, trim: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, trim: true },
+  // Index des Arrays = Das Kriterium
   ratings: [{type: Number}],
-  address: { // muss alles required sein
+  // TODO: muss am Ende alles required sein
+  address: { 
       postalcode: { type: Number },
       street: { type: String },
-      city: { type: String, trim: true },
+      city: { type: String, },
       housenm: { type: String }
   },
   postident: {type: Boolean},
+  // TODO: Am Ende muss das in der Registrierung und allen anderen Routen berücksichtigt werden.
+  // Lässt sich in verifyToken.js prüfen
   invite: {
     // 0: Wurzel, 1: Freund 1. Grades, 2: Freund 2. Grades, sonst undefined
     level: {type: Number},
@@ -24,8 +28,8 @@ var UserSchema = new Schema({
   },
   foto: {type: String}, // binary war hier
   mobile: {type: String},
-  // Ist halt die Frage, ob Avatare im Front- oder Backend gespeichert werden
-  avatar: {type: Schema.Types.ObjectId, ref: 'Avatar' },
+  // Avatare werden im Frontend gespeichert und hier als Zahl, die vom FE einem Bild zugeordnet wird.
+  avatar: {type: Number},
   terra: {type: Number, default: 0},
   coordinates: {
     latitude: {type: Number},

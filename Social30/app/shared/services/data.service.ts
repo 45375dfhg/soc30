@@ -5,17 +5,28 @@ import { BehaviorSubject } from 'rxjs';
 export class DataService {
     
     private messageSource = new BehaviorSubject({
-        categories: [true,true,true,true,true,true],
-        time: 30,
-        distance: 6,
+        categories: [true,true,true,true,true],
+        time: 180,
+        distance: 10,
     });
     currentMessage = this.messageSource.asObservable();
 
     constructor() { }
 
-    changeMessage(c, t, d) {
+    changeMessage(changeCategory, old, c, t, d) {
+        // zips the old and c arrays and applies xor on their booleans
+        // (which flattens the [][] -> [])
+        let toggledCategories = [];
+        if (changeCategory) {
+            toggledCategories = c.map((x, idx) => [x, old[idx]])
+            .map(arr => {
+                return (arr[0] ? !arr[1] : arr[1]);
+            })
+        } else {
+            toggledCategories = old;
+        }
         this.messageSource.next({ 
-            categories: c,
+            categories: toggledCategories,
             time: t,
             distance: d
         })

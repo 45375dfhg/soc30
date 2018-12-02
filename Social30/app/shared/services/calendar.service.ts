@@ -28,14 +28,33 @@ export class CalendarService {
                 }),
                 catchError(this.handleErrors('getEntries'))
             );
-                /*
-                groupBy(henquiry => henquiry.amountAide),
-                mergeMap(group => group.pipe(toArray())),
-                mergeAll()
-                )
-                */
-                // henquiry.(new Date(henquiry.startTime)).getDate()),
-                // catchError(this.handleErrors('getItems'));
+    }
+
+    // creates dummy values for the guest access
+    // needs to be adjusted to the format!
+    public getGuestItems(n: number) {
+        let itemList = [];
+        let date = Date.now();
+        for (let i = 0; i < n; i++) {
+            itemList.push(
+                new Item(
+                    new Date(date + (1000 * 60 * 30 * (i + 1))),
+                    new Date(date + ((1000 * 60 * 30 * (i + 1)) 
+                        + (1000 * 60 * 30 * (((i + 1) % 6) + 1)))),
+                    1,
+                    {category: (i % 5), subcategory: (i % 4)},
+                    {
+                        id: "5bfbaf927f0ef567ba67bd20",
+                        surname: "Musterman",
+                        firstname: "Max",
+                        nickname: "Das Beispiel"
+                    },
+                    0.8 * (i + 1),
+                    ''
+                ));
+            }
+        this.entries = itemList;
+        return itemList; 
     }
 
     /*

@@ -29,14 +29,18 @@ export class FilterItemsComponent implements OnInit {
 		})
 	}
 
-	newMessage(c, t, d) {
-		this.data.changeMessage(c,t,d);
+	newMessage(b, old, c, t, d) {
+		this.data.changeMessage(b, old,c,t,d);
 	}
 
-	handleTap(args, c = this.message.categories, t = this.message.time, d = this.message.distance) {
+	handleTap(args, b, old = this.message.categories, c = this.message.categories, t = this.message.time, d = this.message.distance) {
 		this.changeColor(args);
 		console.log(c,t,d);
-		this.newMessage(c,t,d);
+		this.newMessage(b, old, c,t,d);
+	}
+
+	reset() {
+		this.newMessage(false, [false,false,false,false,false],[true,true,true,true,true],30,6);
 	}
 
 	changeColor(args) {

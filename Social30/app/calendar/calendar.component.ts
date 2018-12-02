@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { Page } from "tns-core-modules/ui/page";
-import { RadListViewComponent } from "nativescript-ui-listview/angular";
 import { ListViewEventData } from "nativescript-ui-listview";
 
 import { ItemService } from "../shared/services/item.service";
@@ -54,7 +53,7 @@ export class CalendarComponent implements OnInit {
             this.receiveAndOrder();
         } else {
             console.log('user is a guest');
-            // load dummy data
+            this.guestData(this.calendarService.getGuestItems);
         }
     }
 
@@ -84,6 +83,22 @@ export class CalendarComponent implements OnInit {
             },
             error => console.log(error)
         )
+    }
+
+    // forces dummy data to fit the calendar data format
+    guestData(dummy) {
+        let output = _.flow([
+            this.groupEntries,
+            this.formatEntries, 
+            this.sortEntries, 
+            this.sortInnerEntries,
+            this.groupbyMonth,
+            this.formatEntries,
+            this.sortbyStartWithCurrentMonth,
+            this.changeMonthNumToLiteral
+        ])
+        (dummy); 
+        this.entries = output;
     }
 
     // check whether the user who posted the henquiry is the same as
@@ -199,4 +214,5 @@ export class CalendarComponent implements OnInit {
             listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
         }
     }
+
 }

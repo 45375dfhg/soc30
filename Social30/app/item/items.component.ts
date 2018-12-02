@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { Page } from "tns-core-modules/ui/page";
+import { RadListViewComponent } from "nativescript-ui-listview/angular";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
 
@@ -14,7 +15,7 @@ import { AppSettingsService } from '../shared/services/appsettings.service';
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { ListViewEventData } from "nativescript-ui-listview";
 
-import { AuthenticationService } from '../shared/services/authentication.service';
+import { AuthenticationService} from '../shared/services/authentication.service';
 import { DataService } from '../shared/services/data.service';
 
 declare var UIView, NSMutableArray, NSIndexPath;
@@ -23,12 +24,15 @@ declare var UIView, NSMutableArray, NSIndexPath;
     selector: "ns-items",
     moduleId: module.id,
     templateUrl: "./items.component.html",
-    styleUrls:  ["./items.component.scss"]
+    styleUrls:  ["./items.component.scss"],
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemsComponent implements OnInit {
 
     items: Item[] = [];
-    message: { categories: boolean[], time: number ,distance: number };
+    // @Input()
+    // @ViewChild("myListView") listViewComponent: RadListViewComponent;
+    message: { categories: boolean[], time: number ,distance: number }; // basically filter values
     
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
@@ -51,12 +55,14 @@ export class ItemsComponent implements OnInit {
         private appSet: AppSettingsService,
         private authenticationService: AuthenticationService,
         private data: DataService,
+        private cd: ChangeDetectorRef,
         private page: Page,
-        ) {}
+        ) { 
+            // subscribe to changes in the message (which is the badly named filter)
+            this.data.currentMessage.subscribe(message => this.message = message) 
+        }
 
     ngOnInit(): void {
-        // get the current filter settings (default values in this case)
-        this.data.currentMessage.subscribe(message => this.message = message);
         // checks whether the user is a guest or not
         if (!this.appSet.getUser('guest')) {
             this.receiveList();
@@ -68,16 +74,18 @@ export class ItemsComponent implements OnInit {
     receiveList() {
         this.itemService.getItems().subscribe(result => {
             if (result) {
-                // filters entries made by the user, not very clean but whatever
-                // I blame those people working on the backend
-                // afterwards sorts them by date
                 let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
-                this.items = result.filter(entry => currentUser._id != entry.createdBy._id)
+                this.items = result
+                    .filter(entry => currentUser._id != entry.createdBy._id)
+                    .filter(fdist => fdist.distance <= this.message.distance)
+                    .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
+                    // .filter(filtercat => this.message.categories[filtercat.category])
                     .sort((entry1, entry2) => {
                             let date1 = new Date(entry1.startTime).getTime();
                             let date2 = new Date(entry2.startTime).getTime();
                             return date1 - date2
                     });
+                // this.cd.detectChanges();
             } else {
                 console.log('Didnt get any items')
             }

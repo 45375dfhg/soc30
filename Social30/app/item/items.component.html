@@ -17,11 +17,10 @@
         </GridLayout>
     </ng-template>
 </RadListView>-->
-<!--<Label [text]="message.time"></Label>-->
 
 <StackLayout marginTop="5" marginBottom="5">
     <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']" pageTransition="fade"></Button>
-    <RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
+    <RadListView [items]="items" #myListView [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
         <ng-template tkListItemTemplate let-item="item">
             <FlexboxLayout flexDirection="row">
@@ -53,9 +52,6 @@
                     <Label row="4" col="0" colSpan="2" [text]="formatTerra(item.startTime, item.endTime)" verticalAlignment="bottom" height="20"
                         class="fa"></Label>
                     <Label row="5" col="0" colSpan="2" [text]="formatDuration(item.startTime, item.endTime)" verticalAlignment="top" height="20" class="fa"></Label>
-
-
-
                     <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')" height="80"
                         verticalAlignment="center" horizontalAlignment="center"></Image>
                     <Label row="6" col="1" colSpan="3" [text]="item.createdBy.firstname + ' ' + item.createdBy.surname[0] + '.'" horizontalAlignment="left"
@@ -70,8 +66,7 @@
     </RadListView>
 </StackLayout>
 
-<!--<Label row="8" col="1" colSpan="3" [text]="item.createdBy.nickname" horizontalAlignment="left"
-                        verticalAlignment="top" height="20" class="fa"></Label>-->
+
 
 
 

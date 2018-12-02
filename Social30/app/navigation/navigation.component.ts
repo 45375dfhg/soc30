@@ -26,6 +26,7 @@ export class NavigationComponent {
                 itemsoutlet: ["items"],
                 calendaroutlet: ["calendar"],
                 henquiryoutlet: ["henquiry"],
+                chatoutlet: ["chat"],
                 profileoutlet: ["profile"]
             }
         }],

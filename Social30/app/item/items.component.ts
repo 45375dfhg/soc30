@@ -79,6 +79,7 @@ export class ItemsComponent implements OnInit {
                     .filter(entry => currentUser._id != entry.createdBy._id)
                     .filter(fdist => fdist.distance <= this.message.distance)
                     .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
+                    // this filter needs to be properly alligned
                     // .filter(filtercat => this.message.categories[filtercat.category])
                     .sort((entry1, entry2) => {
                             let date1 = new Date(entry1.startTime).getTime();

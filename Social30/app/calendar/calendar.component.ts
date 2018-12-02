@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { Page } from "tns-core-modules/ui/page";
 import { ListViewEventData } from "nativescript-ui-listview";
-
+import { getCategoryIconSource } from "../app.component";
 import { ItemService } from "../shared/services/item.service";
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { CalendarService } from "../shared/services/calendar.service";
@@ -215,4 +215,7 @@ export class CalendarComponent implements OnInit {
         }
     }
 
+    getCategoryIconSource(icon: string): string {
+		return getCategoryIconSource(icon);
+	}
 }

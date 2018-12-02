@@ -22,6 +22,9 @@ export class RegisterComponent implements OnInit {
     submitted = false;
     returnUrl: string;
 
+
+    currentPage: Number = 0;
+
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
@@ -33,6 +36,15 @@ export class RegisterComponent implements OnInit {
     ) { 
         page.actionBarHidden = true;
     }
+
+
+    switchStatus (newPage: number) {
+        this.currentPage = newPage;
+    }
+
+
+
+
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({

@@ -13,23 +13,38 @@ import { NavigationComponent } from "./navigation.component";
         NativeScriptRouterModule,
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "navigation" },
-            { path: "navigation", component: NavigationComponent, children: [
-                    {   path: "items",
+            {
+                path: "navigation", component: NavigationComponent, children: [
+                    {
+                        path: "items",
                         outlet: "itemsoutlet",
                         component: NSEmptyOutletComponent,
-                        loadChildren: "./item/items.module#ItemsModule" },
-                    {   path: "calendar",
+                        loadChildren: "./item/items.module#ItemsModule"
+                    },
+                    {
+                        path: "calendar",
                         outlet: "calendaroutlet",
                         component: NSEmptyOutletComponent,
-                        loadChildren: "./calendar/calendar.module#CalendarModule" },
-                    {   path: "henquiry",
+                        loadChildren: "./calendar/calendar.module#CalendarModule"
+                    },
+                    {
+                        path: "henquiry",
                         outlet: "henquiryoutlet",
                         component: NSEmptyOutletComponent,
-                        loadChildren: "./henquiry/henquiry.module#HenquiryModule" },
-                    {   path: "profile",
+                        loadChildren: "./henquiry/henquiry.module#HenquiryModule"
+                    },
+                    {
+                        path: "chat",
+                        outlet: "chatoutlet",
+                        component: NSEmptyOutletComponent,
+                        loadChildren: "./chat/chat.module#ChatModule"
+                    },
+                    {
+                        path: "profile",
                         outlet: "profileoutlet",
                         component: NSEmptyOutletComponent,
-                        loadChildren: "./profile/profile.module#ProfileModule" },
+                        loadChildren: "./profile/profile.module#ProfileModule"
+                    },
                 ]
             }
         ])

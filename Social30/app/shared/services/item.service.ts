@@ -216,9 +216,9 @@ export class ItemService {
     public getSubStrings() {
         return [
             ["reparieren", "umraeumen", "umziehen"],
-            ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "sprhflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
+            ["buegeln", "einkaufen", "handschuhe", "kehren", "muellrausbringen", "schwamm", "seife", "spruehflasche", "staubsaugen", "waescheaufhaengen", "waeschewaschen"],
             ["kochen", "spazierengehen", "spielespielen", "vorlesen", "gesellschaft"],
-            ["blumengieen", "blumenpflanzen", "blumentopf", "grtnern", "heckenschneiden", "rechen"],
+            ["blumengiessen", "blumenpflanzen", "blumentopf", "gaertnern", "heckenschneiden", "rechen"],
             ["gassigehen", "kaefigsaeubern", "tierefuettern"]
         ];
     }

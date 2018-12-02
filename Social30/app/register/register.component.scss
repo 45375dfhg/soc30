@@ -1,41 +1,64 @@
-FlexboxLayout {
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    background-image: url("~/images/background.jpg");
-    font-family: 'Lato', 'Lato-Bold'; 
-  }
-  StackLayout {
-    width: 350;
-    padding: 40 16;
-    background-color: white;
-    border-radius: 25;
   
+  StackLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+    margin:70 30 20 30;
   }
+  
+  Label{
+    color:#001144;
+    
+  }
+
+  .mid{
+    text-align: center;
+  }
+
+
+.heading{
+  font-size:24;
+  text-align: center;
+}
+  
+  
+  .remember{
+    margin:15 0 0 0;
+  }
+  
   Image {
     margin-bottom: 10;
     height: 100;
   }
  
 
-  Button{
+  Button {
     font-size:15;
     background-color: #FF6600;
     color: white;
     border-radius: 25;
-    margin-top: 20;
+    margin:0 0 20 0;
   }
 
-  Button:active{
+  Button:active {
     background-color: #d8510e;
   }
  
   TextField {
     placeholder-color: #C4AFB4;
-    color: black;
+    color: #001144;
+    border-radius: 25;
+    margin-top: 20;
+    border-width: 2;
+    border-color: #FF6600;
+    padding:10 20;
   }
 
   .greyButton {
     background-color: #C4AFB4;
+   
   }
+
+
+
+
+
   

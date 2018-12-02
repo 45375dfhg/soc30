@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Carousel, IndicatorAnimation } from 'nativescript-carousel';
+//import { Carousel, IndicatorAnimation } from 'nativescript-carousel';
 import { getCategoryIconSource } from "../app.component";
 import { Page } from "tns-core-modules/ui/page";
 
@@ -18,7 +18,7 @@ import { AuthenticationService } from '../shared/services/authentication.service
 })
 
 export class WelcomeComponent implements OnInit {
-	@ViewChild('carousel') carouselRef: ElementRef;
+	//@ViewChild('carousel') carouselRef: ElementRef;
 	constructor(
 		private page: Page, 
 		private appSet: AppSettingsService,

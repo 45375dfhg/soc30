@@ -1,5 +1,19 @@
-<ActionBar title="Mein Steckbrief"></ActionBar>
+<ActionBar title="Mein Steckbrief">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
 
-<GridLayout rows="*,auto,*">
-    <Button row="1" text="logout" (onTap)="logout()"></Button>
+<GridLayout rows="auto,auto,auto,auto,auto,*,auto" columns="*">
+        <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top" horizontalAlignment="right"></Label>
+        <Image class="profilPic" row="0" col="0" [src]="getCategoryIconSource('woman01')" horizontalAlignment="center"></Image>
+        <Label class="userName fa" row="1" col="0" text="Jana Puffay" horizontalAlignment="center"></Label>
+        <Label class="userAdress fa" row="2" col="0" text="Neckarauerstraße 67 - 68169 Mannheim" horizontalAlignment="center"></Label>
+        <Label class="userSince fa" row="3" col="0" text="Mitglied seid 23.08.2018" horizontalAlignment="center"></Label>
+        <GridLayout row="4" col="0" >
+
+
+
+
+        </GridLayout>
+        <Button row="6" col="0" text="ja auch das oben rechts loggt dich aus" (onTap)="logout()" class="fa"></Button>
 </GridLayout>
+

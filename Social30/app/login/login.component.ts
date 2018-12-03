@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
 		private page: Page,
 	) {
 		page.actionBarHidden = true;
+		this.page.enableSwipeBackNavigation = false;
 	}
 
 	ngOnInit() {

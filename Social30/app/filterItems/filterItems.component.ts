@@ -5,7 +5,7 @@ import { Route } from '@angular/router';
 import { isAndroid, isIOS, device, screen } from "platform";
 import { View } from "ui/core/view";
 import { ClientRequestArgs } from 'http';
-
+import { Page } from "tns-core-modules/ui/page";
 import { DataService } from '../shared/services/data.service';
 
 @Component({
@@ -21,7 +21,9 @@ export class FilterItemsComponent implements OnInit {
 	private selected = null;
 	message: { categories: boolean[] , time: number ,distance: number };
 
-	constructor(private router: RouterExtensions, private data: DataService,) { }
+	constructor(private router: RouterExtensions, private data: DataService, private page: Page) { 
+		this.page.enableSwipeBackNavigation = false;
+	}
 
 	ngOnInit() { 
 		this.data.currentMessage.subscribe(message => {

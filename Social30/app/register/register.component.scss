@@ -1,7 +1,6 @@
   
   StackLayout{
     font-family: 'Lato', 'Lato-Bold'; 
-    margin:70 30 20 30;
   }
   
   Label{
@@ -13,48 +12,87 @@
     text-align: center;
   }
 
+  .codeText{
+    margin:40 20 0 20;
+  }
+
+  .invalid-feedback{
+    margin:0 20;
+  }
 
 .heading{
   font-size:24;
   text-align: center;
+  margin:70 0 20 0;
 }
   
+.longText{
+  margin:0 20;
+  text-align: center;
+}
   
-  .remember{
-    margin:15 0 0 0;
-  }
-  
-  Image {
-    margin-bottom: 10;
-    height: 100;
-  }
+.status{
+  height:10;
+}
+
+.avatar{
+  height: 200;
+}
+
+.chooseAvatar{
+  margin:10 20;
+}
+
+.icon{
+  font-family: "FontAwesome";
+  font-size: 30;
+  margin:0 5;
+}
  
+.navButton{
+  background-color: #FF6600;
+  color: white;
+  border-width: 2;
+  border-color: #FF6600;
+}
+
+.genderButton{
+  background-color: white;
+  color: #FF6600;
+  border-width: 2;
+  border-color: #FF6600;
+}
+
+.genderButtonSelected{
+  background-color: #FF6600;
+  color: white;
+  border-color: #FF6600;
+}
+
 
   Button {
     font-size:15;
-    background-color: #FF6600;
-    color: white;
     border-radius: 25;
-    margin:0 0 20 0;
+    margin:15 10 10 10;
   }
 
-  Button:active {
+  .navButton:active {
     background-color: #d8510e;
+    border-color: #d8510e;
   }
  
   TextField {
     placeholder-color: #C4AFB4;
     color: #001144;
     border-radius: 25;
-    margin-top: 20;
     border-width: 2;
     border-color: #FF6600;
     padding:10 20;
+    margin:15 20 0 20;
   }
 
   .greyButton {
     background-color: #C4AFB4;
-   
   }
 
 

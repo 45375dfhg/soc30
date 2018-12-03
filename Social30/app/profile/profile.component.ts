@@ -1,7 +1,9 @@
 import { Component } from "@angular/core";
 import { RouterExtensions } from 'nativescript-angular/router';
-
+import { Page } from "tns-core-modules/ui/page";
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { getCategoryIconSource } from "../app.component";
+
 
 @Component({
     moduleId: module.id,
@@ -11,10 +13,16 @@ import { AuthenticationService } from '../shared/services/authentication.service
 })
 export class ProfileComponent {
 
-    public constructor(private authenticationService: AuthenticationService, private router: RouterExtensions) {}
+    public constructor(private authenticationService: AuthenticationService, private router: RouterExtensions, private page: Page) {
+        this.page.enableSwipeBackNavigation = false;
+    }
 
     logout() {
         this.authenticationService.logout();
         this.router.navigate(["/welcome"], { clearHistory: true });
+    }
+
+    getCategoryIconSource(icon: string): string {
+        return getCategoryIconSource(icon);
     }
 }

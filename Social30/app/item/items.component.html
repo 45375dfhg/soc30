@@ -1,4 +1,6 @@
-<ActionBar title="Aufgaben in meiner Nähe"></ActionBar>
+<ActionBar title="Aufgaben in meiner Nähe">
+        <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
 
 <!--<RadListView [items]="items" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)">
     <ng-template tkListItemTemplate let-item="item">
@@ -18,7 +20,7 @@
     </ng-template>
 </RadListView>-->
 
-<StackLayout marginTop="5" marginBottom="5">
+<StackLayout marginTop="5">
     <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']" pageTransition="fade"></Button>
     <RadListView [items]="items" #myListView [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">

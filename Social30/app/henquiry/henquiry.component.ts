@@ -45,11 +45,13 @@ export class HenquiryComponent {
     setIcon = this.itemService.getCategoryIconName;
 
     public constructor(
-        page: Page, 
+        private page: Page, 
         private itemService: ItemService,
         private route: ActivatedRoute,
 		private router: Router,
-		private routerExtension: RouterExtensions,) {}   
+		private routerExtension: RouterExtensions,) {
+            this.page.enableSwipeBackNavigation = false;
+        }   
 
     ngOnInit(): void {}
 

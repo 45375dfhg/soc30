@@ -1,10 +1,12 @@
 <ActionBar title="Aufgaben in meiner Nähe">
+        <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 
 
 <GridLayout rows="auto,auto,auto,*,auto">
         <GridLayout row="0" rows="auto,auto,auto,auto" columns="*, *">
-                <Label row="0" col="0" colSpan="2" textWrap="true" text="Bei welchen Tätigkeiten möchtest du gerne helfen?" class="fa"></Label>
+                <Label row="0" col="0" colSpan="2" textWrap="true" text="Bei welchen Tätigkeiten möchtest du gerne helfen?"
+                        class="fa"></Label>
                 <Button row="1" col="0" text="Schwerer Haushalt" class="orangeButton" (tap)="handleTap($event, true, old, c=[true,false,false,false,false] , t, d)"></Button>
                 <Button row="1" col="1" text="Leichter Haushalt" class="orangeButton" (tap)="handleTap($event, true, old, c=[false,true,false,false,false] ,t, d)"></Button>
                 <Button row="2" col="0" text="Gartenarbeit" class="orangeButton" (tap)="handleTap($event, true, old, c=[false,false,false,true,false] ,t, d)"></Button>
@@ -19,7 +21,8 @@
                 <Button row="1" col="3" text="+" class="orangeButton" (tap)="handleTap($event, false, old, c, t=9999, d)"></Button>
         </GridLayout>
         <GridLayout row="2" rows="*,*" columns="*,*,*,*">
-                <Label row="0" col="0" colSpan="4" textWrap="true" text="Wie viele Kilometer darf das Hilfegesuch entfernt sein?" class="fa"></Label>
+                <Label row="0" col="0" colSpan="4" textWrap="true" text="Wie viele Kilometer darf das Hilfegesuch entfernt sein?"
+                        class="fa"></Label>
                 <Button row="1" col="0" text="1" class="orangeButton" (tap)="handleTap($event, false, old, c ,t, d=0.1)"></Button>
                 <Button row="1" col="1" text="2" class="orangeButton" (tap)="handleTap($event, false, old, c ,t, d=2)"></Button>
                 <Button row="1" col="2" text="4" class="orangeButton" (tap)="handleTap($event, false, old, c ,t, d=4)"></Button>

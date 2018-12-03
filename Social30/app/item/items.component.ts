@@ -56,6 +56,7 @@ export class ItemsComponent implements OnInit {
         ) { 
             // subscribe to changes in the message (which is the badly named filter)
             this.data.currentMessage.subscribe(message => this.message = message) 
+            this.page.enableSwipeBackNavigation = false;
         }
 
     ngOnInit(): void {

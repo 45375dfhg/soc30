@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { Item } from "../models/item";
 import { Config } from "../config";
@@ -50,7 +50,24 @@ export class ItemService {
             .set('endTime', end)
             .set('category', cat);
 
-        return this.http.post<any>(this.baseUrl + "henquiries", params);
+        return this.http.post<any>(this.baseUrl + "henquiries", params)
+            .pipe(
+                catchError(this.handleErrors('postItem'))
+            );
+    }
+
+    public applyItem(id) {
+        
+        // HttpParams is immutable so we need to concatinate
+        // the .sets on creation
+        let params = new HttpParams()
+            .set('henquiryId', id)
+
+        return this.http.put<any>(this.baseUrl + "henquiries/apply", params)
+            .pipe(
+                tap(res => console.log('HTTP response:', res)),
+                catchError(this.handleErrors('applyItem'))
+            );
     }
 
     // needs to be reworked but works for now

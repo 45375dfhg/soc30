@@ -58,7 +58,7 @@
                         verticalAlignment="bottom" height="20" class="fa"></Label>
                     <Label row="7" col="1" colSpan="3" [text]="item.createdBy.nickname" horizontalAlignment="left"
                         verticalAlignment="center" height="20" class="fa"></Label>
-                    <Button row="9" col="0" colSpan="3" text="Da will ich helfen!" class="willHelpButton"></Button>
+                    <Button row="9" col="0" colSpan="3" text="Da will ich helfen!" class="willHelpButton" (tap)="applyTo(item._id)"></Button>
                     <Label row="10" col="3" text="&#xf077;" verticalAlignment="bottom" class="icon"></Label>
                 </GridLayout>
             </FlexboxLayout>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
@@ -76,7 +76,6 @@ export class ItemsComponent implements OnInit {
                     .filter(entry => currentUser._id != entry.createdBy._id)
                     .filter(fdist => fdist.distance <= this.message.distance)
                     .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
-                    // this filter needs to be properly alligned
                     .filter(filtercat => this.message.categories[filtercat.category.category])
                     .sort((entry1, entry2) => {
                             let date1 = new Date(entry1.startTime).getTime();
@@ -87,6 +86,16 @@ export class ItemsComponent implements OnInit {
                 console.log('Didnt get any items')
             }
         });
+    }
+
+    applyTo(id) {
+        this.itemService.applyItem(id).subscribe(
+            res => console.log('suc'),
+            err => {
+                if (err instanceof HttpErrorResponse) {
+                    console.log(`Status: ${err.status}, ${err.statusText}`);
+                }
+            });
     }
 
     logout() {

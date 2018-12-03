@@ -82,6 +82,8 @@ exports.createHenquiry = (req, res, next) => {
     if(!(req.body.amountAide && req.body.startTime && req.body.endTime && req.body.category)) {
       return res.status(400).send("AB_001");
     }
+    req.body.endTime = new Date(req.body.endTime);
+    req.body.startTime = new Date(req.body.startTime);
     if(req.body.endTime - req.body.startTime == 1800000 || req.body.endTime - req.body.startTime == 3600000 ||
       req.body.endTime - req.body.startTime == 5400000 || req.body.endTime - req.body.startTime == 7200000 || 
       req.body.endTime - req.body.startTime == 9000000 || req.body.endTime - req.body.startTime == 10800000) {
@@ -133,6 +135,7 @@ exports.createHenquiry = (req, res, next) => {
       });
     });
   } else {
+    console.log(req.body.endTime - req.body.startTime);
     return res.status(400).send("AB_008");
   }
 };

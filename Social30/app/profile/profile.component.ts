@@ -2,6 +2,8 @@ import { Component } from "@angular/core";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Page } from "tns-core-modules/ui/page";
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { getCategoryIconSource } from "../app.component";
+
 
 @Component({
     moduleId: module.id,
@@ -18,5 +20,9 @@ export class ProfileComponent {
     logout() {
         this.authenticationService.logout();
         this.router.navigate(["/welcome"], { clearHistory: true });
+    }
+
+    getCategoryIconSource(icon: string): string {
+        return getCategoryIconSource(icon);
     }
 }

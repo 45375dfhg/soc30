@@ -8,5 +8,36 @@ Button {
     background-color: #FF6600;
     color: white;
     border-radius: 25;
+    margin:0 10 15 10;
+}
+
+.fa{
     font-family: 'Lato', 'Lato-Bold'; 
 }
+
+.userName{
+    color: #001144;
+    font-size: 16;
+}
+
+.userAdress{
+    color:#A1A7BA;
+    font-size: 14;
+}
+
+.userSince{
+    color:#A1A7BA;
+    font-size: 14;
+}
+
+.profilPic{
+    height: 150;
+    margin:20;
+}
+
+.icon{
+    font-family: "FontAwesome";
+    color: #A1A7BA;
+    font-size: 45;
+    margin:10 10 0 0;
+  }

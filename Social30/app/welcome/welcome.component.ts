@@ -25,6 +25,7 @@ export class WelcomeComponent implements OnInit {
 		// clean before prod
 		private authenticationService: AuthenticationService) {
 		page.actionBarHidden = true;
+		this.page.enableSwipeBackNavigation = false;
 	}
 
 	ngOnInit() { }

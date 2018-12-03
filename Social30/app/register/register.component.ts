@@ -35,6 +35,7 @@ export class RegisterComponent implements OnInit {
         private page: Page,
     ) { 
         page.actionBarHidden = true;
+        this.page.enableSwipeBackNavigation = false;
     }
 
 
@@ -55,7 +56,6 @@ export class RegisterComponent implements OnInit {
             confPassword: ['', Validators.required],
             surname: ['', Validators.required],
             firstname: ['', Validators.required],
-            nickname: ['', Validators.required],
         }, { validator: this.pwMatchValidator });
 
          // get return url from route parameters or default to '/'

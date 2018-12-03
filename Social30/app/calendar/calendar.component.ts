@@ -25,6 +25,7 @@ export class CalendarComponent implements OnInit {
 
     private entries;
     private dates: string[] = [];
+    private ex: boolean = false;
     
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
@@ -45,7 +46,9 @@ export class CalendarComponent implements OnInit {
         private calendarService: CalendarService, 
         private page: Page, 
         private itemService: ItemService,
-        private appSet: AppSettingsService) { }
+        private appSet: AppSettingsService) { 
+            this.page.enableSwipeBackNavigation = false;
+        }
 
     ngOnInit(): void {
         if(!this.appSet.getUser('guest')) {
@@ -66,6 +69,9 @@ export class CalendarComponent implements OnInit {
                 // this needs to be redone but works for now
                 // technically a job for the backend but might scale badly
                 // so its getting outsourced to frontend
+                if(result.length > 0) {
+                    this.ex = true;
+                }
                 let output = _.flow([
                     this.groupEntries,
                     this.formatEntries, 

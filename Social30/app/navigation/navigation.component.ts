@@ -16,8 +16,9 @@ export class NavigationComponent {
     constructor(
         private routerExtension: RouterExtensions,
         private activeRoute: ActivatedRoute,
-        page: Page) {
+        private page: Page) {
         page.actionBarHidden = true;
+        this.page.enableSwipeBackNavigation = false;
     }
 
     ngOnInit() {

@@ -36,7 +36,9 @@ export class HenquiryDetailComponent {
     private amount: number;
     private category: {category:number, subcategory: number}
 
-    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, page: Page, private itemService: ItemService) {
+    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, private page: Page, private itemService: ItemService) {
+        this.page.enableSwipeBackNavigation = false;
+
         this.day = this.today.getDate() + 1;
         this.month = this.today.getMonth();
         this.year = this.today.getFullYear();

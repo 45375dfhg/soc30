@@ -1,86 +1,107 @@
 <StackLayout [formGroup]="registerForm">
     <StackLayout *ngIf="currentPage === 0">
-
-        <GridLayout rows="auto,auto,auto,auto,auto,auto,auto,auto">
-
-            <Label row="0" text="Teil werden!" class="heading"></Label>
-
-            <TextField formControlName="firstname" hint="Vorname" autocorrect="false">
+        <GridLayout rows="auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto,*,auto,auto" columns="*,*">
+            <Label row="0" colSpan="2" text="Teil werden!" class="heading"></Label>
+            <TextField row="1" colSpan="2" formControlName="firstname" hint="Vorname" autocorrect="false">
             </TextField>
-            <Label *ngIf="submitted && f.firstname.errors?.required" class="invalid-feedback" text="Es fehlt ein Vorname!">
+            <Label row="2" colSpan="2" *ngIf="submitted && f.firstname.errors?.required" class="invalid-feedback" text="Es fehlt ein Vorname!">
             </Label>
-
-            <TextField formControlName="surname" hint="Nachname" autocorrect="false">
+            <TextField row="3" colSpan="2" formControlName="surname" hint="Nachname" autocorrect="false">
             </TextField>
-            <Label *ngIf="submitted && f.surname.errors?.required" class="invalid-feedback" text="Es fehlt ein Nachname!">
+            <Label row="4" colSpan="2" *ngIf="submitted && f.surname.errors?.required" class="invalid-feedback" text="Es fehlt ein Nachname!">
             </Label>
-
-            <TextField formControlName="email" hint="Email-Adresse" keyboardType="email" autocorrect="false"
-                autocapitalizationType="none">
+            <TextField row="5" colSpan="2" formControlName="email" hint="Email-Adresse" keyboardType="email"
+                autocorrect="false" autocapitalizationType="none">
             </TextField>
-            <Label *ngIf="submitted && f.email.errors?.required" class="invalid-feedback" text="Keine E-Mail angegeben!">
+            <Label row="6" colSpan="2" *ngIf="submitted && f.email.errors?.required" class="invalid-feedback" text="Keine E-Mail angegeben!">
             </Label>
-            <Label *ngIf="submitted && f.email.errors?.pattern" class="invalid-feedback" text="Keine valide E-Mail!">
+            <Label row="7" colSpan="2" *ngIf="submitted && f.email.errors?.pattern" class="invalid-feedback" text="Keine valide E-Mail!">
             </Label>
-
-
-
-            <TextField formControlName="password" hint="Passwort" secure="true">
+            <TextField row="8" colSpan="2" formControlName="password" hint="Passwort" secure="true">
             </TextField>
-            <Label *ngIf="submitted && f.password.errors?.required" class="invalid-feedback" text="Es fehlt ein Password!">
+            <Label row="9" colSpan="2" *ngIf="submitted && f.password.errors?.required" class="invalid-feedback" text="Es fehlt ein Password!">
             </Label>
 
-            <TextField formControlName="confPassword" hint="Passwort bestätigen" secure="true">
+            <TextField row="10" colSpan="2" formControlName="confPassword" hint="Passwort bestätigen" secure="true">
             </TextField>
-            <Label *ngIf="submitted && f.confPassword.errors?.required" class="invalid-feedback" text="Das Passwort wiederholen!">
+            <Label row="11" colSpan="2" *ngIf="submitted && f.confPassword.errors?.required" class="invalid-feedback"
+                text="Das Passwort wiederholen!">
             </Label>
-            <Label *ngIf="submitted && registerForm .errors?.mismatch" class="invalid-feedback" text="Passwörter stimmen nicht überein!">
+            <Label row="12" colSpan="2" *ngIf="submitted && registerForm .errors?.mismatch" class="invalid-feedback"
+                text="Passwörter stimmen nicht überein!">
             </Label>
-
-            <Image row="2" [src]="getCategoryIconSource('status1v4')"></Image>
-
-
-
-            <Button [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(1)">
-                </Button>
-        
-                <Button [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="goBack()">
-                </Button>
-
+            <Image row="14" colSpan="2" [src]="getCategoryIconSource('status1v4')"></Image>
+            <Button row="15" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(1)">
+            </Button>
+            <Button row="15" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+                (tap)="goBack()">
+            </Button>
         </GridLayout>
-
-
-
-
-
-
-
-        <TextField formControlName="nickname" hint="Spitzname" autocorrect="false">
-        </TextField>
-        <Label *ngIf="submitted && f.nickname.errors?.required" class="invalid-feedback" text="Es fehlt ein Spitzname!">
-        </Label>
-
-
-
-
-
-
-
     </StackLayout>
 
     <StackLayout *ngIf="currentPage === 1">
-        <Label text="Seite 2"></Label>
-        <Button [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(2)">
-        </Button>
-        <Button [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="switchStatus(0)">
-        </Button>
+        <GridLayout rows="auto,auto,auto,auto,auto,auto,*,auto,auto" columns="*,*">
+            <Label row="0" colSpan="2" text="Teil werden!" class="heading"></Label>
+            <TextField row="1" colSpan="2" hint="Straße, Hausnummer" autocorrect="false">
+            </TextField>
+            <TextField row="2" colSpan="2" hint="Postleitzahl" autocorrect="false">
+            </TextField>
+            <TextField row="3" colSpan="2" hint="Stadt" autocorrect="false">
+            </TextField>
+            <Label row="4" colSpan="2" class="codeText" textWrap="true" text="Hast du schon einen Verifizierungscode? Falls nicht, kannst du ihn später immer noch eingeben.">
+            </Label>
+            <TextField row="5" colSpan="2" hint="Verifizierungscode">
+            </TextField>
+            <Image row="7" colSpan="2" [src]="getCategoryIconSource('status2v4')"></Image>
+            <Button row="8" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(2)">
+            </Button>
+            <Button row="8" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+                (tap)="switchStatus(0)">
+            </Button>
+        </GridLayout>
     </StackLayout>
 
     <StackLayout *ngIf="currentPage === 2">
-        <Label text="Seite 3"></Label>
-        <Button [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Mitmachen!" (tap)="onSubmit()">
-        </Button>
-        <Button [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="switchStatus(1)">
-        </Button>
+        <GridLayout rows="auto,auto,auto,*,auto,auto" columns="*,*">
+            <Label row="0" colSpan="2" text="Teil werden!" class="heading"></Label>
+            <GridLayout row="1" colSpan="2" rows="auto" columns="*,*,*">
+                <Button row="0" col="0" text="Männlich"></Button>
+                <Button row="0" col="1" text="Weiblich"></Button>
+                <Button row="0" col="2" text="Claas"></Button>
+            </GridLayout>
+            <TextField row="2" colSpan="2" hint="Geburtsdatum" autocorrect="false">
+            </TextField>
+            <Image row="4" colSpan="2" [src]="getCategoryIconSource('status3v4')"></Image>
+            <Button row="5" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(3)">
+            </Button>
+            <Button row="5" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+                (tap)="switchStatus(1)">
+            </Button>
+        </GridLayout>
+    </StackLayout>
+
+    <StackLayout *ngIf="currentPage === 3">
+        <GridLayout rows="auto,*,auto,*,auto,auto" columns="*,*">
+            <Label row="0" colSpan="2" textWrap="true" text="Bevor's gleich losgeht ..." class="heading"></Label>
+            <Label row="2" colSpan="2" textWrap="true" class="longText">
+                <FormattedString>
+                    <Span text="… möchten wir dich noch darauf aufmerksam machen, dass die Idee von Social 30 nur dann funktioniert, wenn wir uns alle dazu bereit erklären, jeden aus der Social 30 Gemeinschaft unabhängig von seiner Herkunft, Religion, Nationalität, seiner ethnischen Zugehörigkeit, seiner Hautfarbe, seinem Geschlecht bzw. seiner Geschlechtsidentität, seiner sexuellen Orientierung, seinem Alter oder einer Behinderung respektvoll und unvoreingenommen zu behandeln. Ziel der App ist es, das Miteinander der Menschen zu stärken und sie wieder ein Stück näher zusammenzubringen. Jeder sollte dabei so handeln, wie er selbst auch behandelt werden möchte."
+                        color="#001144"></Span>
+                    <Span text=" Mit der Benutzung der Social 30 App stimmst du unseren " color="#001144"></Span>
+                    <Span text="Social 30 Nutzungbedingungen  " color="#FF6600"></Span>
+                    <Span text="und unserer " color="#001144"></Span>
+                    <Span text="Antidiskriminierungs-Richtlinie " color="#FF6600"></Span>
+                    <Span text="zu. Außerdem willigst du in unsere  " color="#001144"></Span>
+                    <Span text="Datenschutzrichtlinien " color="#FF6600"></Span>
+                    <Span text="ein." color="#001144"></Span>
+                </FormattedString>
+            </Label>
+            <Image row="4" colSpan="2" [src]="getCategoryIconSource('status4v4')"></Image>
+            <Button row="5" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
+            </Button>
+            <Button row="5" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+                (tap)="switchStatus(2)">
+            </Button>
+        </GridLayout>
     </StackLayout>
 </StackLayout>

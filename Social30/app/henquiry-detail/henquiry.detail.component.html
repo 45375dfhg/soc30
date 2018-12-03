@@ -1,4 +1,6 @@
-<ActionBar title="Hilfegesuch erstellen - Details"></ActionBar>
+<ActionBar title="Hilfegesuch erstellen - Details">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
 <!--<StackLayout>
     <Label text="{{id}}"></Label>
     <Label text={{idtype}}></Label>
@@ -13,12 +15,13 @@
     <GridLayout rows="auto,auto,auto,auto,auto, auto">
         <GridLayout row="0" row="auto,auto">
             <Label row="0" text="An welchem Tag brauchst du Hilfe?" class="fa"></Label>
-            <DatePicker (loaded)="onPickerLoadedDate($event)"  
-            (dayChange)="onDayChanged($event)" (monthChange)="onMonthChanged($event)" (yearChange)="onYearChanged($event)" row="1"></DatePicker>
+            <DatePicker (loaded)="onPickerLoadedDate($event)" (dayChange)="onDayChanged($event)" (monthChange)="onMonthChanged($event)"
+                (yearChange)="onYearChanged($event)" row="1"></DatePicker>
         </GridLayout>
         <GridLayout row="1" rows="auto,auto">
             <Label row="0" text="Um wie viel Uhr brauchst du Hilfe?" class="fa"></Label>
-            <TimePicker minuteInterval="15" (loaded)="onPickerLoadedTime($event)" (timeChange)="onTimeChanged($event)" row="1" verticalAlignment="center"></TimePicker>
+            <TimePicker minuteInterval="15" (loaded)="onPickerLoadedTime($event)" (timeChange)="onTimeChanged($event)"
+                row="1" verticalAlignment="center"></TimePicker>
         </GridLayout>
         <GridLayout row="2" rows="*,*" columns="*,*,*,*">
             <Label row="0" col="0" colSpan="4" text="Wie lange dauert die Hilfe?" class="fa"></Label>

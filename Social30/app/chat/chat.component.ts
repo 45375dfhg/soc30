@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import { getCategoryIconSource } from "../app.component";
+import { Page } from "tns-core-modules/ui/page";
+
 
 @Component({
     moduleId: module.id,
@@ -9,7 +11,9 @@ import { getCategoryIconSource } from "../app.component";
 })
 export class ChatComponent {
 
-    public constructor() {}
+    public constructor(private page: Page) {
+        this.page.enableSwipeBackNavigation = false;
+    }
 
 
 

@@ -49,7 +49,7 @@
     <ScrollView>
         <StackLayout>
             <StackLayout *ngFor="let sub of subNames; let i = index">
-                <GridLayout row="0" rows="auto" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', categoryId]"
+                <GridLayout row="0" rows="auto" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', categoryId.toString() + i.toString()]"
                     pageTransition="slideLeft" class="border category">
                     <Label row="0" col="0" colSpan="3" [text]="sub" class="fa subHeading" verticalAlignment="center"></Label>
                     <Image row="0" rowSpan="2" col="3" [src]="setIcon(categoryId, i)" height="100" verticalAlignment="center"

@@ -10,14 +10,14 @@ import { AppSettingsService } from './appsettings.service';
 
 @Injectable()
 export class ItemService {
-    baseUrl = Config.apiUrl + "henquiries";
+    baseUrl = Config.apiUrl;
 
     private items: Item[];
 
     constructor(private http: HttpClient, private appSet: AppSettingsService) { }
 
     public getItems() {
-        return this.http.get<Item[]>(this.baseUrl)
+        return this.http.get<Item[]>(this.baseUrl + "henquiries")
             .pipe(
                 map(items => {
                     let itemList = [];
@@ -38,6 +38,19 @@ export class ItemService {
                 // needs to be rearranged to the error handler service
                 catchError(this.handleErrors('getItems'))
             );
+    }
+
+    public postItem(amount, start, end, cat) {
+        
+        // HttpParams is immutable so we need to concatinate
+        // the .sets on creation
+        let params = new HttpParams()
+            .set('amountAide', amount)
+            .set('startTime', start)
+            .set('endTime', end)
+            .set('category', cat);
+
+        return this.http.post<any>(this.baseUrl + "henquiries", params);
     }
 
     // needs to be reworked but works for now
@@ -177,7 +190,7 @@ export class ItemService {
             if (currentUser._id == creator._id) {
                 return "Bei dir Zuhause!"
             } else {
-                return "Creator.adresse sth"
+                return creator.address.street + ' ' + creator.address.housem + " in " + creator.address.city;
             }
         }
     }

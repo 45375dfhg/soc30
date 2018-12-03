@@ -31,21 +31,54 @@
   text-align: center;
 }
   
-  Image {
-    height: 10;
-  }
+.status{
+  height:10;
+}
+
+.avatar{
+  height: 200;
+}
+
+.chooseAvatar{
+  margin:10 20;
+}
+
+.icon{
+  font-family: "FontAwesome";
+  font-size: 30;
+  margin:0 5;
+}
  
+.navButton{
+  background-color: #FF6600;
+  color: white;
+  border-width: 2;
+  border-color: #FF6600;
+}
+
+.genderButton{
+  background-color: white;
+  color: #FF6600;
+  border-width: 2;
+  border-color: #FF6600;
+}
+
+.genderButtonSelected{
+  background-color: #FF6600;
+  color: white;
+  border-color: #FF6600;
+}
+
 
   Button {
     font-size:15;
-    background-color: #FF6600;
-    color: white;
     border-radius: 25;
     margin:15 10 10 10;
   }
 
-  Button:active {
+  .navButton:active {
     background-color: #d8510e;
+    border-color: #d8510e;
   }
  
   TextField {
@@ -60,7 +93,6 @@
 
   .greyButton {
     background-color: #C4AFB4;
-   
   }
 
 

@@ -30,10 +30,10 @@
             <Label row="12" colSpan="2" *ngIf="submitted && registerForm .errors?.mismatch" class="invalid-feedback"
                 text="Passwörter stimmen nicht überein!">
             </Label>
-            <Image row="14" colSpan="2" [src]="getCategoryIconSource('status1v4')"></Image>
-            <Button row="15" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(1)">
+            <Image class="status" row="14" colSpan="2" [src]="getCategoryIconSource('status1v4')"></Image>
+            <Button class="navButton" row="15" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(1)">
             </Button>
-            <Button row="15" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+            <Button class="navButton" row="15" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
                 (tap)="goBack()">
             </Button>
         </GridLayout>
@@ -52,29 +52,35 @@
             </Label>
             <TextField row="5" colSpan="2" hint="Verifizierungscode">
             </TextField>
-            <Image row="7" colSpan="2" [src]="getCategoryIconSource('status2v4')"></Image>
-            <Button row="8" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(2)">
+            <Image class="status" row="7" colSpan="2" [src]="getCategoryIconSource('status2v4')"></Image>
+            <Button class="navButton" row="8" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(2)">
             </Button>
-            <Button row="8" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+            <Button class="navButton" row="8" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
                 (tap)="switchStatus(0)">
             </Button>
         </GridLayout>
     </StackLayout>
 
     <StackLayout *ngIf="currentPage === 2">
-        <GridLayout rows="auto,auto,auto,*,auto,auto" columns="*,*">
+        <GridLayout rows="auto,auto,auto,auto,auto,*,auto,auto" columns="*,*">
             <Label row="0" colSpan="2" text="Teil werden!" class="heading"></Label>
             <GridLayout row="1" colSpan="2" rows="auto" columns="*,*,*">
-                <Button row="0" col="0" text="Männlich"></Button>
-                <Button row="0" col="1" text="Weiblich"></Button>
-                <Button row="0" col="2" text="Claas"></Button>
+                <Button class="genderButton" row="0" col="0" text="Männlich" (tap)="handleTap($event, 0)"></Button>
+                <Button class="genderButton" row="0" col="1" text="Weiblich" (tap)="handleTap($event, 1)"></Button>
+                <Button class="genderButton" row="0" col="2" text="Claas" (tap)="handleTap($event, 2)"></Button>
             </GridLayout>
             <TextField row="2" colSpan="2" hint="Geburtsdatum" autocorrect="false">
             </TextField>
-            <Image row="4" colSpan="2" [src]="getCategoryIconSource('status3v4')"></Image>
-            <Button row="5" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(3)">
+            <Label class="chooseAvatar" row="3" colSpan="2" textWrap="true" text="Such dir eine Figur aus:"></Label>
+            <GridLayout row="4" colSpan="2" rows="auto" columns="*,*,*">
+                <Image class="avatar" row="4" col="1" verticalAlignment="center" horizontalAlignment="center" [src]="getAvatar()"></Image>
+                <Label class="icon" row="4" col="0" verticalAlignment="center" horizontalAlignment="right" (tap)="switchAvatar(-1)" text="&#xf053;"></Label>
+                <Label class="icon" row="4" col="2" verticalAlignment="center" horizontalAlignment="left" (tap)="switchAvatar(1)" text="&#xf054;"></Label>
+            </GridLayout>
+            <Image class="status" row="6" colSpan="2" [src]="getCategoryIconSource('status3v4')"></Image>
+            <Button class="navButton" row="7" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter" (tap)="switchStatus(3)">
             </Button>
-            <Button row="5" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+            <Button class="navButton" row="7" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
                 (tap)="switchStatus(1)">
             </Button>
         </GridLayout>
@@ -96,10 +102,10 @@
                     <Span text="ein." color="#001144"></Span>
                 </FormattedString>
             </Label>
-            <Image row="4" colSpan="2" [src]="getCategoryIconSource('status4v4')"></Image>
-            <Button row="5" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
+            <Image class="status" row="4" colSpan="2" [src]="getCategoryIconSource('status4v4')"></Image>
+            <Button class="navButton" row="5" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
             </Button>
-            <Button row="5" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+            <Button class="navButton" row="5" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
                 (tap)="switchStatus(2)">
             </Button>
         </GridLayout>

@@ -1,16 +1,24 @@
 <ActionBar title="Mein Plauderkasten">
         <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-
-
-
-
-
-
-<StackLayout *ngIf="entries; else noEntries" marginTop="5">
-
+<StackLayout marginTop="5">
+        <RadListView [items]="polledCalendar$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
+                style="height:100%">
+                <ng-template tkListItemTemplate let-item="item">
+                        <FlexboxLayout flexDirection="row">
+                                <GridLayout rows="33,33,34" columns="*, *, *, 15" class="border gridItem">
+                                        <Label row="0" col="0" colSpan="2" [text]="item._id"
+                                                verticalAlignment="center" height="25" class="fa heading">
+                                        </Label>
+                                </GridLayout>
+                        </FlexboxLayout>
+                </ng-template>
+        </RadListView>
 </StackLayout>
-<ng-template #noEntries>
+
+
+<!--*ngIf="entries | async; else noEntries
+        <ng-template #noEntries>
         <GridLayout rows="auto,auto,auto,auto" class="emptyScreen fa">
                 <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
                         horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>
@@ -21,4 +29,35 @@
                 <Label row="3" text="Hier geht bald die Post ab! Dann hast du die Möglichkeit mit deinen Nachbarn zu schreiben."
                         horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
         </GridLayout>
-</ng-template>
+</ng-template>"
+-->
+<!--<ng-template tkTemplateKey="expanded" let-item="item">
+                        <FlexboxLayout flexDirection="row">
+                                <GridLayout rows="33,33,34,*,*,*,*,*,*,3*,*" columns="*, *, *, 15" class="border-expanded gridItem">
+                                        <Label row="0" col="0" colSpan="2" [text]="formatCategory(item.category.category, item.category.subcategory)"
+                                                verticalAlignment="center" height="25" class="fa heading"></Label>
+                                        <Label row="1" col="0" colSpan="2" [text]="formatStartTime(item.startTime)"
+                                                verticalAlignment="bottom" height="20" class="fa"></Label>
+                                        <Label row="2" col="0" colSpan="2" [text]="formatDistance(item.distance)"
+                                                verticalAlignment="center" height="20" class="fa"></Label>
+                                        <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)"
+                                                height="100" verticalAlignment="center" horizontalAlignment="right"></Image>
+
+                                        <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>
+
+                                        <Label row="4" col="0" colSpan="2" [text]="formatTerra(item.startTime, item.endTime)"
+                                                verticalAlignment="bottom" height="20" class="fa"></Label>
+                                        <Label row="5" col="0" colSpan="2" [text]="formatDuration(item.startTime, item.endTime)"
+                                                verticalAlignment="top" height="20" class="fa"></Label>
+                                        <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')"
+                                                height="80" verticalAlignment="center" horizontalAlignment="center"></Image>
+                                        <Label row="6" col="1" colSpan="3" [text]="item.createdBy.firstname + ' ' + item.createdBy.surname[0] + '.'"
+                                                horizontalAlignment="left" verticalAlignment="bottom" height="20" class="fa"></Label>
+                                        <Label row="7" col="1" colSpan="3" [text]="item.createdBy.nickname"
+                                                horizontalAlignment="left" verticalAlignment="center" height="20" class="fa"></Label>
+                                        <Button row="9" col="0" colSpan="3" text="Da will ich helfen!" class="willHelpButton"
+                                                (tap)="applyTo(item._id)"></Button>
+                                        <Label row="10" col="3" text="&#xf077;" verticalAlignment="bottom" class="icon"></Label>
+                                </GridLayout>
+                        </FlexboxLayout>
+                </ng-template>-->

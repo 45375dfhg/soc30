@@ -7,15 +7,12 @@ import { getCategoryIconSource } from "../app.component";
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
 import { AppSettingsService } from '../shared/services/appsettings.service';
-
-// import * as application from "tns-core-modules/application";
-// import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
+import { AuthenticationService } from '../shared/services/authentication.service';
+import { DataService } from '../shared/services/data.service';
 
 import { isIOS, isAndroid } from "tns-core-modules/platform";
+import { alert } from "tns-core-modules/ui/dialogs";
 import { ListViewEventData } from "nativescript-ui-listview";
-
-import { AuthenticationService} from '../shared/services/authentication.service';
-import { DataService } from '../shared/services/data.service';
 
 declare var UIView, NSMutableArray, NSIndexPath;
 
@@ -23,14 +20,14 @@ declare var UIView, NSMutableArray, NSIndexPath;
     selector: "ns-items",
     moduleId: module.id,
     templateUrl: "./items.component.html",
-    styleUrls:  ["./items.component.scss"],
+    styleUrls: ["./items.component.scss"],
     // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemsComponent implements OnInit {
 
     items: Item[] = [];
-    message: { categories: boolean[], time: number ,distance: number }; // basically filter values
-    
+    message: { categories: boolean[], time: number, distance: number }; // basically filter values
+
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
     formatDuration = this.itemService.formatDuration;
@@ -47,17 +44,17 @@ export class ItemsComponent implements OnInit {
     setIcon = this.itemService.getCategoryIconName;
 
     constructor(
-        private itemService: ItemService, 
-        private router: RouterExtensions, 
+        private itemService: ItemService,
+        private router: RouterExtensions,
         private appSet: AppSettingsService,
         private authenticationService: AuthenticationService,
         private data: DataService,
         private page: Page,
-        ) { 
-            // subscribe to changes in the message (which is the badly named filter)
-            this.data.currentMessage.subscribe(message => this.message = message) 
-            this.page.enableSwipeBackNavigation = false;
-        }
+    ) {
+        // subscribe to changes in the message (which is the badly named filter)
+        this.data.currentMessage.subscribe(message => this.message = message)
+        this.page.enableSwipeBackNavigation = false;
+    }
 
     ngOnInit(): void {
         // checks whether the user is a guest or not
@@ -79,9 +76,9 @@ export class ItemsComponent implements OnInit {
                     .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
                     .filter(filtercat => this.message.categories[filtercat.category.category])
                     .sort((entry1, entry2) => {
-                            let date1 = new Date(entry1.startTime).getTime();
-                            let date2 = new Date(entry2.startTime).getTime();
-                            return date1 - date2
+                        let date1 = new Date(entry1.startTime).getTime();
+                        let date2 = new Date(entry2.startTime).getTime();
+                        return date1 - date2
                     });
             } else {
                 console.log('Didnt get any items')
@@ -90,13 +87,21 @@ export class ItemsComponent implements OnInit {
     }
 
     applyTo(id) {
-        this.itemService.applyItem(id).subscribe(
-            res => console.log('suc'),
-            err => {
-                if (err instanceof HttpErrorResponse) {
-                    console.log(`Status: ${err.status}, ${err.statusText}`);
-                }
-            });
+        if (!this.appSet.getUser('guest')) {
+            this.itemService.applyItem(id).subscribe(
+                res => console.log('suc'),
+                err => {
+                    if (err instanceof HttpErrorResponse) {
+                        console.log(`Status: ${err.status}, ${err.statusText}`);
+                    }
+                });
+        } else {
+            alert({
+                title: "Du bist ein Gast ",
+                message: "und der gute Herr Mustermann ist gar nicht echt.",
+                okButtonText: "Achso"
+            })
+        }
     }
 
     logout() {
@@ -110,17 +115,17 @@ export class ItemsComponent implements OnInit {
 
     onItemTap(event: ListViewEventData) {
         const listView = event.object,
-                rowIndex = event.index,
-                dataItem = event.view.bindingContext;
+            rowIndex = event.index,
+            dataItem = event.view.bindingContext;
 
         dataItem.expanded = !dataItem.expanded;
         if (isIOS) {
             // Uncomment the lines below to avoid default animation
-             UIView.animateWithDurationAnimations(0, () => {
+            UIView.animateWithDurationAnimations(0, () => {
                 var indexPaths = NSMutableArray.new();
                 indexPaths.addObject(NSIndexPath.indexPathForRowInSection(rowIndex, event.groupIndex));
                 listView.ios.reloadItemsAtIndexPaths(indexPaths);
-             });
+            });
         }
         if (isAndroid) {
             listView.androidListView.getAdapter().notifyItemChanged(rowIndex);
@@ -130,6 +135,6 @@ export class ItemsComponent implements OnInit {
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
-    
+
 }
 

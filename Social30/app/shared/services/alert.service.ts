@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from "@angular/common/http";
-import { alert, prompt } from "tns-core-modules/ui/dialogs";
+import { alert } from "tns-core-modules/ui/dialogs";
 
 @Injectable()
 export class AlertService {

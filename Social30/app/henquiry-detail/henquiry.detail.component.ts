@@ -8,6 +8,7 @@ import { TimePicker } from "tns-core-modules/ui/time-picker";
 
 import { getCategoryIconSource } from "../app.component";
 import { ItemService } from "../shared/services/item.service";
+import { AppSettingsService } from '../shared/services/appsettings.service';
 
 
 @Component({
@@ -17,13 +18,13 @@ import { ItemService } from "../shared/services/item.service";
     styleUrls: ['./henquiry.detail.component.scss']
 })
 export class HenquiryDetailComponent implements OnInit {
-    
+
     id;
     cat;
     sub;
 
     setIcon = this.itemService.getCategoryIconName;
-    
+
     private today = new Date();
     private year: number;
     private month: number;
@@ -32,11 +33,16 @@ export class HenquiryDetailComponent implements OnInit {
     private minute: number;
     private duration: number;
     private amount: number;
-    private category: {category:number, subcategory: number}
+    private category: { category: number, subcategory: number }
 
-    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, private page: Page, private itemService: ItemService) {
+    constructor(
+        private route: ActivatedRoute,
+        private routerExtension: RouterExtensions,
+        private page: Page,
+        private itemService: ItemService,
+        private appSet: AppSettingsService) {
+        
         this.page.enableSwipeBackNavigation = false;
-
         this.day = this.today.getDate() + 1;
         this.month = this.today.getMonth();
         this.year = this.today.getFullYear();
@@ -44,7 +50,7 @@ export class HenquiryDetailComponent implements OnInit {
         this.amount = 1;
         this.category = {
             category: 0,
-            subcategory: 0 
+            subcategory: 0
         }
     }
 
@@ -64,7 +70,7 @@ export class HenquiryDetailComponent implements OnInit {
         let today = new Date();
         let tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
         let future = new Date();
-        
+
         // define max value
         future.setMonth(future.getMonth() + 3);
 
@@ -72,7 +78,7 @@ export class HenquiryDetailComponent implements OnInit {
         datePicker.year = today.getFullYear();;
         datePicker.month = today.getMonth();
         datePicker.day = today.getDate() + 1;
-        
+
         // ranges
         datePicker.minDate = tomorrow;
         datePicker.maxDate = future;
@@ -97,7 +103,7 @@ export class HenquiryDetailComponent implements OnInit {
     onTapMinute(duration) {
         this.duration = duration;
     }
-    
+
     onTapAmount(amount) {
         this.amount = amount;
     }
@@ -115,25 +121,33 @@ export class HenquiryDetailComponent implements OnInit {
     }
 
     submitHenquiry() {
-        // overly verbose but it works
-        let start = new Date();
-        start.setFullYear(this.year);
-        start.setMonth(this.month - 1);
-        start.setDate(this.day);
-        start.setHours(this.hour);
-        start.setMinutes(this.minute);
+        if (!this.appSet.getUser('guest')) {
+            // overly verbose but it works
+            let start = new Date();
+            start.setFullYear(this.year);
+            start.setMonth(this.month - 1);
+            start.setDate(this.day);
+            start.setHours(this.hour);
+            start.setMinutes(this.minute);
 
-        // adds the duration in minutes to the start time 
-        let end = new Date(start.getTime() + this.duration * 60000)
- 
-        // console.log(this.category)
-        this.itemService.postItem(+this.amount,start,end,this.category).subscribe(
-            res => this.routerExtension.back(), // needs to be changed to a better target
-            err => {
-                if (err instanceof HttpErrorResponse) {
-                    console.log(`Status: ${err.status}, ${err.statusText}, ${err}`);
-                }
-            });
+            // adds the duration in minutes to the start time 
+            let end = new Date(start.getTime() + this.duration * 60000)
+            
+            // console.log(this.category)
+            this.itemService.postItem(+this.amount, start, end, this.category).subscribe(
+                res => this.routerExtension.back(), // needs to be changed to a better target
+                err => {
+                    if (err instanceof HttpErrorResponse) {
+                        console.log(`Status: ${err.status}, ${err.statusText}, ${err}`);
+                    }
+                });
+        } else {
+            alert({
+                title: "Du bist ein Gast ",
+                message: "und musst dich einloggen, um Hilfe anzufragen.",
+                okButtonText: "Achso"
+            })
+        }
     }
 
     public goBack() {

@@ -1,5 +1,6 @@
 var Message = require('../models/message');
 var mongoose = require('mongoose');
+var logger = require('../logs/logger');
 
 exports.messagesOverview = (req, res, next) => {
     var userId = req.userId;

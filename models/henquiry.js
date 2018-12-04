@@ -6,7 +6,7 @@ var HenquirySchema = new Schema({
     // Die vom Filer angenommenen Aider
     aide: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     // Für den Filer, damit er sehen kann, ob sich neue potentialAider eingetragen haben.
-    // TODO: Gucken, ob bei neuen Bewerbungen updated auf true gesetzt wird
+    // TODO: Wann wird es auf false gesetzt? Klären mit Claas
     updated: {type: Boolean, default: false},
     // Bereits bewertete Aider
     ratedAide: [{ type: Schema.Types.ObjectId, ref: 'User' }],

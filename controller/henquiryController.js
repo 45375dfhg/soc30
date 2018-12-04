@@ -3,6 +3,7 @@ var Henquiry = require('../models/henquiry');
 var Message = require('../models/message');
 var Category = require('../models/category');
 var mongoose = require('mongoose');
+var logger = require('../logs/logger');
 
 // Alle Hilfsgesuche laden, eigene Hilfsgesuche werden nicht geladen
 exports.getHenquiries = (req, res, next) => {
@@ -31,13 +32,13 @@ exports.getHenquiries = (req, res, next) => {
       return res.status(400).send("AA_001");
     }
     Henquiry.find(conditionsForQuery)
-    .select('amountAide startTime endTime text category')
+    .select('amountAide startTime endTime text category potentialAide aide')
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
     .populate('createdBy', 'firstname surname nickname coordinates')
     .exec(function (err, list_henquiries) {
       if(err) {
-        console.log(err);
+        logger.log('error', new Date() + 'GET/henquiries, Code: AA_002, Error:' + err);
         return res.status(500).send("AA_002");
       }
       User.findById(req.userId, function(userErr, userResult) {
@@ -54,14 +55,16 @@ exports.getHenquiries = (req, res, next) => {
             i--;
           }
         }
-        // Eigene Henquiries werden nicht mitgeschickt
-        // Die Koordinaten werden wieder entfernt
+        // Eigene Henquiries und Henquiries, wo man sich beworben hat bzw. hilft werden nicht mitgeschickt
+        // Die Koordinaten, aide und potentialAide werden wieder entfernt
         for(var i = 0; i < list_henquiries.length; i++) {
-          if(list_henquiries[i].createdBy._id == req.userId) {
-            list_henquiries.splice(i,1);
-            i--;
+          if(list_henquiries[i].createdBy._id == req.userId
+            || list_henquiries[i].aide.indexOf(req.userId) > -1 || list_henquiries[i].potentialAide.indexOf(req.userId) > -1
+            ){
+              list_henquiries.splice(i,1);
+              i--;
           } else {
-            list_henquiries[i].createdBy.coordinates = undefined;
+            list_henquiries[i].createdBy.coordinates = list_henquiries[i].aide = list_henquiries[i].potentialAide = undefined;
           }
         }
         return res.status(200).json(list_henquiries);
@@ -77,7 +80,6 @@ exports.henquiry_test = (req, res, next) => {
     });
 };
 
-// TODO: Ein Henquiry kann nur 30,60,90,120,150,180 Minuten dauern.
 exports.createHenquiry = (req, res, next) => {
     if(!(req.body.amountAide && req.body.startTime && req.body.endTime && req.body.category)) {
       return res.status(400).send("AB_001");
@@ -92,7 +94,7 @@ exports.createHenquiry = (req, res, next) => {
     Category.findOne({categoryId: categoryParam.category, "subcategory.categoryId": categoryParam.subcategory},
     function(errCategory, resultCategory) {
       if(errCategory) {
-        console.log(errCategory);
+        logger.log('error', new Date() + 'POST/henquiries, Code: AB_002, Error:' + errCategory);
         return res.status(500).send("AB_002");
       }
       if(!resultCategory) {
@@ -128,26 +130,28 @@ exports.createHenquiry = (req, res, next) => {
       }
       Henquiry.create(henquiry, function(error, result) {
         if(error) {
-          console.log(error);
+          logger.log('error', new Date() + 'POST/henquiries, Code: AB_009, Error:' + error);
           return res.status(500).send("AB_009");
         }
         return res.send("");
       });
     });
   } else {
-    console.log(req.body.endTime - req.body.startTime);
     return res.status(400).send("AB_008");
   }
 };
 
 // Informationen über ein bestimmtes Henquiry laden.
 // Unterschieden wird zwischen dem Ersteller und einem Bewerber/Helfer.
-// TODO: aide/potentialAide-Arrays populaten
 exports.getSpecificHenquiry = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
-  Henquiry.findById(henquiryId, {"closed":0, "removed":0, "happened":0},function(err, result) {
+  Henquiry.findById(henquiryId)
+  .select({"closed":0, "removed":0, "happened":0})
+  .populate('aide', 'firstname surname nickname')
+  .populate('potentialAide', 'firstname surname nickname')
+  .exec(function(err, result) {
     if(err) {
-      console.log(err);
+      logger.log('error', new Date() + 'GET/henquiries/specific, Code: AC_001, Error:' + err);
       return res.status(500).send("AC_001");
     }
     if(!result) {
@@ -170,7 +174,7 @@ exports.deleteHenquiry = (req, res, next) => {
     var userId = req.userId; 
     Henquiry.findById(henquiryId, (err, result) => {
       if(err) {
-        console.log(err);
+        logger.log('error', new Date() + 'DELETE/henquiries/specific, Code: AD_001, Error:' + err);
         return res.status(500).send("AD_001");
       }
       if(!result) {
@@ -180,7 +184,7 @@ exports.deleteHenquiry = (req, res, next) => {
         if(!result.closed) {
           Message.find({henquiry: henquiryId}, function(errMsg, resultMsg) {
             if(errMsg) {
-              console.log(errMsg);
+              logger.log('error', new Date() + 'DELETE/henquiries/specific, Code: AD_006, Error:' + errMsg);
               return res.status(500).send("AD_006");
             }
             for(var i = 0; i < resultMsg.length; i++) {
@@ -207,7 +211,7 @@ exports.apply = (req, res, next) => {
   var userId = new mongoose.mongo.ObjectId(req.userId);
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
-      console.log(err);
+      logger.log('error', new Date() + 'PUT/henquiries/apply, Code: AE_001, Error:' + err);
       return res.status(500).send("AE_001");
     } else {
       // Fehler, es werden keine weiteren Bewerber angenommen.
@@ -270,7 +274,7 @@ exports.acceptApplicants = (req, res, next) => {
   }
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
-      console.log(err);
+      logger.log('error', new Date() + 'PUT/henquiries/accept, Code: AF_002, Error:' + err);
       return res.status(500).send("AF_002");
     }
     if(!result) {
@@ -301,7 +305,7 @@ exports.acceptApplicants = (req, res, next) => {
       };
       Message.create(messageData, function(msgErr, msgResult) {
         if(msgErr) {
-          console.log(msgErr);
+          logger.log('error', new Date() + 'PUT/henquiries/accept, Code: AF_008, Error:' + msgErr);
           return res.status(500).send("AF_008");
         }
         msgResult.messages.push({message: "Schön, dass du dir diesen Helfer ausgesucht hast.", participant: 4, timeSent: new Date()});
@@ -320,7 +324,7 @@ exports.closeHenquiry = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) { 
-      console.log(err);
+      logger.log('error', new Date() + 'PUT/henquiries/close, Code: AG_001, Error:' + err);
       return res.status(500).send("AG_001");
     }
     if(!result) {
@@ -346,7 +350,7 @@ exports.henquirySuccess = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
-      console.log(err);
+      logger.log('error', new Date() + 'PUT/henquiries/success, Code: AH_001, Error:' + err);
       return res.status(500).send("AH_001");
     }
     if(!result) {
@@ -363,7 +367,7 @@ exports.henquirySuccess = (req, res, next) => {
     // Alle Chats auf readOnly = true setzen, sodass nicht mehr gechattet werden kann
     Message.find({henquiry: henquiryId}, function(errMsg, resultMsg) {
       if(errMsg) {
-        console.log(errMsg);
+        logger.log('error', new Date() + 'PUT/henquiries/success, Code: AH_005, Error:' + errMsg);
         return res.status(500).send("AH_005");
       }
       if(!resultMsg) {
@@ -383,7 +387,7 @@ exports.cancelApplication = (req, res, next) => {
   var userId = new mongoose.mongo.ObjectId(req.userId);
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) {
-      console.log(err);
+      logger.log('error', new Date() + 'PUT/henquiries/cancel, Code: AI_001, Error:' + err);
       return res.status(500).send("AI_001");
     }
     if(!result) {
@@ -400,7 +404,7 @@ exports.cancelApplication = (req, res, next) => {
     } else if(result.aide.indexOf(userId) > -1) {
       Message.findOne({henquiry: henquiryId}, function(errMsg, resultMsg) {
         if(errMsg) {
-          console.log(errMsg);
+          logger.log('error', new Date() + 'PUT/henquiries/success, Code: AI_005, Error:' + errMsg);
           return res.status(500).send("AI_005");
         }
         resultMsg.readOnly = true;
@@ -429,7 +433,7 @@ exports.calendar = (req, res, next) => {
   .populate('createdBy', 'firstname surname nickname address')
   .exec(function(err, result) {
     if(err) {
-      console.log(err);
+      logger.log('error', new Date() + 'GET/calendar, Code: AJ_001, Error:' + err);
       return res.status(500).send("AJ_001");
     }
     for(var i = 0; i < result.length; i++) {
@@ -526,8 +530,10 @@ function GPSdistance(lat1, lon1, lat2, lon2) {
 // TODO: In eine eigene Funktion auslagern.
 setInterval(() => {
   Henquiry.find({closed: false, happened: false, removed: false}, function(err, result) {
-    if(err) {console.log(err);}
-    if(!result) {return;}
+    if(err) {
+      logger.log('error', new Date() + 'Error:' + err);
+      return;
+    }
     for(var i = 0; i < result.length; i++) {
       if(result[i].startTime < new Date()) {
         if(result[i].aide.length == 0) {

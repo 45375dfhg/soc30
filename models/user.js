@@ -17,7 +17,6 @@ var UserSchema = new Schema({
       city: { type: String, },
       housenm: { type: String }
   },
-  postident: {type: Boolean},
   // TODO: Am Ende muss das in der Registrierung und allen anderen Routen berücksichtigt werden.
   // Lässt sich in verifyToken.js prüfen
   invite: {
@@ -26,7 +25,6 @@ var UserSchema = new Schema({
     codes: [{type: Number}],
     children: [{type: Schema.Types.ObjectId, ref: 'User'}]
   },
-  foto: {type: String}, // binary war hier
   mobile: {type: String},
   // Avatare werden im Frontend gespeichert und hier als Zahl, die vom FE einem Bild zugeordnet wird.
   avatar: {type: Number},

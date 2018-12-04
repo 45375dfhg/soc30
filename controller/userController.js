@@ -6,12 +6,9 @@ var config = require('../config');
 var User = require('../models/user');
 var Henquiry = require('../models/henquiry');
 var Message = require('../models/message');
-var path = require('path');
 var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
-const fs = require('fs');
-var access = fs.createWriteStream(__dirname + '/test.log', {flags:'a'});
-process.stdout.pipe(access);
+var logger = require('../logs/logger');
 
 /*
 const {body, validationResult} = require('express-validator/check');
@@ -129,7 +126,6 @@ exports.getProfile = function (req, res, next) {
 exports.editProfile = function (req, res, next) {
   var data = {};
   data.address = {};
-  populateDataToBeUpdated(req, data);
   // Altes PW muss noch geprüft werden
   if(req.body.password) {
     if(req.body.password === req.body.passwordConf) {
@@ -137,8 +133,8 @@ exports.editProfile = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        data.password = hash;
-        updateUser(req, data, res);
+        //data.password = hash;
+        populateDataToBeUpdated(req, data, res);
       })
     } else {
       res.send("PWs sind nicht gleich");
@@ -148,18 +144,28 @@ exports.editProfile = function (req, res, next) {
   }
 };
 
-function populateDataToBeUpdated(req, data) {
+function populateDataToBeUpdated(req, data, res) {
   if(req.body.email) {data.email = req.body.email;}
   if(req.body.surname) {data.surname = req.body.surname;}
   if(req.body.firstname) {data.firstname = req.body.firstname;}
   if(req.body.nickname) {data.nickname = req.body.nickname;}
-  if(req.body.postalcode) {data.address.postalcode = req.body.postalcode;}
-  if(req.body.street) {data.address.street = req.body.street;}
-  if(req.body.city) {data.address.city = req.body.city;}
-  if(req.body.housenm) {data.address.housenm = req.body.housenm;}
-  if(req.body.foto) {data.foto = req.body.foto;}
   if(req.body.mobile) {data.mobile = req.body.mobile;}
   if(req.body.avatar) {data.avatar = req.body.avatar;}
+  if(req.body.address) {
+    User.findById(req.userId, function(err, result) {
+      if(err) {
+        console.log(err);
+        return;
+      }
+      var address = JSON.parse(req.body.address);
+      data.address = result.address;
+      if(address.postalcode) {data.address.postalcode = address.postalcode;}
+      if(address.street) {data.address.street = address.street;}
+      if(address.city) {data.address.city = address.city;}
+      if(address.housenm) {data.address.housenm = address.housenm;}
+      updateUser(req, data, res);
+    });
+  }
 }
 
 function updateUser(req, data, res) {
@@ -280,5 +286,6 @@ exports.deleteProfile = (req, res, next) => {
 };
 
 exports.test = (req, res, next) => {
-  console.log("test");
+  logger.log('error', new Date() + ' -- Method: test -- error 23');
+  res.send("");
 };

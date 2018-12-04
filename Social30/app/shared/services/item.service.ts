@@ -41,14 +41,16 @@ export class ItemService {
     }
 
     public postItem(amount, start, end, cat) {
-        
         // HttpParams is immutable so we need to concatinate
         // the .sets on creation
         let params = new HttpParams()
             .set('amountAide', amount)
             .set('startTime', start)
             .set('endTime', end)
-            .set('category', cat);
+            // needs to be stringify'd because otherwise we'd get [object object]
+            .set('category', JSON.stringify(cat));
+
+        console.log(params);
 
         return this.http.post<any>(this.baseUrl + "henquiries", params)
             .pipe(
@@ -57,7 +59,6 @@ export class ItemService {
     }
 
     public applyItem(id) {
-        
         // HttpParams is immutable so we need to concatinate
         // the .sets on creation
         let params = new HttpParams()
@@ -152,12 +153,12 @@ export class ItemService {
         let time = new Date(start), today = new Date(), tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
         let mth = time.getMonth(), day = time.getDate(), hour = time.getHours(), min = time.getMinutes();
         if (time.setHours(0,0,0,0) == today.setHours(0,0,0,0)) {
-            return "Heute" + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
+            return "Heute" + " um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
         }
         // reset the time value which got mutated by setHours and so on
         time = new Date(start)
         if (time.setHours(0,0,0,0) == tomorrow.setHours(0,0,0,0)) {
-            return "Morgen" + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
+            return "Morgen" + " um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
         }
         // reset the time value which got mutated by setHours and so on
         time = new Date(start);
@@ -207,7 +208,11 @@ export class ItemService {
             if (currentUser._id == creator._id) {
                 return "Bei dir Zuhause!"
             } else {
-                return creator.address.street + ' ' + creator.address.housem + " in " + creator.address.city;
+                if (creator.adress && creator.adress.street) {
+                    return creator.address.street + ' ' + creator.address.housem + " in " + creator.address.city;
+                } else {
+                    return "Fehler"
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
 import { DatePicker } from "tns-core-modules/ui/date-picker";
@@ -9,18 +10,15 @@ import { getCategoryIconSource } from "../app.component";
 import { ItemService } from "../shared/services/item.service";
 
 
-
-
 @Component({
     moduleId: module.id,
     selector: "henq-detail",
     templateUrl: './henquiry.detail.component.html',
     styleUrls: ['./henquiry.detail.component.scss']
 })
-export class HenquiryDetailComponent {
+export class HenquiryDetailComponent implements OnInit {
     
     id;
-    idtype;
     cat;
     sub;
 
@@ -51,11 +49,11 @@ export class HenquiryDetailComponent {
     }
 
     ngOnInit(): void {
+        // get the category object by slicing the routing id
         this.id = this.route.snapshot.params['id'];
-        this.idtype = typeof this.id;
         this.cat = this.id.slice(0, 1);
         this.sub = this.id.slice(1);
-        console.log(this.cat + " " + this.sub)
+
         this.category.category = +this.cat;
         this.category.subcategory = +this.sub;
     }
@@ -64,6 +62,7 @@ export class HenquiryDetailComponent {
         let datePicker = <DatePicker>args.object;
 
         let today = new Date();
+        let tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
         let future = new Date();
         
         // define max value
@@ -75,7 +74,7 @@ export class HenquiryDetailComponent {
         datePicker.day = today.getDate() + 1;
         
         // ranges
-        datePicker.minDate = today;
+        datePicker.minDate = tomorrow;
         datePicker.maxDate = future;
     }
 
@@ -92,37 +91,31 @@ export class HenquiryDetailComponent {
     onTimeChanged(args) {
         let time = new Date(args.value);
         this.hour = time.getHours(), this.minute = time.getMinutes();
-        console.log("hour: " + this.hour);
-        console.log("min: " + this.minute)
     }
 
 
     onTapMinute(duration) {
         this.duration = duration;
-        console.log("duration: " + this.duration)
     }
     
     onTapAmount(amount) {
         this.amount = amount;
-        console.log("amount: " + this.amount)
     }
 
     onDayChanged(args) {
         this.day = args.value;
-        console.log("day: " + this.day)
     }
 
     onMonthChanged(args) {
         this.month = args.value;
-        console.log("month: " + this.month)
     }
 
     onYearChanged(args) {
         this.year = args.value;
-        console.log("year: " + this.year)
     }
 
     submitHenquiry() {
+        // overly verbose but it works
         let start = new Date();
         start.setFullYear(this.year);
         start.setMonth(this.month - 1);
@@ -130,13 +123,17 @@ export class HenquiryDetailComponent {
         start.setHours(this.hour);
         start.setMinutes(this.minute);
 
+        // adds the duration in minutes to the start time 
         let end = new Date(start.getTime() + this.duration * 60000)
-        // end.setMinutes(start.getMinutes() + this.duration)
-
-        console.log(start);
-        console.log(end);
-        console.log(this.category)
-        this.itemService.postItem(+this.amount,start,end,this.category);
+ 
+        // console.log(this.category)
+        this.itemService.postItem(+this.amount,start,end,this.category).subscribe(
+            res => this.routerExtension.back(), // needs to be changed to a better target
+            err => {
+                if (err instanceof HttpErrorResponse) {
+                    console.log(`Status: ${err.status}, ${err.statusText}, ${err}`);
+                }
+            });
     }
 
     public goBack() {
@@ -144,4 +141,5 @@ export class HenquiryDetailComponent {
     }
 }
 
+// routerExtension.navigate(["/home"], { clearHistory: true })
 

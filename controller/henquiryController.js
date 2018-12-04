@@ -532,10 +532,12 @@ setInterval(() => {
       if(result[i].startTime < new Date()) {
         if(result[i].aide.length == 0) {
           result[i].removed = true;
+          result[i].save();
         } else {
           result[i].closed = true;
+          result[i].save();
         }
       }
     }
   });
-},100000);
+},60000);

@@ -83,10 +83,6 @@ router.post('/messages', verifyToken, message_controller.sendMessage);
 router.post('/categories', verifyToken, category_controller.populateCategoryCollection);
 
 // TEST ROUTE
-router.get('/test', verifyToken, user_controller.test);
-
-// TEST ROUTE Alle Hilfsgesuche mit allen Feldern laden, egal ob geschlossen
-// oder bereits abgeschlossen
-router.get('/test_henquiries', henquiry_controller.henquiry_test);
+router.get('/test', user_controller.test);
 
 module.exports = router;

@@ -9,6 +9,10 @@ var Message = require('../models/message');
 var path = require('path');
 var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
+const fs = require('fs');
+var access = fs.createWriteStream(__dirname + '/test.log', {flags:'a'});
+process.stdout.pipe(access);
+
 /*
 const {body, validationResult} = require('express-validator/check');
 
@@ -276,12 +280,5 @@ exports.deleteProfile = (req, res, next) => {
 };
 
 exports.test = (req, res, next) => {
-
+  console.log("test");
 };
-
-exports.test2 = (req, res, next) => {
-    User.find({}, function(err, res) {
-      console.log(res.length);
-      res.send("ok");
-    });
-}

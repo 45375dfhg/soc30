@@ -13,12 +13,23 @@ import * as application from "tns-core-modules/application";
 })
 export class NavigationComponent {
 
+    homeTab: any;
+    calendarTab: any;
+    createTab: any;
+    chatTab: any;
+    profileTab: any;
+
     constructor(
         private routerExtension: RouterExtensions,
         private activeRoute: ActivatedRoute,
         private page: Page) {
         page.actionBarHidden = true;
         this.page.enableSwipeBackNavigation = false;
+        this.homeTab = { iconSource: this.getIconSource("homehalf") };
+        this.calendarTab = { iconSource: this.getIconSource("calendarhalf") };
+        this.createTab = { iconSource: this.getIconSource("add") };
+        this.chatTab = { iconSource: this.getIconSource("messagehalf") };
+        this.profileTab = { iconSource: this.getIconSource("profilehalf") };
     }
 
     ngOnInit() {
@@ -37,6 +48,22 @@ export class NavigationComponent {
                 args.cancel = true;
             });
         }
+    }
+    // https://github.com/NativeScript/NativeScript/issues/3911#issuecomment-419023299
+    // workaround to have dynamic icons
+    tabViewIndexChange(args) {
+        const index = args.newIndex;
+        this.homeTab = { iconSource: this.getIconSource(index === 0 ? "homefull" : "homehalf") };
+        this.calendarTab = { iconSource: this.getIconSource(index === 1 ? "calenderfull" : "calenderhalf") };
+        this.createTab = { iconSource: this.getIconSource(index === 2 ? "add" : "add") };
+        this.chatTab = { iconSource: this.getIconSource(index === 3 ? "messagesfull" : "messageshalf") };
+        this.profileTab = { iconSource: this.getIconSource(index === 4 ? "profilefull" : "profilhalf") };
+ 
+    }
+
+    getIconSource(icon: string): string {
+        const iconPrefix = isAndroid ? "res://" : "res://";
+        return iconPrefix + icon;
     }
 
     /*

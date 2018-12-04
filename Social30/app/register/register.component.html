@@ -67,13 +67,13 @@
             <GridLayout row="1" colSpan="2" rows="auto" columns="*,*,*">
                 <Button class="genderButton" row="0" col="0" text="Männlich" (tap)="handleTap($event, 0)"></Button>
                 <Button class="genderButton" row="0" col="1" text="Weiblich" (tap)="handleTap($event, 1)"></Button>
-                <Button class="genderButton" row="0" col="2" text="Claas" (tap)="handleTap($event, 2)"></Button>
+                <Button class="genderButton" row="0" col="2" text="Anders" (tap)="handleTap($event, 2)"></Button>
             </GridLayout>
             <TextField row="2" colSpan="2" hint="Geburtsdatum" autocorrect="false">
             </TextField>
             <Label class="chooseAvatar" row="3" colSpan="2" textWrap="true" text="Such dir eine Figur aus:"></Label>
-            <GridLayout row="4" colSpan="2" rows="auto" columns="*,*,*">
-                <Image class="avatar" row="4" col="1" verticalAlignment="center" horizontalAlignment="center" [src]="getAvatar()"></Image>
+            <GridLayout row="4" colSpan="2" rows="auto" columns="*,auto,*">
+                <Image class="avatar" stretch="fill" row="4" col="1" verticalAlignment="center" horizontalAlignment="center" [src]="getAvatar()"></Image>
                 <Label class="icon" row="4" col="0" verticalAlignment="center" horizontalAlignment="right" (tap)="switchAvatar(-1)" text="&#xf053;"></Label>
                 <Label class="icon" row="4" col="2" verticalAlignment="center" horizontalAlignment="left" (tap)="switchAvatar(1)" text="&#xf054;"></Label>
             </GridLayout>

@@ -40,7 +40,7 @@
         </ng-template>
         <ng-template tkTemplateKey="expanded" let-item="item">
             <FlexboxLayout flexDirection="row">
-                <GridLayout rows="33,33,34,*,*,*,*,*,*,3*,*" columns="*, *, *, 15" class="border-expanded gridItem">
+                <GridLayout rows="33,33,34,*,*,*,*,*,*,auto,auto" columns="*, *, *, 15" class="border-expanded gridItem">
                     <Label row="0" col="0" colSpan="2" [text]="formatCategory(item.category.category, item.category.subcategory)" verticalAlignment="center" height="25" class="fa heading"></Label>
                     <Label row="1" col="0" colSpan="2" [text]="formatStartTime(item.startTime)" verticalAlignment="bottom" height="20"
                         class="fa"></Label>
@@ -54,7 +54,7 @@
                     <Label row="4" col="0" colSpan="2" [text]="formatTerra(item.startTime, item.endTime)" verticalAlignment="bottom" height="20"
                         class="fa"></Label>
                     <Label row="5" col="0" colSpan="2" [text]="formatDuration(item.startTime, item.endTime)" verticalAlignment="top" height="20" class="fa"></Label>
-                    <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')" height="80"
+                    <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')" height="150"
                         verticalAlignment="center" horizontalAlignment="center"></Image>
                     <Label row="6" col="1" colSpan="3" [text]="item.createdBy.firstname + ' ' + item.createdBy.surname[0] + '.'" horizontalAlignment="left"
                         verticalAlignment="bottom" height="20" class="fa"></Label>

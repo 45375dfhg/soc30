@@ -84,7 +84,6 @@ export class CalendarComponent implements OnInit {
                     this.changeMonthNumToLiteral
                 ])
                 (result);  
-                // console.log(output);
                 this.entries = output;  
     
             },
@@ -143,9 +142,9 @@ export class CalendarComponent implements OnInit {
     // each objects "key" array
     sortEntries(input: {key: string[]; value: Item[];}[]) {
         return input.sort((date1, date2) => {
-            return (date1.key[2] > date2.key[2]) ? 1 : ((date1.key[2] < date2.key[2]) ? -1 : 
-                ((date1.key[1] > date2.key[1]) ? 1 : ((date1.key[1] < date2.key[1]) ? -1 :
-                (date1.key[0] > date2.key[0]) ? 1 : ((date1.key[0] < date2.key[0]) ? -1 : 0))));
+            return (+date1.key[2] > +date2.key[2]) ? 1 : ((+date1.key[2] < +date2.key[2]) ? -1 : 
+                ((+date1.key[1] > +date2.key[1]) ? 1 : ((+date1.key[1] < +date2.key[1]) ? -1 :
+                (+date1.key[0] > +date2.key[0]) ? 1 : ((+date1.key[0] < +date2.key[0]) ? -1 : 0))));
         })
     }
 

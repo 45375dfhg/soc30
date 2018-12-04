@@ -5,6 +5,7 @@ import { Observable, timer } from 'rxjs';
 import { concatMap, map, tap } from 'rxjs/operators';
 
 import { ItemService } from "../shared/services/item.service";
+import { Item } from "../shared/models/item";
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { CalendarService } from "../shared/services/calendar.service";
 import { getCategoryIconSource } from "../app.component";
@@ -18,7 +19,8 @@ import { getCategoryIconSource } from "../app.component";
 })
 export class ChatComponent {
 
-    polledCalendar$: Observable<any>;
+    private polledCalendar$: Observable<Item[]>;
+    private entries;
 
     public constructor(
         private calendarService: CalendarService, 
@@ -30,11 +32,18 @@ export class ChatComponent {
 
     ngOnInit(): void {
         if(!this.appSet.getUser('guest')) {
-            console.log('user is not a guest')
-            // this.receiveAndOrder();
+            // the stream
+            const calendar$ = this.calendarService.getEntries();
+            
+            // polling every 10s, concatMap subscribes to the stream
+            this.polledCalendar$ = timer(0, 10000).pipe(
+                concatMap(_ => calendar$),
+                map(res => {
+                    // console.log('tick');
+                    return this.entries = res})
+            );
         } else {
-            console.log('user is a guest');
-            // this.guestData(this.calendarService.getGuestItems);
+            //  
         }
     }
 

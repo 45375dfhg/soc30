@@ -3,7 +3,11 @@
 </ActionBar>
 <StackLayout marginTop="5">
     <GridLayout rows="auto,*" columns="*,*">
+<<<<<<< HEAD
         <Button row="0" col="0" text="Refresh" class="filterButton" pageTransition="fade" (tap)="refreshDataClick()"></Button>
+=======
+        <Button row="0" col="0" text="Refresh" class="filterButton" (tap)="refreshDataClick()"></Button>
+>>>>>>> 6fe898330f4e870a77fa213b1cbeef4cbc4d11d8
         <Button row="0" col="1" text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']"
             pageTransition="fade"></Button>
         <RadListView row="1" col="0" colSpan="2" [items]="guest ? items : polledItems$ | async" #myListView
@@ -37,6 +41,7 @@
 
                         <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>
 
+<<<<<<< HEAD
                         <Label row="4" col="0" colSpan="2" textWrap="true" [text]="formatTerra(item.startTime, item.endTime)"
                             verticalAlignment="bottom" height="20" class="fa"></Label>
                         <Label row="5" col="0" colSpan="2" textWrap="true" [text]="formatDuration(item.startTime, item.endTime)"
@@ -54,5 +59,26 @@
                 </FlexboxLayout>
             </ng-template>
         </RadListView>
+=======
+                            <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>
+
+                            <Label row="4" col="0" colSpan="2" textWrap="true" [text]="formatTerra(item.startTime, item.endTime)"
+                                verticalAlignment="bottom" height="20" class="fa"></Label>
+                            <Label row="5" col="0" colSpan="2" textWrap="true" [text]="formatDuration(item.startTime, item.endTime)"
+                                verticalAlignment="top" height="20" class="fa"></Label>
+                            <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')" height="150"
+                                verticalAlignment="center" horizontalAlignment="center"></Image>
+                            <Label row="6" col="1" colSpan="3" textWrap="true" [text]="item.createdBy.firstname + ' ' + item.createdBy.surname[0] + '.'"
+                                horizontalAlignment="left" verticalAlignment="bottom" height="20" class="fa"></Label>
+                            <Label row="7" col="1" colSpan="3" textWrap="true" [text]="item.createdBy.nickname"
+                                horizontalAlignment="left" verticalAlignment="center" height="20" class="fa"></Label>
+                            <Button row="9" col="0" colSpan="3" textWrap="true" text="Da will ich helfen!" class="willHelpButton"
+                                (tap)="applyTo(item._id)"></Button>
+                            <Label row="10" col="3" text="&#xf077;" verticalAlignment="bottom" class="icon"></Label>
+                        </GridLayout>
+                    </FlexboxLayout>
+                </ng-template>
+            </RadListView>
+>>>>>>> 6fe898330f4e870a77fa213b1cbeef4cbc4d11d8
     </GridLayout>
 </StackLayout>

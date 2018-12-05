@@ -5,6 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
 import { DatePicker } from "tns-core-modules/ui/date-picker";
 import { TimePicker } from "tns-core-modules/ui/time-picker";
+import * as ModalPicker from 'nativescript-modal-datetimepicker';
 
 import { getCategoryIconSource } from "../app.component";
 import { ItemService } from "../shared/services/item.service";
@@ -23,6 +24,8 @@ export class HenquiryDetailComponent implements OnInit {
     cat;
     sub;
 
+    currentPage: Number = 0;
+
     setIcon = this.itemService.getCategoryIconName;
 
     private today = new Date();
@@ -34,6 +37,7 @@ export class HenquiryDetailComponent implements OnInit {
     private duration: number;
     private amount: number;
     private category: { category: number, subcategory: number }
+
 
     constructor(
         private route: ActivatedRoute,
@@ -63,6 +67,41 @@ export class HenquiryDetailComponent implements OnInit {
         this.category.category = +this.cat;
         this.category.subcategory = +this.sub;
     }
+
+    switchStatus(newPage: number) {
+        this.currentPage = newPage;
+    }
+
+    pickDate() {
+        const picker = new ModalPicker.ModalDatetimepicker();
+        picker.pickDate({
+          title: 'An welchem Tag brauchst du die Hilfe?',
+          theme: 'none',
+          minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+          maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
+          is24HourView: true
+        }).then((result) => {
+          console.log("Datum: " + result.day + "-" + result.month + "-" + result.year);
+        }).catch((error) => {
+          console.log('Error: ' + error);
+        });
+      }
+
+    pickTime() {
+        const picker = new ModalPicker.ModalDatetimepicker();
+        picker.pickTime({
+          title: 'Um wie viel Uhr brauchst du die Hilfe?',
+          theme: 'none',
+          minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+          maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
+          startingHour: 8,
+          is24HourView: true
+        }).then((result) => {
+          console.log("Zeit: " + result.hour + ":" +result.minute);
+        }).catch((error) => {
+          console.log('Error: ' + error);
+        });
+      }
 
     onPickerLoadedDate(args) {
         let datePicker = <DatePicker>args.object;

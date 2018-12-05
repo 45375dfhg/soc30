@@ -12,12 +12,17 @@
         <item name="android:datePickerMode">spinner</item>
     </style>
 
+        <!-- Default style for DatePicker - in calendar mode -->
+    <style name="CalendarDatePicker" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">calendar</item>
+    </style>
+
     <!-- Default style for TimePicker - in spinner mode -->
     <style name="SpinnerTimePicker" parent="android:Widget.Material.Light.TimePicker">
-        <item name="android:timePickerMode">spinner</item>
+        <item name="android:timePickerMode">clock</item>
     </style>
 
     <style name="NativeScriptToolbarStyle" parent="NativeScriptToolbarStyleBase">
         <item name="android:elevation">4dp</item>
-    </style>    
+    </style>  
 </resources>

@@ -26,10 +26,10 @@ export class NavigationComponent {
         page.actionBarHidden = true;
         this.page.enableSwipeBackNavigation = false;
         this.homeTab = { iconSource: this.getIconSource("homehalf") };
-        this.calendarTab = { iconSource: this.getIconSource("calendarhalf") };
+        this.calendarTab = { iconSource: this.getIconSource("calenderhalf") };
         this.createTab = { iconSource: this.getIconSource("add") };
-        this.chatTab = { iconSource: this.getIconSource("messagehalf") };
-        this.profileTab = { iconSource: this.getIconSource("profilehalf") };
+        this.chatTab = { iconSource: this.getIconSource("messageshalf") };
+        this.profileTab = { iconSource: this.getIconSource("profilhalf") };
     }
 
     ngOnInit() {

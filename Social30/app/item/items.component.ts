@@ -13,6 +13,7 @@ import { AppSettingsService } from '../shared/services/appsettings.service';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { DataService } from '../shared/services/data.service';
 
+import { Button } from 'tns-core-modules/ui/button'
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { alert } from "tns-core-modules/ui/dialogs";
 import { ListViewEventData } from "nativescript-ui-listview";
@@ -94,37 +95,9 @@ export class ItemsComponent implements OnInit {
         }
     }
 
-    /*
-    receiveList() {
-        this.itemService.getItems().subscribe(result => {
-            if (result) {
-                let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
-                this.items = result
-                    .filter(entry => currentUser._id != entry.createdBy._id)
-                    .filter(fdist => fdist.distance <= this.message.distance)
-                    .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
-                    .filter(filtercat => this.message.categories[filtercat.category.category])
-                    .sort((entry1, entry2) => {
-                        let date1 = new Date(entry1.startTime).getTime();
-                        let date2 = new Date(entry2.startTime).getTime();
-                        return date1 - date2
-                    });
-            } else {
-                console.log('Didnt get any items')
-            }
-        });
-    }
-    */
-
-    applyTo(id) {
+    onClick(id, event) {
         if (!this.appSet.getUser('guest')) {
-            this.itemService.applyItem(id).subscribe(
-                res => console.log('suc'),
-                err => {
-                    if (err instanceof HttpErrorResponse) {
-                        console.log(`Status: ${err.status}, ${err.statusText}`);
-                    }
-                });
+            this.applyTo(id);
         } else {
             alert({
                 title: "Du bist ein Gast ",
@@ -132,6 +105,25 @@ export class ItemsComponent implements OnInit {
                 okButtonText: "Achso"
             })
         }
+        this.onChangeCssClassButtonTap(event);
+    }
+
+    // https://stackoverflow.com/a/40665664
+    onChangeCssClassButtonTap(args) {
+        var button = args.object as Button;
+        button.className = "greyButton";
+        button.isEnabled = false;
+    }
+
+
+    applyTo(id) {
+        this.itemService.applyItem(id).subscribe(
+            res => console.log('suc'),
+            err => {
+                if (err instanceof HttpErrorResponse) {
+                    console.log(`Status: ${err.status}, ${err.statusText}`);
+                }
+            });
     }
 
     refreshDataClick() {
@@ -171,6 +163,28 @@ export class ItemsComponent implements OnInit {
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
+
+    /*
+    receiveList() {
+        this.itemService.getItems().subscribe(result => {
+            if (result) {
+                let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+                this.items = result
+                    .filter(entry => currentUser._id != entry.createdBy._id)
+                    .filter(fdist => fdist.distance <= this.message.distance)
+                    .filter(ftime =https://stackoverflow.com/a/40756855> +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
+                    .filter(filterchttps://stackoverflow.com/a/40756855at => this.message.categories[filtercat.category.category])
+                    .sort((entry1, https://stackoverflow.com/a/40756855entry2) => {
+                        let date1 = new Date(entry1.startTime).getTime();
+                        let date2 = new Date(entry2.startTime).getTime();
+                        return date1 - date2
+                    });
+            } else {
+                console.log('Didnt get any items')
+            }
+        });
+    }
+    */
 
 }
 

@@ -94,6 +94,7 @@ export class ItemsComponent implements OnInit {
         }
     }
 
+    /*
     receiveList() {
         this.itemService.getItems().subscribe(result => {
             if (result) {
@@ -113,6 +114,7 @@ export class ItemsComponent implements OnInit {
             }
         });
     }
+    */
 
     applyTo(id) {
         if (!this.appSet.getUser('guest')) {

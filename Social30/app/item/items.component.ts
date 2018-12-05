@@ -4,8 +4,8 @@ import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
 
-import { Observable, Subject, timer } from 'rxjs';
-import { concatMap, map, merge } from 'rxjs/operators';
+import { Observable, Subject, timer, throwError } from 'rxjs';
+import { concatMap, map, merge, catchError } from 'rxjs/operators';
 
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
@@ -71,13 +71,15 @@ export class ItemsComponent implements OnInit {
         if (!this.appSet.getUser('guest')) {
             const items$ = this.itemService.getItems();
 
+            // polls the items from the stream above, maps them 
+            // by applying the filter values from the dataService stream
             this.polledItems$ = timer(0, 100000).pipe(
                 merge(this.manualRefresh),
                 concatMap(_ => items$),
                 map(res => {
                     let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
-                    return res
-                        .filter(entry => currentUser._id != entry.createdBy._id)
+                    console.log('refreshed')
+                    return res.filter(entry => currentUser._id != entry.createdBy._id)
                         .filter(fdist => fdist.distance <= this.message.distance)
                         .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
                         .filter(filtercat => this.message.categories[filtercat.category.category])
@@ -87,7 +89,8 @@ export class ItemsComponent implements OnInit {
                             return date1 - date2
                         });
                 }
-                )
+                ),
+                catchError(err => throwError(err))
             );
         } else {
             this.guest = true;

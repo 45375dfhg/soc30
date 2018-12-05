@@ -5,25 +5,25 @@ ActionBar {
 }
 
 
-GridLayout{
+GridLayout {
     font-family: 'Lato', 'Lato-Bold'; 
 }
 
-Label{
+Label {
     margin:10 0 0 5;
 }
 
 
-.fa{
+.fa {
     color: #001144;
 }
 
-Button{
+Button {
     text-transform: none;
     
 }
 
-.applyButton{
+.applyButton {
     background-color: white;
     color: #FF6600;
     border-radius: 25;
@@ -32,12 +32,12 @@ Button{
     margin:10 10 15 10;
 }
 
-.applyButton:active{
+.applyButton:active {
     background-color: #FF6600;
     color: white;
 }
 
-.orangeButton{
+.orangeButtonTime {
     background-color: white;
     color: #FF6600;
     border-radius: 50;
@@ -46,7 +46,7 @@ Button{
     margin:10 5 0 5;
 }
 
-.orangeButtonSelected{
+.orangeButtonTimeSelected {
     background-color: #FF6600;
     color: white;
     border-radius: 50;
@@ -55,7 +55,43 @@ Button{
     margin:10 5 0 5;
 }
 
-.blueButton{
+.orangeButtonAmount {
+    background-color: white;
+    color: #FF6600;
+    border-radius: 50;
+    border-width: 2;
+    border-color: #FF6600;
+    margin:10 5 0 5;
+}
+
+.orangeButtonAmountSelected {
+    background-color: #FF6600;
+    color: white;
+    border-radius: 50;
+    border-width: 2;
+    border-color: #FF6600;
+    margin:10 5 0 5;
+}
+
+.orangeButtonCategory {
+    background-color: white;
+    color: #FF6600;
+    border-radius: 50;
+    border-width: 2;
+    border-color: #FF6600;
+    margin:10 5 0 5;
+}
+
+.orangeButtonCategorySelected {
+    background-color: #FF6600;
+    color: white;
+    border-radius: 50;
+    border-width: 2;
+    border-color: #FF6600;
+    margin:10 5 0 5;
+}
+
+.blueButton {
     background-color: white;
     color: #001144;
     border-radius: 25;
@@ -64,7 +100,7 @@ Button{
     margin:10 10 15 10;
 }
 
-.blueButton:active{
+.blueButton:active {
     background-color: #001144;
     color: white;
 }

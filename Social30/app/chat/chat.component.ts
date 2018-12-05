@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Page } from "tns-core-modules/ui/page";
 
 import { Observable, timer } from 'rxjs';
-import { concatMap, map, tap } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
 
 import { ItemService } from "../shared/services/item.service";
 import { Item } from "../shared/models/item";
@@ -17,7 +17,7 @@ import { getCategoryIconSource } from "../app.component";
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
 
     private polledCalendar$: Observable<Item[]>;
     private entries;

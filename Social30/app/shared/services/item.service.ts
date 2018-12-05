@@ -18,7 +18,8 @@ export class ItemService {
 
     public getItems() {
         return this.http.get<Item[]>(this.baseUrl + "henquiries")
-            .pipe(
+        /*    
+        .pipe(
                 map(items => {
                     let itemList = [];
                     items.forEach((item) => {
@@ -38,6 +39,7 @@ export class ItemService {
                 // needs to be rearranged to the error handler service
                 catchError(this.handleErrors('getItems'))
             );
+            */
     }
 
     public postItem(amount, start, end, cat) {
@@ -206,10 +208,10 @@ export class ItemService {
         if (this.appSet.getUser('currentUser')) {
             let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
             if (currentUser._id == creator._id) {
-                return "Bei dir Zuhause!"
+                return "Bei dir Zuhause"
             } else {
                 if (creator.address && creator.address.street) {
-                    return creator.address.street + ' ' + creator.address.housem + " in " + creator.address.city;
+                    return creator.address.street + ' ' + creator.address.housenm + " in " + creator.address.city;
                 } else {
                     return "Fehler"
                 }

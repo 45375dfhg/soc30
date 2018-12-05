@@ -1,50 +1,60 @@
 <ActionBar title="Aufgaben in meiner Nähe">
-        <NavigationButton visibility="collapsed"></NavigationButton>
+    <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 <StackLayout marginTop="5">
-    <Button text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']" pageTransition="fade"></Button>
-    <RadListView [items]="items" #myListView [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
-        style="height:100%">
-        <ng-template tkListItemTemplate let-item="item">
-            <FlexboxLayout flexDirection="row">
-                <GridLayout rows="33,33,34" columns="*, *, *, 15" class="border gridItem">
-                    <Label row="0" col="0" colSpan="2" [text]="formatCategory(item.category.category, item.category.subcategory)" verticalAlignment="center" height="25" class="fa heading"></Label>
-                    <Label row="1" col="0" colSpan="2" [text]="formatStartTime(item.startTime)" verticalAlignment="bottom" height="20"
-                        class="fa"></Label>
-                    <Label row="2" col="0" colSpan="2" [text]="formatDistance(item.distance)" verticalAlignment="center" height="20"
-                        class="fa"></Label>
-                    <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)" height="100"
-                        verticalAlignment="center" horizontalAlignment="right"></Image>
-                    <Label row="3" col="3" text="&#xf078;" verticalAlignment="bottom" class="icon"></Label>
-                </GridLayout>
-            </FlexboxLayout>
-        </ng-template>
-        <ng-template tkTemplateKey="expanded" let-item="item">
-            <FlexboxLayout flexDirection="row">
-                <GridLayout rows="33,33,34,*,*,*,*,*,*,auto,auto" columns="*, *, *, 15" class="border-expanded gridItem">
-                    <Label row="0" col="0" colSpan="2" [text]="formatCategory(item.category.category, item.category.subcategory)" verticalAlignment="center" height="25" class="fa heading"></Label>
-                    <Label row="1" col="0" colSpan="2" [text]="formatStartTime(item.startTime)" verticalAlignment="bottom" height="20"
-                        class="fa"></Label>
-                    <Label row="2" col="0" colSpan="2" [text]="formatDistance(item.distance)" verticalAlignment="center" height="20"
-                        class="fa"></Label>
-                    <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)" height="100"
-                        verticalAlignment="center" horizontalAlignment="right"></Image>
+    <GridView rows="auto,*" columns="*,*">
+        <Button row="0" col="0" text="Refresh" class="filterButton" pageTransition="fade" (tap)="refreshDataClick()"></Button>
+        <Button row="0" col="1" text="Die Suche eingrenzen" class="filterButton" [nsRouterLink]="['../filterItems']"
+            pageTransition="fade"></Button>
 
-                        <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>
+            <RadListView row="1" col="0" colSpan="2" [items]="guest ? items : polledItems$ | async" #myListView [itemTemplateSelector]="templateSelector"
+                class="list-group" (itemTap)="onItemTap($event)" style="height:100%">
+                <ng-template tkListItemTemplate let-item="item">
+                    <FlexboxLayout flexDirection="row">
+                        <GridLayout rows="33,33,34" columns="*, *, *, 15" class="border gridItem">
+                            <Label row="0" col="0" colSpan="2" textWrap="true" [text]="formatCategory(item.category.category, item.category.subcategory)"
+                                verticalAlignment="center" height="25" class="fa heading"></Label>
+                            <Label row="1" col="0" colSpan="2" textWrap="true" [text]="formatStartTime(item.startTime)"
+                                verticalAlignment="bottom" height="20" class="fa"></Label>
+                            <Label row="2" col="0" colSpan="2" textWrap="true" [text]="formatDistance(item.distance)"
+                                verticalAlignment="center" height="20" class="fa"></Label>
+                            <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)"
+                                height="100" verticalAlignment="center" horizontalAlignment="right"></Image>
+                            <Label row="3" col="3" text="&#xf078;" verticalAlignment="bottom" class="icon"></Label>
+                        </GridLayout>
+                    </FlexboxLayout>
+                </ng-template>
+                <ng-template tkTemplateKey="expanded" let-item="item">
+                    <FlexboxLayout flexDirection="row">
+                        <GridLayout rows="33,33,34,*,*,*,*,*,*,auto,auto" columns="*, *, *, 15" class="border-expanded gridItem">
+                            <Label row="0" col="0" colSpan="2" textWrap="true" [text]="formatCategory(item.category.category, item.category.subcategory)"
+                                verticalAlignment="center" height="25" class="fa heading"></Label>
+                            <Label row="1" col="0" colSpan="2" textWrap="true" [text]="formatStartTime(item.startTime)"
+                                verticalAlignment="bottom" height="20" class="fa"></Label>
+                            <Label row="2" col="0" colSpan="2" textWrap="true" [text]="formatDistance(item.distance)"
+                                verticalAlignment="center" height="20" class="fa"></Label>
+                            <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)"
+                                height="100" verticalAlignment="center" horizontalAlignment="right"></Image>
 
-                    <Label row="4" col="0" colSpan="2" [text]="formatTerra(item.startTime, item.endTime)" verticalAlignment="bottom" height="20"
-                        class="fa"></Label>
-                    <Label row="5" col="0" colSpan="2" [text]="formatDuration(item.startTime, item.endTime)" verticalAlignment="top" height="20" class="fa"></Label>
-                    <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')" height="150"
-                        verticalAlignment="center" horizontalAlignment="center"></Image>
-                    <Label row="6" col="1" colSpan="3" [text]="item.createdBy.firstname + ' ' + item.createdBy.surname[0] + '.'" horizontalAlignment="left"
-                        verticalAlignment="bottom" height="20" class="fa"></Label>
-                    <Label row="7" col="1" colSpan="3" [text]="item.createdBy.nickname" horizontalAlignment="left"
-                        verticalAlignment="center" height="20" class="fa"></Label>
-                    <Button row="9" col="0" colSpan="3" text="Da will ich helfen!" class="willHelpButton" (tap)="applyTo(item._id)"></Button>
-                    <Label row="10" col="3" text="&#xf077;" verticalAlignment="bottom" class="icon"></Label>
-                </GridLayout>
-            </FlexboxLayout>
-        </ng-template>
-    </RadListView>
+                            <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>
+
+                            <Label row="4" col="0" colSpan="2" textWrap="true" [text]="formatTerra(item.startTime, item.endTime)"
+                                verticalAlignment="bottom" height="20" class="fa"></Label>
+                            <Label row="5" col="0" colSpan="2" textWrap="true" [text]="formatDuration(item.startTime, item.endTime)"
+                                verticalAlignment="top" height="20" class="fa"></Label>
+                            <Image row="6" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')" height="150"
+                                verticalAlignment="center" horizontalAlignment="center"></Image>
+                            <Label row="6" col="1" colSpan="3" textWrap="true" [text]="item.createdBy.firstname + ' ' + item.createdBy.surname[0] + '.'"
+                                horizontalAlignment="left" verticalAlignment="bottom" height="20" class="fa"></Label>
+                            <Label row="7" col="1" colSpan="3" textWrap="true" [text]="item.createdBy.nickname"
+                                horizontalAlignment="left" verticalAlignment="center" height="20" class="fa"></Label>
+                            <Button row="9" col="0" colSpan="3" textWrap="true" text="Da will ich helfen!" class="willHelpButton"
+                                (tap)="applyTo(item._id)"></Button>
+                            <Label row="10" col="3" text="&#xf077;" verticalAlignment="bottom" class="icon"></Label>
+                        </GridLayout>
+                    </FlexboxLayout>
+                </ng-template>
+            </RadListView>
+  
+    </GridView>
 </StackLayout>

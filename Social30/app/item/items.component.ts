@@ -4,6 +4,9 @@ import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
 
+import { Observable, Subject, timer } from 'rxjs';
+import { concatMap, map, merge } from 'rxjs/operators';
+
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
 import { AppSettingsService } from '../shared/services/appsettings.service';
@@ -25,8 +28,14 @@ declare var UIView, NSMutableArray, NSIndexPath;
 })
 export class ItemsComponent implements OnInit {
 
+    // sync 
     items: Item[] = [];
     message: { categories: boolean[], time: number, distance: number }; // basically filter values
+    guest: Boolean = false;
+
+    // async
+    manualRefresh = new Subject();
+    polledItems$: Observable<any>;
 
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
@@ -59,9 +68,28 @@ export class ItemsComponent implements OnInit {
     ngOnInit(): void {
         // checks whether the user is a guest or not
         if (!this.appSet.getUser('guest')) {
-            this.receiveList();
+            const items$ = this.itemService.getItems();
+
+            this.polledItems$ = timer(0, 100000).pipe(
+                merge(this.manualRefresh),
+                concatMap(_ => items$),
+                map(res => {
+                    let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+                    return res
+                        .filter(entry => currentUser._id != entry.createdBy._id)
+                        .filter(fdist => fdist.distance <= this.message.distance)
+                        .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
+                        .filter(filtercat => this.message.categories[filtercat.category.category])
+                        .sort((entry1, entry2) => {
+                            let date1 = new Date(entry1.startTime).getTime();
+                            let date2 = new Date(entry2.startTime).getTime();
+                            return date1 - date2
+                        });
+                }
+                )
+            );
         } else {
-            // add filter mechanic here
+            this.guest = true;
             this.items = this.itemService.getGuestItems(12);
         }
     }
@@ -101,6 +129,12 @@ export class ItemsComponent implements OnInit {
                 message: "und der gute Herr Mustermann ist gar nicht echt.",
                 okButtonText: "Achso"
             })
+        }
+    }
+
+    refreshDataClick() {
+        if (!this.appSet.getUser('guest')) {
+            this.manualRefresh.next('');
         }
     }
 

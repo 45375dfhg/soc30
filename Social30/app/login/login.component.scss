@@ -1,12 +1,11 @@
   
-  StackLayout{
+  StackLayout {
     font-family: 'Lato', 'Lato-Bold'; 
     margin:70 30 20 30;
   }
   
   Label{
     color:#001144;
-    
   }
 
   .mid{
@@ -51,6 +50,12 @@
     border-color: #FF6600;
     padding:10 20;
   }
+
+  .invalid-feedback {
+    margin-top: 0 20;
+    text-align: center;
+  }
+ 
 
   .greyButton {
     background-color: #C4AFB4;

@@ -96,6 +96,7 @@ export class ItemsComponent implements OnInit {
     }
 
     onClick(id, event) {
+        this.onChangeCssClassButtonTap(event);
         if (!this.appSet.getUser('guest')) {
             this.applyTo(id);
         } else {
@@ -105,7 +106,6 @@ export class ItemsComponent implements OnInit {
                 okButtonText: "Achso"
             })
         }
-        this.onChangeCssClassButtonTap(event);
     }
 
     // https://stackoverflow.com/a/40665664
@@ -114,7 +114,6 @@ export class ItemsComponent implements OnInit {
         button.className = "greyButton";
         button.isEnabled = false;
     }
-
 
     applyTo(id) {
         this.itemService.applyItem(id).subscribe(

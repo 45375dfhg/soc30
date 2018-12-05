@@ -37,12 +37,11 @@ export class FilterItemsComponent implements OnInit {
 
 	handleTap(args, b, old = this.message.categories, c = this.message.categories, t = this.message.time, d = this.message.distance) {
 		this.changeColor(args);
-		console.log(c,t,d);
 		this.newMessage(b, old, c,t,d);
 	}
 
 	reset() {
-		this.newMessage(false, [false,false,false,false,false],[true,true,true,true,true],30,6);
+		this.newMessage(false, [true,true,true,true,true],[true,true,true,true,true],30,6);
 	}
 
 	changeColor(args) {

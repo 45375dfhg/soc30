@@ -50,6 +50,7 @@
 <ng-template #subcategory>
     <ScrollView>
         <StackLayout>
+            <Button text="Zurück" (tap)="switchStatus(categoryId)"></Button>
             <StackLayout *ngFor="let sub of subNames; let i = index">
                 <GridLayout row="0" rows="auto" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', categoryId.toString() + i.toString()]"
                     pageTransition="slideLeft" class="border category">
@@ -59,7 +60,6 @@
                     <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
                 </GridLayout>
             </StackLayout>
-            <Button text="Zurück" (tap)="switchStatus(categoryId)"></Button>
         </StackLayout>
     </ScrollView>
 </ng-template>

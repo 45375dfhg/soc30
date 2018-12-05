@@ -208,7 +208,7 @@ export class ItemService {
             if (currentUser._id == creator._id) {
                 return "Bei dir Zuhause!"
             } else {
-                if (creator.adress && creator.adress.street) {
+                if (creator.address && creator.address.street) {
                     return creator.address.street + ' ' + creator.address.housem + " in " + creator.address.city;
                 } else {
                     return "Fehler"

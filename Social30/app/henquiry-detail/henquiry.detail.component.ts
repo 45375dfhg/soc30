@@ -127,7 +127,7 @@ export class HenquiryDetailComponent implements OnInit {
             start.setFullYear(this.year);
             start.setMonth(this.month - 1);
             start.setDate(this.day);
-            start.setHours(this.hour);
+            start.setHours(this.hour - 1); // hotfix
             start.setMinutes(this.minute);
 
             // adds the duration in minutes to the start time 
@@ -135,7 +135,7 @@ export class HenquiryDetailComponent implements OnInit {
             
             // console.log(this.category)
             this.itemService.postItem(+this.amount, start, end, this.category).subscribe(
-                res => this.routerExtension.back(), // needs to be changed to a better target
+                res => this.routerExtension.backToPreviousPage(), // needs to be changed to a better target
                 err => {
                     if (err instanceof HttpErrorResponse) {
                         console.log(`Status: ${err.status}, ${err.statusText}, ${err}`);

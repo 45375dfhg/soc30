@@ -26,6 +26,7 @@
     "lodash": "^4.17.11",
     "nativescript-angular": "next",
     "nativescript-carousel": "^4.1.0",
+    "nativescript-modal-datetimepicker": "^1.1.11",
     "nativescript-theme-core": "~1.0.4",
     "nativescript-ui-listview": "^4.0.0",
     "nativescript-unit-test-runner": "^0.3.4",

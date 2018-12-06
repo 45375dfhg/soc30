@@ -35,7 +35,6 @@ var UserSchema = new Schema({
     longitude: {type: Number}
   },
   // meetings speichert, wie oft man an einem Tag hilft
-  // Schema.Types.Mixed: Beliebiges Objekt kann gespeichert werden
   meetings: [{date: String, count: Number}]
 }, {versionKey: false},{
   writeConcern: {

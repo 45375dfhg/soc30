@@ -265,14 +265,28 @@ exports.apply = (req, res, next) => {
           }
           idx++;
         }
-        if(!dateFound) {
-          resultUser.meetings.push({date: dateOfHenquiry, count: 1});
-        }
-        resultUser.save();
-        result.potentialAide.push(userId);
-        result.updated = true;
-        result.save();
-        return res.send("");
+        var messageData = {
+          aide: userId,
+          filer: result.createdBy,
+          henquiry: henquiryId,
+          messages: {message: "Herzlichen Glückwunsch. Du hast dich beworben!", participant: 3, timeSent: new Date()}
+        };
+        Message.create(messageData, function(msgErr, msgResult) {
+          if(msgErr) {
+            logger.log('error', new Date() + 'PUT/henquiries/apply, Code: AE_008, Error:' + msgErr);
+            return res.status(500).send("AE_008");
+          }
+          msgResult.messages.push({message: "Du hast einen Bewerber!", participant: 4, timeSent: new Date()});
+          msgResult.save();
+          if(!dateFound) {
+            resultUser.meetings.push({date: dateOfHenquiry, count: 1});
+          }
+          resultUser.save();
+          result.potentialAide.push(userId);
+          result.updated = true;
+          result.save();
+          return res.send("");
+        });
       });
     }
   });
@@ -283,7 +297,6 @@ exports.apply = (req, res, next) => {
 exports.acceptApplicants = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
-  var messageData;    
   if(!applicants) {
     return res.status(400).send("AF_001");
   }
@@ -317,7 +330,7 @@ exports.acceptApplicants = (req, res, next) => {
       }
     }
     for(var i = 0; i < applicants.length; i++) {
-      messageData = {
+      /*messageData = {
         aide: applicants[i],
         filer: result.createdBy,
         henquiry: henquiryId,
@@ -330,7 +343,7 @@ exports.acceptApplicants = (req, res, next) => {
         }
         msgResult.messages.push({message: "Schön, dass du dir diesen Helfer ausgesucht hast.", participant: 4, timeSent: new Date()});
         msgResult.save();
-      });
+      });*/
       result.potentialAide.splice(result.potentialAide.indexOf(applicants[i]),1);
       result.aide.push(applicants[i]);
     }
@@ -419,29 +432,27 @@ exports.cancelApplication = (req, res, next) => {
     // Der Helfer ist als Bewerber eingetragen
     if(result.potentialAide.indexOf(userId) > -1) {
       result.potentialAide.splice(result.potentialAide.indexOf(userId),1);
-    // Der Helfer ist als angenommener Bewerber eingetragen
-    // Dann wird dem Hilfsbedürftigen eine Nachricht geschickt.
     } else if(result.aide.indexOf(userId) > -1) {
-      Message.findOne({henquiry: henquiryId}, function(errMsg, resultMsg) {
-        if(errMsg) {
-          logger.log('error', new Date() + 'PUT/henquiries/success, Code: AI_005, Error:' + errMsg);
-          return res.status(500).send("AI_005");
-        }
-        resultMsg.readOnly = true;
-        resultMsg.messages.push({message: "Der Helfer hat seine Hilfe zurückgezogen.", participant: 3, timeSent: new Date()});
-        resultMsg.save();
-      });
       result.aide.splice(result.aide.indexOf(userId),1);
     } else {
       return res.status(400).send("AI_004");
     }
-    result.save();
+    // Nachrichtenverlauf schließen
+    Message.findOne({henquiry: henquiryId}, function(errMsg, resultMsg) {
+      if(errMsg) {
+        logger.log('error', new Date() + 'PUT/henquiries/cancel, Code: AI_005, Error:' + errMsg);
+        return res.status(500).send("AI_005");
+      }
+      resultMsg.readOnly = true;
+      resultMsg.messages.push({message: "Der Helfer hat seine Hilfe/Bewerbung zurückgezogen.", participant: 3, timeSent: new Date()});
+    // Ereignisse des Helfers an diesem Tag um 1 reduzieren
     User.findById(req.userId, function(errUser, resultUser) {
       if(errUser) {
-
+        logger.log('error', new Date() + 'PUT/henquiries/cancel, Code: AI_006, Error:' + errUser);
+        return res.status(500).send("AI_006");
       }
       if(!resultUser) {
-
+        return res.status(404).send("AI_007");
       }
       var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
       + "-" + result.startTime.getDate();
@@ -458,7 +469,10 @@ exports.cancelApplication = (req, res, next) => {
         idx++;
       }
       resultUser.save();
+      resultMsg.save();
+      result.save();
       return res.status(200).send();
+    });
     });
   });
 };

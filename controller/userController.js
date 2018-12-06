@@ -25,10 +25,11 @@ exports.validate = (method) => {
 
 // TODO: Man muss ne Adresse mitgeben
 // TODO: Für die Abschlusspräsentation automatisch Koordinaten zuweisen im Raum Stuttgart
+// TODO: expiresIn deutlich erhöhen
 exports.register = function (req, res, next) {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
-    return res.status(400).send("Ist keine E-Mail");
+    return res.status(400).send("CC_005");
   }
   if (req.body.password !== req.body.passwordConf) {
     return res.status(400).send("CC_001");
@@ -102,7 +103,6 @@ exports.logout = function (req, res, next) {
       return res.status(200).send({ auth: false, token: null });
 };
 
-// TODO: Nachname nur 1. Buchstabe anzeigen lassen
 exports.getProfile = function (req, res, next) { 
     var projection;
     if(!(req.body.userId === req.userId)) {
@@ -129,7 +129,7 @@ exports.getProfile = function (req, res, next) {
       });
 };
 
-// TODO: PW ändern können
+// TODO: Übergebene Daten validieren (E-Mail, Avatar [0-5], Handynummer)
 exports.editProfile = function (req, res, next) {
   var data = {};
   data.address = {};

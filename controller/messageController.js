@@ -33,7 +33,7 @@ exports.messagesOverview = (req, res, next) => {
 
 exports.messagesSpecific = (req, res, next) => {
     var userId = req.userId;
-    var messageId = req.body.messageId;
+    var messageId = req.query.messageId;
     Message.findById(messageId)
     .populate('filer', 'firstname surname nickname avatar')
     .populate('aide', 'firstname surname nickname avatar')
@@ -46,7 +46,7 @@ exports.messagesSpecific = (req, res, next) => {
             return res.status(404).send("BB_003");
         }
         if(result.aide._id == userId || result.filer._id == userId) {
-            var role = result.aide == userId ? 3 : 4;
+            var role = result.aide._id == userId ? 3 : 4;
             var copiedResult = JSON.parse(JSON.stringify(result));
             if(result.aide._id == userId) {
                 result.readAide = true;
@@ -57,11 +57,11 @@ exports.messagesSpecific = (req, res, next) => {
             copiedResult.readAide = copiedResult.readFiler = undefined;
             for(var i = 0; i < copiedResult.messages.length; i++) {
                 if(copiedResult.messages[i].participant == 3 && role == 4) {
-                    console.log("Spliced 1, Index: " + i);
+                    //console.log("Spliced 1, Index: " + i);
                     copiedResult.messages.splice(i,1);
                     i--;
                 } else if(copiedResult.messages[i].participant == 4 && role == 3) {
-                    console.log("Spliced 2");
+                    //console.log("Spliced 2");
                     copiedResult.messages.splice(i,1);
                     i--;
                 }
@@ -91,8 +91,8 @@ exports.sendMessage = (req, res, next) => {
         if(result.readOnly) {
             return res.status(400).send("BC_003");
         }
-        if(result.aide == userId || result.filer == userId) {
-            var participant = result.aide == userId ? 1 : 2;
+        if(result.aide._id == userId || result.filer._id == userId) {
+            var participant = result.aide._id == userId ? 1 : 2;
             result.messages.push({message: msg, participant: participant});
             if(participant == 1) {
                 result.readFiler = false;

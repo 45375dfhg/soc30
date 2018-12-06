@@ -10,6 +10,7 @@ var UserSchema = new Schema({
   nickname: { type: String, required: true, trim: true },
   // Index des Arrays = Das Kriterium
   ratings: [{type: Number}],
+  ratingsAsFiler: [{type: Number}],
   // TODO: muss am Ende alles required sein
   address: { 
       postalcode: { type: Number },
@@ -36,12 +37,13 @@ var UserSchema = new Schema({
   },
   // meetings speichert, wie oft man an einem Tag hilft
   meetings: [{date: String, count: Number}]
-}, {versionKey: false},{
+},{
   writeConcern: {
     w: 1,
     j: true,
     wtimeout: 1000
-}, strict: false});
+}, strict: false
+});
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

@@ -37,6 +37,9 @@ router.put('/henquiries/cancel', verifyToken, henquiry_controller.cancelApplicat
 // POST route for rating an aide
 router.post('/henquiries/rate', verifyToken, henquiry_controller.rate)
 
+// POST route for rating the filer
+router.post('/henquiries/ratefiler', verifyToken, henquiry_controller.rateFiler)
+
 /*
 // GET index page, currently redirecting to login page
 router.get('', user_controller.login_get);
@@ -49,7 +52,8 @@ router.get('/login', user_controller.login_get);
 router.post('/login', user_controller.login);
 
 // POST route for register
-router.post('/register', user_controller.validate('register'), user_controller.register);
+//router.post('/register', user_controller.validate('register'), user_controller.register);
+router.post('/register', user_controller.register);
 
 // GET route after registering
 router.get('/profile', verifyToken, user_controller.getProfile);

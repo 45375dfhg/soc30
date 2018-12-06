@@ -294,6 +294,7 @@ exports.apply = (req, res, next) => {
 
 // TODO: was passiert, wenn ein User 10 Bewerbungen hat und bei 5 angenommen wird
 // Er darf ja nicht 10x helfen, also müsste er bei den anderen 5 verschwinden
+// TODO: Nachricht schreiben, dass man angenommen wurde
 exports.acceptApplicants = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
@@ -504,7 +505,6 @@ exports.calendar = (req, res, next) => {
 };
 
 // TODO: Prüfen, ob es diese Bewertung überhaupt gibt
-// TODO: Gegenrichtung gar nicht vorhanden !!! Den Hilfsbedürftigen bewerten
 exports.rate = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = req.userId;
@@ -516,27 +516,24 @@ exports.rate = (req, res, next) => {
     aider[i] = JSON.parse(aider[i]);
   }
   Henquiry.findById(henquiryId, function(errHenquiry, resultHenquiry) {
-    if(errHenquiry) {return next(errHenquiry);}
+    if(errHenquiry) {
+      logger.log('error', new Date() + 'POST/rate, Code: AL_001, Error:' + errHenquiry);
+      return res.status(500).send("AL_001");
+    }
     if(!(userId == resultHenquiry.createdBy)) {
-      errHenquiry = new Error('Das ist nicht dein Hilfegesuch.');
-      errHenquiry.status = 400;
-      return next(errHenquiry);
+      return res.status(403).send("AL_002");
     }
     if(!result.happened || !result.closed || result.removed) {
-      err = new Error('Ungültige Anfrage.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AL_003");
     }
     if(result.aide.length == 0) {
-      err = new Error('Es wurden bereits alle Helfer bewertet.');
-      err.status = 400;
-      return next(err);
+      return res.status(400).send("AL_004");
     }
     
     // Prüfen, ob der Helfer überhaupt Helfer war
     for(var i = 0; i < aider.length; i++) {
       if(resultHenquiry.aide.indexOf(aider[i].aideId) == -1) {
-        return res.json("Mindestens eine Person ist nicht als Helfer eingetragen.");
+        return res.status(400).send("AL_005");
       }
     }
 
@@ -549,7 +546,10 @@ exports.rate = (req, res, next) => {
     var aiderIndex = 0;
     for(var i = 0; i < aider.length; i++) {
         User.findById(aider[i].aideId, function(userErr, userResult) {
-          if(userErr) {return next(userErr);}
+          if(userErr) {
+            logger.log('error', new Date() + 'POST/rate, Code: AL_006, Error:' + userErr);
+            return res.status(500).send("AL_006");
+          }
           for(var ratingIndex = 0; ratingIndex < aider[aiderIndex].ratings.length; ratingIndex++) {
             if(userResult.ratings[aider[aiderIndex].ratings[ratingIndex]] === undefined) {
               userResult.ratings.set(aider[aiderIndex].ratings[ratingIndex],1);
@@ -557,7 +557,6 @@ exports.rate = (req, res, next) => {
               userResult.ratings.set(aider[aiderIndex].ratings[ratingIndex],userResult.ratings[aider[aiderIndex].ratings[ratingIndex]]+1);
             }
           }
-          userResult.terra += resultHenquiry.terra;
           userResult.save();
           resultHenquiry.ratedAide.push(aider[aiderIndex].aideId);
           resultHenquiry.aide.splice(resultHenquiry.aide.indexOf(aider[aiderIndex].aideId),1);
@@ -565,7 +564,62 @@ exports.rate = (req, res, next) => {
           aiderIndex++;
       });
     }
-    return res.send("ok");
+    return res.send("");
+  });
+};
+
+// TODO: Prüfen, ob es diese Bewertung überhaupt gibt
+exports.rateFiler = (req, res, next) => {
+  var henquiryId = req.body.henquiryId;
+  var rating = req.body.rating;
+  if(!(rating instanceof Array)) {
+    rating = new Array(rating);
+  }
+  console.log(rating);
+  Henquiry.findById(henquiryId, function(errHenquiry, resultHenquiry) {
+    var filerId = resultHenquiry.createdBy;
+    if(errHenquiry) {
+      logger.log('error', new Date() + 'POST/ratefiler, Code: AK_001, Error:' + errHenquiry);
+      return res.status(500).send("AK_001");
+    }
+    if(!resultHenquiry) {
+      return res.status(404).send("AK_002");
+    }
+    if(!resultHenquiry.happened || !resultHenquiry.closed || resultHenquiry.removed) {
+      // Henquiry in einem für diese Anfrage ungültigen Zustand
+      return res.status(400).send("AK_003");
+    }
+    if(resultHenquiry.ratedFiler.indexOf(req.userId) > -1) {
+      // Man hat bereits bewertet
+      return res.status(400).send("AK_004");
+    }
+    if(resultHenquiry.aide.indexOf(req.userId) > -1 || resultHenquiry.ratedAide.indexOf(req.userId) > -1) {
+      User.findById(filerId, function(errUser, resultUser) {
+        if(errUser) {
+          // DB-Fehler
+          logger.log('error', new Date() + 'POST/ratefiler, Code: AK_005, Error:' + errUser);
+          return res.status(500).send("AK_005");
+        }
+        if(!resultUser) {
+          // Kann eig nicht sein
+          return res.status(404).send("AK_006");
+        }
+        for(var ratingIndex = 0; ratingIndex < rating.length; ratingIndex++) {
+          if(resultUser.ratingsAsFiler[rating[ratingIndex]] === undefined) {
+            resultUser.ratingsAsFiler.set(rating[ratingIndex],1);
+          } else {
+            resultUser.ratingsAsFiler.set(rating[ratingIndex],resultUser.ratingsAsFiler[rating[ratingIndex]]+1);
+          }
+        }
+        resultHenquiry.ratedFiler.push(req.userId);
+        resultHenquiry.save()
+        resultUser.save();
+        return res.send("Ok");
+      });
+    } else {
+      // Man hat mit dem Henquiry nichts zu tun 403
+      return res.status(403).send("AK_007");
+    }
   });
 };
 

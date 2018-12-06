@@ -10,6 +10,8 @@ var HenquirySchema = new Schema({
     updated: {type: Boolean, default: false},
     // Bereits bewertete Aider
     ratedAide: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    // Filer, die bereits den Aide bewertet haben
+    ratedFiler: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     // User, die sich beworben haben, um zu helfen
     potentialAide: [{type: Schema.Types.ObjectId, ref: 'User'}],
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },

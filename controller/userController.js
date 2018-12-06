@@ -1,4 +1,3 @@
-// For authentication
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../config');
@@ -17,7 +16,12 @@ exports.validate = (method) => {
   switch(method) {
     case 'register': {
       return [
-        check('email').exists().isEmail(),
+        check('email').isEmail(),
+      ]
+    }
+    case 'profile': {
+      return [
+        check('email').isEmail(),
       ]
     }
   }
@@ -27,10 +31,11 @@ exports.validate = (method) => {
 // TODO: Für die Abschlusspräsentation automatisch Koordinaten zuweisen im Raum Stuttgart
 // TODO: expiresIn deutlich erhöhen
 exports.register = function (req, res, next) {
-  const errors = validationResult(req);
+  /*const errors = validationResult(req);
   if(!errors.isEmpty()) {
-    return res.status(400).send("CC_005");
-  }
+    return res.status(422).json({errors:errors.array()});
+    //return res.status(400).send("CC_005");
+  }*/
   if (req.body.password !== req.body.passwordConf) {
     return res.status(400).send("CC_001");
   }

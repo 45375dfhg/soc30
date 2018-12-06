@@ -135,10 +135,12 @@ export class ItemsComponent implements OnInit {
         }
     }
 
+    /*
     logout() {
         this.authenticationService.logout();
         this.router.navigate(["/welcome"], { clearHistory: true });
     }
+    */
 
     templateSelector(item: any, index: number, items: any): string {
         return item.expanded ? "expanded" : "default";

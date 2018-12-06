@@ -1,13 +1,17 @@
 <ActionBar title="Mein Plauderkasten">
         <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-<StackLayout *ngIf="entries | async; else noEntries" marginTop="5">
-        <RadListView [items]="polledChatOverview$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
+<StackLayout *ngIf="polledChatOverview$ | async; else noEntries" marginTop="5">
+        <RadListView [items]="polledChatOverview$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group"
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">
                         <FlexboxLayout flexDirection="row">
                                 <GridLayout rows="33,33,34" columns="*, *, *, 15" class="border gridItem">
-                                        <Label row="0" col="0" colSpan="2" [text]="item._id"
+                                        <Button row="0" col="0" colSpan="2" height="25" text="Chat away" [nsRouterLink]="['../chats', item._id]"></Button>
+                                        <Label row="1" col="0" colSpan="2" [text]="item._id" verticalAlignment="center"
+                                                height="25" class="fa heading">
+                                        </Label>
+                                        <Label row="2" col="0" colSpan="2" [text]="truthValue(item.readFiler, item.readAide)"
                                                 verticalAlignment="center" height="25" class="fa heading">
                                         </Label>
                                 </GridLayout>
@@ -28,6 +32,7 @@
         </GridLayout>
 </ng-template>
 
+<!--(itemTap)="onItemTap($event)"-->
 <!--*ngIf="entries | async; else noEntries
         <ng-template #noEntries>
         <GridLayout rows="auto,auto,auto,auto" class="emptyScreen fa">

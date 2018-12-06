@@ -11,8 +11,6 @@ export class ChatService {
 
     baseUrl = Config.apiUrl + "messages/";
 
-    private entries;
-
     constructor(private http: HttpClient) { }
 
     public getChatsOverview() {
@@ -23,10 +21,20 @@ export class ChatService {
 
     public getSpecificChat(id: string) {
         let httpParams = new HttpParams()
-            .set('henquiryId', id);
+            .set('messageId', id);
 
-        return this.http.get<any>(this.baseUrl + "specific/", { params: httpParams }).pipe(
+        return this.http.put<any>(this.baseUrl + "specific/", httpParams).pipe(
             catchError(this.handleErrors('getSpecificChat'))
+        );
+    }
+
+    public sendChatMessage(id: string, msg: string) {
+        let httpParams = new HttpParams()
+            .set('messageId', id)
+            .set('message', msg);
+
+        return this.http.post<any>(this.baseUrl + 'specific/', httpParams).pipe(
+            catchError(this.handleErrors('sendChatMessage'))
         );
     }
 

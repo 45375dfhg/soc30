@@ -49,13 +49,13 @@ router.get('/login', user_controller.login_get);
 router.post('/login', user_controller.login);
 
 // POST route for register
-router.post('/register', user_controller.register);
+router.post('/register', user_controller.validate('register'), user_controller.register);
 
 // GET route after registering
 router.get('/profile', verifyToken, user_controller.getProfile);
 
 // PUT route for profile editing
-router.put('/profile', verifyToken, user_controller.editProfile);
+router.put('/profile/specific', verifyToken, user_controller.editProfile);
 
 // PUT route for Freunde werben
 router.put('/profile/verify', verifyToken, user_controller.verifyProfile);
@@ -76,13 +76,13 @@ router.get('/messages/overview', verifyToken, message_controller.messagesOvervie
 router.get('/messages/specific', verifyToken, message_controller.messagesSpecific);
 
 // POST route for messages
-router.post('/messages', verifyToken, message_controller.sendMessage);
+router.post('/messages/specific', verifyToken, message_controller.sendMessage);
 
 // POST route for populating category collection
 // Only available for a specific user (so that nobody else can do something there...)
 router.post('/categories', verifyToken, category_controller.populateCategoryCollection);
 
 // TEST ROUTE
-router.get('/test', user_controller.test);
+router.get('/test', verifyToken, user_controller.test);
 
 module.exports = router;

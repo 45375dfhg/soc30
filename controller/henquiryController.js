@@ -149,6 +149,7 @@ exports.getSpecificHenquiry = (req, res, next) => {
   .select({"closed":0, "removed":0, "happened":0})
   .populate('aide', 'firstname surname nickname')
   .populate('potentialAide', 'firstname surname nickname')
+  .populate('createdBy', 'firstname surname nickname')
   .exec(function(err, result) {
     if(err) {
       logger.log('error', new Date() + 'GET/henquiries/specific, Code: AC_001, Error:' + err);
@@ -157,18 +158,31 @@ exports.getSpecificHenquiry = (req, res, next) => {
     if(!result) {
       return res.status(404).send("AC_002");
     }
-    if(result.createdBy == req.userId) {
+    if(result.createdBy._id == req.userId) {
       return res.json(result);
     } else if(result.potentialAide.indexOf(req.userId) > -1 || result.aide.indexOf(req.userId) > -1) {
       result.aide = result.potentialAide = result.ratedAide = result.updated = undefined;
       return res.json(result);
-    } else {
-      return res.status(403).send("AC_003");
-    }  
+    }
+    for(var i = 0; i < result.potentialAide.length; i++) {
+      if(result.potentialAide[i]._id == req.userId) {
+        result.aide = result.potentialAide = result.ratedAide = result.updated = undefined;
+        return res.json(result);
+      }
+    }
+    for(var i = 0; i < result.aide.length; i++) {
+      if(result.aide[i]._id == req.userId) {
+        result.aide = result.potentialAide = result.ratedAide = result.updated = undefined;
+        return res.json(result);
+      }
+    } 
+    return res.status(403).send("AC_003");
   });
 };
 
-// TODO: Noch überlegen, was passiert, wenn es stattfindet und gelöscht wird (also Alternative zu erfolgreicher Hilfe)
+// TODO: Noch überlegen, was passiert, wenn die Hilfe stattfindet und 
+// gelöscht wird (also Alternative zu erfolgreicher Hilfe?)
+// TODO: Bei allen Usern am Tag des Henquiries count-- machen
 exports.deleteHenquiry = (req, res, next) => {
     var henquiryId = req.body.henquiryId;
     var userId = req.userId; 
@@ -231,35 +245,41 @@ exports.apply = (req, res, next) => {
         return res.status(400).send("AE_005");
       }
       // Prüfung, ob man bereits am selben Tag 5x hilft. Wenn ja, Fehler.
-      // Z.Z. noch draußen
-      /*
-      Henquiry.find({aide: userId}, function(errCheck, resultCheck) {
-        if(errCheck) {return next(errCheck);}
-        if(resultCheck) {
-          var days = {};
-          var date;
-          for(var i = 0; i < resultCheck.length; i++) {
-            date = resultCheck[i].startTime.getFullYear() + "-" + (resultCheck[i].startTime.getMonth()+1)
-            + "-" + resultCheck[i].startTime.getDate();
-            if(days[date] === undefined) {
-              days[date] = 0;
-            }
-            days[date]++;
-            if(days[date] >= 5) {
-              return res.status(400).send("Am " + date + " hilfst du bereits 5x.");
+      User.findById(userId, function(errUser, resultUser) {
+        if(errUser) {
+          logger.log('error', new Date() + 'PUT/henquiries/apply, Code: AE_006, Error:' + errUser);
+          return res.status(500).send("AE_006");
+        }
+        var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
+        + "-" + result.startTime.getDate();
+        var idx = 0;
+        var dateFound = false;
+        while(idx < resultUser.meetings.length && !dateFound) {
+          if(resultUser.meetings[idx]["date"] === dateOfHenquiry) {
+            dateFound = true;
+            if(resultUser.meetings[idx]["count"] < 5) {
+              resultUser.meetings[idx]["count"]++;
+            } else {
+              return res.status(400).send("AE_007");
             }
           }
+          idx++;
         }
+        if(!dateFound) {
+          resultUser.meetings.push({date: dateOfHenquiry, count: 1});
+        }
+        resultUser.save();
+        result.potentialAide.push(userId);
+        result.updated = true;
+        result.save();
+        return res.send("");
       });
-      */
-      result.potentialAide.push(userId);
-      result.updated = true;
-      result.save();
-      return res.send("");
     }
   });
 };
 
+// TODO: was passiert, wenn ein User 10 Bewerbungen hat und bei 5 angenommen wird
+// Er darf ja nicht 10x helfen, also müsste er bei den anderen 5 verschwinden
 exports.acceptApplicants = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
@@ -416,8 +436,31 @@ exports.cancelApplication = (req, res, next) => {
       return res.status(400).send("AI_004");
     }
     result.save();
+    User.findById(req.userId, function(errUser, resultUser) {
+      if(errUser) {
+
+      }
+      if(!resultUser) {
+
+      }
+      var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
+      + "-" + result.startTime.getDate();
+      var idx = 0;
+      var dateFound = false;
+      while(idx < resultUser.meetings.length && !dateFound) {
+        if(resultUser.meetings[idx]["date"] === dateOfHenquiry) {
+          dateFound = true;
+          resultUser.meetings[idx]["count"]--;
+          if(resultUser.meetings[idx]["count"] == 0) {
+            resultUser.meetings.splice(resultUser.meetings[idx],1);
+          }
+        }
+        idx++;
+      }
+      resultUser.save();
+      return res.status(200).send();
+    });
   });
-  return res.status(200).send();
 };
 
 // TODO: Distanz berechnen

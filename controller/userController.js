@@ -10,42 +10,44 @@ var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
 var logger = require('../logs/logger');
 
-/*
-const {body, validationResult} = require('express-validator/check');
+
+const {check, validationResult} = require('express-validator/check');
 
 exports.validate = (method) => {
   switch(method) {
     case 'register': {
       return [
-        body('email').exists().isEmail(),
-        body('password').exists(),
-        body('passwordConf').exists(),
-        body('surname').exists(),
-        body('firstname').exists(),
-        body('nickname').exists()
+        check('email').exists().isEmail(),
+        check('password').isLength({min:1}),
+        check('passwordConf').isLength({min:1}),
+        check('surname').isLength({min:1}),
+        check('firstname').isLength({min:1}),
+        check('nickname').isLength({min:1})
       ]
     }
   }
 }
-*/
+
+// TODO: Man muss ne Adresse mitgeben
+// TODO: Für die Abschlusspräsentation automatisch Koordinaten zuweisen im Raum Stuttgart
 exports.register = function (req, res, next) {
-  /*const errors = validationResult(req);
+  const errors = validationResult(req);
   if(!errors.isEmpty()) {
     return res.status(422).json({errors: errors.array()});
-  }*/
+  }
   if (req.body.password !== req.body.passwordConf) {
-    var err = new Error('Passwords do not match.');
-    err.status = 400;
-    return next(err);
+    return res.status(400).send("CC_001");
   }
 
   if (req.body.email &&
     req.body.password &&
     req.body.passwordConf && req.body.surname && req.body.firstname && req.body.nickname) {
     req.body.email = req.body.email.toLowerCase();
-    // Prüfung, ob die E-Mail bereits in der Datenbank existiert
     User.findOne({email:req.body.email}, function(errEmail, resultEmail) {
-      if(errEmail) {return next(errEmail);}
+      if(errEmail) {
+        logger.log('error', new Date() + 'POST/register, Code: CC_001, Error:' + errEmail);
+        return res.status(500).send("CC_001");
+      }
       if(!resultEmail) {
         var hashedPassword = bcrypt.hashSync(req.body.password, 8);
         var userData = {
@@ -56,91 +58,110 @@ exports.register = function (req, res, next) {
           nickname: req.body.nickname,
         }
         User.create(userData, function (error, user) {
-          if (error) return res.status(500).send("There was a problem registering the user.")
+          if (error) {
+            logger.log('error', new Date() + 'POST/register, Code: CC_002, Error:' + error);
+            return res.status(500).send("CC_002");
+          }
           // create a token
           var token = jwt.sign({ id: user._id }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
-          res.status(200).send({ auth: true, token: token , _id: user._id});
+          return res.status(200).send({ auth: true, token: token , _id: user._id});
         });
       } else {
-        var err = new Error('Diese E-Mail existiert bereits.');
-        err.status = 400;
-        return next(err);
+        return res.status(400).send("CC_003");
       }
   });
   } else {
-    var err = new Error('All fields required.');
-    err.status = 400;
-    return next(err);
+    return res.status(400).send("CC_004");
   }
 };
 
+// TODO: expiresIn deutlich erhöhen
 exports.login = function (req, res, next) {
 if (req.body.logemail && req.body.logpassword) {
   User.findOne({ email: req.body.logemail }, function (err, user) {
-    if (err) return res.status(500).send('Error on the server.');
-    if (!user) return res.status(404).send('No user found.');
+    if (err) {
+      logger.log('error', new Date() + 'POST/login, Code: CD_001, Error:' + err);
+      return res.status(500).send("CD_001");
+    }
+    if (!user) {
+      return res.status(404).send("CD_002");
+    }
     var passwordIsValid = bcrypt.compareSync(req.body.logpassword, user.password);
-    if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+    if (!passwordIsValid) {
+      return res.status(401).send({ auth: false, token: null });
+    }
     var token = jwt.sign({ id: user._id }, config.secret, {
       expiresIn: 86400 // expires in 24 hours
     });
-    res.status(200).send({ auth: true, token: token, _id: user._id });
+    return res.status(200).send({ auth: true, token: token, _id: user._id });
   });
     } else {
-      var err = new Error('All fields required.');
-      err.status = 400;
-      return next(err);
+      logger.log('error', new Date() + 'POST/login, Code: CD_003, Error:' + err);
+      return res.status(400).send("CD_003");
     }
 };
 
 exports.logout = function (req, res, next) {
-      res.status(200).send({ auth: false, token: null });
+      return res.status(200).send({ auth: false, token: null });
 };
 
+// TODO: Nachname nur 1. Buchstabe anzeigen lassen
 exports.getProfile = function (req, res, next) { 
     var projection;
     if(!(req.body.userId === req.userId)) {
-      projection = 'nickname ratings postident avatar';
+      projection = 'nickname firstname surname ratings avatar';
     } else {
-      projection = 'surname firstname email nickname ratings address postident invite mobile avatar terra';
+      projection = 'surname firstname email nickname ratings address invite mobile avatar terra';
     }
     User.findById(req.body.userId, projection)
       .exec(function (error, user) {
         if (error) {
-          return next(error);
+          logger.log('error', new Date() + 'GET/profile, Code: CA_001, Error:' + error);
+          return res.status(500).send("CA_001");
         } else {
           if (!user) {
-            var err = new Error('User does not exist.');
-            err.status = 404;
-            return next(err);
+            logger.log('error', new Date() + 'GET/profile, Code: CA_002, Error:' + err);
+            return res.status(404).send("CA_002");
           } else {
+            if(!(req.body.userId === req.userId)) {
+              user.surname = user.surname.charAt(0).toUpperCase();
+            }
             return res.json(user);
           }
         }
       });
 };
 
-// TODO: Muss noch umgesetzt werden
+// TODO: PW ändern können
 exports.editProfile = function (req, res, next) {
   var data = {};
   data.address = {};
-  // Altes PW muss noch geprüft werden
   if(req.body.password) {
-    if(req.body.password === req.body.passwordConf) {
-      bcrypt.hash(req.body.password, 10, function (err, hash) {
-        if (err) {
-          return next(err);
+    User.findById(req.userId, function(errPWCheck, resultPWCheck) {
+      if(errPWCheck) {
+        logger.log('error', new Date() + 'PUT/profile/specific, Code: CB_002, Error:' + errPWCheck);
+        return res.status(500).send("CB_002");
+      }
+      if(!resultPWCheck) {
+        return res.status(404).send("CB_003");
+      }
+      var passwordIsValid = bcrypt.compareSync(req.body.password, resultPWCheck.password);
+      if (!passwordIsValid) {
+        return res.status(401).send("CB_004");
+      }
+      if(req.body.passwordNew && req.body.passwordNewConf) {
+        if(req.body.passwordNew === req.body.passwordNewConf) {
+          data.password = bcrypt.hashSync(req.body.passwordNew, 8);
+        } else {
+          return res.status(400).send("CB_005");
         }
-        //data.password = hash;
-        populateDataToBeUpdated(req, data, res);
-      })
-    } else {
-      res.send("PWs sind nicht gleich");
-    }
+      }
+      populateDataToBeUpdated(req, data, res);
+    });
   } else {
-    return res.status(403).send("Passwort nicht eingegeben.");
+    return res.status(400).send("CB_001");
   }
 };
 
@@ -154,8 +175,8 @@ function populateDataToBeUpdated(req, data, res) {
   if(req.body.address) {
     User.findById(req.userId, function(err, result) {
       if(err) {
-        console.log(err);
-        return;
+        logger.log('error', new Date() + 'PUT/profile/specific, Code: CB_006, Error:' + err);
+        return res.status(500).send("CB_006");
       }
       var address = JSON.parse(req.body.address);
       data.address = result.address;
@@ -165,47 +186,53 @@ function populateDataToBeUpdated(req, data, res) {
       if(address.housenm) {data.address.housenm = address.housenm;}
       updateUser(req, data, res);
     });
+  } else {
+    updateUser(req, data, res);
   }
 }
 
 function updateUser(req, data, res) {
   User.findByIdAndUpdate(req.userId, {$set : data}, function (error, user) {
     if(error) {
-      console.log(error);
-      return;
+      logger.log('error', new Date() + 'PUT/profile/specific, Code: CB_007, Error:' + error);
+      return res.status(500).send("CB_007");
+    } 
+    if (user === null) {
+      return res.status(404).send("CB_008");
     } else {
-      if (user === null) {
-        var err = new Error('User does not exist.');
-        err.status = 404;
-        return next(err);
-      } else {
-          User.findById(req.userId, function(errReturnUser, resultReturnUser) {
-            if(errReturnUser) {
-              return res.status(500).send("Fehler.");
-            }
-            return res.json(resultReturnUser);
-          });
-      }
+        User.findById(req.userId, function(errReturnUser, resultReturnUser) {
+          if(errReturnUser) {
+            logger.log('error', new Date() + 'PUT/profile/specific, Code: CB_000, Error:' + errReturnUser);
+            return res.status(500).send("CB_009");
+          }
+          resultReturnUser.password = undefined;
+          return res.json(resultReturnUser);
+        });
     }
+    
   });
 }
 
+// TODO: Falls noch Zeit ist, Codes einzigartig machen und auf E-Mail des
+// Werbenden verzichten
 exports.verifyProfile = function (req, res, next) {
   var code = req.body.code;
   var email = req.body.email;
   User.findOne({email:email, "invite.codes":code}, function(err, resultHost) {
-    if(err) {return next(err);}
+    if(err) {
+      logger.log('error', new Date() + 'PUT/profile/verify, Code: CF_001, Error:' + err);
+      return res.status(500).send("CF_001");
+    }
     if(!resultHost) {
-      var err = new Error('Diese E-Mail oder dieser Code existiert nicht.');
-      err.status = 400;
-      return next(err);
+      return res.status(404).send("CF_002");
     }
     User.findById(req.userId, function(errUser, resultNewUser) {
-      if(errUser) {return next(errUser);}
+      if(errUser) {
+        logger.log('error', new Date() + 'PUT/profile/verify, Code: CF_003, Error:' + errUser);
+        return res.status(500).send("CF_003");
+      }
       if(!resultNewUser) {
-        var err = new Error('resultUser nicht gefunden. kann eig nicht sein');
-        err.status = 400;
-        return next(err);
+        return res.status(404).send("CF_004");
       }
       resultNewUser.invite.level = resultHost.invite.level+1;
       if(resultHost.invite.level < 2) {
@@ -222,70 +249,106 @@ exports.verifyProfile = function (req, res, next) {
       resultHost.invite.codes.splice(resultHost.invite.codes.indexOf(code),1);
       resultHost.save();
       resultNewUser.save();
-      res.send("ok");
+      res.send("");
     });
   });
 };
 
-// TODO: Profil muss gelöscht werden aus: Henquiries, Messages, Children bei Freunde werben
 exports.deleteProfile = (req, res, next) => {
   var userId = req.userId;
-  if(req.body.password !== req.body.passwordConf) {
-    var err = new Error('Passwörter sind nicht gleich.');
-    err.status = 400;
-    return next(err);
-  }
-  Henquiry.find({$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]}, function(errHenquiry, resultHenquiry) {
-    if(errHenquiry) {return next(errHenquiry);}
-    if(resultHenquiry) {
-      for(var i = 0; i < resultHenquiry.length; i++) {
-        if(resultHenquiry[i].createdBy == userId) {
-          resultHenquiry[i].remove();
-        } else if(resultHenquiry[i].potentialAide.indexOf(userId) > -1) {
-          resultHenquiry[i].potentialAide.splice(resultHenquiry[i].potentialAide.indexOf(userId),1);
-        } else if(resultHenquiry[i].aide.indexOf(userId) > -1) {
-          resultHenquiry[i].aide.splice(resultHenquiry[i].aide.indexOf(userId),1);
-        }
-        resultHenquiry[i].save();
-      }
+  User.findById(userId, function(errPWCheck, resultPWCheck) {
+    if(errPWCheck) {
+      logger.log('error', new Date() + 'DELETE/profile/specific, Code: CE_006, Error:' + errPWCheck);
+      return res.status(500).send("CE_006");
     }
-    Message.find({$or: [{filer: userId}, {aide: userId}]}, function(errMsg, resultMsg) {
-      if(errMsg) {return next(errMsg);}
-      if(resultMsg) {
-        for(var i = 0; i < resultMsg.length; i++) {
-          if(resultMsg[i].aide == userId) {
-            resultMsg[i].messages.push({message: "Der Hilfsbedürftige hat seinen Account gelöscht.", participant: 4, timeSent: new Date()});
-            resultMsg[i].readFiler = false;
-          } else if(resultMsg[i].potentialAide == userId) {
-            resultMsg[i].readAide = false;
-            resultMsg[i].messages.push({message: "Der Helfer hat seinen Account gelöscht.", participant: 3, timeSent: new Date()});
+    if(!resultPWCheck) {
+      return res.status(404).send("CE_007");
+    }
+    var passwordIsValid = bcrypt.compareSync(req.body.password, resultPWCheck.password);
+    if (!passwordIsValid) {
+      return res.status(401).send("CE_001");
+    }
+    Henquiry.find({$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]}, function(errHenquiry, resultHenquiry) {
+      if(errHenquiry) {
+        logger.log('error', new Date() + 'DELETE/profile/specific, Code: CE_002, Error:' + errHenquiry);
+        return res.status(500).send("CE_002");
+      }
+      if(resultHenquiry) {
+        for(var i = 0; i < resultHenquiry.length; i++) {
+          if(resultHenquiry[i].createdBy == userId) {
+            resultHenquiry[i].remove();
+          } else if(resultHenquiry[i].potentialAide.indexOf(userId) > -1) {
+            resultHenquiry[i].potentialAide.splice(resultHenquiry[i].potentialAide.indexOf(userId),1);
+          } else if(resultHenquiry[i].aide.indexOf(userId) > -1) {
+            resultHenquiry[i].aide.splice(resultHenquiry[i].aide.indexOf(userId),1);
           }
-          resultMsg[i].readOnly = true;
-          resultMsg[i].save();
+          resultHenquiry[i].save();
         }
       }
-      User.find({"invite.children": userId}, function(errUser, resultUser) {
-        if(errUser) {return next(errUser);}
-        if(resultUser) {
-          for(var i = 0; i < resultUser.length; i++) {
-            resultUser[i].invite.children.splice(resultUser[i].invite.children.indexOf(userId),1);
-            resultUser[i].save();
+      Message.find({$or: [{filer: userId}, {aide: userId}]}, function(errMsg, resultMsg) {
+        if(errMsg) {
+          logger.log('error', new Date() + 'DELETE/profile/specific, Code: CE_003, Error:' + errMsg);
+          return res.status(500).send("CE_003");
+        }
+        if(resultMsg) {
+          for(var i = 0; i < resultMsg.length; i++) {
+            if(resultMsg[i].aide == userId) {
+              resultMsg[i].messages.push({message: "Der Hilfsbedürftige hat seinen Account gelöscht.", participant: 4, timeSent: new Date()});
+              resultMsg[i].readFiler = false;
+            } else if(resultMsg[i].potentialAide == userId) {
+              resultMsg[i].readAide = false;
+              resultMsg[i].messages.push({message: "Der Helfer hat seinen Account gelöscht.", participant: 3, timeSent: new Date()});
+            }
+            resultMsg[i].readOnly = true;
+            resultMsg[i].save();
           }
         }
-        res.send("ok");
+        User.find({"invite.children": userId}, function(errUser, resultUser) {
+          if(errUser) {
+            logger.log('error', new Date() + 'DELETE/profile/specific, Code: CE_004, Error:' + errUser);
+            return res.status(500).send("CE_004");
+          }
+          if(resultUser) {
+            for(var i = 0; i < resultUser.length; i++) {
+              resultUser[i].invite.children.splice(resultUser[i].invite.children.indexOf(userId),1);
+              resultUser[i].save();
+            }
+          }
+          User.deleteOne({_id: userId}, function(errDelete) {
+            if(errDelete) {
+              logger.log('error', new Date() + 'DELETE/profile/specific, Code: CE_005, Error:' + errDelete);
+              return res.status(500).send("CE_005");
+            }
+            return res.send("");
+          });
+        });
       });
-    });
-    User.deleteOne({_id: userId}, function(errDelete) {
-      if(errDelete) {
-        console.log("IN DELETEPROFILE BEI DELETEONE");
-        console.log(errDelete);
-        return res.json("Fehler.");
-      }
     });
   });
 };
 
 exports.test = (req, res, next) => {
-  logger.log('error', new Date() + ' -- Method: test -- error 23');
-  res.send("");
+  User.findById(req.userId, (err, result) => {
+    if(err) {
+      return console.log(err);
+    }
+    console.log(result.meetings[0]["date"]);
+    result.meetings[0]["count"]++;
+    //var temp = result.meetings;
+    //console.log(temp["2018-12-15"]);
+    /*console.log(temp);
+    console.log(temp["2018-12-15"]);
+    console.log(++result.meetings["2018-12-15"]);
+    ++result.meetings["2018-12-15"];
+    console.log(temp);*/
+    //console.log(result.meetings["2018-12-16"]);
+    //temp["2018-12-17"];
+    //result.meetings = JSON.stringify(temp);
+    //result.meetings = {"c": 1};
+    //result.meetings["d"] = 4;
+    //console.log(typeof result.meetings["2018-12-16"]);
+    result.save();
+    //console.log(result);
+    return res.send(result);
+  });
 };

@@ -25,20 +25,24 @@ var UserSchema = new Schema({
     codes: [{type: Number}],
     children: [{type: Schema.Types.ObjectId, ref: 'User'}]
   },
+  // TODO: Überlegen, ob man die Handynummer haben möchte - da nicht prüfbar auf Echtheit
   mobile: {type: String},
   // Avatare werden im Frontend gespeichert und hier als Zahl, die vom FE einem Bild zugeordnet wird.
-  avatar: {type: Number},
+  avatar: {type: Number, default: 0},
   terra: {type: Number, default: 0},
   coordinates: {
     latitude: {type: Number},
     longitude: {type: Number}
-  }
+  },
+  // meetings speichert, wie oft man an einem Tag hilft
+  // Schema.Types.Mixed: Beliebiges Objekt kann gespeichert werden
+  meetings: [{date: String, count: Number}]
 }, {versionKey: false},{
   writeConcern: {
     w: 1,
     j: true,
     wtimeout: 1000
-}});
+}, strict: false});
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

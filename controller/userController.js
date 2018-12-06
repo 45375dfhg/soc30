@@ -18,11 +18,6 @@ exports.validate = (method) => {
     case 'register': {
       return [
         check('email').exists().isEmail(),
-        check('password').isLength({min:1}),
-        check('passwordConf').isLength({min:1}),
-        check('surname').isLength({min:1}),
-        check('firstname').isLength({min:1}),
-        check('nickname').isLength({min:1})
       ]
     }
   }
@@ -33,7 +28,7 @@ exports.validate = (method) => {
 exports.register = function (req, res, next) {
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
-    return res.status(422).json({errors: errors.array()});
+    return res.status(400).send("Ist keine E-Mail");
   }
   if (req.body.password !== req.body.passwordConf) {
     return res.status(400).send("CC_001");

@@ -4,10 +4,12 @@ var logger = require('../logs/logger');
 
 exports.messagesOverview = (req, res, next) => {
     var userId = req.userId;
+    console.log("1");
     Message.find({$or: [{aide: userId}, {filer: userId}]})
     .select('filer aide readAide readFiler henquiry')
-    .populate('filer', 'firstname surname nickname avatar')
+    .populate('filer', 'firstname surname nickname avatar address')
     .populate('aide', 'firstname surname nickname avatar')
+    .populate('henquiry', 'category amountAide startTime endTime')
     .exec(function(err, result) {
         if(err) {
             logger.log('error', new Date() + 'GET/messages/overview, Code: BA_001, Error:' + err);

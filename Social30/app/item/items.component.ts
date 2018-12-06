@@ -79,7 +79,8 @@ export class ItemsComponent implements OnInit {
                 map(res => {
                     let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
                     console.log('refreshed')
-                    return res.filter(entry => currentUser._id != entry.createdBy._id)
+                    return res
+                        // filter(entry => currentUser._id != entry.createdBy._id)
                         .filter(fdist => fdist.distance <= this.message.distance)
                         .filter(ftime => +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
                         .filter(filtercat => this.message.categories[filtercat.category.category])

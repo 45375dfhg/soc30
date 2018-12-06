@@ -68,7 +68,7 @@ export class ItemService {
 
         return this.http.put<any>(this.baseUrl + "henquiries/apply", params)
             .pipe(
-                tap(res => console.log('HTTP response:', res)),
+                // tap(res => console.log('HTTP response:', res)),
                 catchError(this.handleErrors('applyItem'))
             );
     }

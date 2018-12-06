@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { getCategoryIconSource } from "../app.component";
 import { RouterExtensions } from 'nativescript-angular/router';
-import { Route } from '@angular/router';
-import { isAndroid, isIOS, device, screen } from "platform";
-import { View } from "ui/core/view";
-import { ClientRequestArgs } from 'http';
+// import { Route } from '@angular/router';
+// import { isAndroid, isIOS, device, screen } from "platform";
+// import { View } from "ui/core/view";
+// import { ClientRequestArgs } from 'http';
 import { Page } from "tns-core-modules/ui/page";
 import { DataService } from '../shared/services/data.service';
 
@@ -53,7 +53,7 @@ export class FilterItemsComponent implements OnInit {
 	}
 
 	reset() {
-		this.newMessage(false, [true,true,true,true,true],[true,true,true,true,true],30,6);
+		this.newMessage(false, [true,true,true,true,true],[true,true,true,true,true],210,60);
 	}
 
 	changeColorCategory(args) {

@@ -1,13 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Page } from "tns-core-modules/ui/page";
 
-import { Observable, timer } from 'rxjs';
-import { concatMap, map } from 'rxjs/operators';
+import { Observable, timer, throwError } from 'rxjs';
+import { concatMap, map, catchError } from 'rxjs/operators';
 
-import { ItemService } from "../shared/services/item.service";
-import { Item } from "../shared/models/item";
 import { AppSettingsService } from '../shared/services/appsettings.service';
-import { CalendarService } from "../shared/services/calendar.service";
+import { ChatService } from "../shared/services/chat.service";
 import { getCategoryIconSource } from "../app.component";
 
 
@@ -19,35 +17,40 @@ import { getCategoryIconSource } from "../app.component";
 })
 export class ChatComponent implements OnInit {
 
-    private polledCalendar$: Observable<Item[]>;
+    // async
+    private polledChatOverview$: Observable<any>;
+
+    // sync
     private entries;
+    private guest: boolean = false;
 
     public constructor(
-        private calendarService: CalendarService, 
-        private page: Page, 
-        private itemService: ItemService,
+        private chatService: ChatService,
+        private page: Page,
         private appSet: AppSettingsService) {
         this.page.enableSwipeBackNavigation = false;
     }
 
     ngOnInit(): void {
-        if(!this.appSet.getUser('guest')) {
+        if (!this.appSet.getUser('guest')) {
             // the stream
-            const calendar$ = this.calendarService.getEntries();
-            
+            const chatOverview$ = this.chatService.getChatsOverview();
+
             // polling every 10s, concatMap subscribes to the stream
-            this.polledCalendar$ = timer(0, 10000).pipe(
-                concatMap(_ => calendar$),
+            this.polledChatOverview$ = timer(0, 10000).pipe(
+                concatMap(_ => chatOverview$),
                 map(res => {
-                    // console.log('tick');
-                    return this.entries = res})
+                    this.entries = res
+                    return res
+                }),
+                catchError(err => throwError(err))
             );
         } else {
-            //  
+            this.guest = true;
         }
     }
 
     getCategoryIconSource(icon: string): string {
-		return getCategoryIconSource(icon);
-	}
+        return getCategoryIconSource(icon);
+    }
 }

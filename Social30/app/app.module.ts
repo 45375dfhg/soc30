@@ -1,6 +1,5 @@
 import { NgModule, NO_ERRORS_SCHEMA, NgModuleFactoryLoader } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-import { ModalDialogService } from "nativescript-angular/modal-dialog";
 
 // routing
 import { AppRoutingModule } from "./app-routing.module";
@@ -13,7 +12,6 @@ import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
 import { WelcomeComponent } from "./welcome/welcome.component";
 import { RegisterComponent } from './register/register.component';
-// import { HenquiryModalComponent } from './henquiry-modal/henquiry.modal';
 
 // services
 import { ItemService } from "./shared/services/item.service";
@@ -22,6 +20,7 @@ import { AppSettingsService } from './shared/services/appsettings.service';
 import { CalendarService } from './shared/services/calendar.service';
 import { AlertService } from './shared/services/alert.service';
 import { DataService } from './shared/services/data.service';
+import { ChatService } from './shared/services/chat.service';
 
 // HttpClient wrapper
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
@@ -64,6 +63,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
         CalendarService,
         AlertService,
         DataService,
+        ChatService,
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
     ],
     schemas: [

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { isIOS, isAndroid } from "tns-core-modules/platform";

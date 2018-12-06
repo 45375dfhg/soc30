@@ -2,7 +2,7 @@
         <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 <StackLayout *ngIf="entries | async; else noEntries" marginTop="5">
-        <RadListView [items]="polledCalendar$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
+        <RadListView [items]="polledChatOverview$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">
                         <FlexboxLayout flexDirection="row">
@@ -26,7 +26,7 @@
                 <Label row="3" text="Hier geht bald die Post ab! Dann hast du die Möglichkeit mit deinen Nachbarn zu schreiben."
                         horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
         </GridLayout>
-</ng-template>"
+</ng-template>
 
 <!--*ngIf="entries | async; else noEntries
         <ng-template #noEntries>

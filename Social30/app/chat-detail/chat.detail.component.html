@@ -3,24 +3,13 @@
 </ActionBar>
 <StackLayout>
     <StackLayout [items]="polledMessageObj$ | async">
+        <Button text="Back" (tap)="goBack()"></Button>
         <StackLayout *ngFor="let message of polledMessages$">
             <StackLayout [className]="userRole(message.participant)">
                 <Label [text]="message.message"></Label>
-                <Label [text]="userRole()"></Label>
             </StackLayout>
-            <Button text="Back" (tap)="goBack()"></Button>
         </StackLayout>
+        <TextField #textfield class="chatTextField" [(ngModel)]="msg"></TextField>
+        <Button #btn text="send" (tap)=sendMessage(msg)></Button>
     </StackLayout>
 </StackLayout>
-
-
-<!--[ngClass]="{'filer': userRole(polledMessageObj$.aide.firstname), 'aide': !userRole(polledMessageObj$.aide.firstname)}"-->
-<!--
-<StackLayout>
-    <StackLayout [items]="polledMessageObj$ | async">
-        <StackLayout *ngFor="let message of polledMessages$">
-            <Label [text]="message.message"></Label>
-        </StackLayout>
-    </StackLayout>
-</StackLayout>
--->

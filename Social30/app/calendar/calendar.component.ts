@@ -70,7 +70,7 @@ export class CalendarComponent implements OnInit {
                 // this needs to be redone but works for now
                 // technically a job for the backend but might scale badly
                 // so its getting outsourced to frontend
-                if(result.length > 0) {
+                if (result.length > 0) {
                     this.ex = true;
                 }
                 let output = _.flow([

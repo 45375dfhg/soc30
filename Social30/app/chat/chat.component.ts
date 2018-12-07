@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Page } from "tns-core-modules/ui/page";
 
 import { Observable, timer, throwError } from 'rxjs';
-import { concatMap, map, catchError } from 'rxjs/operators';
+import { concatMap, map, catchError, tap } from 'rxjs/operators';
 
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { ChatService } from "../shared/services/chat.service";
@@ -56,6 +56,7 @@ export class ChatComponent implements OnInit {
             // polling every 10s, concatMap subscribes to the stream
             this.polledChatOverview$ = timer(0, 10000).pipe(
                 concatMap(_ => chatOverview$),
+                tap(res => console.log('tick')),
                 map(res => res),
                 catchError(err => throwError(err))
             );
@@ -63,16 +64,15 @@ export class ChatComponent implements OnInit {
     }
 
     // checks the reading status
-    truthValue(filer, aide) {
-        // check for undefined or null
-        if (filer == null) {
-            if (aide) {
+    readStatus(item) {
+        if (item.readFiler == null) {
+            if (!item.readAide) {
                 return "Eine neue Nachricht"
             } else {
                 return "Alles gelesen"
             }
         } else {
-            if (filer) {
+            if (!item.readFiler) {
                 return "Eine neue Nachricht"
             } else {
                 return "Alles gelesen"

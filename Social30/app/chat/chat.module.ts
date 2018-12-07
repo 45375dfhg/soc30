@@ -2,6 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 import { ChatComponent } from "./chat.component";
 import { ChatDetailComponent } from '../chat-detail/chat.detail.component';
@@ -14,6 +15,7 @@ import { ChatDetailComponent } from '../chat-detail/chat.detail.component';
     imports: [
         NativeScriptCommonModule,
         NativeScriptUIListViewModule,
+        NativeScriptFormsModule,
         NativeScriptRouterModule,
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "chat" },

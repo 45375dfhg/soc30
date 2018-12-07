@@ -1,7 +1,13 @@
 <ActionBar title="Mein Steckbrief">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-
+<StackLayout>
+    <StackLayout>
+        <Label text="{{profile?.firstname}}"></Label>
+    </StackLayout>
+</StackLayout>
+<!--
+    USEFUL FOR DUMMY DATA INSIDE AN NGIF!!!!!!!
 <GridLayout rows="auto,auto,auto,auto,auto,*,auto" columns="*">
         <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top" horizontalAlignment="right"></Label>
         <Image class="profilPic" row="0" col="0" [src]="getCategoryIconSource('woman01')" horizontalAlignment="center"></Image>
@@ -14,5 +20,4 @@
 
 
         </GridLayout>
-</GridLayout>
-
+</GridLayout>-->

@@ -17,7 +17,7 @@ export class ProfileService {
         let httpParams = new HttpParams()
             .set('userId', id)
 
-        return this.http.get<any>(this.baseUrl + "profile/", { params: httpParams })
+        return this.http.put<any>(this.baseUrl + "profile/", httpParams)
             .pipe(
                 catchError(this.handleErrors('getProfile'))
             );

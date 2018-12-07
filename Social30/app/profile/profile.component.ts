@@ -1,7 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Page } from "tns-core-modules/ui/page";
+
+import { ProfileService } from '../shared/services/profile.service';
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { AppSettingsService } from '../shared/services/appsettings.service';
 import { getCategoryIconSource } from "../app.component";
 
 
@@ -11,10 +14,35 @@ import { getCategoryIconSource } from "../app.component";
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-    public constructor(private authenticationService: AuthenticationService, private router: RouterExtensions, private page: Page) {
+    // sync
+    private profile;
+
+    public constructor(
+        private authenticationService: AuthenticationService,
+        private profileService: ProfileService,
+        private appSet: AppSettingsService,
+        private router: RouterExtensions, private page: Page) {
         this.page.enableSwipeBackNavigation = false;
+    }
+
+    ngOnInit(): void {
+        if (this.appSet.getUser('currentUser')) {
+            this.loadProfile();
+        } else {
+            // dummy data
+        }
+    }
+
+    loadProfile() {
+        let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+        let id = currentUser._id;
+        this.profileService.getProfile(id).subscribe(
+            res => {
+                console.log(res);
+                this.profile = res
+            });
     }
 
     logout() {

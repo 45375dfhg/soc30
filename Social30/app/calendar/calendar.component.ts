@@ -3,6 +3,8 @@ import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { Page } from "tns-core-modules/ui/page";
 import { ListViewEventData } from "nativescript-ui-listview";
 
+import { Observable } from 'rxjs';
+
 import { getCategoryIconSource } from "../app.component";
 import { ItemService } from "../shared/services/item.service";
 import { AppSettingsService } from '../shared/services/appsettings.service';
@@ -16,18 +18,22 @@ declare var UIView, NSMutableArray, NSIndexPath;
 
 
 @Component({
-	moduleId: module.id,
-	selector: 'calendar',
-	templateUrl: './calendar.component.html',
-	styleUrls: ['./calendar.component.scss']
+    moduleId: module.id,
+    selector: 'calendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss']
 })
 
 export class CalendarComponent implements OnInit {
 
+    // sync
     private entries;
     private dates: string[] = [];
     private ex: boolean = false;
-    
+
+    // async
+    private polledCalendar$: Observable<any>;
+
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
     formatDuration = this.itemService.formatDuration;
@@ -44,16 +50,15 @@ export class CalendarComponent implements OnInit {
     setIcon = this.itemService.getCategoryIconName;
 
     constructor(
-        private calendarService: CalendarService, 
-        private page: Page, 
+        private calendarService: CalendarService,
+        private page: Page,
         private itemService: ItemService,
-        private appSet: AppSettingsService) { 
-            this.page.enableSwipeBackNavigation = false;
-        }
+        private appSet: AppSettingsService) {
+        this.page.enableSwipeBackNavigation = false;
+    }
 
     ngOnInit(): void {
-        if(!this.appSet.getUser('guest')) {
-            console.log('user is not a guest')
+        if (!this.appSet.getUser('guest')) {
             this.receiveAndOrder();
         } else {
             console.log('user is a guest');
@@ -65,7 +70,7 @@ export class CalendarComponent implements OnInit {
     // itterate as efficiently as possible inside the template
     receiveAndOrder() {
         this.calendarService.getEntries().subscribe(
-            result => { 
+            result => {
                 // chaining the functions, using (result) as a initial value
                 // this needs to be redone but works for now
                 // technically a job for the backend but might scale badly
@@ -75,35 +80,40 @@ export class CalendarComponent implements OnInit {
                 }
                 let output = _.flow([
                     this.groupEntries,
-                    this.formatEntries, 
-                    this.sortEntries, 
+                    this.formatEntries,
+                    this.sortEntries,
                     this.sortInnerEntries,
                     this.groupbyMonth,
                     this.formatEntries,
                     this.sortbyStartWithCurrentMonth,
                     this.changeMonthNumToLiteral
                 ])
-                (result);  
-                this.entries = output;  
-    
+                    (result);
+                this.entries = output;
+
             },
             error => console.log(error)
         )
+    }
+
+    refreshCalendar() {
+        // brute force but whatever
+        this.receiveAndOrder();
     }
 
     // forces dummy data to fit the calendar data format
     guestData(dummy) {
         let output = _.flow([
             this.groupEntries,
-            this.formatEntries, 
-            this.sortEntries, 
+            this.formatEntries,
+            this.sortEntries,
             this.sortInnerEntries,
             this.groupbyMonth,
             this.formatEntries,
             this.sortbyStartWithCurrentMonth,
             this.changeMonthNumToLiteral
         ])
-        (dummy); 
+            (dummy);
         this.entries = output;
     }
 
@@ -120,11 +130,11 @@ export class CalendarComponent implements OnInit {
             let time = new Date(entry.startTime);
             // since we are in the lodash namespace we cant easily access
             // any outside functions so we just write the function here
-            let func = function(day: number) {
-                enum Days {SO, MO, DI, MI, DO, FR, SA};
+            let func = function (day: number) {
+                enum Days { SO, MO, DI, MI, DO, FR, SA };
                 return Days[day];
             }
-            return time.getDate() + '-' +  time.getMonth() 
+            return time.getDate() + '-' + time.getMonth()
                 + '-' + time.getFullYear() + '-' + func(time.getDay());
         })
     }
@@ -133,18 +143,18 @@ export class CalendarComponent implements OnInit {
     // each object represents a specific day
     // key consists of [day,month,year] while value contains the henquiries of said day
     formatEntries(input: _.Dictionary<Item>) {
-        return Object.keys(input).map(key => 
+        return Object.keys(input).map(key =>
             ({ key: key.split('-'), value: input[key] }));
     }
 
     // since in previous functions the order of entries wasn't ensured
     // we do this here by sorting the objects inside the array by comparing the content of 
     // each objects "key" array
-    sortEntries(input: {key: string[]; value: Item[];}[]) {
+    sortEntries(input: { key: string[]; value: Item[]; }[]) {
         return input.sort((date1, date2) => {
-            return (+date1.key[2] > +date2.key[2]) ? 1 : ((+date1.key[2] < +date2.key[2]) ? -1 : 
+            return (+date1.key[2] > +date2.key[2]) ? 1 : ((+date1.key[2] < +date2.key[2]) ? -1 :
                 ((+date1.key[1] > +date2.key[1]) ? 1 : ((+date1.key[1] < +date2.key[1]) ? -1 :
-                (+date1.key[0] > +date2.key[0]) ? 1 : ((+date1.key[0] < +date2.key[0]) ? -1 : 0))));
+                    (+date1.key[0] > +date2.key[0]) ? 1 : ((+date1.key[0] < +date2.key[0]) ? -1 : 0))));
         })
     }
 
@@ -154,17 +164,18 @@ export class CalendarComponent implements OnInit {
     // value is assigned to its old but sorted value
     // sorting happens by extracting the startTime of each enquiry, using the unary operator to convert
     // the value to a number
-    sortInnerEntries(input: {key: string[]; value: Item[];}[]) {
-        return input.map(date => 
-            ({ key: date.key, value: date.value
-                .sort((henquiry1, henquiry2) => {
-                    return +new Date(henquiry1.startTime) - +new Date(henquiry2.startTime);
-                })
+    sortInnerEntries(input: { key: string[]; value: Item[]; }[]) {
+        return input.map(date =>
+            ({
+                key: date.key, value: date.value
+                    .sort((henquiry1, henquiry2) => {
+                        return +new Date(henquiry1.startTime) - +new Date(henquiry2.startTime);
+                    })
             })
         )
     }
 
-    groupbyMonth(input: {key: any[] & string[] & {1: string;};value: Item[];}[]) {
+    groupbyMonth(input: { key: any[] & string[] & { 1: string; }; value: Item[]; }[]) {
         return _.groupBy(input, entry => {
             return entry.key[1];
         })
@@ -183,22 +194,22 @@ export class CalendarComponent implements OnInit {
             return +month.key === currMonth;
         })
         return tmp.slice(tmpIdx)
-            .concat(tmp.slice(0, tmpIdx)); 
+            .concat(tmp.slice(0, tmpIdx));
     }
 
     changeMonthNumToLiteral(input) {
-        enum Months {JANUAR, FEBRUAR, MÄRZ, APRIL, MAI, JUNI, JULI, AUGUST, SEPTEMBER, OKTOBER, NOVEMBER, DEZEMBER};
-        return input.map(month => 
+        enum Months { JANUAR, FEBRUAR, MÄRZ, APRIL, MAI, JUNI, JULI, AUGUST, SEPTEMBER, OKTOBER, NOVEMBER, DEZEMBER };
+        return input.map(month =>
             ({ key: Months[+month.key[0]], value: month.value })
         )
     }
 
-	templateSelector(item: any, index: number, items: any): string {
+    templateSelector(item: any, index: number, items: any): string {
         // expands the first element by default while the rest ain't
         if (index == 0) {
             return item.expanded ? "default" : "expanded";
         }
-        return item.expanded ? "expanded" : "default";   
+        return item.expanded ? "expanded" : "default";
     }
 
     // expand functionality
@@ -222,6 +233,40 @@ export class CalendarComponent implements OnInit {
     }
 
     getCategoryIconSource(icon: string): string {
-		return getCategoryIconSource(icon);
-	}
+        return getCategoryIconSource(icon);
+    }
 }
+
+/*
+            // the stream
+            const calendar$ = this.calendarService.getEntries();
+
+            this.polledCalendar$ = timer(0, 10000).pipe(
+                concatMap(_ => calendar$),
+                tap(res => {
+                    // chaining the functions, using (result) as a initial value
+                    // this needs to be redone but works for now
+                    // technically a job for the backend but might scale badly
+                    // so its getting outsourced to frontend
+                    if (res.length > 0) {
+                        this.ex = true;
+                    }
+                    let output = _.flow([
+                        this.groupEntries,
+                        this.formatEntries,
+                        this.sortEntries,
+                        this.sortInnerEntries,
+                        this.groupbyMonth,
+                        this.formatEntries,
+                        this.sortbyStartWithCurrentMonth,
+                        this.changeMonthNumToLiteral
+                    ])
+                        (res);
+                    console.log(res)
+                    this.entries = output;
+                    return output;
+                }),
+                catchError(err => throwError(err))
+
+            )
+            */

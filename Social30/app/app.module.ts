@@ -34,10 +34,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './shared/helper/token.interceptor';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
-// pipes
-// import { PipeModule } from './shared/pipes/pipe.module';
-// import { KeysPipe } from './shared/pipes/keys.pipe';
-
 
 @NgModule({
     bootstrap: [

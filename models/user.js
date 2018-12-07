@@ -9,7 +9,7 @@ var UserSchema = new Schema({
   password: { type: String, required: true },
   nickname: { type: String, required: true, trim: true },
   // Index des Arrays = Das Kriterium
-  ratings: [{type: Number}],
+  ratings: [{type: Number}], // Das ist ratingsAsAide (ungünstige Namensgebung i know)
   ratingsAsFiler: [{type: Number}],
   // TODO: muss am Ende alles required sein
   address: { 

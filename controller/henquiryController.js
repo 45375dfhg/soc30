@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var logger = require('../logs/logger');
 
 // Alle Hilfsgesuche laden, eigene Hilfsgesuche werden nicht geladen
+// TODO: Filtern tut das FE. Also hier rausnehmen
 exports.getHenquiries = (req, res, next) => {
     var categories;
     // Es wird nicht nach Kategorien gefiltert
@@ -18,7 +19,7 @@ exports.getHenquiries = (req, res, next) => {
       var subcategory = categories.subcategory;
     }
     if(!req.body.distance) {
-      req.body.distance = 99999;
+      req.body.distance = 50;
     }
     var conditionsForQuery;
     if(category === undefined && subcategory === undefined) {
@@ -35,7 +36,7 @@ exports.getHenquiries = (req, res, next) => {
     .select('amountAide startTime endTime text category potentialAide aide')
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
-    .populate('createdBy', 'firstname surname nickname coordinates')
+    .populate('createdBy', 'firstname surname nickname coordinates ratings ratingsAsFiler')
     .exec(function (err, list_henquiries) {
       if(err) {
         logger.log('error', new Date() + 'GET/henquiries, Code: AA_002, Error:' + err);
@@ -50,6 +51,7 @@ exports.getHenquiries = (req, res, next) => {
             list_henquiries[i].createdBy.coordinates.longitude, 
             userResult.coordinates.latitude,
             userResult.coordinates.longitude);
+          // Das FE filtert die weiteren Henquiries (z.B. 1km, 5km, etc.)
           if(list_henquiries[i].distance > req.body.distance) {
             list_henquiries.splice(i,1);
             i--;
@@ -123,7 +125,9 @@ exports.createHenquiry = (req, res, next) => {
         startTime: req.body.startTime,
         endTime: req.body.endTime,
         category: {category: categoryParam.category, subcategory: categoryParam.subcategory},
-        terra: Math.ceil((endTime-startTime)/1800000)
+        terra: Math.ceil((endTime-startTime)/1800000),
+        day: req.body.startTime.getFullYear()+ "-" + (req.body.startTime.getMonth()+1)
+        + "-" + req.body.startTime.getDate()
       });
       if(req.body.startTime <= henquiry.creationTime || req.body.endTime <= henquiry.creationTime) {
         return res.status(400).send("AB_006");
@@ -206,8 +210,9 @@ exports.deleteHenquiry = (req, res, next) => {
               resultMsg[i].messages.push({message: "Der Helfer hat sein Henquiry gelöscht.", participant: 3, timeSent: new Date()});
               resultMsg[i].save();
             }
+            
             result.delete();
-            return res.send("AD_003");
+            return res.send("");
           });
         } else {
           result.removed = true;
@@ -220,6 +225,7 @@ exports.deleteHenquiry = (req, res, next) => {
     });
 };
 
+// TODO: Prüfen, ob man überhaupt Zeit hat (Kalender)
 exports.apply = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = new mongoose.mongo.ObjectId(req.userId);
@@ -252,40 +258,65 @@ exports.apply = (req, res, next) => {
         }
         var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
         + "-" + result.startTime.getDate();
-        var idx = 0;
-        var dateFound = false;
-        while(idx < resultUser.meetings.length && !dateFound) {
-          if(resultUser.meetings[idx]["date"] === dateOfHenquiry) {
-            dateFound = true;
-            if(resultUser.meetings[idx]["count"] < 5) {
-              resultUser.meetings[idx]["count"]++;
-            } else {
-              return res.status(400).send("AE_007");
+        console.log(dateOfHenquiry);
+        // Prüfen, ob es zu einer Kollision in der Zeit kommt zwischen der aktuellen Bewerbung
+        // und bereits vorhandenen Henquiries (die man auch im Kalender sehen würde), d.h.
+        // man ist Ersteller, hat sich irgendwo beworben oder wurde als Helfer angenommen
+        Henquiry.find({
+          $and: [
+            {$or: [{createdBy: userId}, {potentialAide: userId}, {aide: userId}]},
+            {happened: false, removed: false}
+          ]
+        }).exec(function(errHenquiries, resHenquiries) {
+          if(errHenquiries) {
+            logger.log('error', new Date() + 'PUT/henquiries/apply, Code: AE_010, Error:' + errHenquiries);
+            return res.status(500).send("AE_010");
+          }
+          // resA: Henquiries, in denen man bereits eingetragen ist (dynamisch)
+          // result: Henquiry, zu dem man sich bewirbt (immer gleich)
+          for(var i = 0; i < resHenquiries.length; i++) {
+            if(resHenquiries[i].endTime <= result.endTime && resHenquiries[i].endTime >= result.startTime
+              || resHenquiries[i].startTime >= result.startTime && resHenquiries[i].startTime <= result.endTime
+              || resHenquiries[i].startTime >= result.startTime && resHenquiries[i].endTime <= result.endTime
+              || resHenquiries[i].startTime <= result.startTime && resHenquiries[i].endTime >= result.endTime) {
+                return res.status(400).send("AE_009");
             }
           }
-          idx++;
-        }
-        var messageData = {
-          aide: userId,
-          filer: result.createdBy,
-          henquiry: henquiryId,
-          messages: {message: "Herzlichen Glückwunsch. Du hast dich beworben!", participant: 3, timeSent: new Date()}
-        };
-        Message.create(messageData, function(msgErr, msgResult) {
-          if(msgErr) {
-            logger.log('error', new Date() + 'PUT/henquiries/apply, Code: AE_008, Error:' + msgErr);
-            return res.status(500).send("AE_008");
-          }
-          msgResult.messages.push({message: "Du hast einen Bewerber!", participant: 4, timeSent: new Date()});
-          msgResult.save();
+          var idx = 0;
+          var dateFound = false;
+          while(idx < resultUser.meetings.length && !dateFound) {
+            if(resultUser.meetings[idx]["date"] === dateOfHenquiry) {
+              dateFound = true;
+              if(resultUser.meetings[idx]["count"] < 5) {
+                resultUser.meetings[idx]["count"]++;
+              } else {
+                return res.status(400).send("AE_007");
+              }
+            }
+            idx++;
+          } 
           if(!dateFound) {
             resultUser.meetings.push({date: dateOfHenquiry, count: 1});
           }
-          resultUser.save();
-          result.potentialAide.push(userId);
-          result.updated = true;
-          result.save();
-          return res.send("");
+          var messageData = {
+            aide: userId,
+            filer: result.createdBy,
+            henquiry: henquiryId,
+            messages: {message: "Herzlichen Glückwunsch. Du hast dich beworben!", participant: 3, timeSent: new Date()}
+          };
+          Message.create(messageData, function(msgErr, msgResult) {
+            if(msgErr) {
+              logger.log('error', new Date() + 'PUT/henquiries/apply, Code: AE_008, Error:' + msgErr);
+              return res.status(500).send("AE_008");
+            }
+            msgResult.messages.push({message: "Du hast einen Bewerber!", participant: 4, timeSent: new Date()});
+            msgResult.save();
+            resultUser.save();
+            result.potentialAide.push(userId);
+            result.updated = true;
+            result.save();
+            return res.send("");
+          });
         });
       });
     }
@@ -379,7 +410,6 @@ exports.closeHenquiry = (req, res, next) => {
   });
 };
 
-// TODO: Terra gutschreiben
 exports.henquirySuccess = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
@@ -410,6 +440,16 @@ exports.henquirySuccess = (req, res, next) => {
       for(var i = 0; i < resultMsg.length; i++) {
         resultMsg[i].readOnly = true;
         resultMsg[i].save();
+      }
+      // Terra gutschreiben
+      for(var i = 0; i < result.aide.length; i++) {
+        User.findById(result.aide[i], function(errUser, resultUser) {
+          if(errUser) {
+
+          }
+          resultUser.terra += result.terra;
+          resultUser.save();
+        });
       }
       return res.send("");
     });
@@ -575,7 +615,6 @@ exports.rateFiler = (req, res, next) => {
   if(!(rating instanceof Array)) {
     rating = new Array(rating);
   }
-  console.log(rating);
   Henquiry.findById(henquiryId, function(errHenquiry, resultHenquiry) {
     var filerId = resultHenquiry.createdBy;
     if(errHenquiry) {

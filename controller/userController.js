@@ -111,9 +111,9 @@ exports.logout = function (req, res, next) {
 exports.getProfile = function (req, res, next) { 
     var projection;
     if(!(req.body.userId === req.userId)) {
-      projection = 'nickname firstname surname ratings avatar';
+      projection = 'nickname firstname surname ratings ratingsAsFiler avatar';
     } else {
-      projection = 'surname firstname email nickname ratings address invite mobile avatar terra';
+      projection = 'surname firstname email nickname ratings ratingsAsFiler address invite mobile avatar terra';
     }
     User.findById(req.body.userId, projection)
       .exec(function (error, user) {
@@ -122,7 +122,6 @@ exports.getProfile = function (req, res, next) {
           return res.status(500).send("CA_001");
         } else {
           if (!user) {
-            logger.log('error', new Date() + 'GET/profile, Code: CA_002, Error:' + err);
             return res.status(404).send("CA_002");
           } else {
             if(!(req.body.userId === req.userId)) {

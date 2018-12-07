@@ -10,8 +10,9 @@ const {check,validationResult} = require('express-validator/check');
 // GET route for henquiries page
 router.get('/henquiries', verifyToken, henquiry_controller.getHenquiries);
 
-// GET route for henquiries page
-router.get('/henquiries/specific', verifyToken, henquiry_controller.getSpecificHenquiry);
+// PUT route for henquiries page (Semantisch gesehen ein GET, es wird nur etwas geladen, nichts geupdated!)
+// Problem ist, dass das FE leider keine GET-Parameter übermitteln konnte
+router.put('/henquiries/specific', verifyToken, henquiry_controller.getSpecificHenquiry);
 
 // POST route for henquiries page
 router.post('/henquiries', verifyToken, henquiry_controller.createHenquiry);
@@ -55,8 +56,8 @@ router.post('/login', user_controller.login);
 //router.post('/register', user_controller.validate('register'), user_controller.register);
 router.post('/register', user_controller.register);
 
-// GET route after registering
-router.get('/profile', verifyToken, user_controller.getProfile);
+// PUT route for profile (von der Semantik her ein GET tatsächlich)
+router.put('/profile', verifyToken, user_controller.getProfile);
 
 // PUT route for profile editing
 router.put('/profile/specific', verifyToken, user_controller.editProfile);
@@ -76,8 +77,8 @@ router.get('/calendar', verifyToken, henquiry_controller.calendar);
 // GET route for an overview of the messages
 router.get('/messages/overview', verifyToken, message_controller.messagesOverview);
 
-// GET route for a specific chat
-router.get('/messages/specific', verifyToken, message_controller.messagesSpecific);
+// PUT route for a specific chat (es wird nur was geladen, d.h. von der Semantik her ein GET!)
+router.put('/messages/specific', verifyToken, message_controller.messagesSpecific);
 
 // POST route for messages
 router.post('/messages/specific', verifyToken, message_controller.sendMessage);

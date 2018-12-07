@@ -33,7 +33,7 @@ exports.messagesOverview = (req, res, next) => {
 
 exports.messagesSpecific = (req, res, next) => {
     var userId = req.userId;
-    var messageId = req.query.messageId;
+    var messageId = req.body.messageId;
     Message.findById(messageId)
     .populate('filer', 'firstname surname nickname avatar')
     .populate('aide', 'firstname surname nickname avatar')

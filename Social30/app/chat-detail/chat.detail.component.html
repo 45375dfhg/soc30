@@ -4,29 +4,23 @@
 <StackLayout>
     <StackLayout [items]="polledMessageObj$ | async">
         <StackLayout *ngFor="let message of polledMessages$">
-            <Label [text]="message.message"></Label>
+            <StackLayout [className]="userRole(message.participant)">
+                <Label [text]="message.message"></Label>
+                <Label [text]="userRole()"></Label>
+            </StackLayout>
+            <Button text="Back" (tap)="goBack()"></Button>
         </StackLayout>
     </StackLayout>
 </StackLayout>
 
 
-<!--<StackLayout>
-    <ScrollView #scrollview height="90%">
-        <ListView padding="5" #list separatorColor="#fff" [items]="polledMessageObj$.messages | async">
-            <ng-template let-item="item">
-                    <GridLayout columns="*" rows="auto" class="msg">
-                            <StackLayout>
-                                <Label [text]="item.message"></Label>
-                            </StackLayout>
-                    </GridLayout>
-            </ng-template>
-        </ListView>
-    </ScrollView>
-    <StackLayout height="10%">
-        <GridLayout columns="*,auto" style="padding: 10">
-            <TextField #textfield class="chatTextField" row="0" col="0" [(ngModel)]="message"></TextField>
-            <Button #btn class="chatBtn" row="0" col="1" text="send" (tap)=chat(message)></Button>
-            <Button row="1" text="back" (tap)="goBack()"></Button>
-        </GridLayout>
+<!--[ngClass]="{'filer': userRole(polledMessageObj$.aide.firstname), 'aide': !userRole(polledMessageObj$.aide.firstname)}"-->
+<!--
+<StackLayout>
+    <StackLayout [items]="polledMessageObj$ | async">
+        <StackLayout *ngFor="let message of polledMessages$">
+            <Label [text]="message.message"></Label>
+        </StackLayout>
     </StackLayout>
-</StackLayout>-->
+</StackLayout>
+-->

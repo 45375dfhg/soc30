@@ -18,28 +18,9 @@ export class ItemService {
 
     public getItems() {
         return this.http.get<Item[]>(this.baseUrl + "henquiries")
-        /*    
         .pipe(
-                map(items => {
-                    let itemList = [];
-                    items.forEach((item) => {
-                        itemList.push(
-                            new Item(
-                                item.startTime,
-                                item.endTime,
-                                item.amountAide,
-                                item.category,
-                                item.createdBy,
-                                item.distance,
-                                item._id));
-                    });
-                    this.items = itemList;
-                    return itemList;
-                }),
-                // needs to be rearranged to the error handler service
-                catchError(this.handleErrors('getItems'))
-            );
-            */
+            catchError(this.handleErrors('getItems'))
+        );
     }
 
     public postItem(amount, start, end, cat) {
@@ -60,7 +41,7 @@ export class ItemService {
             );
     }
 
-    public applyItem(id) {
+    public applyItem(id: string) {
         // HttpParams is immutable so we need to concatinate
         // the .sets on creation
         let params = new HttpParams()
@@ -69,6 +50,69 @@ export class ItemService {
         return this.http.put<any>(this.baseUrl + "henquiries/apply", params)
             .pipe(
                 catchError(this.handleErrors('applyItem'))
+            );
+    }
+
+    public cancelItem(id: string) {
+        let params = new HttpParams()
+            .set('henquiryId', id)
+
+        return this.http.put<any>(this.baseUrl + "henquiries/cancel", params)
+            .pipe(
+                catchError(this.handleErrors('cancelItem'))
+            );
+    }
+
+    public acceptItem(id: string, amount) {
+        let params = new HttpParams()
+            .set('henquiryId', id)
+            .set('applicants', amount);
+
+        return this.http.put<any>(this.baseUrl + "henquiries/accept", params)
+            .pipe(
+                catchError(this.handleErrors('acceptItem'))
+            );
+    }
+
+    public closeItem(id: string) {
+        let params = new HttpParams()
+            .set('henquiryId', id)
+
+        return this.http.put<any>(this.baseUrl + "henquiries/close", params)
+            .pipe(
+                catchError(this.handleErrors('closeItem'))
+            );
+    }
+
+    public successItem(id: string) {
+        let params = new HttpParams()
+            .set('henquiryId', id)
+
+        return this.http.put<any>(this.baseUrl + "henquiries/success", params)
+            .pipe(
+                catchError(this.handleErrors('successItem'))
+            );
+    }
+
+    public rateItem(id: string, aide) {
+        let params = new HttpParams()
+            .set('henquiryId', id)
+            .set('aide', aide);
+
+        return this.http.post<any>(this.baseUrl + "henquiries/rate", params)
+            .pipe(
+                catchError(this.handleErrors('successItem'))
+            );
+    }
+
+    public rateFilerItem(id: string, rating) {
+        let params = new HttpParams()
+            .set('henquiryId', id)
+            .set('rating', rating);
+
+        return this.http.post<any>(this.baseUrl + "henquiries/ratefiler", params)
+            .pipe(
+                catchError(this.handleErrors('successItem'))
             );
     }
 

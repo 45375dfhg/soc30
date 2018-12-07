@@ -21,6 +21,7 @@ import { CalendarService } from './shared/services/calendar.service';
 import { AlertService } from './shared/services/alert.service';
 import { DataService } from './shared/services/data.service';
 import { ChatService } from './shared/services/chat.service';
+import { ProfileService } from './shared/services/profile.service';
 
 // HttpClient wrapper
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
@@ -64,6 +65,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
         AlertService,
         DataService,
         ChatService,
+        ProfileService,
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
     ],
     schemas: [

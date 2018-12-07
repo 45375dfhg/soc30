@@ -25,6 +25,7 @@ export class ChatDetailComponent implements OnInit {
     // manualRefresh = new Subject();
     private polledMessageObj$: Observable<any>;
     private polledMessages$: Observable<any>;
+    private polledAideId$: Observable<any>; 
 
     constructor(
         private chatService: ChatService,
@@ -45,12 +46,46 @@ export class ChatDetailComponent implements OnInit {
                 concatMap(_ => msgObj$),
                 map(res => {
                     this.polledMessages$ = res.messages;
-                    console.log(res);
+                    this.polledAideId$ = res.aide._id;
                     return res;
                 }),
                 catchError(err => throwError(err))
             );
         }
+    }
+
+    userRole(id: number) {
+        if (id > 2) {
+            return "centerUser"
+        }
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            if (id == 2) {
+                if (currentUser._id == this.polledAideId$) {
+                    return "leftUser";
+                } else {
+                    return "rightUser";
+                }
+            }
+            if (id == 1) {
+                if (currentUser._id == this.polledAideId$) {
+                    return "rightUser";
+                } else {
+                    return "leftUser";
+                }
+            }
+        } 
+        /*
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            if (currentUser._id == this.polledAideId$) {
+                if ()
+            } else {
+                
+            }
+        
+        }
+        */
     }
 
     public goBack() {

@@ -32,6 +32,9 @@ router.put('/henquiries/accept', verifyToken, henquiry_controller.acceptApplican
 // PUT route when help has happened successfully
 router.put('/henquiries/success', verifyToken, henquiry_controller.henquirySuccess);
 
+// PUT route when help has not happened successfully
+router.put('/henquiries/nosuccess', verifyToken, henquiry_controller.henquiryNoSuccess);
+
 // PUT route for canceling an application
 router.put('/henquiries/cancel', verifyToken, henquiry_controller.cancelApplication);
 

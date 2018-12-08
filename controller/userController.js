@@ -27,23 +27,32 @@ exports.validate = (method) => {
   }
 }
 
-// TODO: Man muss ne Adresse mitgeben
+// From stackoverflow: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+function validateEmail(email) {
+  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
 // TODO: Für die Abschlusspräsentation automatisch Koordinaten zuweisen im Raum Stuttgart
-// TODO: expiresIn deutlich erhöhen
+// Oben links: 48.829204, 9.084249
+// Oben rechts: 48.832318, 9.254367
+// Unten rechts: 48.721896, 9.257321
+// Unten links: 48.720748, 9.073483
+// Latitude [9.073483, 9.257321], Longitude [48.720748, 48.832318]
 exports.register = function (req, res, next) {
-  /*const errors = validationResult(req);
-  if(!errors.isEmpty()) {
-    return res.status(422).json({errors:errors.array()});
-    //return res.status(400).send("CC_005");
-  }*/
   if (req.body.password !== req.body.passwordConf) {
     return res.status(400).send("CC_001");
   }
-
-  if (req.body.email &&
-    req.body.password &&
-    req.body.passwordConf && req.body.surname && req.body.firstname && req.body.nickname) {
+  if (req.body.email && req.body.password && req.body.passwordConf && 
+    req.body.surname && req.body.firstname && req.body.nickname && req.body.address) {
+    var address = JSON.parse(req.body.address);
+    if(!address.postalcode || !address.street || !address.housenm || !address.city) {
+      return res.status(400).send("CC_004");
+    }
     req.body.email = req.body.email.toLowerCase();
+    if(!validateEmail(req.body.email)) {
+      return res.status(400).send("CC_005");
+    }
     User.findOne({email:req.body.email}, function(errEmail, resultEmail) {
       if(errEmail) {
         logger.log('error', new Date() + 'POST/register, Code: CC_001, Error:' + errEmail);
@@ -57,6 +66,7 @@ exports.register = function (req, res, next) {
           surname: req.body.surname,
           firstname: req.body.firstname,
           nickname: req.body.nickname,
+          address: address
         }
         User.create(userData, function (error, user) {
           if (error) {
@@ -65,7 +75,7 @@ exports.register = function (req, res, next) {
           }
           // create a token
           var token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
+            expiresIn: 86400*31 // expires in 31 days
           });
           return res.status(200).send({ auth: true, token: token , _id: user._id});
         });
@@ -78,7 +88,6 @@ exports.register = function (req, res, next) {
   }
 };
 
-// TODO: expiresIn deutlich erhöhen
 exports.login = function (req, res, next) {
 if (req.body.logemail && req.body.logpassword) {
   User.findOne({ email: req.body.logemail }, function (err, user) {
@@ -94,7 +103,7 @@ if (req.body.logemail && req.body.logpassword) {
       return res.status(401).send({ auth: false, token: null });
     }
     var token = jwt.sign({ id: user._id }, config.secret, {
-      expiresIn: 86400 // expires in 24 hours
+      expiresIn: 86400*31 // expires in 31 days
     });
     return res.status(200).send({ auth: true, token: token, _id: user._id });
   });
@@ -165,12 +174,11 @@ exports.editProfile = function (req, res, next) {
 };
 
 function populateDataToBeUpdated(req, data, res) {
-  if(req.body.email) {data.email = req.body.email;}
   if(req.body.surname) {data.surname = req.body.surname;}
   if(req.body.firstname) {data.firstname = req.body.firstname;}
   if(req.body.nickname) {data.nickname = req.body.nickname;}
   if(req.body.mobile) {data.mobile = req.body.mobile;}
-  if(req.body.avatar) {data.avatar = req.body.avatar;}
+  if(req.body.avatar && req.body.avatar >= 0 && req.body.avatar < 6) {data.avatar = req.body.avatar;}
   if(req.body.address) {
     User.findById(req.userId, function(err, result) {
       if(err) {

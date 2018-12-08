@@ -4,7 +4,6 @@ var logger = require('../logs/logger');
 
 exports.messagesOverview = (req, res, next) => {
     var userId = req.userId;
-    console.log("1");
     Message.find({$or: [{aide: userId}, {filer: userId}]})
     .select('filer aide readAide readFiler henquiry')
     .populate('filer', 'firstname surname nickname avatar address')
@@ -21,7 +20,7 @@ exports.messagesOverview = (req, res, next) => {
         // Aus jedem Chatverlauf nur seinen eigenen Lesestatus anzeigen
         // (also ob man eine neue Nachricht hat oder nicht)
         for(var i = 0; i < result.length; i++) {
-            if(result[i].aide == userId) {
+            if(result[i].aide._id == userId) {
                 result[i].readFiler = undefined;
             } else {
                 result[i].readAide = undefined;
@@ -37,6 +36,7 @@ exports.messagesSpecific = (req, res, next) => {
     Message.findById(messageId)
     .populate('filer', 'firstname surname nickname avatar')
     .populate('aide', 'firstname surname nickname avatar')
+    .populate('henquiry', 'potentialAide aide')
     .exec(function(err, result) {
         if(err) {
             logger.log('error', new Date() + 'GET/messages/specific, Code: BB_001, Error:' + err);
@@ -47,6 +47,9 @@ exports.messagesSpecific = (req, res, next) => {
         }
         if(result.aide._id == userId || result.filer._id == userId) {
             var role = result.aide._id == userId ? 3 : 4;
+            if(role == 3) {
+                result.henquiry.potentialAide = result.henquiry.aide = undefined;
+            }
             var copiedResult = JSON.parse(JSON.stringify(result));
             if(result.aide._id == userId) {
                 result.readAide = true;

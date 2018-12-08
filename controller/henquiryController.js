@@ -6,41 +6,16 @@ var mongoose = require('mongoose');
 var logger = require('../logs/logger');
 
 // Alle Hilfsgesuche laden, eigene Hilfsgesuche werden nicht geladen
-// TODO: Filtern tut das FE. Also hier rausnehmen
 exports.getHenquiries = (req, res, next) => {
-    var categories;
-    // Es wird nicht nach Kategorien gefiltert
-    if(req.body.category === null || req.body.category === undefined) {
-      categories = {};
-    // Es wird nach Kategorien gefiltert
-    } else {
-      categories = JSON.parse(req.body.category);
-      var category = categories.category;
-      var subcategory = categories.subcategory;
-    }
-    if(!req.body.distance) {
-      req.body.distance = 50;
-    }
-    var conditionsForQuery;
-    if(category === undefined && subcategory === undefined) {
-      conditionsForQuery = {closed: false, happened: false, removed: false};
-    } else if(category !== undefined && subcategory === undefined) {
-      conditionsForQuery = {closed: false, happened: false, removed: false, "category.category": category};
-    } else if(category !== undefined && subcategory !== undefined) {
-      conditionsForQuery = {closed: false, happened: false, removed: false, "category.category": category,
-      "category.subcategory":subcategory};
-    } else {
-      return res.status(400).send("AA_001");
-    }
-    Henquiry.find(conditionsForQuery)
+    Henquiry.find({closed: false, happened: false, removed: false})
     .select('amountAide startTime endTime text category potentialAide aide')
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
     .populate('createdBy', 'firstname surname nickname coordinates ratings ratingsAsFiler')
     .exec(function (err, list_henquiries) {
       if(err) {
-        logger.log('error', new Date() + 'GET/henquiries, Code: AA_002, Error:' + err);
-        return res.status(500).send("AA_002");
+        logger.log('error', new Date() + 'GET/henquiries, Code: AA_001, Error:' + err);
+        return res.status(500).send("AA_001");
       }
       User.findById(req.userId, function(userErr, userResult) {
         if(userErr) {return next(userErr);}
@@ -184,9 +159,6 @@ exports.getSpecificHenquiry = (req, res, next) => {
   });
 };
 
-// TODO: Noch überlegen, was passiert, wenn die Hilfe stattfindet und 
-// gelöscht wird (also Alternative zu erfolgreicher Hilfe?)
-// TODO: Bei allen Usern am Tag des Henquiries count-- machen
 exports.deleteHenquiry = (req, res, next) => {
     var henquiryId = req.body.henquiryId;
     var userId = req.userId; 
@@ -210,9 +182,37 @@ exports.deleteHenquiry = (req, res, next) => {
               resultMsg[i].messages.push({message: "Der Helfer hat sein Henquiry gelöscht.", participant: 3, timeSent: new Date()});
               resultMsg[i].save();
             }
-            
-            result.delete();
-            return res.send("");
+            var idx = 0;
+            var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
+            + "-" + result.startTime.getDate();
+            var potentialAideAndAide = result.aide.concat(result.potentialAide);
+            for(var i = 0; i < potentialAideAndAide.length; i++) {
+              User.findById(potentialAideAndAide[i], function(errUser, resultUser) {
+                if(errUser) {
+                  logger.log('error', new Date() + 'DELETE/henquiries/specific, Code: AD_003, Error:' + errUser);
+                  return res.status(500).send("AD_003");
+                }
+                var dateFound = false;
+                var meetingsIdx = 0;
+                while(meetingsIdx < resultUser.meetings.length && !dateFound) {
+                  if(resultUser.meetings[meetingsIdx]["date"] === dateOfHenquiry) {
+                    dateFound = true;
+                    resultUser.meetings[meetingsIdx]["count"]--;
+                    if(resultUser.meetings[meetingsIdx]["count"] == 0) {
+                      resultUser.meetings.splice(meetingsIdx,1);
+                    }
+                    resultUser.save();
+                  }
+                  meetingsIdx++;
+                }
+                // Synchronisation: Result erst löschen, wenn alle Nutzer bearbeitet wurden
+                if(idx == potentialAideAndAide.length-1) {
+                  result.delete();
+                  return res.send("");
+                }
+                idx++;
+              });
+            }
           });
         } else {
           result.removed = true;
@@ -225,7 +225,6 @@ exports.deleteHenquiry = (req, res, next) => {
     });
 };
 
-// TODO: Prüfen, ob man überhaupt Zeit hat (Kalender)
 exports.apply = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = new mongoose.mongo.ObjectId(req.userId);
@@ -323,9 +322,6 @@ exports.apply = (req, res, next) => {
   });
 };
 
-// TODO: was passiert, wenn ein User 10 Bewerbungen hat und bei 5 angenommen wird
-// Er darf ja nicht 10x helfen, also müsste er bei den anderen 5 verschwinden
-// TODO: Nachricht schreiben, dass man angenommen wurde
 exports.acceptApplicants = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
@@ -367,15 +363,16 @@ exports.acceptApplicants = (req, res, next) => {
         filer: result.createdBy,
         henquiry: henquiryId,
         messages: {message: "Herzlichen Glückwunsch. Du wurdest als Helfer ausgewählt.", participant: 3, timeSent: new Date()}
-      };
-      Message.create(messageData, function(msgErr, msgResult) {
+      };*/
+      Message.findOne({henquiry: henquiryId, aide: applicants[i]}, function(msgErr, msgResult) {
         if(msgErr) {
           logger.log('error', new Date() + 'PUT/henquiries/accept, Code: AF_008, Error:' + msgErr);
           return res.status(500).send("AF_008");
         }
+        msgResult.messages.push({message: "Herzlichen Glückwunsch. Du wurdest als Helfer ausgewählt.", participant: 3, timeSent: new Date()});
         msgResult.messages.push({message: "Schön, dass du dir diesen Helfer ausgesucht hast.", participant: 4, timeSent: new Date()});
         msgResult.save();
-      });*/
+      });
       result.potentialAide.splice(result.potentialAide.indexOf(applicants[i]),1);
       result.aide.push(applicants[i]);
     }
@@ -409,6 +406,38 @@ exports.closeHenquiry = (req, res, next) => {
     res.send("");
   });
 };
+
+exports.henquiryNoSuccess = (req, res, next) => {
+  var henquiryId = req.body.henquiryId;
+  Henquiry.findById(henquiryId, function(err, result) {
+    if(err) {
+
+    }
+    Message.find({henquiry: henquiryId}, function(errMsg, resultMsg) {
+      if(errMsg) {
+
+      }
+      if(!resultMsg) {
+        return res.status(404).send("");
+      }
+      if(!result.closed || result.removed || result.happened) {
+        return res.status(400).send("");
+      }
+      if(!(result.createdBy == req.userId)) {
+        return res.status(403).send("AH_004");
+      }
+      for(var i = 0; i < resultMsg.length; i++) {
+        resultMsg[i].messages.push({message: "Du hast das Hilfegesuch als \"nicht stattgefunden\" markiert.", participant: 4, timeSent: new Date()});
+        resultMsg[i].messages.push({message: "Das Hilfegesuch wurde vom Hilfsbedürftigen als \"nicht stattgefunden\" markiert.", participant: 3, timeSent: new Date()});
+        resultMsg[i].readOnly = true;
+        resultMsg[i].save();
+      }
+      result.removed = true;
+      result.save();
+      return res.send("");
+    });
+  });
+}
 
 exports.henquirySuccess = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
@@ -504,7 +533,7 @@ exports.cancelApplication = (req, res, next) => {
           dateFound = true;
           resultUser.meetings[idx]["count"]--;
           if(resultUser.meetings[idx]["count"] == 0) {
-            resultUser.meetings.splice(resultUser.meetings[idx],1);
+            resultUser.meetings.splice(idx,1);
           }
         }
         idx++;
@@ -518,7 +547,6 @@ exports.cancelApplication = (req, res, next) => {
   });
 };
 
-// TODO: Distanz berechnen
 exports.calendar = (req, res, next) => {
   var userId = req.userId;
   Henquiry.find({

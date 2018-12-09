@@ -1,31 +1,11 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../config');
-
 var User = require('../models/user');
 var Henquiry = require('../models/henquiry');
 var Message = require('../models/message');
 var bcrypt = require('bcryptjs');
-var mongoose = require('mongoose');
 var logger = require('../logs/logger');
-
-
-const {check, validationResult} = require('express-validator/check');
-
-exports.validate = (method) => {
-  switch(method) {
-    case 'register': {
-      return [
-        check('email').isEmail(),
-      ]
-    }
-    case 'profile': {
-      return [
-        check('email').isEmail(),
-      ]
-    }
-  }
-}
 
 // From stackoverflow: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
 function validateEmail(email) {
@@ -60,13 +40,16 @@ exports.register = function (req, res, next) {
       }
       if(!resultEmail) {
         var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+        var latitude = (Math.random()*(9.257321 - 9.073483)+9.073483).toFixed(6);
+        var longitude = (Math.random()*(48.832318 - 48.720748)+48.720748).toFixed(6);
         var userData = {
           email: req.body.email,
           password: hashedPassword,
           surname: req.body.surname,
           firstname: req.body.firstname,
           nickname: req.body.nickname,
-          address: address
+          address: address,
+          coordinates: {latitude: latitude, longitude:longitude}
         }
         User.create(userData, function (error, user) {
           if (error) {
@@ -142,7 +125,6 @@ exports.getProfile = function (req, res, next) {
       });
 };
 
-// TODO: Übergebene Daten validieren (E-Mail, Avatar [0-5], Handynummer)
 exports.editProfile = function (req, res, next) {
   var data = {};
   data.address = {};
@@ -331,31 +313,5 @@ exports.deleteProfile = (req, res, next) => {
         });
       });
     });
-  });
-};
-
-exports.test = (req, res, next) => {
-  User.findById(req.userId, (err, result) => {
-    if(err) {
-      return console.log(err);
-    }
-    console.log(result.meetings[0]["date"]);
-    result.meetings[0]["count"]++;
-    //var temp = result.meetings;
-    //console.log(temp["2018-12-15"]);
-    /*console.log(temp);
-    console.log(temp["2018-12-15"]);
-    console.log(++result.meetings["2018-12-15"]);
-    ++result.meetings["2018-12-15"];
-    console.log(temp);*/
-    //console.log(result.meetings["2018-12-16"]);
-    //temp["2018-12-17"];
-    //result.meetings = JSON.stringify(temp);
-    //result.meetings = {"c": 1};
-    //result.meetings["d"] = 4;
-    //console.log(typeof result.meetings["2018-12-16"]);
-    result.save();
-    //console.log(result);
-    return res.send(result);
   });
 };

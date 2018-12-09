@@ -1,12 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var path = require('path');
 var user_controller = require('../controller/userController');
 var category_controller = require('../controller/categoryController');
 var henquiry_controller = require('../controller/henquiryController');
 var message_controller = require('../controller/messageController');
 var verifyToken = require('../controller/verifyToken');
-const {check,validationResult} = require('express-validator/check');
+
 // GET route for henquiries page
 router.get('/henquiries', verifyToken, henquiry_controller.getHenquiries);
 
@@ -44,19 +43,10 @@ router.post('/henquiries/rate', verifyToken, henquiry_controller.rate)
 // POST route for rating the filer
 router.post('/henquiries/ratefiler', verifyToken, henquiry_controller.rateFiler)
 
-/*
-// GET index page, currently redirecting to login page
-router.get('', user_controller.login_get);
-
-// GET route for mobille register
-router.get('/login', user_controller.login_get);
-*/
-
 // POST route for logging in
 router.post('/login', user_controller.login);
 
 // POST route for register
-//router.post('/register', user_controller.validate('register'), user_controller.register);
 router.post('/register', user_controller.register);
 
 // PUT route for profile (von der Semantik her ein GET tatsächlich)
@@ -89,8 +79,5 @@ router.post('/messages/specific', verifyToken, message_controller.sendMessage);
 // POST route for populating category collection
 // Only available for a specific user (so that nobody else can do something there...)
 router.post('/categories', verifyToken, category_controller.populateCategoryCollection);
-
-// TEST ROUTE
-router.get('/test', verifyToken, user_controller.test);
 
 module.exports = router;

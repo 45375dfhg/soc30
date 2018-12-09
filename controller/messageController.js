@@ -1,5 +1,4 @@
 var Message = require('../models/message');
-var mongoose = require('mongoose');
 var logger = require('../logs/logger');
 
 exports.messagesOverview = (req, res, next) => {
@@ -80,7 +79,6 @@ exports.messagesSpecific = (req, res, next) => {
 // 1: Aide, 2: Filer
 exports.sendMessage = (req, res, next) => {
     var userId = req.userId;
-    // TODO Nachricht trimmen
     var msg = req.body.message;
     var messageId = req.body.messageId;
     Message.findById(messageId, function(err, result) {
@@ -103,7 +101,6 @@ exports.sendMessage = (req, res, next) => {
                 result.readAide = false;
             }
             result.save();
-            //return res.json(result);
             return res.send("");
         } else {
             return res.status(403).send("BC_004");

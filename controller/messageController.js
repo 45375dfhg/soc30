@@ -35,7 +35,7 @@ exports.messagesSpecific = (req, res, next) => {
     Message.findById(messageId)
     .populate('filer', 'firstname surname nickname avatar')
     .populate('aide', 'firstname surname nickname avatar')
-    .populate('henquiry', 'potentialAide aide')
+    .populate('henquiry', 'potentialAide aide closed removed happened')
     .exec(function(err, result) {
         if(err) {
             logger.log('error', new Date() + 'GET/messages/specific, Code: BB_001, Error:' + err);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute} from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 
 import { Observable, timer, throwError } from 'rxjs';
@@ -43,6 +44,7 @@ export class ChatComponent implements OnInit {
     public constructor(
         private chatService: ChatService,
         private page: Page,
+        private router: Router,
         private appSet: AppSettingsService,
         private itemService: ItemService) {
         this.page.enableSwipeBackNavigation = false;
@@ -60,7 +62,7 @@ export class ChatComponent implements OnInit {
                 map(res => res),
                 catchError(err => throwError(err))
             );
-        } 
+        }
     }
 
     // checks the reading status
@@ -80,7 +82,67 @@ export class ChatComponent implements OnInit {
         }
     }
 
+    // just pass the whole item.henquiry object
+    userIsFiler(henquiry) {
+       if (henquiry.aide == null) {
+           return false;
+       } else {
+           return true;
+       }
+    }
+
+    // should clear
+    aideCanCancelHenquiry(henquiry) {
+        // check for success boolean
+        if (this.userIsFiler(henquiry)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // missing conditions
+    filerCanAcceptHenquiry(henquiry) {
+        if (this.userIsFiler(henquiry)) {
+            if (true) {
+                // check whether the current chat partner is an aide or potential aide
+                // best done with contains() 
+            }
+        } else {
+            return false;
+        }
+    }
+
+    // missing conditions
+    filerCanResolveHenquiry(henquiry) {
+        if (this.userIsFiler(henquiry)) {
+            if (true) {
+                // check whether the amountofAide is equal to the number of aids
+            }
+        } else {
+            return false;
+        }
+    }
+
+    userCanRate() {
+        // check success boolean
+        // check time?
+    }
+
+    rateUser(henquiry) {
+        if (this.userIsFiler(henquiry)) {
+            this.router.navigate([['../rating', 'X' + henquiry._id]])
+        } else {
+            this.router.navigate([['../rating', 'Y' + henquiry._id]])
+        }
+    }
+
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
 }
+
+ /*if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+        }
+        */

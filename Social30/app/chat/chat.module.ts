@@ -6,6 +6,7 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 import { ChatComponent } from "./chat.component";
 import { ChatDetailComponent } from '../chat-detail/chat.detail.component';
+import { RatingComponent } from "~/rating/rating.component";
 
 // interceptor
 // import { TokenInterceptor } from '../shared/helper/token.interceptor';
@@ -20,12 +21,14 @@ import { ChatDetailComponent } from '../chat-detail/chat.detail.component';
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "chat" },
             { path: "chat", component: ChatComponent },
-            { path: "chats/:id", component: ChatDetailComponent}
+            { path: "chats/:id", component: ChatDetailComponent},
+            { path: "rating/:id", component: ChatDetailComponent}
         ])
     ],
     declarations: [
         ChatComponent,
-        ChatDetailComponent
+        ChatDetailComponent,
+        RatingComponent
     ],
     providers: [],
     schemas: [NO_ERRORS_SCHEMA]

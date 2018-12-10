@@ -147,9 +147,9 @@ export class ChatComponent implements OnInit {
         this.onChangeCssClassButtonTap(args);
         if (this.filerCanAcceptHenquiry(henquiry)) {
             let aide = henquiry.aide._id;
-            this.itemService.acceptItem(henquiry._id, aide);
+            this.itemService.acceptItem(henquiry._id, aide).subscribe();
         } else {
-            this.itemService.successItem(henquiry._id);
+            this.itemService.successItem(henquiry._id).subscribe();
         }
     }
 

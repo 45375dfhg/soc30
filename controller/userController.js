@@ -24,8 +24,10 @@ exports.register = function (req, res, next) {
     return res.status(400).send("CC_001");
   }
   if (req.body.email && req.body.password && req.body.passwordConf && 
-    req.body.surname && req.body.firstname && req.body.nickname && req.body.address) {
-    var address = JSON.parse(req.body.address);
+    req.body.surname && req.body.firstname && req.body.nickname && req.body.postalcode
+    && req.body.street && req.body.housenm && req.body.city) {
+    var address = {postalcode: req.body.postalcode, street: req.body.street, housenm: req.body.housenm,
+    city: req.body.city};
     if(!address.postalcode || !address.street || !address.housenm || !address.city) {
       return res.status(400).send("CC_004");
     }

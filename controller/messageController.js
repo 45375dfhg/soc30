@@ -7,7 +7,7 @@ exports.messagesOverview = (req, res, next) => {
     .select('filer aide readAide readFiler henquiry')
     .populate('filer', 'firstname surname nickname avatar address')
     .populate('aide', 'firstname surname nickname avatar')
-    .populate('henquiry', 'category amountAide startTime endTime potentialAide aide ratedAide closed removed happened')
+    .populate('henquiry', 'category amountAide startTime endTime potentialAide aide ratedAide ratedFiler closed removed happened')
     .exec(function(err, result) {
         if(err) {
             logger.log('error', new Date() + 'GET/messages/overview, Code: BA_001, Error:' + err);
@@ -38,7 +38,7 @@ exports.messagesOverview = (req, res, next) => {
         // (also ob man eine neue Nachricht hat oder nicht)
         for(var i = 0; i < result.length; i++) {
             if(result[i].aide._id == userId) {
-                result[i].readFiler = result.potentialAide = result.aide = result.ratedAide = undefined;
+                result[i].readFiler = result.potentialAide = result.aide = result.ratedAide = result.ratedFiler = undefined;
             } else {
                 result[i].readAide = undefined;
             }

@@ -18,26 +18,26 @@
                                         <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
                                                 horizontalAlignment="right" class="icon" [nsRouterLink]="['../chats', item._id]"></Label>
                                         <GridLayout row="3" col="0" colSpan="3" rows="auto" columns="auto,auto,auto">
-                                                <ng-container *ngIf="acceptPossible(item.henquiry); then accept; else noAccept"></ng-container>
+                                                <ng-container *ngIf="acceptPossible(item); then accept; else noAccept"></ng-container>
                                                 <ng-template #accept>
                                                         <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"
-                                                                (tap)="acceptTap($event, item.henquiry)"></Button>
+                                                                (tap)="acceptTap($event, item)"></Button>
                                                 </ng-template>
                                                 <ng-template #noAccept>
                                                         <Button row="0" col="0" text="noAccept" class="icon deactivated"></Button>
                                                 </ng-template>
-                                                <ng-container *ngIf="cancelPossible(item.henquiry); then canCancel; else noCancel"></ng-container>
+                                                <ng-container *ngIf="cancelPossible(item); then canCancel; else noCancel"></ng-container>
                                                 <ng-template #canCancel>
                                                         <Button row="0" col="1" text="&#xf00d;" class="icon chatButtons"
-                                                                (tap)="cancelTap($event, item.henquiry)"></Button>
+                                                                (tap)="cancelTap($event, item)"></Button>
                                                 </ng-template>
                                                 <ng-template #noCancel>
                                                         <Button row="0" col="1" text="noCancel" class="icon deactivated"></Button>
                                                 </ng-template>
-                                                <ng-container *ngIf="userCanRate(item.henquiry); then canRate; else noRate"></ng-container>
+                                                <ng-container *ngIf="userCanRate(item); then canRate; else noRate"></ng-container>
                                                 <ng-template #canRate>
                                                         <Button row="0" col="2" text="&#xf005;" class="icon chatButtons"
-                                                                (tap)="rateTap($event, item.henquiry)"></Button>
+                                                                (tap)="rateTap($event, item)" [nsRouterLink]="['../rating', roleForIdString(item) + item.henquiry._id]"></Button>
                                                 </ng-template>
                                                 <ng-template #noRate>
                                                         <Button row="0" col="2" text="noRate" class="icon deactivated"></Button>

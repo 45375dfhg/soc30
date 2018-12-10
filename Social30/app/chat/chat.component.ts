@@ -11,6 +11,7 @@ import { AppSettingsService } from '../shared/services/appsettings.service';
 import { ChatService } from "../shared/services/chat.service";
 import { ItemService } from '../shared/services/item.service'
 import { getCategoryIconSource } from "../app.component";
+import { RouterExtensions } from "nativescript-angular/router";
 
 
 @Component({
@@ -108,71 +109,98 @@ export class ChatComponent implements OnInit {
     }
 
     // just pass the whole item.henquiry object
-    userIsFiler(henquiry) {
-        if ((henquiry.aide == null) || (henquiry.aide.length < 1)) {
-            return false;
-        } else {
-            return true;
+    userIsFiler(item) {
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            if (item.henquiry.createdBy == currentUser._id) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
-    cancelPossible(henquiry): boolean {
-        if (this.aideCanCancelHenquiry(henquiry) || this.filerCanCloseHenquiry(henquiry)) {
+    cancelPossible(item): boolean {
+        // if (this.aideCanCancelHenquiry(item) || this.filerCanCloseHenquiry(item)) {
+        if (this.aideCanCancelHenquiry(item)) {
             return true;
         } else {
             return false;
         }
     }
 
-    cancelTap(args, henquiry) {
+    cancelTap(args, item) {
         this.onChangeCssClassButtonTap(args);
-        if (this.aideCanCancelHenquiry(henquiry)) {
-            console.log('reached cancelItem')
-            this.itemService.cancelItem(henquiry._id).subscribe();
-        } else {
-            console.log('reached closeItem')
-            this.itemService.closeItem(henquiry._id).subscribe();
+        if (this.aideCanCancelHenquiry(item)) {
+            this.itemService.cancelItem(item.henquiry._id).subscribe();
         }
+        /*
+        if (this.filerCanCloseHenquiry(item)) {
+            console.log('reached close')
+            this.itemService.closeItem(item.henquiry._id).subscribe();
+        }
+        */
     }
 
-    acceptPossible(henquiry): boolean {
-        if (this.filerCanAcceptHenquiry(henquiry) || this.filerCanSuccessHenquiry(henquiry)) {
+    acceptPossible(item): boolean {
+        if (this.filerCanAcceptHenquiry(item) || this.filerCanSuccessHenquiry(item) ||
+            (this.filerCanCloseHenquiry(item))) {
             return true;
         } else {
             return false;
         }
     }
 
-    acceptTap(args, henquiry) {
+    // needs some better logic
+    acceptTap(args, item) {
         this.onChangeCssClassButtonTap(args);
-        if (this.filerCanAcceptHenquiry(henquiry)) {
-            let aide = henquiry.aide._id;
-            this.itemService.acceptItem(henquiry._id, aide).subscribe();
-        } else {
-            this.itemService.successItem(henquiry._id).subscribe();
+        if (this.filerCanAcceptHenquiry(item)) {
+            let aide = item.aide._id;
+            this.itemService.acceptItem(item.henquiry._id, aide).subscribe();
+            return;
+        }
+        if (this.filerCanCloseHenquiry(item)) {
+            this.itemService.closeItem(item.henquiry._id).subscribe();
+            return;
+        }
+        if (this.filerCanSuccessHenquiry(item)) {
+            this.itemService.successItem(item.henquiry._id).subscribe();
+            return;
         }
     }
 
-    userCanRate(henquiry) {
-        if (henquiry.happened) {
+    userCanRate(item): boolean {
+        if (item.henquiry.happened) {
             return true;
         } else {
             return false;
         }
     }
 
-    rateTap(args, henquiry) {
+    rateTap(args, item) {
         this.onChangeCssClassButtonTap(args);
-        if (this.userIsFiler(henquiry)) {
-            this.router.navigate([['../rating', 'X' + henquiry._id]])
+        /*
+        if (this.userIsFiler(item)) {
+            // ['../henquiries', categoryId.toString() + i.toString()]
+            this.router.navigate(['../rating'])
+            // 'X' + item.henquiry._id
         } else {
-            this.router.navigate([['../rating', 'Y' + henquiry._id]])
+            this.router.navigate(['../rating', 'Y' + item.henquiry._id])
+        }
+        */
+    }
+
+    roleForIdString(item) {
+        if (this.userIsFiler(item)) {
+            return 'X';
+        } else {
+            return 'Y';
         }
     }
 
     // REST/henquiries/cancel
-    aideCanCancelHenquiry(henquiry) {
-        if (this.userIsFiler(henquiry)) {
+    aideCanCancelHenquiry(item) {
+        if (this.userIsFiler(item)) {
             return false;
         } else {
             return true;
@@ -180,12 +208,12 @@ export class ChatComponent implements OnInit {
     }
 
     // REST/henquiries/accept
-    filerCanAcceptHenquiry(henquiry) {
-        if (this.userIsFiler(henquiry)) {
-            if (henquiry.potentialAide == null) {
+    filerCanAcceptHenquiry(item) {
+        if (this.userIsFiler(item)) {
+            if (item.henquiry.potentialAide == null) {
                 return false;
             } else {
-                if (henquiry.potentialAide.indexOf(henquiry.aide._id) == -1) {
+                if (item.henquiry.potentialAide.indexOf(item.aide._id) === -1) {
                     return false;
                 } else {
                     return true;
@@ -197,9 +225,9 @@ export class ChatComponent implements OnInit {
     }
 
     // REST/henquiries/close
-    filerCanCloseHenquiry(henquiry) {
-        if (this.userIsFiler(henquiry)) {
-            if ((henquiry.aide == null) || (henquiry.aide.length < 1)) {
+    filerCanCloseHenquiry(item) {
+        if (this.userIsFiler(item)) {
+            if ((item.henquiry.aide == null) || (item.henquiry.aide.length < 1)) {
                 return false;
             } else {
                 return true;
@@ -210,14 +238,17 @@ export class ChatComponent implements OnInit {
     }
 
     // REST/henquiries/success
-    filerCanSuccessHenquiry(henquiry) {
-        if (this.userIsFiler(henquiry)) {
-            let time = new Date(henquiry.endTime);
+    filerCanSuccessHenquiry(item) {
+        if (this.userIsFiler(item)) {
+            return true;
+            /*
+            let time = new Date(item.henquiry.endTime);
             if (Date.now() > time.getTime()) {
                 return true;
             } else {
                 return false;
             }
+            */
         } else {
             return false;
         }

@@ -35,6 +35,7 @@ exports.register = function (req, res, next) {
     if(!validateEmail(req.body.email)) {
       return res.status(400).send("CC_005");
     }
+    address.postalcode = parseInt(address.postalcode);
     User.findOne({email:req.body.email}, function(errEmail, resultEmail) {
       if(errEmail) {
         logger.log('error', new Date() + 'POST/register, Code: CC_001, Error:' + errEmail);

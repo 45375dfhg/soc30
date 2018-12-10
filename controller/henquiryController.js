@@ -574,12 +574,14 @@ exports.calendar = (req, res, next) => {
 
 // TODO: Prüfen, ob es diese Bewertung überhaupt gibt
 exports.rate = (req, res, next) => {
+  console.log(req.body);
   var henquiryId = req.body.henquiryId;
   var userId = req.userId;
   var aideId = req.body.aideId;
-  var ratings = new Array(req.body.ratings);
+  var ratings = JSON.parse(req.body.ratings);
   var aider = new Array();
   aider.push({aideId: aideId, ratings: ratings});
+  console.log(aider);
   /*var aider = req.body.aide;
   if(!(aider instanceof Array)) {
     aider = new Array(aider);
@@ -595,10 +597,10 @@ exports.rate = (req, res, next) => {
     if(!(userId == resultHenquiry.createdBy)) {
       return res.status(403).send("AL_002");
     }
-    if(!result.happened || !result.closed || result.removed) {
+    if(!resultHenquiry.happened || !resultHenquiry.closed || resultHenquiry.removed) {
       return res.status(400).send("AL_003");
     }
-    if(result.aide.length == 0) {
+    if(resultHenquiry.aide.length == 0) {
       return res.status(400).send("AL_004");
     }
     

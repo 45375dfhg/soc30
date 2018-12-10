@@ -14,9 +14,9 @@
                                         <Label row="2" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
                                                 verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
                                         <Image row="0" rowSpan="3" col="0" [src]="statusToAvatar(item)" height="100"
-                                                verticalAlignment="center" horizontalAlignment="center" [nsRouterLink]="['../chats', item._id]"></Image>
+                                                verticalAlignment="center" horizontalAlignment="center"></Image>
                                         <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
-                                                horizontalAlignment="right" class="icon"></Label>
+                                                horizontalAlignment="right" class="icon" [nsRouterLink]="['../chats', item._id]"></Label>
                                         <GridLayout row="3" col="0" colSpan="3" rows="auto" columns="auto,auto,auto">
                                                 <ng-container *ngIf="acceptPossible(item.henquiry); then accept; else noAccept"></ng-container>
                                                 <ng-template #accept>

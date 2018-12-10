@@ -3,3 +3,58 @@ ActionBar {
     color: #001144;
     font-family: 'Lato', 'Lato-Bold'; 
 }
+
+GridLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.heading{
+    font-size: 17;
+}
+
+Label{
+    color: #001144;
+}
+
+Image{
+    height:75;
+}
+
+Button{
+    margin:10 10 15 10;
+    text-transform: none;
+    font-size:14;
+    border-radius:25;
+}
+
+.confirmButton{
+    background-color:white;
+    color:#FF6600;
+    border-width:1;
+    border-color:#FF6600;
+}
+
+.confirmButton:active{
+    background-color:#FF6600;
+    color:white;
+    border-width:1;
+    border-color:#FF6600;
+}
+
+.backButton{
+    color: #001144;
+    background-color:white;
+    border-width:1;
+    border-color:#001144;
+}
+
+.backButton:active{
+    color: white;
+    background-color:#001144;
+    border-width:1;
+    border-color:#001144;
+}
+
+
+
+

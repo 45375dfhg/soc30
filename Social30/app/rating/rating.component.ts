@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
+import { getCategoryIconSource } from "../app.component";
 
 import { Observable, timer, throwError, BehaviorSubject } from 'rxjs';
 import { concatMap, map, switchMap, catchError } from 'rxjs/operators';
@@ -74,5 +75,9 @@ export class RatingComponent implements OnInit {
 
     public goBack() {
         this.routerExtension.back();
+    }
+
+    getCategoryIconSource(icon: string): string {
+        return getCategoryIconSource(icon);
     }
 }

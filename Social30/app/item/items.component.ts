@@ -52,6 +52,8 @@ export class ItemsComponent implements OnInit {
     getSubStrings = this.itemService.getSubStrings;
     getSubs = this.itemService.getSubs;
     setIcon = this.itemService.getCategoryIconName;
+    getAvatar = this.itemService.getAvatar;
+    getAvatarStrings = this.itemService.getAvatarStrings;
 
     constructor(
         private itemService: ItemService,

@@ -4,7 +4,6 @@ import { HenquiryComponent } from "./henquiry.component";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
 import { ModalDialogService } from "nativescript-angular/modal-dialog";
-import { HenquiryModalComponent } from '../henquiry-modal/henquiry.modal';
 import { HenquiryDetailComponent } from '../henquiry-detail/henquiry.detail.component';
 
 
@@ -18,12 +17,8 @@ import { HenquiryDetailComponent } from '../henquiry-detail/henquiry.detail.comp
             { path: "henquiries/:id", component: HenquiryDetailComponent},
         ])
     ],
-    entryComponents: [
-        HenquiryModalComponent
-    ],
     declarations: [
         HenquiryComponent,
-        HenquiryModalComponent,
         HenquiryDetailComponent
     ],
     providers: [

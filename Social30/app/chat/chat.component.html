@@ -6,18 +6,20 @@
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">
                         <FlexboxLayout flexDirection="row">
-                                <GridLayout rows="auto,auto,auto,auto" columns="auto, *, auto" class="border gridItem">
+                                <GridLayout rows="auto,auto,auto,auto,auto" columns="auto, *, auto" class="border gridItem">
                                         <Label row="0" col="1" colSpan="2" textWrap="true" [text]="formatCategory(item.henquiry.category.category,item.henquiry.category.subcategory) + ' am ' + formatStartTimeToDateDecimal(item.henquiry.startTime)"
                                                 verticalAlignment="center" horizontalAlignment="left" class="fa heading"></Label>
                                         <Label row="1" col="1" colSpan="2" textWrap="true" [text]="getName(item)"
                                                 verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
-                                        <Label row="2" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
+                                        <Label row="2" col="1" colSpan="2" textWrap="true" [text]="applyStatus(item)"
+                                                verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
+                                        <Label row="3" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
                                                 verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
                                         <Image row="0" rowSpan="3" col="0" [src]="statusToAvatar(item)" height="100"
                                                 verticalAlignment="center" horizontalAlignment="center"></Image>
                                         <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
                                                 horizontalAlignment="right" class="icon" [nsRouterLink]="['../chats', item._id]"></Label>
-                                        <GridLayout row="3" col="0" colSpan="3" rows="auto" columns="auto,auto,auto">
+                                        <GridLayout row="4" col="0" colSpan="3" rows="auto" columns="auto,auto,auto">
                                                 <ng-container *ngIf="acceptPossible(item); then accept; else noAccept"></ng-container>
                                                 <ng-template #accept>
                                                         <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"

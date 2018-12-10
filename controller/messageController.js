@@ -3,12 +3,7 @@ var logger = require('../logs/logger');
 
 exports.messagesOverview = (req, res, next) => {
     var userId = req.userId;
-    Message.find({
-        $and: [
-            {$or: [{aide: userId}, {filer: userId}]}
-            //{readOnly: false}
-        ]
-    })
+    Message.find({$or: [{aide: userId}, {filer: userId}]})
     .select('filer aide readAide readFiler henquiry')
     .populate('filer', 'firstname surname nickname avatar address')
     .populate('aide', 'firstname surname nickname avatar')
@@ -23,18 +18,19 @@ exports.messagesOverview = (req, res, next) => {
         }
         // Messages werden nicht geschickt, wenn bereits bewertet wurde
         for(var i = 0; i < result.length; i++) {
+            // Man ist Aide
             if(result[i].aide._id == userId) {
-                if(henquiry.ratedAide.indexOf(userId) > -1) {
+                if(result[i].henquiry.ratedFiler.indexOf(userId) > -1) {
                     result.splice(i,1);
                 }
             } else {
-                if(henquiry.ratedFiler.indexOf(userId) > -1) {
+                if(result[i].henquiry.ratedAide.indexOf(userId) > -1) {
                     result.splice(i,1);
                 }
             }
         }
         for(var i = 0; i < result.length; i++) {
-            if(henquiry.removed) {
+            if(result[i].henquiry.removed) {
                 result.splice(i,1);
             }
         }

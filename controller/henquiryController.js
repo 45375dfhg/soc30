@@ -323,6 +323,7 @@ exports.apply = (req, res, next) => {
 };
 
 exports.acceptApplicants = (req, res, next) => {
+  console.log("Accept application");
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
   if(!applicants) {
@@ -383,6 +384,7 @@ exports.acceptApplicants = (req, res, next) => {
 
 // Hilfsgesuche für neue Bewerber schließen. Henquiry wird nicht mehr in der Suche angezeigt werden.
 exports.closeHenquiry = (req, res, next) => {
+  console.log("Close henquiry");
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) { 
@@ -486,6 +488,7 @@ exports.henquirySuccess = (req, res, next) => {
 };
 
 exports.cancelApplication = (req, res, next) => {
+  console.log("Cancel application");
   var henquiryId = req.body.henquiryId;
   var userId = new mongoose.mongo.ObjectId(req.userId);
   Henquiry.findById(henquiryId, function(err, result) {

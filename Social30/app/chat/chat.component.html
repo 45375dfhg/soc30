@@ -6,8 +6,7 @@
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">
                         <FlexboxLayout flexDirection="row">
-                                <GridLayout rows="auto,auto,auto,auto" columns="auto, *, auto" [nsRouterLink]="['../chats', item._id]"
-                                        class="border gridItem">
+                                <GridLayout rows="auto,auto,auto,auto" columns="auto, *, auto" class="border gridItem">
                                         <Label row="0" col="1" colSpan="2" textWrap="true" [text]="formatCategory(item.henquiry.category.category,item.henquiry.category.subcategory) + ' am ' + formatStartTimeToDateDecimal(item.henquiry.startTime)"
                                                 verticalAlignment="center" horizontalAlignment="left" class="fa heading"></Label>
                                         <Label row="1" col="1" colSpan="2" textWrap="true" [text]="getName(item)"
@@ -15,26 +14,40 @@
                                         <Label row="2" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
                                                 verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
                                         <Image row="0" rowSpan="3" col="0" [src]="statusToAvatar(item)" height="100"
-                                                verticalAlignment="center" horizontalAlignment="center"></Image>
+                                                verticalAlignment="center" horizontalAlignment="center" [nsRouterLink]="['../chats', item._id]"></Image>
                                         <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
                                                 horizontalAlignment="right" class="icon"></Label>
-                                        <GridLayout row="3" col="0" colSpan="3" rows="auto" columns="*,*,*">
-
-                                                <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"></Button>
-                                                <Button row="0" col="1" text="&#xf00d;" class="icon chatButtons"></Button>
-                                                <Button row="0" col="2" text="&#xf005;" class="icon chatButtons"></Button>
-                                                
+                                        <GridLayout row="3" col="0" colSpan="3" rows="auto" columns="auto,auto,auto">
+                                                <ng-container *ngIf="acceptPossible(item.henquiry); then accept; else noAccept"></ng-container>
+                                                <ng-template #accept>
+                                                        <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"
+                                                                (tap)="acceptTap($event, item.henquiry)"></Button>
+                                                </ng-template>
+                                                <ng-template #noAccept>
+                                                        <Button row="0" col="0" text="noAccept" class="icon deactivated"></Button>
+                                                </ng-template>
+                                                <ng-container *ngIf="cancelPossible(item.henquiry); then canCancel; else noCancel"></ng-container>
+                                                <ng-template #canCancel>
+                                                        <Button row="0" col="1" text="&#xf00d;" class="icon chatButtons"
+                                                                (tap)="cancelTap($event, item.henquiry)"></Button>
+                                                </ng-template>
+                                                <ng-template #noCancel>
+                                                        <Button row="0" col="1" text="noCancel" class="icon deactivated"></Button>
+                                                </ng-template>
+                                                <ng-container *ngIf="userCanRate(item.henquiry); then canRate; else noRate"></ng-container>
+                                                <ng-template #canRate>
+                                                        <Button row="0" col="2" text="&#xf005;" class="icon chatButtons"
+                                                                (tap)="rateTap($event, item.henquiry)"></Button>
+                                                </ng-template>
+                                                <ng-template #noRate>
+                                                        <Button row="0" col="2" text="noRate" class="icon deactivated"></Button>
+                                                </ng-template>
                                         </GridLayout>
                                 </GridLayout>
                         </FlexboxLayout>
                 </ng-template>
         </RadListView>
 </StackLayout>
-
-
-
-
-
 <ng-template #noEntries>
         <GridLayout rows="auto,auto,auto,auto" class="emptyScreen fa">
                 <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"

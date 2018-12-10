@@ -9,66 +9,67 @@
     <GridLayout row="1" col="0" colSpan="3" rows="*,*,*,*" columns="*,*,*">
         <GridLayout row="0" col="0" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('hoeren')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(0)"></Image>
             <Label row="1" col="0" text="Guter Zuhörer" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="0" col="1" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('puenktlich')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(1)"></Image>
             <Label row="1" col="0" text="Pünktlich" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="0" col="2" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('sonnenschein')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(2)"></Image>
             <Label row="1" col="0" text="Sonnenschein" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="1" col="0" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('lustig')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(3)"></Image>
             <Label row="1" col="0" text="Lustig" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="1" col="1" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('geschickt')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(4)"></Image>
             <Label row="1" col="0" text="Geschickt" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="1" col="2" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('gruenerdaumen')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(5)"></Image>
             <Label row="1" col="0" text="Grüner Daumen" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="2" col="0" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('sauber')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(6)"></Image>
             <Label row="1" col="0" text="Sauber" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="2" col="1" rows="auto,auto" columns="*">
-            <Image row="0" col="0" [src]="getCategoryIconSource('lieb')" verticalAlignment="center" horizontalAlignment="center"></Image>
+            <Image row="0" col="0" [src]="getCategoryIconSource('lieb')" verticalAlignment="center" horizontalAlignment="center"
+                (tap)="toggleCategory(7)"></Image>
             <Label row="1" col="0" text="Lieb" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="2" col="2" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('tierlieb')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(8)"></Image>
             <Label row="1" col="0" text="Tierlieb" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="3" col="0" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('gespraechig')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(9)"></Image>
             <Label row="1" col="0" text="Gesprächig" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="3" col="1" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('stark')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(10)"></Image>
             <Label row="1" col="0" text="Stark" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
         <GridLayout row="3" col="2" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('glashalbvoll')" verticalAlignment="center"
-                horizontalAlignment="center"></Image>
+                horizontalAlignment="center" (tap)="toggleCategory(11)"></Image>
             <Label row="1" col="0" text="Glas Halbvoll" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
     </GridLayout>
     <GridLayout row="2" col="0" colSpan="3" rows="auto" columns="*,*">
-        <Button row="0" col="1" class="confirmButton" text="Lob aussprechen!"></Button>
+        <Button row="0" col="1" class="confirmButton" text="Lob aussprechen!" (tap)="submitRating()"></Button>
         <Button row="0" col="0" class="backButton" (onTap)="goBack()" text="Lieber später"></Button>
     </GridLayout>
 </GridLayout>

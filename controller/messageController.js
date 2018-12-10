@@ -3,7 +3,12 @@ var logger = require('../logs/logger');
 
 exports.messagesOverview = (req, res, next) => {
     var userId = req.userId;
-    Message.find({$or: [{aide: userId}, {filer: userId}]})
+    Message.find({
+        $and:[
+            {$or: [{aide: userId}, {filer: userId}]},
+            {readOnly: false}
+        ]
+    })
     .select('filer aide readAide readFiler henquiry')
     .populate('filer', 'firstname surname nickname avatar address')
     .populate('aide', 'firstname surname nickname avatar')

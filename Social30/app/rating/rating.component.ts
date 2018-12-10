@@ -13,15 +13,15 @@ import { ItemService } from "../shared/services/item.service";
 
 @Component({
     moduleId: module.id,
-    selector: "chat-detail",
-    templateUrl: './chat.detail.component.html',
-    styleUrls: ['./chat.detail.component.scss']
+    selector: "rating",
+    templateUrl: './rating.component.html',
+    styleUrls: ['./rating.component.scss']
 })
 export class RatingComponent implements OnInit {
 
     // sync
     private id: string;
-    private raiting; 
+    private rating = []; 
 
     constructor(
         private route: ActivatedRoute,
@@ -35,23 +35,33 @@ export class RatingComponent implements OnInit {
     ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
         if (!this.appSet.getUser('guest')) {
-
+            // 
+        } else {
+            console.log('how the fuck did the user get here?');
         }
     }
 
-    /*
-    Gonna need a way to rate all aides and not just a single one
-    but hard to derive all the aide ids by route information sharing
-    */
+    deleteRating(val) {
+        let idx = this.rating.indexOf(val);
+        if (idx !== -1) {
+            this.rating.splice(idx, 1);
+        }
+    }
+    
+    addRating(val) {
+        if (this.rating.indexOf(val) != -1) {
+            this.rating.push(val);
+        }
+    }
 
     submitRating() {
         let role = this.id.slice(0,1);
         let henqId = this.id.slice(1);
         if (role === 'X') {
-            this.itemService.rateItem(henqId, this.raiting);
+            this.itemService.rateItem(henqId, this.rating);
         }
         if (role === 'Y') {
-            this.itemService.rateFilerItem(henqId, this.raiting)
+            this.itemService.rateFilerItem(henqId, this.rating)
         }
     }
 

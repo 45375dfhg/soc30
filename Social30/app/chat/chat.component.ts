@@ -84,16 +84,15 @@ export class ChatComponent implements OnInit {
 
     // just pass the whole item.henquiry object
     userIsFiler(henquiry) {
-       if (henquiry.aide == null) {
+       if ((henquiry.aide == null) || (henquiry.aide.length < 1)) {
            return false;
        } else {
            return true;
        }
     }
 
-    // should clear
+    // REST/henquiries/cancel
     aideCanCancelHenquiry(henquiry) {
-        // check for success boolean
         if (this.userIsFiler(henquiry)) {
             return false;
         } else {
@@ -101,32 +100,56 @@ export class ChatComponent implements OnInit {
         }
     }
 
-    // missing conditions
+    // REST/henquiries/accept
     filerCanAcceptHenquiry(henquiry) {
         if (this.userIsFiler(henquiry)) {
-            if (true) {
-                // check whether the current chat partner is an aide or potential aide
-                // best done with contains() 
+            if (henquiry.potentialAide == null) {
+                return false;
+            } else {
+                if (henquiry.potentialAide.indexOf(henquiry.aide._id) == -1) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         } else {
             return false;
         }
     }
 
-    // missing conditions
-    filerCanResolveHenquiry(henquiry) {
+    // REST/henquiries/close
+    filerCanCloseHenquiry(henquiry) {
         if (this.userIsFiler(henquiry)) {
-            if (true) {
-                // check whether the amountofAide is equal to the number of aids
+            if ((henquiry.aide == null) || (henquiry.aide.length < 1)) {
+                return false;
+            } else {
+                return true;
             }
         } else {
             return false;
         }
     }
 
-    userCanRate() {
-        // check success boolean
-        // check time?
+    // REST/henquiries/success
+    filerCanSuccessHenquiry(henquiry) {
+        if (this.userIsFiler(henquiry)) {
+            let time = new Date(henquiry.endTime);
+            if (Date.now() > time.getTime()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    userCanRate(henquiry) {
+        if (henquiry.happened) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     rateUser(henquiry) {

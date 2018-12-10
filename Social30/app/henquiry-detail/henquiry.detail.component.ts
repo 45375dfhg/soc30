@@ -37,6 +37,7 @@ export class HenquiryDetailComponent implements OnInit {
     private duration: number;
     private amount: number;
     private category: { category: number, subcategory: number }
+    private startTime: Date;
 
 
     constructor(
@@ -81,9 +82,11 @@ export class HenquiryDetailComponent implements OnInit {
           maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
           is24HourView: true
         }).then((result) => {
-          console.log("Datum: " + result.day + "-" + result.month + "-" + result.year);
+            this.day = result.day;
+            this.month = result.month - 1;
+            this.year = result.year;
         }).catch((error) => {
-          console.log('Error: ' + error);
+            console.log('Error: ' + error);
         });
       }
 
@@ -97,12 +100,14 @@ export class HenquiryDetailComponent implements OnInit {
           startingHour: 8,
           is24HourView: true
         }).then((result) => {
-          console.log("Zeit: " + result.hour + ":" +result.minute);
+            this.hour = result.hour;
+            this.minute = result.minute
         }).catch((error) => {
-          console.log('Error: ' + error);
+            console.log('Error: ' + error);
         });
       }
 
+      /*
     onPickerLoadedDate(args) {
         let datePicker = <DatePicker>args.object;
 
@@ -122,7 +127,9 @@ export class HenquiryDetailComponent implements OnInit {
         datePicker.minDate = tomorrow;
         datePicker.maxDate = future;
     }
+    */
 
+    /*
     // maybe fix minute interval?
     onPickerLoadedTime(args) {
         let timePicker = <TimePicker>args.object;
@@ -137,16 +144,18 @@ export class HenquiryDetailComponent implements OnInit {
         let time = new Date(args.value);
         this.hour = time.getHours(), this.minute = time.getMinutes();
     }
-
+    */
 
     onTapMinute(duration) {
         this.duration = duration;
     }
 
+
     onTapAmount(amount) {
         this.amount = amount;
     }
 
+    /*
     onDayChanged(args) {
         this.day = args.value;
     }
@@ -158,15 +167,16 @@ export class HenquiryDetailComponent implements OnInit {
     onYearChanged(args) {
         this.year = args.value;
     }
+    */
 
     submitHenquiry() {
         if (!this.appSet.getUser('guest')) {
             // overly verbose but it works
             let start = new Date();
             start.setFullYear(this.year);
-            start.setMonth(this.month - 1);
+            start.setMonth(this.month);
             start.setDate(this.day);
-            start.setHours(this.hour - 1); // hotfix
+            start.setHours(this.hour + 1);
             start.setMinutes(this.minute);
 
             // adds the duration in minutes to the start time 

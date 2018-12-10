@@ -79,6 +79,7 @@
     </RadListView>
 </StackLayout>
 <ng-template #noEntries>
+    <Button text="Refresh" class="filterButton" pageTransition="fade" (tap)="refreshCalendar()"></Button>
     <GridLayout rows="auto,auto,auto,auto" class="emptyScreen">
         <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
             horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>

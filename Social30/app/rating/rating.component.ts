@@ -22,6 +22,7 @@ export class RatingComponent implements OnInit {
     // sync
     private id: string;
     private rating = []; 
+    private helper: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -35,7 +36,13 @@ export class RatingComponent implements OnInit {
     ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
         if (!this.appSet.getUser('guest')) {
-            // 
+            if (this.id.indexOf('YZ') === -1) {
+                let idx = this.id.indexOf('XY');
+                this.helper = this.id.slice(0,idx)
+            } else {
+                let idx = this.id.indexOf('YZ');
+                this.helper = this.id.slice(0,idx)
+            }
         } else {
             console.log('how the fuck did the user get here?');
         }
@@ -57,10 +64,10 @@ export class RatingComponent implements OnInit {
     submitRating() {
         let role = this.id.slice(0,1);
         let henqId = this.id.slice(1);
-        if (role === 'X') {
+        if (role === 'XY') {
             this.itemService.rateItem(henqId, this.rating);
         }
-        if (role === 'Y') {
+        if (role === 'YZ') {
             this.itemService.rateFilerItem(henqId, this.rating)
         }
     }

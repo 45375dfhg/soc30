@@ -18,9 +18,9 @@ export class ItemService {
 
     public getItems() {
         return this.http.get<Item[]>(this.baseUrl + "henquiries")
-        .pipe(
-            catchError(this.handleErrors('getItems'))
-        );
+            .pipe(
+                catchError(this.handleErrors('getItems'))
+            );
     }
 
     public postItem(amount, start, end, cat) {
@@ -57,7 +57,7 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-            console.log('inside cancelItem')
+        console.log('inside cancelItem')
         return this.http.put<any>(this.baseUrl + "henquiries/cancel", params)
             .pipe(
                 catchError(this.handleErrors('cancelItem'))
@@ -79,7 +79,7 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-            console.log('inside closeItem')
+        console.log('inside closeItem')
         return this.http.put<any>(this.baseUrl + "henquiries/close", params)
             .pipe(
                 catchError(this.handleErrors('closeItem'))
@@ -120,11 +120,14 @@ export class ItemService {
 
     // needs to be reworked but works for now
     public getItem(id: string) {
-        if (this.items != undefined) {
-            return this.items.find(data => data._id === id);
-        } else {
-            return this.getItems().subscribe(items => this.getItem(id));
-        }
+        let params = new HttpParams()
+            .set('henquiryId', id);
+
+        return this.http.put<any>(this.baseUrl + "henquiries/specific", params)
+            .pipe(
+                catchError(this.handleErrors('successItem'))
+            );
+
     }
 
     // creates dummy values for the guest access
@@ -135,10 +138,10 @@ export class ItemService {
             itemList.push(
                 new Item(
                     new Date(date + (1000 * 60 * 30 * (i + 1))),
-                    new Date(date + ((1000 * 60 * 30 * (i + 1)) 
+                    new Date(date + ((1000 * 60 * 30 * (i + 1))
                         + (1000 * 60 * 30 * (((i + 1) % 6) + 1)))),
                     1,
-                    {category: (i % 5), subcategory: (i % 4)},
+                    { category: (i % 5), subcategory: (i % 4) },
                     {
                         id: "5bfbaf927f0ef567ba67bd20",
                         surname: "Musterman",
@@ -148,19 +151,19 @@ export class ItemService {
                     0.8 * (i + 1),
                     ''
                 ));
-            }
+        }
         this.items = itemList;
-        return itemList; 
+        return itemList;
     }
-    
+
     // transforms the duration to terra
     public formatTerra(start, end) {
-        let value = this.formatTime(start,end) / 30;
+        let value = this.formatTime(start, end) / 30;
         return "Belohnung: " + value + " Terra";
     }
 
     public formatDuration(start, end) {
-        let timeMinutes = this.formatTime(start,end);
+        let timeMinutes = this.formatTime(start, end);
         return "Dauer: " + timeMinutes + " Minuten";
     }
 
@@ -199,18 +202,18 @@ export class ItemService {
     public formatStartTime(start) {
         let time = new Date(start), today = new Date(), tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
         let mth = time.getMonth(), day = time.getDate(), hour = time.getHours(), min = time.getMinutes();
-        if (time.setHours(0,0,0,0) == today.setHours(0,0,0,0)) {
+        if (time.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0)) {
             return "Heute" + " um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
         }
         // reset the time value which got mutated by setHours and so on
         time = new Date(start)
-        if (time.setHours(0,0,0,0) == tomorrow.setHours(0,0,0,0)) {
+        if (time.setHours(0, 0, 0, 0) == tomorrow.setHours(0, 0, 0, 0)) {
             return "Morgen" + " um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
         }
         // reset the time value which got mutated by setHours and so on
         time = new Date(start);
-        return ((day < 10) ? "0" + day : day) + "." + (((mth + 1) < 10) ? "0" + (mth + 1) : (mth + 1)) 
-                + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
+        return ((day < 10) ? "0" + day : day) + "." + (((mth + 1) < 10) ? "0" + (mth + 1) : (mth + 1))
+            + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
     }
 
     formatStartTimeToDate(start) {
@@ -230,9 +233,9 @@ export class ItemService {
         if (this.appSet.getUser('currentUser')) {
             let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
             if (item.filer._id == currentUser._id) {
-                return item.aide.firstname + ' ' + item.aide.surname.slice(0,1) + '.'
+                return item.aide.firstname + ' ' + item.aide.surname.slice(0, 1) + '.'
             } else {
-                return item.filer.firstname + ' ' + item.filer.surname.slice(0,1) + '.'
+                return item.filer.firstname + ' ' + item.filer.surname.slice(0, 1) + '.'
             }
         }
     }
@@ -256,9 +259,9 @@ export class ItemService {
                         return stranger + " kommt vorbei!"
                     } else {
                         if (aide.length == 2) {
-                            return  stranger + "und eine weitere Person kommt vorbei!"
+                            return stranger + "und eine weitere Person kommt vorbei!"
                         }
-                        return  stranger + "und " + (aide.length - 1) + " weitere Personen kommen vorbei!"
+                        return stranger + "und " + (aide.length - 1) + " weitere Personen kommen vorbei!"
                     }
                 } else {
                     // no aides just yet

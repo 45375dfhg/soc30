@@ -687,7 +687,7 @@ exports.rateFiler = (req, res, next) => {
         resultHenquiry.ratedFiler.push(req.userId);
         resultHenquiry.save()
         resultUser.save();
-        return res.send("Ok");
+        return res.send("");
       });
     } else {
       // Man hat mit dem Henquiry nichts zu tun 403

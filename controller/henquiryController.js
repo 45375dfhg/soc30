@@ -576,13 +576,17 @@ exports.calendar = (req, res, next) => {
 exports.rate = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
   var userId = req.userId;
-  var aider = req.body.aide;
+  var aideId = req.body.aideId;
+  var ratings = new Array(req.body.ratings);
+  var aider = new Array();
+  aider.push({aideId: aideId, ratings: ratings});
+  /*var aider = req.body.aide;
   if(!(aider instanceof Array)) {
     aider = new Array(aider);
   }
   for(var i = 0; i < aider.length; i++) {
     aider[i] = JSON.parse(aider[i]);
-  }
+  }*/
   Henquiry.findById(henquiryId, function(errHenquiry, resultHenquiry) {
     if(errHenquiry) {
       logger.log('error', new Date() + 'POST/rate, Code: AL_001, Error:' + errHenquiry);

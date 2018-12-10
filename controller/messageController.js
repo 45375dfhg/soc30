@@ -7,7 +7,7 @@ exports.messagesOverview = (req, res, next) => {
     .select('filer aide readAide readFiler henquiry')
     .populate('filer', 'firstname surname nickname avatar address')
     .populate('aide', 'firstname surname nickname avatar')
-    .populate('henquiry', 'category amountAide startTime endTime')
+    .populate('henquiry', 'category amountAide startTime endTime potentialAide aide closed removed happened')
     .exec(function(err, result) {
         if(err) {
             logger.log('error', new Date() + 'GET/messages/overview, Code: BA_001, Error:' + err);

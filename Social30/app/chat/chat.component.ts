@@ -101,6 +101,30 @@ export class ChatComponent implements OnInit {
         }
     }
 
+    applyStatus(item) {
+        if (this.userIsFiler(item)) {
+            if (this.filerCanAcceptHenquiry(item)) {
+                return 'Möchtest du ' + item.aide.firstname + ' annehmen';
+            }
+            if (this.filerCanCloseHenquiry(item)) {
+                return 'Den Termin festmachen?'
+            }
+            if (this.filerCanSuccessHenquiry(item)) {
+                return 'Hat der Termin stattgefunden?'
+            }
+            if (this.userCanRate(item)) {
+                return 'Du kannst '  + item.aide.firstname + ' bewerten'
+            }
+        } else {
+            if (this.aideCanCancelHenquiry(item)) {
+                return 'Möchtest du absagen?'
+            }
+            if (this.userCanRate(item)) {
+                return 'Du kannst '  + item.filer.firstname + ' bewerten'
+            }
+        }
+    }
+
     // https://stackoverflow.com/a/40665664
     onChangeCssClassButtonTap(args) {
         var button = args.object as Button;

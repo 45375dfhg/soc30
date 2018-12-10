@@ -22,8 +22,12 @@ export class RatingComponent implements OnInit {
 
     // sync
     private id: string;
-    private rating = []; 
+    private rating = [];
     private helper: string;
+    private idx: number;
+    private disabled = false;
+
+    private categories = [false, false, false, false, false, false, false, false, false, false, false, false]
 
     constructor(
         private route: ActivatedRoute,
@@ -34,43 +38,50 @@ export class RatingComponent implements OnInit {
         this.page.enableSwipeBackNavigation = false;
     }
 
+    toggleCategory(id) {
+        this.categories[id] = !this.categories[id];
+        console.log(this.categories);
+    }
+
     ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
         if (!this.appSet.getUser('guest')) {
             if (this.id.indexOf('YZ') === -1) {
-                let idx = this.id.indexOf('XY');
-                this.helper = this.id.slice(0,idx)
+                this.idx = this.id.indexOf('XY');
+                this.helper = this.id.slice(0, this.idx)
             } else {
-                let idx = this.id.indexOf('YZ');
-                this.helper = this.id.slice(0,idx)
+                this.idx = this.id.indexOf('YZ');
+                this.helper = this.id.slice(0, this.idx)
             }
         } else {
             console.log('how the fuck did the user get here?');
         }
     }
 
-    deleteRating(val) {
-        let idx = this.rating.indexOf(val);
-        if (idx !== -1) {
-            this.rating.splice(idx, 1);
-        }
-    }
-    
-    addRating(val) {
-        if (this.rating.indexOf(val) != -1) {
-            this.rating.push(val);
-        }
+    createRatingArray() {
+        this.categories.forEach((item, idx) => {
+            if (item) {
+                this.rating.push(idx)
+            }
+        })
     }
 
     submitRating() {
-        let role = this.id.slice(0,1);
-        let henqId = this.id.slice(1);
+        let role = this.id.slice(this.idx, this.idx + 2);
+        let henqId = this.id.slice(this.idx + 2);
+        this.createRatingArray();
+        console.log('role: ' + role);
+        console.log('henqId: ' + henqId);
+        console.log('id: ' + this.id);
+        console.log(this.rating);
         if (role === 'XY') {
-            this.itemService.rateItem(henqId, this.rating);
+            this.itemService.rateItem(henqId, this.rating).subscribe();
         }
         if (role === 'YZ') {
-            this.itemService.rateFilerItem(henqId, this.rating)
+            console.log('reached into YZ')
+            this.itemService.rateFilerItem(henqId, this.rating).subscribe();
         }
+        this.goBack();
     }
 
     public goBack() {
@@ -81,3 +92,19 @@ export class RatingComponent implements OnInit {
         return getCategoryIconSource(icon);
     }
 }
+
+
+    /*
+    deleteRating(val) {
+        let idx = this.rating.indexOf(val);
+        if (idx !== -1) {
+            this.rating.splice(idx, 1);
+        }
+    }
+
+    addRating(val) {
+        if (this.rating.indexOf(val) != -1) {
+            this.rating.push(val);
+        }
+    }
+    */

@@ -1,23 +1,23 @@
 <ActionBar title="Mein Steckbrief">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-<StackLayout>
-    <StackLayout>
-        <Label text="{{profile?.firstname}}"></Label>
-    </StackLayout>
-</StackLayout>
+<GridLayout rows="auto,auto,auto,auto,auto,*,auto" columns="*">
+        <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top" horizontalAlignment="right"></Label>
+        <Image class="profilPic" row="0" col="0" [src]="getAvatar(profile?.avatar)" horizontalAlignment="center"></Image>
+        <Label class="userName fa" row="1" col="0" text="{{profile?.firstname}} {{profile?.surname}}" horizontalAlignment="center"></Label>
+        <Label class="userAdress fa" row="2" col="0" text="Blaaa 67 - 68169 Mannheim" horizontalAlignment="center"></Label>
+        <Label class="userSince fa" row="3" col="0" text="Mitglied seid blabla" horizontalAlignment="center"></Label>
+        <GridLayout row="4" col="0" >
+        </GridLayout>
+</GridLayout>-
 <!--
     USEFUL FOR DUMMY DATA INSIDE AN NGIF!!!!!!!
 <GridLayout rows="auto,auto,auto,auto,auto,*,auto" columns="*">
         <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top" horizontalAlignment="right"></Label>
         <Image class="profilPic" row="0" col="0" [src]="getCategoryIconSource('woman01')" horizontalAlignment="center"></Image>
-        <Label class="userName fa" row="1" col="0" text="Jana Puffay" horizontalAlignment="center"></Label>
+        <Label class="userName fa" row="1" col="0" text="{{profile?.firstname}}, {{profile?.surname}}" horizontalAlignment="center"></Label>
         <Label class="userAdress fa" row="2" col="0" text="Neckarauerstraße 67 - 68169 Mannheim" horizontalAlignment="center"></Label>
         <Label class="userSince fa" row="3" col="0" text="Mitglied seid 23.08.2018" horizontalAlignment="center"></Label>
         <GridLayout row="4" col="0" >
-
-
-
-
         </GridLayout>
 </GridLayout>-->

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef  } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
@@ -18,6 +18,10 @@ import { ChatService } from "../shared/services/chat.service";
     styleUrls: ['./chat.detail.component.scss']
 })
 export class ChatDetailComponent implements OnInit {
+
+    @ViewChild("ScrollList") scrollList:ElementRef;
+
+
 
     // sync
     private id: string;
@@ -58,6 +62,12 @@ export class ChatDetailComponent implements OnInit {
         }
     }
 
+    ngAfterViewInit(){
+        setTimeout(() => {
+            this.scrollList.nativeElement.scrollToVerticalOffset(this.scrollList.nativeElement.scrollableHeight, false)
+        }, 200);
+    }
+
     // resets the timer of the polling
     refreshDataClick() {
         this.load$.next('');
@@ -71,6 +81,9 @@ export class ChatDetailComponent implements OnInit {
                 this.refreshDataClick()
             }
         );
+        setTimeout(() => {
+            this.scrollList.nativeElement.scrollToVerticalOffset(this.scrollList.nativeElement.scrollableHeight, false)
+        }, 300);
     }
 
     cleanString(msg: string) {
@@ -82,7 +95,7 @@ export class ChatDetailComponent implements OnInit {
     userRole(id: number) {
         // system message
         if (id > 2) {
-            return "centerUser"
+            return "center"
         }
         // user message
         if (this.appSet.getUser('currentUser')) {
@@ -91,18 +104,18 @@ export class ChatDetailComponent implements OnInit {
             if (id == 2) {
                 if (currentUser._id == this.polledAideId$) {
                     // current user is the aide so the message comes from the other party
-                    return "leftUser";
+                    return "left";
                 } else {
-                    return "rightUser";
+                    return "right";
                 }
             }
             // message from aide
             if (id == 1) {
                 if (currentUser._id == this.polledAideId$) {
                     // current user is the aide so its the users message
-                    return "rightUser";
+                    return "right";
                 } else {
-                    return "leftUser";
+                    return "left";
                 }
             }
         }

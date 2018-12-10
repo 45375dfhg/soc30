@@ -1,54 +1,44 @@
 ActionBar {
     background-color:  #FF6600;
-    color: white;
+    color: #001144;
     font-family: 'Lato', 'Lato-Bold'; 
 }
 
-Button {
+StackLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+Button{
     background-color: #FF6600;
     color: white;
-    border-radius: 25;
-    font-family: 'Lato', 'Lato-Bold'; 
 }
 
-.willHelpButton {
-    margin:20 0 0 0;
-    font-size:13;
-}
-
-.willHelpButton:active{
+Button:active{
     background-color: #d8510e;
 }
 
-.greyButton {
-    margin:20 0 0 0;
-    font-size:13;
-    background-color: #C4AFB4;
+.backButton{
+margin:10;
+border-radius: 25;
+font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.sendButton{
+    margin:0 10 5 0;
+    border-radius: 0 25 25 0;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.chatTextField{
+    margin:0 0 5 10;
     color: #001144;
+    border-radius: 25 0 0 25;
+    border-width: 1;
+    border-color: #FF6600;
+    padding:0 10;
 }
 
-.filterButton {
-    margin:5 15;
-    font-size:15;
-    background-color: #E8EBED;
-    color: #001144;
-    border-radius: 25;
-}
 
-.filterButton:active {
-    background-color: #001144;
-    color: #E8EBED;
-}
-
-  .gridItem {
-    background-color: white;; 
-    color:#001144;
-    border-width: 2;
-    border-color: #001144;
-    margin:5 15;
-    padding:10 10 10 15;
-    border-radius:20;
-}
 
 .icon {
      font-family: "FontAwesome";
@@ -62,18 +52,29 @@ Button {
     font-size: 17;
 }
 
-.rightUser {
-    color: red;
+.right {
     text-align: right;
+    margin:5 10 5 50;
 }
 
-.leftUser {
-    color: green;
+.left {
     text-align: left;
+    margin:5 50 5 10;
 }
 
-.centerUser {
-    color: blue;
+.center {
+    color: #001144;
     text-align: center;
+    margin:5 50;
+}
+
+.chatBubble{
+    color:#001144;
+    border-width: 1;
+    border-color: #D8DAE5;
+    padding:10;
+    width:auto;
+    border-radius: 20;
+    font-size: 14;
 }
  

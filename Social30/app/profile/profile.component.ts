@@ -6,6 +6,7 @@ import { ProfileService } from '../shared/services/profile.service';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { getCategoryIconSource } from "../app.component";
+import { ItemService } from '../shared/services/item.service'
 
 
 @Component({
@@ -16,6 +17,13 @@ import { getCategoryIconSource } from "../app.component";
 })
 export class ProfileComponent implements OnInit {
 
+
+    getAvatar = this.itemService.getAvatar;
+    getAvatarStrings = this.itemService.getAvatarStrings;
+
+
+
+
     // sync
     private profile;
 
@@ -23,7 +31,8 @@ export class ProfileComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private profileService: ProfileService,
         private appSet: AppSettingsService,
-        private router: RouterExtensions, private page: Page) {
+        private router: RouterExtensions, private page: Page,
+        private itemService: ItemService) {
         this.page.enableSwipeBackNavigation = false;
     }
 

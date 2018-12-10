@@ -642,13 +642,12 @@ exports.rate = (req, res, next) => {
   });
 };
 
-// TODO: Prüfen, ob es diese Bewertung überhaupt gibt
 exports.rateFiler = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
-  var rating = req.body.rating;
-  if(!(rating instanceof Array)) {
+  var ratings = JSON.parse(req.body.ratings);
+  /*if(!(rating instanceof Array)) {
     rating = new Array(rating);
-  }
+  }*/
   Henquiry.findById(henquiryId, function(errHenquiry, resultHenquiry) {
     var filerId = resultHenquiry.createdBy;
     if(errHenquiry) {
@@ -677,11 +676,11 @@ exports.rateFiler = (req, res, next) => {
           // Kann eig nicht sein
           return res.status(404).send("AK_006");
         }
-        for(var ratingIndex = 0; ratingIndex < rating.length; ratingIndex++) {
-          if(resultUser.ratingsAsFiler[rating[ratingIndex]] === undefined) {
-            resultUser.ratingsAsFiler.set(rating[ratingIndex],1);
+        for(var ratingIndex = 0; ratingIndex < ratings.length; ratingIndex++) {
+          if(resultUser.ratingsAsFiler[ratings[ratingIndex]] === undefined) {
+            resultUser.ratingsAsFiler.set(ratings[ratingIndex],1);
           } else {
-            resultUser.ratingsAsFiler.set(rating[ratingIndex],resultUser.ratingsAsFiler[rating[ratingIndex]]+1);
+            resultUser.ratingsAsFiler.set(ratings[ratingIndex],resultUser.ratingsAsFiler[ratings[ratingIndex]]+1);
           }
         }
         resultHenquiry.ratedFiler.push(req.userId);

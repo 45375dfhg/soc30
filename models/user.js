@@ -21,7 +21,7 @@ var UserSchema = new Schema({
   // TODO: Am Ende muss das in der Registrierung und allen anderen Routen berücksichtigt werden.
   // Lässt sich in verifyToken.js prüfen
   invite: {
-    // 0: Wurzel, 1: Freund 1. Grades, 2: Freund 2. Grades, sonst undefined
+    // 0: Wurzel, 1: Freund 1. Grades, 2: Freund 2. Grades, 3: Nicht verifiziert, kann also nichts machen
     level: {type: Number},
     codes: [{type: Number}],
     children: [{type: Schema.Types.ObjectId, ref: 'User'}]

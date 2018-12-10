@@ -49,7 +49,8 @@ exports.register = function (req, res, next) {
           firstname: req.body.firstname,
           nickname: req.body.nickname,
           address: address,
-          coordinates: {latitude: latitude, longitude:longitude}
+          coordinates: {latitude: latitude, longitude:longitude},
+          invite: {level:3, codes:[], children:[]}
         }
         User.create(userData, function (error, user) {
           if (error) {
@@ -226,7 +227,7 @@ exports.verifyProfile = function (req, res, next) {
       resultNewUser.invite.level = resultHost.invite.level+1;
       if(resultHost.invite.level < 2) {
         for(var i = 0; i < 4; i++) {
-          var codeToInsert = Math.floor(Math.random()*100000000000000000);
+          var codeToInsert = Math.floor(Math.random()*100000);
           if(resultNewUser.invite.codes.indexOf(codeToInsert) > -1) {
             i--;
           } else {

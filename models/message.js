@@ -10,8 +10,9 @@ var MessageSchema = new Schema({
     readAide: {type: Boolean, default: false},
     // ob der Filer die letzte Nachricht gelesen hat
     readFiler: {type: Boolean, default: false},
-    // sobald das Henquiry als stattgefunden markiert, gelöscht wurde oder ein
-    // Teilnehmer seinen Account gelöscht hat, kann nicht mehr gechattet werden
+    // wenn ein Teilnehmer seinen Account gelöscht, die Bewerbung zurückgezogen,
+    // das Henquiry gelöscht oder das Henquiry keinen Erfolg hatte, kann nicht
+    // mehr gechattet werden und der Verlauf wird unsichtbar (nur noch in der DB vorhanden)
     readOnly: {type: Boolean, default: false},
     messages: [{
         message: {type: String},

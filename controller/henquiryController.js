@@ -63,9 +63,9 @@ exports.createHenquiry = (req, res, next) => {
     }
     req.body.endTime = new Date(req.body.endTime);
     req.body.startTime = new Date(req.body.startTime);
-    if(req.body.endTime - req.body.startTime == 1800000 || req.body.endTime - req.body.startTime == 3600000 ||
+    /*if(req.body.endTime - req.body.startTime == 1800000 || req.body.endTime - req.body.startTime == 3600000 ||
       req.body.endTime - req.body.startTime == 5400000 || req.body.endTime - req.body.startTime == 7200000 || 
-      req.body.endTime - req.body.startTime == 9000000 || req.body.endTime - req.body.startTime == 10800000) {
+      req.body.endTime - req.body.startTime == 9000000 || req.body.endTime - req.body.startTime == 10800000) {*/
     // Übergebenes JSON in ein JS-Objekt parsen
     var categoryParam = JSON.parse(req.body.category);
     Category.findOne({categoryId: categoryParam.category, "subcategory.categoryId": categoryParam.subcategory},
@@ -115,9 +115,9 @@ exports.createHenquiry = (req, res, next) => {
         return res.send("");
       });
     });
-  } else {
+  /*} else {
     return res.status(400).send("AB_008");
-  }
+  }*/
 };
 
 // Informationen über ein bestimmtes Henquiry laden.

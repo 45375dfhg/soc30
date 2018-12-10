@@ -3,11 +3,16 @@ var logger = require('../logs/logger');
 
 exports.messagesOverview = (req, res, next) => {
     var userId = req.userId;
-    Message.find({$or: [{aide: userId}, {filer: userId}]})
+    Message.find({
+        $and: [
+            {$or: [{aide: userId}, {filer: userId}]}
+            //{readOnly: false}
+        ]
+    })
     .select('filer aide readAide readFiler henquiry')
     .populate('filer', 'firstname surname nickname avatar address')
     .populate('aide', 'firstname surname nickname avatar')
-    .populate('henquiry', 'category amountAide startTime endTime potentialAide aide closed removed happened')
+    .populate('henquiry', 'category amountAide startTime endTime potentialAide aide ratedAide closed removed happened')
     .exec(function(err, result) {
         if(err) {
             logger.log('error', new Date() + 'GET/messages/overview, Code: BA_001, Error:' + err);
@@ -16,11 +21,28 @@ exports.messagesOverview = (req, res, next) => {
         if(!result) {
             return res.status(404).send("BA_002");
         }
+        // Messages werden nicht geschickt, wenn bereits bewertet wurde
+        for(var i = 0; i < result.length; i++) {
+            if(result[i].aide._id == userId) {
+                if(henquiry.ratedAide.indexOf(userId) > -1) {
+                    result.splice(i,1);
+                }
+            } else {
+                if(henquiry.ratedFiler.indexOf(userId) > -1) {
+                    result.splice(i,1);
+                }
+            }
+        }
+        for(var i = 0; i < result.length; i++) {
+            if(henquiry.removed) {
+                result.splice(i,1);
+            }
+        }
         // Aus jedem Chatverlauf nur seinen eigenen Lesestatus anzeigen
         // (also ob man eine neue Nachricht hat oder nicht)
         for(var i = 0; i < result.length; i++) {
             if(result[i].aide._id == userId) {
-                result[i].readFiler = undefined;
+                result[i].readFiler = result.potentialAide = result.aide = result.ratedAide = undefined;
             } else {
                 result[i].readAide = undefined;
             }

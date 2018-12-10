@@ -4,13 +4,14 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var config = require('./config');
 
 //connect to MongoDB
 
 // TODO: Auth-Daten in eine externe Datei auslagern, damit die hier nicht sichtbar sind
 // TODO: Neue Version auf den Server laden, bei Henquiries die Datumsprüfung erstmal rausnehmen
 // TODO: DB mit neuen Daten populaten
-mongoose.connect('mongodb://nameexception:g0rd0ns5fh@127.0.0.1:27017/sandbox?authSource=admin',{ useNewUrlParser: true });
+mongoose.connect(config.database,{ useNewUrlParser: true });
 var db = mongoose.connection;
 
 //handle mongo error

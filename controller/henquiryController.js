@@ -574,14 +574,12 @@ exports.calendar = (req, res, next) => {
 
 // TODO: Prüfen, ob es diese Bewertung überhaupt gibt
 exports.rate = (req, res, next) => {
-  console.log(req.body);
   var henquiryId = req.body.henquiryId;
   var userId = req.userId;
   var aideId = req.body.aideId;
   var ratings = JSON.parse(req.body.ratings);
   var aider = new Array();
   aider.push({aideId: aideId, ratings: ratings});
-  console.log(aider);
   /*var aider = req.body.aide;
   if(!(aider instanceof Array)) {
     aider = new Array(aider);

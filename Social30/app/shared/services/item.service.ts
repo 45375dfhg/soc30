@@ -99,35 +99,35 @@ export class ItemService {
     public rateItem(id: string, aide) {
         let params = new HttpParams()
             .set('henquiryId', id)
-            .set('aide', aide);
+            // needs to be stringify'd because otherwise we'd get [object object]
+            .set('ratings', JSON.stringify(aide));
 
         return this.http.post<any>(this.baseUrl + "henquiries/rate", params)
             .pipe(
-                catchError(this.handleErrors('successItem'))
+                catchError(this.handleErrors('rateItem'))
             );
     }
 
     public rateFilerItem(id: string, rating) {
         let params = new HttpParams()
             .set('henquiryId', id)
-            .set('rating', rating);
+            // needs to be stringify'd because otherwise we'd get [object object]
+            .set('ratings', JSON.stringify(rating));
 
         return this.http.post<any>(this.baseUrl + "henquiries/ratefiler", params)
             .pipe(
-                catchError(this.handleErrors('successItem'))
+                catchError(this.handleErrors('rateFilerItem'))
             );
     }
 
-    // needs to be reworked but works for now
     public getItem(id: string) {
         let params = new HttpParams()
             .set('henquiryId', id);
 
         return this.http.put<any>(this.baseUrl + "henquiries/specific", params)
             .pipe(
-                catchError(this.handleErrors('successItem'))
+                catchError(this.handleErrors('getItem'))
             );
-
     }
 
     // creates dummy values for the guest access
@@ -146,7 +146,8 @@ export class ItemService {
                         id: "5bfbaf927f0ef567ba67bd20",
                         surname: "Musterman",
                         firstname: "Max",
-                        nickname: "Das Beispiel"
+                        nickname: "Das Beispiel",
+                        avatar: (i % 6)
                     },
                     0.8 * (i + 1),
                     ''

@@ -8,8 +8,8 @@ export class ItemViewModel extends Observable {
             Date.now() + (24 * 60 * 1000),
             Date.now() + (24.5 * 60 * 1000),
             1,
-            {category: 1, subcategory: 1},
-            { _id: '', firstname: '', surname: '', nickname: ''},
+            { category: 1, subcategory: 1 },
+            { _id: '', firstname: '', surname: '', nickname: '', avatar: 0 },
             9999,
             '');
     }
@@ -24,17 +24,15 @@ export class ItemViewModel extends Observable {
 }
 
 export class Item {
-    // public text: string;
     public startTime: Date;
     public endTime: Date;
     public amountAide: number;
     public category: { category: number, subcategory: number }
     public distance: number;
-    public createdBy: { firstname: string, surname: string, _id: string, nickname: string };
+    public createdBy: { firstname: string, surname: string, _id: string, nickname: string, avatar: number };
     public _id: string;
-    // public closed: boolean;
-    // public removed: boolean;
-    public happened: boolean;
+    // public happened: boolean;
+
 
     //constructor();
     // constructor(start, end, amount, category);
@@ -42,11 +40,11 @@ export class Item {
         this.startTime = start || Date.now() + (24 * 60 * 1000);
         this.endTime = end || Date.now() + (24.5 * 60 * 1000);
         this.amountAide = amount || 1;
-        this.category = category || {category: 1, subcategory: 1};
-        this.createdBy = by || { firstname: '', surname: '', _id: '', nickname: ''};
+        this.category = category || { category: 1, subcategory: 1 };
+        this.createdBy = by || { firstname: '', surname: '', _id: '', nickname: '', avatar: 0 };
         this.distance = dist || 9999;
         this._id = id || '';
-    }  
+    }
 }
 
 export class ItemBase {

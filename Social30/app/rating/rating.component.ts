@@ -67,17 +67,19 @@ export class RatingComponent implements OnInit {
     }
 
     submitRating() {
-        let role = this.id.slice(this.idx, 2);
+        let role = this.id.slice(this.idx, this.idx + 2);
         let henqId = this.id.slice(this.idx + 2);
         this.createRatingArray();
         console.log('role: ' + role);
         console.log('henqId: ' + henqId);
+        console.log('id: ' + this.id);
         console.log(this.rating);
         if (role === 'XY') {
-            this.itemService.rateItem(henqId, this.rating);
+            this.itemService.rateItem(henqId, this.rating).subscribe();
         }
         if (role === 'YZ') {
-            this.itemService.rateFilerItem(henqId, this.rating)
+            console.log('reached into YZ')
+            this.itemService.rateFilerItem(henqId, this.rating).subscribe();
         }
         this.goBack();
     }

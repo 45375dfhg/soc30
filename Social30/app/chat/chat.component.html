@@ -6,16 +6,25 @@
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">
                         <FlexboxLayout flexDirection="row">
-                                <GridLayout rows="auto,auto,auto" columns="auto, *, auto" [nsRouterLink]="['../chats', item._id]" class="border gridItem">
-                                        <Label row="0" col="1" colSpan="2" textWrap="true" [text]="item._id"
+                                <GridLayout rows="auto,auto,auto,auto" columns="auto, *, auto" [nsRouterLink]="['../chats', item._id]"
+                                        class="border gridItem">
+                                        <Label row="0" col="1" colSpan="2" textWrap="true" [text]="formatCategory(item.henquiry.category.category,item.henquiry.category.subcategory) + ' am ' + formatStartTimeToDateDecimal(item.henquiry.startTime)"
                                                 verticalAlignment="center" horizontalAlignment="left" class="fa heading"></Label>
-                                        <Label row="1" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
-                                                verticalAlignment="bottom" horizontalAlignment="left" class="fa"></Label>
-                                        <Label row="2" col="1" colSpan="2" textWrap="true" verticalAlignment="center" horizontalAlignment="left"
-                                                class="fa"></Label>
-                                        <Image row="0" rowSpan="3" col="0" [src]="getCategoryIconSource('woman01')"
-                                                height="100" verticalAlignment="center" horizontalAlignment="center"></Image>
-                                        <Label row="1" col="2" text="&#xf054;" verticalAlignment="center" horizontalAlignment="right" class="icon"></Label>
+                                        <Label row="1" col="1" colSpan="2" textWrap="true" [text]="getName(item)"
+                                                verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
+                                        <Label row="2" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
+                                                verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
+                                        <Image row="0" rowSpan="3" col="0" [src]="statusToAvatar(item)" height="100"
+                                                verticalAlignment="center" horizontalAlignment="center"></Image>
+                                        <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
+                                                horizontalAlignment="right" class="icon"></Label>
+                                        <GridLayout row="3" col="0" colSpan="3" rows="auto" columns="auto,auto,auto">
+
+                                                <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"></Button>
+                                                <Button row="0" col="1" text="&#xf00d;" class="icon chatButtons"></Button>
+                                                <Button row="0" col="2" text="&#xf005;" class="icon chatButtons"></Button>
+                                                
+                                        </GridLayout>
                                 </GridLayout>
                         </FlexboxLayout>
                 </ng-template>

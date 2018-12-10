@@ -211,6 +211,30 @@ export class ItemService {
                 + ". um " + ((hour < 10) ? "0" + hour : hour) + ":" + ((min < 10) ? "0" + min : min) + " Uhr";
     }
 
+    formatStartTimeToDate(start) {
+        let time = new Date(start);
+        enum Months { Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember };
+        // return time.getDate() + '. ' +  Months[time.getMonth()];
+        return time.getDate() + '.' + (time.getMonth() + 1);
+    }
+
+    formatStartTimeToDateDecimal(start) {
+        let time = new Date(start);
+        let mth = time.getMonth(), day = time.getDate();
+        return ((day < 10) ? "0" + day : day) + "." + (((mth + 1) < 10) ? "0" + (mth + 1) : (mth + 1));
+    }
+
+    getName(item) {
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            if (item.filer._id == currentUser._id) {
+                return item.aide.firstname + ' ' + item.aide.surname.slice(0,1) + '.'
+            } else {
+                return item.filer.firstname + ' ' + item.filer.surname.slice(0,1) + '.'
+            }
+        }
+    }
+
     // formats the subcategory, creatorId and aide[] to a string which shows the direction of help
     // used by the calendar
     public formatCategoryByUser(cat, creator, aide) {
@@ -247,6 +271,24 @@ export class ItemService {
         }
     }
 
+    /*
+        // formats the subcategory, creatorId and aide[] to a string which shows the direction of help
+    // used by the calendar
+    public formatCategoryByUser(cat, filerId, aideId) {
+        let result = this.getSubs();
+        // currentUser exists to avoid conflicts with guest modus
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            let stranger = '';
+            if (currentUser._id == filerId) {
+                stranger = 
+            } else {
+
+            }
+        }
+    }
+    */
+
     public formatLocation(creator) {
         if (this.appSet.getUser('currentUser')) {
             let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
@@ -279,6 +321,16 @@ export class ItemService {
         let result = this.getSubStrings();
         const iconPrefix = isAndroid ? "res://" : "res://";
         return iconPrefix + result[category][subcategory];
+    }
+
+    getAvatar(num: number) {
+        const iconPrefix = isAndroid ? "res://" : "res://";
+        let result = this.getAvatarStrings();
+        return iconPrefix + result[num];
+    }
+
+    public getAvatarStrings() {
+        return ["woman01", "woman02", "woman03", "man01", "man02", "man03"];
     }
 
     // printable strings for html

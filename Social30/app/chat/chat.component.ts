@@ -37,8 +37,13 @@ export class ChatComponent implements OnInit {
     formatTerra = this.itemService.formatTerra;
     formatTime = this.itemService.formatTime;
     formatLocation = this.itemService.formatLocation;
+    formatStartTimeToDate = this.itemService.formatStartTimeToDate;
+    formatStartTimeToDateDecimal = this.itemService.formatStartTimeToDateDecimal;
+    getName = this.itemService.getName;
     getSubStrings = this.itemService.getSubStrings;
     getSubs = this.itemService.getSubs;
+    getAvatar = this.itemService.getAvatar;
+    getAvatarStrings = this.itemService.getAvatarStrings;
     setIcon = this.itemService.getCategoryIconName;
 
     public constructor(
@@ -62,6 +67,17 @@ export class ChatComponent implements OnInit {
                 map(res => res),
                 catchError(err => throwError(err))
             );
+        }
+    }
+
+    statusToAvatar(item) {
+        if (this.appSet.getUser('currentUser')) {
+            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
+            if (item.filer._id == currentUser._id) {
+                return this.getAvatar(item.aide.avatar);
+            } else {
+                return this.getAvatar(item.filer.avatar);
+            }
         }
     }
 

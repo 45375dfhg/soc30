@@ -41,14 +41,9 @@ export class RegisterComponent implements OnInit {
         this.page.enableSwipeBackNavigation = false;
     }
 
-
     switchStatus(newPage: number) {
         this.currentPage = newPage;
     }
-
-
-
-
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
@@ -59,6 +54,11 @@ export class RegisterComponent implements OnInit {
             confPassword: ['', Validators.required],
             surname: ['', Validators.required],
             firstname: ['', Validators.required],
+            postalcode: ['', Validators.required, Validators.minLength(5), Validators.maxLength(5)],
+            street: ['', Validators.required],
+            city: ['', Validators.required],
+            housenm: ['', Validators.required],
+            avatar: this.currentAvatar
         }, { validator: this.pwMatchValidator });
 
         // get return url from route parameters or default to '/'
@@ -102,29 +102,29 @@ export class RegisterComponent implements OnInit {
         this.routerExtension.back();
     }
 
-    
+
     handleTap(args, gender) {
         this.changeColor(args);
         console.log("Current gender: " + gender);
     }
-    
+
     changeColor(args) {
-		let btn = args.object; // tapped on object
-		if (btn.className === "genderButton") { // tapped object is white
-			if (this.selected === null) {
-				btn.className = "genderButtonSelected"; // change style
-				this.selected = btn; // assign tapped button to selected
-			} else {
-				this.selected.className = "genderButton";
-				btn.className = "genderButtonSelected";
-				this.selected = btn;
-			}
-		} else {
-			btn.className = "genderButton"; // deselect
-			this.selected = null;
-		}
+        let btn = args.object; // tapped on object
+        if (btn.className === "genderButton") { // tapped object is white
+            if (this.selected === null) {
+                btn.className = "genderButtonSelected"; // change style
+                this.selected = btn; // assign tapped button to selected
+            } else {
+                this.selected.className = "genderButton";
+                btn.className = "genderButtonSelected";
+                this.selected = btn;
+            }
+        } else {
+            btn.className = "genderButton"; // deselect
+            this.selected = null;
+        }
     }
-    
+
 
 
     getAvatar() {

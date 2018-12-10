@@ -1,3 +1,57 @@
-<StackLayout>
-    <Label [text]="id"></Label>
-</StackLayout>
+<ActionBar title="Bewertung">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
+
+
+<GridLayout rows="auto,auto,auto,auto,auto,*,auto" columns="*,*,*">
+    <Label row="0" col="0" colSpan="3" text="Spreche {{ id }} ein kleines Lob"></Label>
+    <GridLayout row="1" col="0" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Guter Zuhörer" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="1" col="1" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Pünktlich" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="1" col="2" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Sonnenschein" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="2" col="0" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Lustig" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="2" col="1" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Geschickt" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="2" col="2" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Grüner Daumen" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="3" col="0" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Sauber" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="3" col="1" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Lieb" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="3" col="2" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Tierlieb" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="4" col="0" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Gesprächig" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="4" col="1" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Stark" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <GridLayout row="4" col="2" rows="auto,auto" columns="*">
+        <Image row="0" col="0" verticalAlignment="center" horizontalAlignment="center"></Image>
+        <Label row="1" col="0" text="Glas Halbvoll" verticalAlignment="center" horizontalAlignment="center"></Label>
+    </GridLayout>
+    <Button row="6" col="0" colSpan="3" text="Lob aussprechen!"></Button>
+</GridLayout>

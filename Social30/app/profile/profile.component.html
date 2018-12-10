@@ -1,33 +1,17 @@
 <ActionBar title="Mein Steckbrief">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-<GridLayout rows="auto,auto,auto,auto,auto,*,auto" columns="*">
+
+
+
+<GridLayout rows="auto, auto, auto, *, auto" columns="*">
     <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top" horizontalAlignment="right"></Label>
-    <Image class="profilPic" row="0" col="0" [src]="getAvatar(profile?.avatar)" horizontalAlignment="center"></Image>
-    <Label class="userName fa" row="1" col="0" text="{{profile?.firstname}} {{profile?.surname}}" horizontalAlignment="center"></Label>
-    <Label class="userAdress fa" row="2" col="0" text="Blaaa 67 - 68169 Mannheim" horizontalAlignment="center"></Label>
-    <Label class="userSince fa" row="3" col="0" text="Mitglied seid blabla" horizontalAlignment="center"></Label>
-    <GridLayout row="4" col="0">
-    </GridLayout>
-</GridLayout>-
-
-
-
-
-
-
-
-
-
-
-
-
-<GridLayout rows="auto, auto, auto, auto" columns="*">
     <GridLayout row="0" col="0" rows="auto,auto,auto,auto" columns="*">
-        <Image row="0" col="0"></Image>
-        <Label row="1" col="0"></Label>
-        <Label row="2" col="0"></Label>
-        <Label row="3" col="0"></Label>
+        <Image class="profilPic" row="0" col="0" [src]="getAvatar(profile?.avatar)" horizontalAlignment="center"></Image>
+        <Label class="userName fa" row="1" col="0" text="{{profile?.firstname}} {{profile?.surname}}"
+            horizontalAlignment="center"></Label>
+        <Label row="2" col="0" text="Blaaa 67 - 68169 Mannheim" horizontalAlignment="center"></Label>
+        <Label row="3" col="0" text="Mitglied seid blabla" horizontalAlignment="center"></Label>
     </GridLayout>
 
     <GridLayout row="1" col="0" rows="auto,auto" columns="*,auto,*">
@@ -40,17 +24,17 @@
 
     <GridLayout row="2" col="0" rows="auto,auto" columns="*,*,*">
         <Image row="0" col="0"></Image>
-        <Label row="1" col="0"></Label>
+        <Label row="1" col="0" text="Lustig" verticalAlignment="center" horizontalAlignment="center"></Label>
         <Image row="0" col="1"></Image>
-        <Label row="1" col="1"></Label>
+        <Label row="1" col="1" text="Lieb" verticalAlignment="center" horizontalAlignment="center"></Label>
         <Image row="0" col="2"></Image>
-        <Label row="1" col="2"></Label>
+        <Label row="1" col="2" text="Pünktlich" verticalAlignment="center" horizontalAlignment="center"></Label>
     </GridLayout>
 
-    <GridLayout row="3" col="0" rows="auto,auto,auto" columns="*">
-        <Button row="0" col="0"></Button>
-        <Button row="1" col="0"></Button>
-        <Button row="2" col="0"></Button>
+    <GridLayout row="4" col="0" rows="auto,auto,auto" columns="*">
+        <Button row="0" col="0" text="Post-Adresse wurde bestätigt"></Button>
+        <Button row="1" col="0" text="Handynummer bestätigen"></Button>
+        <Button row="2" col="0" text="Email-Adresse wurde bestätigt"></Button>
     </GridLayout>
 </GridLayout>
 

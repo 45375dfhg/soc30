@@ -5,8 +5,10 @@ ActionBar {
 }
 
 Button {
-    background-color: #FF6600;
-    color: white;
+    background-color: white;
+    color: #FF6600;
+    border-color:#FF6600;
+    border-width: 1;
     border-radius: 25;
     margin:0 10 15 10;
 }

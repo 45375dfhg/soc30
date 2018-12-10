@@ -13,6 +13,15 @@ ActionBar {
     padding:0;
 }
 
+.deactivated {
+    border-radius: 100;
+    color: gray;
+    border-width: 1;
+    border-color: #D8DAE5;
+    margin:5 5;
+    padding:0;
+}
+
 
 .gridItem {
     background-color: white;; 

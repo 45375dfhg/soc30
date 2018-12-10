@@ -1,9 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 
 import { Observable, timer, throwError } from 'rxjs';
 import { concatMap, map, catchError, tap } from 'rxjs/operators';
+
+import { Button } from 'tns-core-modules/ui/button'
 
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { ChatService } from "../shared/services/chat.service";
@@ -98,13 +100,74 @@ export class ChatComponent implements OnInit {
         }
     }
 
+    // https://stackoverflow.com/a/40665664
+    onChangeCssClassButtonTap(args) {
+        var button = args.object as Button;
+        button.className = "icon deactivated";
+        button.isEnabled = false;
+    }
+
     // just pass the whole item.henquiry object
     userIsFiler(henquiry) {
-       if ((henquiry.aide == null) || (henquiry.aide.length < 1)) {
-           return false;
-       } else {
-           return true;
-       }
+        if ((henquiry.aide == null) || (henquiry.aide.length < 1)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    cancelPossible(henquiry): boolean {
+        if (this.aideCanCancelHenquiry(henquiry) || this.filerCanCloseHenquiry(henquiry)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    cancelTap(args, henquiry) {
+        this.onChangeCssClassButtonTap(args);
+        if (this.aideCanCancelHenquiry(henquiry)) {
+            console.log('reached cancelItem')
+            this.itemService.cancelItem(henquiry._id).subscribe();
+        } else {
+            console.log('reached closeItem')
+            this.itemService.closeItem(henquiry._id).subscribe();
+        }
+    }
+
+    acceptPossible(henquiry): boolean {
+        if (this.filerCanAcceptHenquiry(henquiry) || this.filerCanSuccessHenquiry(henquiry)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    acceptTap(args, henquiry) {
+        this.onChangeCssClassButtonTap(args);
+        if (this.filerCanAcceptHenquiry(henquiry)) {
+            let aide = henquiry.aide._id;
+            this.itemService.acceptItem(henquiry._id, aide);
+        } else {
+            this.itemService.successItem(henquiry._id);
+        }
+    }
+
+    userCanRate(henquiry) {
+        if (henquiry.happened) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    rateTap(args, henquiry) {
+        this.onChangeCssClassButtonTap(args);
+        if (this.userIsFiler(henquiry)) {
+            this.router.navigate([['../rating', 'X' + henquiry._id]])
+        } else {
+            this.router.navigate([['../rating', 'Y' + henquiry._id]])
+        }
     }
 
     // REST/henquiries/cancel
@@ -160,28 +223,7 @@ export class ChatComponent implements OnInit {
         }
     }
 
-    userCanRate(henquiry) {
-        if (henquiry.happened) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    rateUser(henquiry) {
-        if (this.userIsFiler(henquiry)) {
-            this.router.navigate([['../rating', 'X' + henquiry._id]])
-        } else {
-            this.router.navigate([['../rating', 'Y' + henquiry._id]])
-        }
-    }
-
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
 }
-
- /*if (this.appSet.getUser('currentUser')) {
-            let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
-        }
-        */

@@ -18,6 +18,8 @@ export class ProfileComponent implements OnInit {
 
     // sync
     private profile;
+    private rating; // received as aide
+    private ratings; // received as
 
     public constructor(
         private authenticationService: AuthenticationService,
@@ -41,7 +43,7 @@ export class ProfileComponent implements OnInit {
         this.profileService.getProfile(id).subscribe(
             res => {
                 console.log(res);
-                this.profile = res
+                this.profile = res;
             });
     }
 

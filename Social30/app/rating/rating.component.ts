@@ -13,9 +13,9 @@ import { ItemService } from "../shared/services/item.service";
 
 @Component({
     moduleId: module.id,
-    selector: "chat-detail",
-    templateUrl: './chat.detail.component.html',
-    styleUrls: ['./chat.detail.component.scss']
+    selector: "rating",
+    templateUrl: './rating.component.html',
+    styleUrls: ['./rating.component.scss']
 })
 export class RatingComponent implements OnInit {
 

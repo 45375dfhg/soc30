@@ -26,14 +26,14 @@ exports.messagesOverview = (req, res, next) => {
             // Man ist Aide
             if(result[i].aide._id == userId) {
                 console.log("1");
-                console.log(result[i]);
+                //console.log(result[i]);
                 if(result[i].henquiry.ratedFiler.indexOf(result[i].aide._id) > -1) {
                     console.log("2");
                     result.splice(i,1);
                 }
             } else {
                 console.log("3");
-                console.log(result[i]);
+                //console.log(result[i]);
                 if(result[i].henquiry.ratedAide.indexOf(result[i].aide._id) > -1) {
                     console.log("4");
                     result.splice(i,1);

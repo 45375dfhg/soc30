@@ -26,6 +26,17 @@ export class HenquiryDetailComponent implements OnInit {
 
     currentPage: Number = 0;
 
+    formatDuration = this.itemService.formatDuration;
+    formatDistance = this.itemService.formatDistance;
+    formatStartTime = this.itemService.formatStartTime;
+    formatStartTimeLong = this.itemService.formatStartTimeLong;
+    formatCategory = this.itemService.formatCategory;
+    formatCategoryByUser = this.itemService.formatCategoryByUser;
+    formatTerra = this.itemService.formatTerra;
+    formatTime = this.itemService.formatTime;
+    formatLocation = this.itemService.formatLocation;
+    getSubStrings = this.itemService.getSubStrings;
+    getSubs = this.itemService.getSubs;
     setIcon = this.itemService.getCategoryIconName;
 
     private today = new Date();
@@ -46,11 +57,13 @@ export class HenquiryDetailComponent implements OnInit {
         private page: Page,
         private itemService: ItemService,
         private appSet: AppSettingsService) {
-        
+
         this.page.enableSwipeBackNavigation = false;
         this.day = this.today.getDate() + 1;
         this.month = this.today.getMonth();
         this.year = this.today.getFullYear();
+        this.hour = this.today.getHours();
+        this.minute = this.today.getMinutes();
         this.duration = 30; // placeholder
         this.amount = 1;
         this.category = {
@@ -73,14 +86,55 @@ export class HenquiryDetailComponent implements OnInit {
         this.currentPage = newPage;
     }
 
+    getCategoryName(category: number) {
+        switch (category) {
+            case 0: {
+                return "Schwerer Haushalt";
+            }
+            case 1: {
+                return "Leichter Haushalt";
+            }
+            case 2: {
+                return "Gesellschaft";
+            }
+            case 3: {
+                return "Gartenarbeit";
+            }
+            case 4: {
+                return "Tiere";
+            }
+        }
+    }
+
+    durationUp(){
+        if (this.duration >= 120) {
+            this.duration = 30;
+        } else {
+            this.duration += 30;
+        }
+    }
+
+    personUp(){
+        if (this.amount >= 4) {
+            this.amount = 1;
+        } else {
+            this.amount += 1;
+        }
+    }
+
+    getSubCategoryName(category: number, subcategory: number) {
+        let names = this.getSubs();
+        return names[category][subcategory];
+    }
+
     pickDate() {
         const picker = new ModalPicker.ModalDatetimepicker();
         picker.pickDate({
-          title: 'An welchem Tag brauchst du die Hilfe?',
-          theme: 'none',
-          minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-          maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
-          is24HourView: true
+            title: 'An welchem Tag brauchst du die Hilfe?',
+            theme: 'none',
+            minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+            maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
+            is24HourView: true
         }).then((result) => {
             this.day = result.day;
             this.month = result.month - 1;
@@ -88,46 +142,46 @@ export class HenquiryDetailComponent implements OnInit {
         }).catch((error) => {
             console.log('Error: ' + error);
         });
-      }
+    }
 
     pickTime() {
         const picker = new ModalPicker.ModalDatetimepicker();
         picker.pickTime({
-          title: 'Um wie viel Uhr brauchst du die Hilfe?',
-          theme: 'none',
-          minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-          maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
-          startingHour: 8,
-          is24HourView: true
+            title: 'Um wie viel Uhr brauchst du die Hilfe?',
+            theme: 'none',
+            minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+            maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
+            startingHour: 8,
+            is24HourView: true
         }).then((result) => {
             this.hour = result.hour;
             this.minute = result.minute
         }).catch((error) => {
             console.log('Error: ' + error);
         });
-      }
-
-      /*
-    onPickerLoadedDate(args) {
-        let datePicker = <DatePicker>args.object;
-
-        let today = new Date();
-        let tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-        let future = new Date();
-
-        // define max value
-        future.setMonth(future.getMonth() + 3);
-
-        // base values
-        datePicker.year = today.getFullYear();;
-        datePicker.month = today.getMonth();
-        datePicker.day = today.getDate() + 1;
-
-        // ranges
-        datePicker.minDate = tomorrow;
-        datePicker.maxDate = future;
     }
-    */
+
+    /*
+  onPickerLoadedDate(args) {
+      let datePicker = <DatePicker>args.object;
+
+      let today = new Date();
+      let tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+      let future = new Date();
+
+      // define max value
+      future.setMonth(future.getMonth() + 3);
+
+      // base values
+      datePicker.year = today.getFullYear();;
+      datePicker.month = today.getMonth();
+      datePicker.day = today.getDate() + 1;
+
+      // ranges
+      datePicker.minDate = tomorrow;
+      datePicker.maxDate = future;
+  }
+  */
 
     /*
     // maybe fix minute interval?
@@ -181,7 +235,7 @@ export class HenquiryDetailComponent implements OnInit {
 
             // adds the duration in minutes to the start time 
             let end = new Date(start.getTime() + this.duration * 60000)
-            
+
             // console.log(this.category)
             this.itemService.postItem(+this.amount, start, end, this.category).subscribe(
                 res => this.routerExtension.backToPreviousPage(), // needs to be changed to a better target

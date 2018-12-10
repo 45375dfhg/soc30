@@ -11,10 +11,29 @@ ActionBar {
 
 .border{
     border-width: 1;
-    border-color: #FF6600;
-    border-radius:20;
+    border-color: #D8DAE5;
+    border-radius:25;
 }
 
+.expandedBorder{
+    border-width: 1;
+    border-color: #FF6600;
+    border-radius:25;
+}
+
+.refreshButton{
+    font-size:15;
+    background-color: #E8EBED;
+    color: #001144;
+    border-radius: 25;
+    font-family: 'Lato', 'Lato-Bold'; 
+    margin:0 15 5 15;
+}
+
+.refreshButton:active {
+    background-color: #001144;
+    color: #E8EBED;
+}
 
 
 .gridItem{
@@ -33,10 +52,6 @@ ActionBar {
 
   }
 
-
-.henqueryDate{
-    
-  }
  
 .icon{
     font-family: "FontAwesome";

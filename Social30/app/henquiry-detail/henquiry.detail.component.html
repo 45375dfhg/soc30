@@ -8,15 +8,36 @@
 </StackLayout>
 -->
 
+
 <StackLayout *ngIf="currentPage === 0">
+    <GridLayout rows="auto,auto,auto,*,auto" columns="*,*">
+        <GridLayout row="0" col="0" colSpan="2" rows="auto,auto,auto" columns="*">
+            <Label row="0" col="0" [text]="getCategoryName(category.category)"></Label>
+            <Image row="1" col="0" [src]="setIcon(category.category, category.subcategory)"></Image>
+            <Label row="2" col="0" [text]="getSubCategoryName(category.category, category.subcategory)"></Label>
+        </GridLayout>
+        <GridLayout row="1" col="0" colSpan="2" rows="auto,auto" columns="*,*">
+            <Label row="0" col="0" colSpan="2" text="Wann kannst du Hilfe gebrauchen?"></Label>
+            <Button row="1" col="0" (tap)="pickDate()" [text]="day + '. ' + month + ' ' + year"></Button>
+            <Button row="1" col="1" (tap)="pickTime()" [text]="hour + ':' + minute + 'Uhr'"></Button>
+        </GridLayout>
+        <GridLayout row="2" col="0" colSpan="2" rows="auto,auto" columns="*,*">
+                <Label row="0" col="0" colSpan="2" text="Wie viele Helfer brauchst du?"></Label>
+                <Button row="1" col="0" (tap)="durationUp()" [text]="duration + ' Minuten'"></Button>
+                <Button row="1" col="1" (tap)="personUp()" [text]="amount + ' Person(en)'"></Button>
+        </GridLayout>
+        <Button row="4" col="0" text="Zurück" (tap)="goBack()"></Button>
+        <Button row="4" col="1" text="Ab geht die Post!" (tap)="submitHenquiry()" [nsRouterLink]="['../henquiry']"></Button>
+    </GridLayout>
+</StackLayout>
+
+
+<!--[nsRouterLink]="['../henquiry']"-->
+
+<!--<StackLayout *ngIf="currentPage === 0">
     <GridLayout rows="auto,auto,auto,auto,*,auto" columns="*,*">
-
-
-<Button row="0" col="0" colSpan="2" (tap)="pickTime()" text="Zeit wählen"></Button>
-<Button row="1" col="0" colSpan="2" (tap)="pickDate()" text="Datum wählen"></Button>
-
-
-
+        <Button row="0" col="0" colSpan="2" (tap)="pickTime()" text="Zeit wählen"></Button>
+        <Button row="1" col="0" colSpan="2" (tap)="pickDate()" text="Datum wählen"></Button>
         <GridLayout row="2" col="0" colSpan="2" rows="*,*" columns="*,*,*,*">
             <Label row="0" col="0" colSpan="4" text="Wie lange dauert die Hilfe?" class="fa"></Label>
             <Button row="1" col="0" text="30" (tap)="onTapMinute(30)"></Button>
@@ -35,14 +56,4 @@
         <Button row="5" col="1" text="Weiter" (tap)="switchStatus(1)"></Button>
     </GridLayout>
 </StackLayout>
-
-<StackLayout *ngIf="currentPage === 1">
-    <GridLayout rows="auto,auto,*,auto" columns="*,*">
-
-        <Button row="3" col="0" text="Zurück" (tap)="switchStatus(0)"></Button>
-        <Button row="3" col="1" text="Ab geht die Post!" (tap)="submitHenquiry()" [nsRouterLink]="['../henquiry']"></Button>
-    </GridLayout>
-</StackLayout>
-
-
-<!--[nsRouterLink]="['../henquiry']"-->
+-->

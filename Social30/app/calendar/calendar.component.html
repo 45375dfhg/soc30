@@ -23,7 +23,7 @@
 </StackLayout>
 -->
 <StackLayout *ngIf="ex; else noEntries" marginTop="5">
-        <Button text="Refresh" class="filterButton" pageTransition="fade" (tap)="refreshCalendar()"></Button>
+        <Button text="Refresh" class="refreshButton" (tap)="refreshCalendar()"></Button>
     <RadListView [items]="entries" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
         <ng-template tkListItemTemplate let-month="item">
@@ -35,9 +35,9 @@
                 </GridLayout>
             </FlexboxLayout>
         </ng-template>
-        <ng-template tkTemplateKey="expanded" let-month="item">
+        <ng-template tkTemplateKey="expanded" let-month="item" >
             <FlexboxLayout flexDirection="row">
-                <GridLayout rows="* , auto" columns="*, *, *, *" class="border gridItem">
+                <GridLayout rows="* , auto" columns="*, *, *, *" class="expandedBorder gridItem">
                     <Label row="0" col="0" colSpan="4" [text]="month.key" horizontalAlignment="center"
                         verticalAlignment="center" class="fa heading expandedHeading"></Label>
                     <StackLayout row="1" col="0" colSpan="4">
@@ -79,15 +79,16 @@
     </RadListView>
 </StackLayout>
 <ng-template #noEntries>
-    <Button text="Refresh" class="filterButton" pageTransition="fade" (tap)="refreshCalendar()"></Button>
-    <GridLayout rows="auto,auto,auto,auto" class="emptyScreen">
-        <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
+    
+    <GridLayout rows="auto,auto,auto,auto,auto" class="emptyScreen">
+            <Button row="0" text="Refresh" class="filterButton" pageTransition="fade" (tap)="refreshCalendar()"></Button>
+        <Label row="1" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
             horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>
-        <Label row="1" text="Oder brauchst du selbst Hilfe? Dann setz einfach ein Hilfegesuch auf!" horizontalAlignment="center"
+        <Label row="2" text="Oder brauchst du selbst Hilfe? Dann setz einfach ein Hilfegesuch auf!" horizontalAlignment="center"
             verticalAlignment="center" textWrap="true" class="emptytext2"></Label>
-        <Image row="2" [src]="getCategoryIconSource('kaffeetasse')" horizontalAlignment="center" verticalAlignment="center"
+        <Image row="3" [src]="getCategoryIconSource('kaffeetasse')" horizontalAlignment="center" verticalAlignment="center"
             height="25%" class="emptyimage1"></Image>
-        <Label row="3" text="Hier siehst du bald eine Übersicht, wann du verabredet bist um Hilfe zu bekommen oder zu geben."
+        <Label row="4" text="Hier siehst du bald eine Übersicht, wann du verabredet bist um Hilfe zu bekommen oder zu geben."
             horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
     </GridLayout>
 </ng-template>

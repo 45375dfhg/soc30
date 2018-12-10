@@ -191,12 +191,14 @@ export class ChatComponent implements OnInit {
     }
 
     roleForIdString(item) {
+        // its tuesday ok and I dont have much time
         if (this.userIsFiler(item)) {
-            return 'X';
+            return item.aide.firstname + 'XY';
         } else {
-            return 'Y';
+            return item.filer.firstname + 'YZ';
         }
     }
+
 
     // REST/henquiries/cancel
     aideCanCancelHenquiry(item) {

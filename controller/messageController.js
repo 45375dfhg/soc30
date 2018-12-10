@@ -20,11 +20,17 @@ exports.messagesOverview = (req, res, next) => {
         for(var i = 0; i < result.length; i++) {
             // Man ist Aide
             if(result[i].aide._id == userId) {
-                if(result[i].henquiry.ratedFiler.indexOf(userId) > -1) {
+                console.log("1");
+                console.log(result[i]);
+                if(result[i].henquiry.ratedFiler.indexOf(result[i].aide._id) > -1) {
+                    console.log("2");
                     result.splice(i,1);
                 }
             } else {
-                if(result[i].henquiry.ratedAide.indexOf(userId) > -1) {
+                console.log("3");
+                console.log(result[i]);
+                if(result[i].henquiry.ratedAide.indexOf(result[i].aide._id) > -1) {
+                    console.log("4");
                     result.splice(i,1);
                 }
             }

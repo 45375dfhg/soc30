@@ -19,23 +19,31 @@
             <Label row="1" col="0" class="numberExplainText fa" text="Minuten Geholfen" verticalAlignment="center"
                 horizontalAlignment="center"></Label>
             <StackLayout row="0" rowSpan="2" col="1" class="line"></StackLayout>
-            <Label row="0" col="2" class="numberText fa" text="{{profile?.terra}}" verticalAlignment="center" horizontalAlignment="center"></Label>
+            <Label row="0" col="2" class="numberText fa" text="{{profile?.terra}}" verticalAlignment="center"
+                horizontalAlignment="center"></Label>
             <Label row="1" col="2" class="numberExplainText fa" text="Terra-Punkte" verticalAlignment="center"
                 horizontalAlignment="center"></Label>
         </GridLayout>
 
         <GridLayout row="2" col="0" rows="auto,auto" columns="*,*,*">
             <Image row="0" col="0" [src]="getPropertyIconSource(icon1)" class="ratingIcon"></Image>
-            <Label row="1" col="0" class="ratingText fa" [text]="getPropertyString(icon1)" verticalAlignment="center" horizontalAlignment="center"></Label>
+            <Label row="1" col="0" class="ratingText fa" [text]="getPropertyString(icon1)" verticalAlignment="center"
+                horizontalAlignment="center"></Label>
             <Image row="0" col="1" [src]="getPropertyIconSource(icon2)" class="ratingIcon"></Image>
-            <Label row="1" col="1" class="ratingText fa" [text]="getPropertyString(icon2)" verticalAlignment="center" horizontalAlignment="center"></Label>
+            <Label row="1" col="1" class="ratingText fa" [text]="getPropertyString(icon2)" verticalAlignment="center"
+                horizontalAlignment="center"></Label>
             <Image row="0" col="2" [src]="getPropertyIconSource(icon3)" class="ratingIcon"></Image>
             <Label row="1" col="2" class="ratingText fa" [text]="getPropertyString(icon3)" verticalAlignment="center"
                 horizontalAlignment="center"></Label>
         </GridLayout>
 
         <GridLayout row="4" col="0" rows="auto,auto,auto" columns="*">
-            <Button row="0" col="0" text="Post-Adresse wurde bestätigt"></Button>
+            <StackLayout *ngIf="verifyable(); else notVeri">
+                <Button row="0" col="0" text="Hier kannst du dich verifizieren!" [nsRouterLink]="['../verify']"></Button>
+            </StackLayout>
+            <ng-template>
+                <Button row="0" col="0" text="Post-Adresse wurde bestätigt"></Button>
+            </ng-template>
             <Button row="1" col="0" text="Handynummer bestätigen"></Button>
             <Button row="2" col="0" text="Email-Adresse wurde bestätigt"></Button>
         </GridLayout>
@@ -47,8 +55,7 @@
             horizontalAlignment="right"></Label>
         <GridLayout row="0" col="0" rows="auto,auto,auto,auto" columns="*">
             <Image class="profilPic" row="0" col="0" [src]="getAvatar(0)" horizontalAlignment="center"></Image>
-            <Label class="userName fa" row="1" col="0" text="Max Mustermann"
-                horizontalAlignment="center"></Label>
+            <Label class="userName fa" row="1" col="0" text="Max Mustermann" horizontalAlignment="center"></Label>
             <Label row="2" col="0" class="userSince" text="Heute Mitglied werden!" horizontalAlignment="center"></Label>
             <Label row="3" col="0" class="nickName fa" text="Das Beispiel" horizontalAlignment="center"></Label>
         </GridLayout>

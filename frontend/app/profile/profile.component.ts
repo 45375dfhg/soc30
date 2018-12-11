@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
     private icon3;
     private guest: boolean = false;
     private registerDate;
+    private status: number;
 
     public constructor(
         private authenticationService: AuthenticationService,
@@ -58,10 +59,9 @@ export class ProfileComponent implements OnInit {
                 this.icon1 = this.ratingsFiler[0];
                 this.icon2 = this.ratingsFiler[1];
                 this.icon3 = this.ratingsFiler[2];
-                // console.log(typeof res.registerDate);
                 let tmp = new Date(res.registerDate);
-                // console.log(tmp);
                 this.registerDate = tmp.getFullYear();
+                this.status = res.invite.level;
                 this.profile = res;
             });
     }
@@ -76,6 +76,13 @@ export class ProfileComponent implements OnInit {
         }
         console.log(tmp);
         return tmp;
+    }
+
+    verifyable() {
+        if (this.status === 3) {
+            return true;
+        }
+        return false;
     }
 
     logout() {

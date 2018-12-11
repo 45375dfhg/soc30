@@ -1,0 +1,103 @@
+  
+  StackLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+  }
+  
+  Label{
+    color:#001144;
+    
+  }
+
+  .mid{
+    text-align: center;
+  }
+
+  .codeText{
+    margin:40 20 0 20;
+  }
+
+  .invalid-feedback{
+    text-align: center;
+    margin:0 20;
+  }
+
+.heading{
+  font-size:24;
+  text-align: center;
+  margin:70 0 20 0;
+}
+  
+.longText{
+  margin:0 20;
+  text-align: center;
+}
+  
+.status{
+  height:10;
+}
+
+.avatar{
+  height: 200;
+}
+
+.chooseAvatar{
+  margin:10 20;
+}
+
+.icon{
+  font-family: "FontAwesome";
+  font-size: 30;
+  margin:0 5;
+}
+ 
+.navButton{
+  background-color: #FF6600;
+  color: white;
+  border-width: 1;
+  border-color: #FF6600;
+}
+
+.genderButton{
+  background-color: white;
+  color: #FF6600;
+  border-width: 1;
+  border-color: #FF6600;
+}
+
+.genderButtonSelected{
+  background-color: #FF6600;
+  color: white;
+  border-color: #FF6600;
+}
+
+
+  Button {
+    font-size:15;
+    border-radius: 25;
+    margin:15 10 10 10;
+  }
+
+  .navButton:active {
+    background-color: #d8510e;
+    border-color: #d8510e;
+  }
+ 
+  TextField {
+    placeholder-color: #C4AFB4;
+    color: #001144;
+    border-radius: 25;
+    border-width: 1;
+    border-color: #FF6600;
+    padding:10 20;
+    margin:15 20 0 20;
+  }
+
+  .greyButton {
+    background-color: #C4AFB4;
+  }
+
+
+
+
+
+  

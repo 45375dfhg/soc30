@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
@@ -17,11 +17,11 @@ import { AlertService } from '../shared/services/alert.service';
 })
 
 export class RegisterComponent implements OnInit {
+    
     registerForm: FormGroup;
     loading = false;
     submitted = false;
     returnUrl: string;
-
 
     currentPage: Number = 0;
     private selected = null;

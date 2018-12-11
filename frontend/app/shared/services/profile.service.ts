@@ -23,6 +23,17 @@ export class ProfileService {
             );
     }
 
+    verifyProfile(user) {
+        let httpParams = new HttpParams()
+            .set('code', user.code)
+            .set('email', user.email);
+
+        return this.http.put<any>(this.baseUrl + 'profile/verify', httpParams)
+            .pipe(
+                catchError(this.handleErrors('verifyProfile'))
+            );
+    }
+
     /*
     public changeProfile(id: string) {
         let httpParams = new HttpParams()

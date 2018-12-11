@@ -13,6 +13,16 @@ Button {
     margin:5 15 5 15;
 }
 
+.logoutButton{
+    width:20;
+    height:20;
+}
+
+.logoutButton:active{
+    color:white;
+    background-color: #FF6600; 
+}
+
 .ratingText{
     color: #001144;
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { RouterExtensions } from 'nativescript-angular/router';
 import { Page } from "tns-core-modules/ui/page";
-
+import { Router } from "@angular/router";
 import { ProfileService } from '../shared/services/profile.service';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { AppSettingsService } from '../shared/services/appsettings.service';
@@ -36,7 +35,8 @@ export class ProfileComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private profileService: ProfileService,
         private appSet: AppSettingsService,
-        private router: RouterExtensions, private page: Page,
+        private router: Router, 
+        private page: Page,
         private itemService: ItemService) {
         this.page.enableSwipeBackNavigation = false;
     }
@@ -87,7 +87,8 @@ export class ProfileComponent implements OnInit {
 
     logout() {
         this.authenticationService.logout();
-        this.router.navigate(["/welcome"], { clearHistory: true });
+        console.log("Logout function");
+        this.router.navigate(['../welcome']);
     }
 
     getPropertyIconSource(idx: number): string {

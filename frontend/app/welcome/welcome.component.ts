@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Carousel, IndicatorAnimation } from 'nativescript-carousel';
 import { getCategoryIconSource } from "../app.component";
 import { Page } from "tns-core-modules/ui/page";
-
+import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { Router } from '@angular/router';
 import { AppSettingsService } from '../shared/services/appsettings.service';
 
 import { AuthenticationService } from '../shared/services/authentication.service';
@@ -25,6 +26,8 @@ export class WelcomeComponent implements OnInit {
 	constructor(
 		private page: Page, 
 		private appSet: AppSettingsService,
+		private router: Router,
+		// clean before prod
 		private authenticationService: AuthenticationService) {
 		page.actionBarHidden = true;
 		this.page.enableSwipeBackNavigation = false;
@@ -42,6 +45,8 @@ export class WelcomeComponent implements OnInit {
 		this.authenticationService.logout();
 		// register user as guest
 		this.appSet.setUser('guest', 'true');
+
+		this.router.navigate(['../home']);
 	}
 
 	getCategoryIconSource(icon: string): string {

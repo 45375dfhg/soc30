@@ -97,7 +97,6 @@ export class ProfileComponent implements OnInit {
     }
 
     logout() {
-        console.log("Logout function");
         this.authenticationService.logout();
         this.router.navigate(['../welcome']);
     }

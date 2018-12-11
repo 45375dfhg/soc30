@@ -11,6 +11,7 @@ StackLayout{
 Button{
     background-color: #FF6600;
     color: white;
+    height:50;
 }
 
 Button:active{
@@ -21,12 +22,14 @@ Button:active{
 margin:10;
 border-radius: 25;
 font-family: 'Lato', 'Lato-Bold'; 
+height:50;
 }
 
 .sendButton{
     margin:0 10 5 0;
     border-radius: 0 25 25 0;
     font-family: 'Lato', 'Lato-Bold'; 
+    height:50;
 }
 
 .chatTextField{
@@ -38,6 +41,7 @@ font-family: 'Lato', 'Lato-Bold';
     border-color: #FF6600;
     padding:0 10 0 20;
     font-size:14;
+    height:50;
 }
 
 

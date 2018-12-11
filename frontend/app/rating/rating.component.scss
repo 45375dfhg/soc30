@@ -29,6 +29,7 @@ Button{
     text-transform: none;
     font-size:14;
     border-radius:25;
+    height:50;
 }
 
 .confirmButton{
@@ -36,6 +37,7 @@ Button{
     color:#FF6600;
     border-width:2;
     border-color:#FF6600;
+    height:50;
 }
 
 .confirmButton:active{
@@ -48,6 +50,7 @@ Button{
     background-color:white;
     border-width:2;
     border-color:#001144;
+    height:50;
 }
 
 .backButton:active{

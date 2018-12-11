@@ -9,6 +9,7 @@ Button {
     border-radius: 25;
     font-family: 'Lato', 'Lato-Bold'; 
     font-size: 15;
+    height:50;
 }
 
 .orangeButton{
@@ -16,6 +17,7 @@ Button {
     color: #FF6600;
     border-width: 1;
     border-color: #FF6600;
+    height:50;
 }
 
 .orangeButton:active{
@@ -28,6 +30,7 @@ Button {
     color: #FF6600;
     border-width: 2;
     border-color: #FF6600;
+    height:50;
 }
 
 .submitButton:active{
@@ -41,6 +44,7 @@ Button {
     color: #001144;
     border-width: 2;
     border-color: #001144;
+    height:50;
 }
 
 .blueButton:active{

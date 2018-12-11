@@ -20,7 +20,7 @@ Label {
 
 Button {
     text-transform: none;
-    
+    height:50;
 }
 
 .applyButton {
@@ -30,6 +30,7 @@ Button {
     border-width: 2;
     border-color: #FF6600;
     margin:10 10 15 10;
+    height:50;
 }
 
 .applyButton:active {
@@ -44,6 +45,7 @@ Button {
     border-width: 1;
     border-color: #FF6600;
     margin:10 5 0 5;
+    height:50;
 }
 
 .orangeButtonTimeSelected {
@@ -53,6 +55,7 @@ Button {
     border-width: 1;
     border-color: #FF6600;
     margin:10 5 0 5;
+    height:50;
 }
 
 .orangeButtonAmount {
@@ -62,6 +65,7 @@ Button {
     border-width: 1;
     border-color: #FF6600;
     margin:10 5 0 5;
+    height:50;
 }
 
 .orangeButtonAmountSelected {
@@ -71,6 +75,7 @@ Button {
     border-width: 1;
     border-color: #FF6600;
     margin:10 5 0 5;
+    height:50;
 }
 
 .orangeButtonCategory {
@@ -80,6 +85,7 @@ Button {
     border-width: 1;
     border-color: #FF6600;
     margin:10 5 0 5;
+    height:50;
 }
 
 .orangeButtonCategorySelected {
@@ -89,6 +95,7 @@ Button {
     border-width: 1;
     border-color: #FF6600;
     margin:10 5 0 5;
+    height:50;
 }
 
 .blueButton {
@@ -98,6 +105,7 @@ Button {
     border-width: 2;
     border-color: #001144;
     margin:10 10 15 10;
+    height:50;
 }
 
 .blueButton:active {

@@ -17,6 +17,7 @@ export class AlertService {
     
     catchAndSelect(err: Error) {
         if (err instanceof HttpErrorResponse) {
+            console.log(err);
             this.displaySelectedErrors(err.status);
         } else {
             console.log(err);

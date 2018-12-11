@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
             confPassword: ['', Validators.required],
             surname: ['', Validators.required],
             firstname: ['', Validators.required],
-            postalcode: ['', Validators.required, Validators.minLength(5), Validators.maxLength(5)],
+            postalcode: ['', Validators.required],
             street: ['', Validators.required],
             city: ['', Validators.required],
             housenm: ['', Validators.required],

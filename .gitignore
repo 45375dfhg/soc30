@@ -28,6 +28,9 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+#
+.cloud/*
+
 # misc
 /.sass-cache
 /connect.lock

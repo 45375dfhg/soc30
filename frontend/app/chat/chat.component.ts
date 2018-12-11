@@ -66,7 +66,6 @@ export class ChatComponent implements OnInit {
             // polling every 10s, concatMap subscribes to the stream
             this.polledChatOverview$ = timer(0, 10000).pipe(
                 concatMap(_ => chatOverview$),
-                tap(res => console.log('tick')),
                 map(res => res),
                 catchError(err => throwError(err))
             );

@@ -1,0 +1,21 @@
+<StackLayout [formGroup]="verificationForm">
+    <StackLayout>
+        <GridLayout rows="auto,auto,auto,auto,auto,*,auto,auto" columns="*,*">
+            <Label row="0" colSpan="2" text="Dein Profil verifizieren!" class="heading"></Label>
+            <TextField row="1" colSpan="2" formControlName="email" keyboardType="email" hint="E-Mail deines Sponsors" autocorrect="false">
+            </TextField>
+            <Label row="2" colSpan="2" *ngIf="submitted && f.email.errors?.required" class="invalid-feedback" text="Es fehlt eine E-Mail Adresse!">
+            </Label>
+            <TextField row="3" colSpan="2" formControlName="code" hint="Verifizierungscode" autocorrect="false">
+            </TextField>
+            <Label row="4" colSpan="2" *ngIf="submitted && f.code.errors?.required" class="invalid-feedback" text="Es fehlt der Code!">
+            </Label>
+            <Button class="navButton" row="6" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Abschicken"
+                (tap)="onSubmit()">
+            </Button>
+            <Button class="navButton" row="6" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+                (tap)="goBack()">
+            </Button>
+        </GridLayout>
+    </StackLayout>
+</StackLayout>

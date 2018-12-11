@@ -21,8 +21,6 @@ export class ChatDetailComponent implements OnInit {
 
     @ViewChild("ScrollList") scrollList:ElementRef;
 
-
-
     // sync
     private id: string;
     private msg: string = '';
@@ -75,6 +73,9 @@ export class ChatDetailComponent implements OnInit {
 
     sendMessage(msg: string) {
         console.log(msg);
+        if (msg.replace(/\s/g,'').length < 1) {
+            return
+        }
         this.chatService.sendChatMessage(this.id, msg).subscribe(
             res => {
                 this.msg = '';

@@ -45,6 +45,17 @@ exports.register = function (req, res, next) {
         var hashedPassword = bcrypt.hashSync(req.body.password, 8);
         var latitude = (Math.random()*(9.257321 - 9.073483)+9.073483).toFixed(6);
         var longitude = (Math.random()*(48.832318 - 48.720748)+48.720748).toFixed(6);
+        // Populate ratings array with 3 random ratings so that profile is not empty at the beginning
+        var ratings = [0,0,0,0,0,0,0,0,0,0,0,0];
+        var count = 0;
+        var idx = 0;
+        while(count != 3) {
+          idx = Math.floor(Math.random()*12);
+          if(ratings[idx] == 0) {
+            count++;
+            ratings[idx] = 1;
+          }
+        }
         var userData = {
           email: req.body.email,
           password: hashedPassword,
@@ -52,8 +63,10 @@ exports.register = function (req, res, next) {
           firstname: req.body.firstname,
           nickname: req.body.nickname,
           address: address,
+          registerDate: new Date(),
           coordinates: {latitude: latitude, longitude:longitude},
-          invite: {level:3, codes:[], children:[]}
+          invite: {level:3, codes:[], children:[]},
+          ratings: ratings
         }
         User.create(userData, function (error, user) {
           if (error) {
@@ -107,9 +120,9 @@ exports.logout = function (req, res, next) {
 exports.getProfile = function (req, res, next) { 
     var projection;
     if(!(req.body.userId === req.userId)) {
-      projection = 'nickname firstname surname ratings ratingsAsFiler avatar';
+      projection = 'nickname firstname surname ratings avatar registerDate';
     } else {
-      projection = 'surname firstname email nickname ratings ratingsAsFiler address invite mobile avatar terra';
+      projection = 'surname firstname email nickname ratings address invite mobile avatar terra registerDate';
     }
     User.findById(req.body.userId, projection)
       .exec(function (error, user) {

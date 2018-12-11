@@ -11,7 +11,7 @@ exports.getHenquiries = (req, res, next) => {
     .select('amountAide startTime endTime text category potentialAide aide')
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
-    .populate('createdBy', 'firstname surname nickname coordinates ratings ratingsAsFiler avatar')
+    .populate('createdBy', 'firstname surname nickname coordinates ratings avatar')
     .exec(function (err, list_henquiries) {
       if(err) {
         logger.log('error', new Date() + 'GET/henquiries, Code: AA_001, Error:' + err);
@@ -645,7 +645,7 @@ exports.rate = (req, res, next) => {
 
 exports.rateFiler = (req, res, next) => {
   var henquiryId = req.body.henquiryId;
-  var ratings = JSON.parse(req.body.ratings);
+  var ratingsParam = JSON.parse(req.body.ratings);
   /*if(!(rating instanceof Array)) {
     rating = new Array(rating);
   }*/
@@ -677,11 +677,11 @@ exports.rateFiler = (req, res, next) => {
           // Kann eig nicht sein
           return res.status(404).send("AK_006");
         }
-        for(var ratingIndex = 0; ratingIndex < ratings.length; ratingIndex++) {
-          if(resultUser.ratingsAsFiler[ratings[ratingIndex]] === undefined) {
-            resultUser.ratingsAsFiler.set(ratings[ratingIndex],1);
+        for(var ratingIndex = 0; ratingIndex < ratingsParam.length; ratingIndex++) {
+          if(resultUser.ratings[ratingsParam[ratingIndex]] === undefined) {
+            resultUser.ratings.set(ratingsParam[ratingIndex],1);
           } else {
-            resultUser.ratingsAsFiler.set(ratings[ratingIndex],resultUser.ratingsAsFiler[ratings[ratingIndex]]+1);
+            resultUser.ratings.set(ratingsParam[ratingIndex],resultUser.ratings[ratingsParam[ratingIndex]]+1);
           }
         }
         resultHenquiry.ratedFiler.push(req.userId);

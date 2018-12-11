@@ -5,7 +5,7 @@ The frontend is based on [Nativescript](https://www.nativescript.org/nativescrip
 Our primary development platform has been an Android based Nexus Huawei 6P. Development and testing time with iOS based devices has been limited due to a lack of devices in our team. 
 
 You'll find an .apk version of the app in the root directory as well as all required data to build the app yourself.
-The pre-built file includes a text field below the login to change the server IP to your preference. We can't provide a pre-built app for iOS because the iPhone would have to be jail-breaked to make any use of it.
+The pre-built app includes a text field at the fourth picture slot to change the server IP to your preference. Just swipe right on the welcome screen pictures until you reach the text field. Please stick to the provided url pattern. We can't provide a pre-built app for iOS because the iPhone would have to be jail-breaked to make any use of it.
 
 For the .apk version you need to move the file onto your device by whatever means are at your hand (sharing via google drive works for example). Then, on your Android device you can just open and install the app via the .apk file. 
 

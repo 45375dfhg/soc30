@@ -11,7 +11,7 @@ exports.getHenquiries = (req, res, next) => {
     .select('amountAide startTime endTime text category potentialAide aide')
     // Koordinaten populaten, damit sie für die Entfernungsberechnung benutzt werden können.
     // Müssen vor dem Senden an den Client auf undefined gesetzt werden.
-    .populate('createdBy', 'firstname surname nickname coordinates ratings ratingsAsFiler')
+    .populate('createdBy', 'firstname surname nickname coordinates ratings ratingsAsFiler avatar')
     .exec(function (err, list_henquiries) {
       if(err) {
         logger.log('error', new Date() + 'GET/henquiries, Code: AA_001, Error:' + err);

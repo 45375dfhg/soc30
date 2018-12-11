@@ -41,7 +41,7 @@
     </StackLayout>
 
     <StackLayout *ngIf="currentPage === 1" >
-        <GridLayout rows="auto,auto,auto,auto,auto,auto,auto,*,auto,auto" columns="*,*" formGroupname="address">
+        <GridLayout rows="auto,auto,auto,auto,auto,auto,auto,auto,*,auto,auto" columns="*,*" formGroupname="address">
             <Label row="0" colSpan="2" text="Teil werden!" class="heading"></Label>
             <TextField row="1" colSpan="2" hint="Straße" formControlName="street" autocorrect="false">
             </TextField>
@@ -56,11 +56,11 @@
             <TextField row="6" colSpan="2" hint="Verifizierungscode" formControlName="code">
             </TextField>
             <TextField row="7" colSpan="2" hint="E-Mail deines Sponors" formControlName="hostEmail"></TextField>
-            <Image class="status" row="8" colSpan="2" [src]="getCategoryIconSource('status2v4')"></Image>
-            <Button class="navButton" row="9" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter"
+            <Image class="status" row="9" colSpan="2" [src]="getCategoryIconSource('status2v4')"></Image>
+            <Button class="navButton" row="10" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter"
                 (tap)="switchStatus(2)">
             </Button>
-            <Button class="navButton" row="9" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
+            <Button class="navButton" row="10" col="0" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück"
                 (tap)="switchStatus(0)">
             </Button>
         </GridLayout>
@@ -74,7 +74,7 @@
                 <Button class="genderButton" row="0" col="1" text="Weiblich" (tap)="handleTap($event, 1)"></Button>
                 <Button class="genderButton" row="0" col="2" text="Anders" (tap)="handleTap($event, 2)"></Button>
             </GridLayout>
-            <TextField row="7" colSpan="2" hint="Spitzname" formControlName="nickname"></TextField>
+            <TextField row="2" colSpan="2" hint="Spitzname" formControlName="nickname"></TextField>
             <Label class="chooseAvatar" row="3" colSpan="2" textWrap="true" text="Such dir eine Figur aus:"></Label>
             <GridLayout row="4" colSpan="2" rows="auto" columns="*,auto,*">
                 <Image class="avatar" stretch="fill" row="4" col="1" verticalAlignment="center" horizontalAlignment="center"

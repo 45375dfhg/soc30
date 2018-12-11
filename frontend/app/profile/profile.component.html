@@ -5,8 +5,8 @@
 <StackLayout *ngIf="!guest; else guestModus">
     <ScrollView>
     <GridLayout rows="auto, auto, auto, *, auto" columns="*">
-        <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top"
-            horizontalAlignment="right"></Label>
+        <Button class="icon logoutButton" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top"
+            horizontalAlignment="right"></Button>
         <GridLayout row="0" col="0" rows="auto,auto,auto,auto" columns="*">
             <Image class="profilPic" row="0" col="0" [src]="getAvatar(profile?.avatar)" horizontalAlignment="center"></Image>
             <Label class="userName fa" row="1" col="0" text="{{profile?.firstname}} {{profile?.surname}}"
@@ -53,8 +53,8 @@
 </StackLayout>
 <ng-template #guestModus>
     <GridLayout rows="auto, auto, auto, *, auto" columns="*">
-        <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top"
-            horizontalAlignment="right"></Label>
+            <Button class="icon logoutButton" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top"
+            horizontalAlignment="right"></Button>
         <GridLayout row="0" col="0" rows="auto,auto,auto,auto" columns="*">
             <Image class="profilPic" row="0" col="0" [src]="getAvatar(0)" horizontalAlignment="center"></Image>
             <Label class="userName fa" row="1" col="0" text="Max Mustermann" horizontalAlignment="center"></Label>

@@ -186,6 +186,11 @@ exports.deleteHenquiry = (req, res, next) => {
             var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
             + "-" + result.startTime.getDate();
             var potentialAideAndAide = result.aide.concat(result.potentialAide);
+            console.log("vor der loop");
+            if(potentialAideAndAide.length == 0) {
+              result.delete();
+              return res.send("");
+            }
             for(var i = 0; i < potentialAideAndAide.length; i++) {
               User.findById(potentialAideAndAide[i], function(errUser, resultUser) {
                 if(errUser) {
@@ -205,6 +210,7 @@ exports.deleteHenquiry = (req, res, next) => {
                   }
                   meetingsIdx++;
                 }
+                console.log("hier " + i);
                 // Synchronisation: Result erst löschen, wenn alle Nutzer bearbeitet wurden
                 if(idx == potentialAideAndAide.length-1) {
                   result.delete();

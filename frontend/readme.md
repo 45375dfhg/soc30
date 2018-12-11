@@ -23,17 +23,27 @@ Do NOT run any npm commands with su or sudo - it will cause major conflicts furt
 
 Linux or Windows based machines can **not** build the app for iOS.
 
-### Linux
+### Linux / Android
 - the official guide first: [Here](https://docs.nativescript.org/start/ns-setup-linux)
 - connect your development enabled Android based device to your machine 
 - run 'tns devices' to see whether your devices is listed as 'connected'
 - download the repo and open the folder inside your terminal, enter: 'tns run android'
 - if you run into issues run 'tns doctor'
 
-### Mac 
+### Mac / iOS
 - the official guide first: [Here](https://docs.nativescript.org/start/ns-setup-os-x)
-- ...
-
+- connect your iPhone to your device. when prompted select "trust this device"
+- check via 'tns devices" whether your device is properly listed as 'connected'
+- download the repo and open the folder inside your terminal, enter: 'tns run iOS'
+- open xcode (or download and install it for free from the app store)
+- open ./platforms/ios/ as via 'open another project' in xcode
+- for the next step you need a free developer apple id
+- under the 'general' tab of your selected project add your mentioned apple id to 'team'
+- under 'unique bundle identifier' chose a random value of your choice
+- under device orientation deselect everything but 'portrait'
+- for 'display name' choose a appIdentifier which acts as a name for the app of your liking
+- afterwards select your iOS device on the top left of the screen (right next to the project name)
+- click the play button to build the app on your device
 
 ## the structure
 

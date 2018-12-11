@@ -28,7 +28,7 @@ Button {
 }
 
 .filterButton {
-    margin:5 15;
+    margin:5 15 5 5;
     font-size:15;
     background-color: #E8EBED;
     color: #001144;
@@ -36,6 +36,19 @@ Button {
 }
 
 .filterButton:active {
+    background-color: #001144;
+    color: #E8EBED;
+}
+
+.refreshButton{
+    margin:5 5 5 15;
+    font-size:15;
+    background-color: #E8EBED;
+    color: #001144;
+    border-radius: 25;
+}
+
+.refreshButton:active{
     background-color: #001144;
     color: #E8EBED;
 }

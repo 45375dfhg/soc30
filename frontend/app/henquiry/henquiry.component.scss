@@ -4,27 +4,70 @@ ActionBar {
     font-family: 'Lato', 'Lato-Bold'; 
 }
 
-StackLayout{
+.subText{
     color:#001144;
+    text-align: center;
+    margin:20 15 10 15;
+    font-size: 14;
 }
+
+
+.categoryButton{
+    background-color: white;
+    color: #FF6600;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:10 15;
+}
+
+.categoryButtonSelected{
+    background-color: #FF6600;
+    color: white;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:10 15;
+}
+
+.nextButton{
+    background-color: white;
+    color: #FF6600;
+    border-width: 1;
+    border-color: #FF6600; 
+    margin:10 15;
+}
+
+.nextButton:active{
+    background-color: #FF6600;
+    color: white;
+}
+
+.blueButton{
+    background-color: white;
+    color: #001144;
+    border-width: 1;
+    border-color: #001144;
+    margin:10 15;
+}
+
+.blueButton:active{
+    background-color: #001144;
+    color: white;
+}
+
 
 .border{
     border-width: 1;
     border-color: #FF6600;
-    border-radius:20;
+    border-radius:25;
 }
 
 .category{
     margin:5 15;
+    color: #001144;
 }
 
 .fa{
     font-family: 'Lato', 'Lato-Bold'; 
-}
-
-.heading{
-    font-size: 17;
-    margin:5 0 5 10;
 }
 
 .subHeading{
@@ -32,21 +75,15 @@ StackLayout{
     margin:5 0 5 10;
 }
 
-.categoryDescription{
-    margin:0 0 5 10;
-}
-
-
 .icon{
     font-family: "FontAwesome";
     margin: 0 10 0 10;
 }
 
 Button {
-    background-color: #FF6600;
-    color: white;
     border-radius: 25;
     font-family: 'Lato', 'Lato-Bold'; 
-    margin: 10 5;
 }
+
+
  

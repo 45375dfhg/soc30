@@ -24,6 +24,8 @@ export class HenquiryComponent {
     tiere: string = "Ob Wuff, Miau oder Muh - gesucht ist ein Nachbar, der tierisch was drauf hat!";
 
     categorySelected: boolean = false;
+    currentCategory = 0;
+    selectedCategoryButton = null;
     categoryId;
     categorySubId;
 
@@ -66,6 +68,31 @@ export class HenquiryComponent {
         this.categoryId = id;
         this.subNames = this.itemService.getSubElements(this.categoryId);
     }
+
+    changeCategory(cat: number, args){
+        this.currentCategory = cat;
+        this.changeColorCategory(args);
+    }
+
+
+
+
+	changeColorCategory(args) {
+		let btn = args.object; // tapped on object
+		if (btn.className === "categoryButton") { // tapped object is white
+			if (this.selectedCategoryButton === null) {
+				btn.className = "categoryButtonSelected"; // change style
+				this.selectedCategoryButton = btn; // assign tapped button to selected
+			} else {
+				this.selectedCategoryButton.className = "categoryButton";
+				btn.className = "categoryButtonSelected";
+				this.selectedCategoryButton = btn;
+			}
+		} else {
+			btn.className = "categoryButton"; // deselect
+			this.selectedCategoryButton = null;
+		}
+	}
 
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);

@@ -25,12 +25,12 @@ exports.messagesOverview = (req, res, next) => {
         for(var i = 0; i < result.length; i++) {
             // Man ist Aide
             if(result[i].aide._id == userId) {
+                if(result[i].henquiry._id == '5c0e7596e47c2d6d61f6fb12') {
+                    console.log("TEST");
+                }
                 console.log("1");
                 //console.log(result[i]);
                 if(result[i].henquiry.ratedFiler.indexOf(result[i].aide._id) > -1) {
-                    if(userId == '5bfbaf657f0ef567ba67bd1f') {
-                        console.log("HIER");
-                    }
                     console.log("2");
                     console.log(result.splice(i,1));
                 }

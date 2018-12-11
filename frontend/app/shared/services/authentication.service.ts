@@ -55,7 +55,10 @@ export class AuthenticationService {
             .set('postalcode', user.postalcode)
             .set('street', user.street)
             .set('city', user.city)
-            .set('housenm', user.housenm);
+            .set('housenm', user.housenm)
+            .set('nickname', user.nickname)
+            .set('hostEmail', user.hostEmail)
+            .set('code', user.code)
 
         return this.http.post<any>(this.registerUrl, params)
             .pipe(

@@ -51,10 +51,11 @@
             </TextField>
             <TextField row="4" colSpan="2" hint="Stadt" formControlName="city" autocorrect="false">
             </TextField>
-            <Label row="5" colSpan="2" class="codeText" textWrap="true" text="Hast du schon einen Verifizierungscode? Falls nicht, kannst du ihn später immer noch eingeben.">
+            <Label row="5" colSpan="2" class="codeText" textWrap="true" text="Hast du schon einen Verifizierungscode?">
             </Label>
-            <TextField row="6" colSpan="2" hint="Verifizierungscode">
+            <TextField row="6" colSpan="2" hint="Verifizierungscode" formControlName="code">
             </TextField>
+            <TextField row="7" colSpan="2" hint="E-Mail deines Sponors" formControlName="hostEmail"></TextField>
             <Image class="status" row="8" colSpan="2" [src]="getCategoryIconSource('status2v4')"></Image>
             <Button class="navButton" row="9" col="1" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Weiter"
                 (tap)="switchStatus(2)">
@@ -73,7 +74,7 @@
                 <Button class="genderButton" row="0" col="1" text="Weiblich" (tap)="handleTap($event, 1)"></Button>
                 <Button class="genderButton" row="0" col="2" text="Anders" (tap)="handleTap($event, 2)"></Button>
             </GridLayout>
-          
+            <TextField row="7" colSpan="2" hint="Spitzname" formControlName="nickname"></TextField>
             <Label class="chooseAvatar" row="3" colSpan="2" textWrap="true" text="Such dir eine Figur aus:"></Label>
             <GridLayout row="4" colSpan="2" rows="auto" columns="*,auto,*">
                 <Image class="avatar" stretch="fill" row="4" col="1" verticalAlignment="center" horizontalAlignment="center"

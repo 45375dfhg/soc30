@@ -136,13 +136,6 @@ export class ItemsComponent implements OnInit {
         }
     }
 
-    /*
-    logout() {
-        this.authenticationService.logout();
-        this.router.navigate(["/welcome"], { clearHistory: true });
-    }
-    */
-
     templateSelector(item: any, index: number, items: any): string {
         return item.expanded ? "expanded" : "default";
     }
@@ -170,27 +163,19 @@ export class ItemsComponent implements OnInit {
         return getCategoryIconSource(icon);
     }
 
-    /*
-    receiveList() {
-        this.itemService.getItems().subscribe(result => {
-            if (result) {
-                let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
-                this.items = result
-                    .filter(entry => currentUser._id != entry.createdBy._id)
-                    .filter(fdist => fdist.distance <= this.message.distance)
-                    .filter(ftime =https://stackoverflow.com/a/40756855> +this.formatTime(ftime.startTime, ftime.endTime) <= this.message.time)
-                    .filter(filterchttps://stackoverflow.com/a/40756855at => this.message.categories[filtercat.category.category])
-                    .sort((entry1, https://stackoverflow.com/a/40756855entry2) => {
-                        let date1 = new Date(entry1.startTime).getTime();
-                        let date2 = new Date(entry2.startTime).getTime();
-                        return date1 - date2
-                    });
-            } else {
-                console.log('Didnt get any items')
-            }
-        });
+    getPropertyString(idx: number): string {
+        enum Properties {Stark, Sonnenschein, Sauber, Pünktlich, Lustig, Lieb, 'Guter Zuhörer', 'Grüner Daumen', 'Glas Halbvoll', Gesprächig, Geschickt, Tierlieb}
+        return Properties[idx];
     }
-    */
 
+    getBestProperty(arr) {
+        if (arr == null) {
+            return this.getPropertyString(2);
+        } else {
+            let max = Math.max(...arr);
+            let idx = arr.indexOf(max);
+            return this.getPropertyString(idx);
+        }
+    }
 }
 

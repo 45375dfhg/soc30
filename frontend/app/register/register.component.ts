@@ -125,8 +125,6 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-
-
     getAvatar() {
         return getCategoryIconSource(this.avatarNames[+this.currentAvatar]);
     }

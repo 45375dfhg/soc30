@@ -192,7 +192,7 @@ export class HenquiryDetailComponent implements OnInit {
             start.setFullYear(this.year);
             start.setMonth(this.month);
             start.setDate(this.day);
-            start.setHours(this.hour + 1);
+            start.setHours(this.hour - 1);
             start.setMinutes(this.minute);
 
             // adds the duration in minutes to the start time 

@@ -29,9 +29,7 @@ exports.messagesOverview = (req, res, next) => {
                 //console.log(result[i]);
                 if(result[i].henquiry.ratedFiler.indexOf(result[i].aide._id) > -1) {
                     console.log("2");
-                    console.log(result);
-                    result.splice(i,1);
-                    console.log(result);
+                    console.log(result.splice(i,1));
                 }
             } else {
                 console.log("3");

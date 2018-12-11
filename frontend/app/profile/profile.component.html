@@ -41,7 +41,7 @@
             <StackLayout *ngIf="verifyable(); else notVeri">
                 <Button row="0" col="0" text="Hier kannst du dich verifizieren!" [nsRouterLink]="['../verify']"></Button>
             </StackLayout>
-            <ng-template>
+            <ng-template #notVeri>
                 <Button row="0" col="0" text="Post-Adresse wurde bestätigt"></Button>
             </ng-template>
             <Button row="1" col="0" text="Handynummer bestätigen"></Button>

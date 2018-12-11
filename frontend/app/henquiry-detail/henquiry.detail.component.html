@@ -1,4 +1,4 @@
-<ActionBar title="Hilfegesuch erstellen - Details">
+<ActionBar title="Hilfegesuch erstellen">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 <!--<StackLayout>
@@ -11,23 +11,25 @@
 
 <StackLayout *ngIf="currentPage === 0">
     <GridLayout rows="auto,auto,auto,*,auto" columns="*,*">
-        <GridLayout row="0" col="0" colSpan="2" rows="auto,auto,auto" columns="*">
-            <Label row="0" col="0" [text]="getCategoryName(category.category)"></Label>
-            <Image row="1" col="0" [src]="setIcon(category.category, category.subcategory)"></Image>
-            <Label row="2" col="0" [text]="getSubCategoryName(category.category, category.subcategory)"></Label>
+        <GridLayout row="0" col="0" colSpan="2" rows="auto" columns="*,auto,*">
+            <GridLayout (tap)="goBack()" class="category" row="0" col="1" rows="auto,auto,auto" columns="auto">
+            <Label textWrap="true" class="fa categoryText" row="0" col="0" [text]="getCategoryName(category.category)"></Label>
+            <Image class="categoryImage" row="1" col="0" [src]="setIcon(category.category, category.subcategory)"></Image>
+            <Label textWrap="true" class="fa categoryText" row="2" col="0" [text]="getSubCategoryName(category.category, category.subcategory)"></Label>
+        </GridLayout>
         </GridLayout>
         <GridLayout row="1" col="0" colSpan="2" rows="auto,auto" columns="*,*">
-            <Label row="0" col="0" colSpan="2" text="Wann kannst du Hilfe gebrauchen?"></Label>
-            <Button row="1" col="0" (tap)="pickDate()" [text]="day + '. ' + month + ' ' + year"></Button>
-            <Button row="1" col="1" (tap)="pickTime()" [text]="hour + ':' + minute + 'Uhr'"></Button>
+            <Label textWrap="true" class="fa subText" row="0" col="0" colSpan="2" text="Wann kannst du Hilfe gebrauchen?"></Label>
+            <Button class="buttonLeft orangeButton" row="1" col="0" (tap)="pickDate()" [text]="day + '. ' + month + '. ' + year"></Button>
+            <Button class="buttonRight orangeButton" row="1" col="1" (tap)="pickTime()" [text]="hour + ':' + minute + 'Uhr'"></Button>
         </GridLayout>
         <GridLayout row="2" col="0" colSpan="2" rows="auto,auto" columns="*,*">
-                <Label row="0" col="0" colSpan="2" text="Wie viele Helfer brauchst du?"></Label>
-                <Button row="1" col="0" (tap)="durationUp()" [text]="duration + ' Minuten'"></Button>
-                <Button row="1" col="1" (tap)="personUp()" [text]="amount + ' Person(en)'"></Button>
+                <Label textWrap="true" class="fa subText" row="0" col="0" colSpan="2" text="Wie viele Helfer brauchst du?"></Label>
+                <Button class="buttonLeft orangeButton" row="1" col="0" (tap)="durationUp()" [text]="duration + ' Minuten'"></Button>
+                <Button class="buttonRight orangeButton" row="1" col="1" (tap)="personUp()" [text]="amount + ' Person(en)'"></Button>
         </GridLayout>
-        <Button row="4" col="0" text="Zurück" (tap)="goBack()"></Button>
-        <Button row="4" col="1" text="Ab geht die Post!" (tap)="submitHenquiry()" [nsRouterLink]="['../henquiry']"></Button>
+        <Button class="buttonLeft blueButton" row="4" col="0" text="Doch nicht" (tap)="goBack()"></Button>
+        <Button class="orangeButton buttonRight" row="4" col="1" text="Ab geht die Post!" (tap)="submitHenquiry()" [nsRouterLink]="['../henquiry']"></Button>
     </GridLayout>
 </StackLayout>
 

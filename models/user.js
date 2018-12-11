@@ -8,6 +8,7 @@ var UserSchema = new Schema({
   email: { type: String, unique: true, required: true, trim: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, trim: true },
+  timeHelped: {type: Number, default: 0},
   // Index des Arrays = Das Kriterium
   ratings: [{type: Number}], // Das ist ratingsAsAide (ungünstige Namensgebung i know)
   // ratingsAsFiler: [{type: Number}],
@@ -35,7 +36,7 @@ var UserSchema = new Schema({
     latitude: {type: Number},
     longitude: {type: Number}
   },
-  // meetings speichert, wie oft man an einem Tag hilft
+  // meetings speichert, wie oft man an einem Tag hilft, damit man nicht mehr als 5x am gleichen Tag hilft
   meetings: [{date: String, count: Number}]
 },{
   writeConcern: {

@@ -467,17 +467,6 @@ exports.henquirySuccess = (req, res, next) => {
     result.save();
     // Alle Chats auf readOnly = true setzen, sodass nicht mehr gechattet werden kann
     Message.find({henquiry: henquiryId}, function(errMsg, resultMsg) {
-      /*if(errMsg) {
-        logger.log('error', new Date() + 'PUT/henquiries/success, Code: AH_005, Error:' + errMsg);
-        return res.status(500).send("AH_005");
-      }
-      if(!resultMsg) {
-        return res.status(404).send("AH_006");
-      }
-      for(var i = 0; i < resultMsg.length; i++) {
-        resultMsg[i].readOnly = true;
-        resultMsg[i].save();
-      }*/
       // Terra gutschreiben
       for(var i = 0; i < result.aide.length; i++) {
         User.findById(result.aide[i], function(errUser, resultUser) {
@@ -485,6 +474,7 @@ exports.henquirySuccess = (req, res, next) => {
 
           }
           resultUser.terra += result.terra;
+          resultUser.timeHelped += ((result.endTime-result.startTime)/60000);
           resultUser.save();
         });
       }

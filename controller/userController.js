@@ -24,7 +24,7 @@ exports.register = function (req, res, next) {
     return res.status(400).send("CC_001");
   }
   if (req.body.email && req.body.password && req.body.passwordConf && 
-    req.body.surname && req.body.firstname && req.body.nickname && req.body.postalcode
+    req.body.surname && req.body.firstname && req.body.postalcode
     && req.body.street && req.body.housenm && req.body.city) {
     var address = {postalcode: req.body.postalcode, street: req.body.street, housenm: req.body.housenm,
     city: req.body.city};
@@ -61,7 +61,7 @@ exports.register = function (req, res, next) {
           password: hashedPassword,
           surname: req.body.surname,
           firstname: req.body.firstname,
-          nickname: req.body.nickname,
+          nickname: "Neuling",
           address: address,
           registerDate: new Date(),
           coordinates: {latitude: latitude, longitude:longitude},
@@ -120,9 +120,9 @@ exports.logout = function (req, res, next) {
 exports.getProfile = function (req, res, next) { 
     var projection;
     if(!(req.body.userId === req.userId)) {
-      projection = 'nickname firstname surname ratings avatar registerDate';
+      projection = 'nickname firstname surname ratings avatar registerDate timeHelped';
     } else {
-      projection = 'surname firstname email nickname ratings address invite mobile avatar terra registerDate';
+      projection = 'surname firstname email nickname ratings address invite mobile avatar terra registerDate timeHelped';
     }
     User.findById(req.body.userId, projection)
       .exec(function (error, user) {

@@ -27,7 +27,8 @@ exports.getHenquiries = (req, res, next) => {
             userResult.coordinates.latitude,
             userResult.coordinates.longitude);
           // Das FE filtert die weiteren Henquiries (z.B. 1km, 5km, etc.)
-          if(list_henquiries[i].distance > req.body.distance) {
+          // BE filtert einfach 200km entfernte Henquiries
+          if(list_henquiries[i].distance > 200) {
             list_henquiries.splice(i,1);
             i--;
           }

@@ -43,8 +43,8 @@ exports.register = function (req, res, next) {
       }
       if(!resultEmail) {
         var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-        var latitude = (Math.random()*(9.257321 - 9.073483)+9.073483).toFixed(6);
-        var longitude = (Math.random()*(48.832318 - 48.720748)+48.720748).toFixed(6);
+        var longitude = (Math.random()*(9.257321 - 9.073483)+9.073483).toFixed(6);
+        var latitude = (Math.random()*(48.832318 - 48.720748)+48.720748).toFixed(6);
         // Populate ratings array with 3 random ratings so that profile is not empty at the beginning
         var ratings = [0,0,0,0,0,0,0,0,0,0,0,0];
         var count = 0;

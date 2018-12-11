@@ -26,13 +26,13 @@ exports.messagesOverview = (req, res, next) => {
             // Man ist Aide
             if(result[i].aide._id == userId) {
                 if(result[i].henquiry._id == '5c0e7596e47c2d6d61f6fb12') {
-                    console.log("TEST");
+                    console.log(result[i]);
                 }
                 console.log("1");
                 //console.log(result[i]);
                 if(result[i].henquiry.ratedFiler.indexOf(result[i].aide._id) > -1) {
                     console.log("2");
-                    console.log(result.splice(i,1));
+                    result.splice(i,1);
                 }
             } else {
                 console.log("3");

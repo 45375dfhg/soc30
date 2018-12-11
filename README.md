@@ -7,7 +7,7 @@ To run the database with authentication, type "mongod --auth". The server runs w
 The test data is located in the "sandbox" collection.    
 **Node.js**  
 In the main directory of the node.js-sever is a **config.js** with information about the IP of the database, account information for the databse and the port the node.js-server is running on. The server can be started with **node app.js** with the terminal inside the directory of app.js. The first time, and only once, you have to run **npm install** to install all used modules.  
-  
+  ---  
 **API Documentation**  
 See the API Documentation for further information if needed.  
   

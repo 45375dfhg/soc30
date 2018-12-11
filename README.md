@@ -1,10 +1,8 @@
-**Anleitung, um das Backend zu starten**  
-Das Backend besteht aus zwei Komponenten: Dem **MongoDB-Server** und dem **Node.js-Server**.  
-Voraussetzung auf dem Zielsystem ist, dass MongoDB installiert ist. Getestet ist es mit Version 4.0.4 auf Ubuntu 18.04.  
-Im Lieferumfang ist ein Backup der gesamten Datenbank mit Testdaten inklusive eines Admin-Nutzers vorhanden. Das Backup kann mittels des Befehls **mongorestore dump/** im Terminal eingespielt werden. Das Terminal muss sich im Verzeichnis befinden, in dem sich der Ordner dump befindet.
-Um die Datenbank mit Authentifizierungsschutz zu starten, muss "mongod --auth" eingetippt werden. Der Server lässt sich auch ohne --auth starten.
-Die Testdaten befinden sich in der Collection "sandbox".
-Im Node.js-Server befindet sich im Hauptverzeichnis die **config.js**, in der die IP, Benutzerdaten der Datenbank und Port von Node.js hinterlegt sind. Der Node.js-Server lässt sich folgendermaßen im Terminal starten:
-- Sich mit dem Terminal in das Verzeichnis begeben, in dem die app.js liegt
-- **npm install**
-- **node app.js**
+**Guide to start the backend**  
+The backend consists of two components: The **MongoDB-server** and the **Node.js-server**.  
+Having a MongoDB-server installed is a requirement. Its tested on version 4.0.4 with Ubuntu 18.04.  **MongoDB**  
+A backup of the entire database with test data is available. The backup can be loaded with **mongorestore dump/** in the terminal. The terminal must be in the directory of the dump folder.
+To run the database with authentication, type "mongod --auth". The server runs without --auth, too.
+The test data is located in the "sandbox" collection.    
+**Node.js**  
+In the main directory of the node.js-sever is a **config.js** with information about the IP of the database, account information for the databse and the port the node.js-server is running on. The server can be started with **node app.js** with the terminal inside the directory of app.js. The first time, and only once, you have to run **npm install** to install all used modules.

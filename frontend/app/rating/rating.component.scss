@@ -16,12 +16,28 @@ GridLayout{
     height:10;
 }
 
+
 Label{
     color: #001144;
 }
 
 Image{
     height:75;
+}
+
+
+.ratingItem{
+    margin:5;
+    border-radius: 25;
+    border-width: 1;
+    border-color:white;
+}
+
+.ratingItemSelected{
+    margin:5;
+    border-radius: 25;
+    border-width: 1;
+    border-color:#FF6600;
 }
 
 Button{
@@ -57,6 +73,11 @@ Button{
     color: white;
     background-color:#001144;
 }
+
+.greyButton {
+    background-color: #C4AFB4;
+    height:50;
+  }
 
 
 

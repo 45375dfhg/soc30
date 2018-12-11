@@ -5,70 +5,69 @@
 
 <GridLayout rows="auto,*,auto" columns="*,*,*">
     <StackLayout row="0" col="0" class="space"></StackLayout>
-    <GridLayout row="1" col="0" colSpan="3" rows="*,*,*,*" columns="*,*,*">
-        <GridLayout row="0" col="0" rows="auto,auto" columns="*">
+    <GridLayout class="ratingIcons" row="1" col="0" colSpan="3" rows="*,*,*,*" columns="*,*,*">
+        <GridLayout class="ratingItem" row="0" col="0" rows="auto,auto" columns="*" (tap)="toggleCategory(0, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('hoeren')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(0)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Guter Zuhörer" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="0" col="1" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="0" col="1" rows="auto,auto" columns="*" (tap)="toggleCategory(1, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('puenktlich')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(1)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Pünktlich" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="0" col="2" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="0" col="2" rows="auto,auto" columns="*" (tap)="toggleCategory(2, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('sonnenschein')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(2)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Sonnenschein" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="1" col="0" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="1" col="0" rows="auto,auto" columns="*" (tap)="toggleCategory(3, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('lustig')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(3)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Lustig" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="1" col="1" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="1" col="1" rows="auto,auto" columns="*" (tap)="toggleCategory(4, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('geschickt')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(4)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Geschickt" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="1" col="2" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="1" col="2" rows="auto,auto" columns="*" (tap)="toggleCategory(5, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('gruenerdaumen')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(5)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Grüner Daumen" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="2" col="0" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="2" col="0" rows="auto,auto" columns="*" (tap)="toggleCategory(6, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('sauber')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(6)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Sauber" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="2" col="1" rows="auto,auto" columns="*">
-            <Image row="0" col="0" [src]="getCategoryIconSource('lieb')" verticalAlignment="center" horizontalAlignment="center"
-                (tap)="toggleCategory(7)"></Image>
+        <GridLayout class="ratingItem" row="2" col="1" rows="auto,auto" columns="*" (tap)="toggleCategory(7, $event)">
+            <Image row="0" col="0" [src]="getCategoryIconSource('lieb')" verticalAlignment="center" horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Lieb" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="2" col="2" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="2" col="2" rows="auto,auto" columns="*" (tap)="toggleCategory(8, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('tierlieb')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(8)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Tierlieb" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="3" col="0" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="3" col="0" rows="auto,auto" columns="*" (tap)="toggleCategory(9, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('gespraechig')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(9)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Gesprächig" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="3" col="1" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="3" col="1" rows="auto,auto" columns="*" (tap)="toggleCategory(10, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('stark')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(10)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Stark" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
-        <GridLayout row="3" col="2" rows="auto,auto" columns="*">
+        <GridLayout class="ratingItem" row="3" col="2" rows="auto,auto" columns="*" (tap)="toggleCategory(11, $event)">
             <Image row="0" col="0" [src]="getCategoryIconSource('glashalbvoll')" verticalAlignment="center"
-                horizontalAlignment="center" (tap)="toggleCategory(11)"></Image>
+                horizontalAlignment="center"></Image>
             <Label row="1" col="0" text="Glas Halbvoll" verticalAlignment="center" horizontalAlignment="center"></Label>
         </GridLayout>
     </GridLayout>
     <GridLayout row="2" col="0" colSpan="3" rows="auto" columns="*,*">
-        <Button row="0" col="1" class="confirmButton" text="Lob aussprechen!" (tap)="submitRating()"></Button>
+        <Button row="0" col="1" [ngClass]="{ 'greyButton': disabled, 'confirmButton': !disabled }" isEnabled = "{{ disabled }}" text="Lob aussprechen!" (tap)="submitRating()"></Button>
         <Button row="0" col="0" class="backButton" (tap)="goBack()" text="Lieber später"></Button>
     </GridLayout>
 </GridLayout>

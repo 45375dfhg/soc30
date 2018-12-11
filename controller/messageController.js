@@ -24,6 +24,9 @@ exports.messagesOverview = (req, res, next) => {
         // Messages werden nicht geschickt, wenn bereits bewertet wurde
         for(var i = 0; i < result.length; i++) {
             // Man ist Aide
+            if(result[i].henquiry._id == '5c0e7d20e47c2d6d61f6fb20') {
+                console.log(result[i]);
+            }
             if(result[i].aide._id == userId) {
                 if(result[i].henquiry._id == '5c0e7d20e47c2d6d61f6fb20') {
                     console.log(result[i]);

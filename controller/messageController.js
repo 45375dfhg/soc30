@@ -28,6 +28,9 @@ exports.messagesOverview = (req, res, next) => {
                 console.log("1");
                 //console.log(result[i]);
                 if(result[i].henquiry.ratedFiler.indexOf(result[i].aide._id) > -1) {
+                    if(userId == '5bfbaf657f0ef567ba67bd1f') {
+                        console.log("HIER");
+                    }
                     console.log("2");
                     console.log(result.splice(i,1));
                 }

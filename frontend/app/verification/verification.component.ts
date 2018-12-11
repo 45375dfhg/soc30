@@ -62,9 +62,10 @@ export class VerificationComponent implements OnInit {
         this.profileService.verifyProfile(this.verificationForm.value)
             .pipe(first())
             .subscribe(
-                data => this.goBack();
-            );
+                data => this.goBack());
+
     }
+
 
     public goBack() {
         this.routerExtension.back();

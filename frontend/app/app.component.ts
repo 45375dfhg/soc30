@@ -28,7 +28,7 @@ export class AppComponent {
 
     public constructor(private router: RouterExtensions) { 
         if(isIOS){
-            topmost().ios.controller.navigationBar.barStyle = 1;
+            //topmost().ios.controller.navigationBar.barStyle = 1;
         } else {
             let decorrView = app.android.startActivity.getWindow().getDecorView();
             decorrView.setSystemUiVisibility(android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);

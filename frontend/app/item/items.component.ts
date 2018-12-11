@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -25,7 +25,7 @@ declare var UIView, NSMutableArray, NSIndexPath;
     moduleId: module.id,
     templateUrl: "./items.component.html",
     styleUrls: ["./items.component.scss"],
-    // changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemsComponent implements OnInit {
 
@@ -33,6 +33,7 @@ export class ItemsComponent implements OnInit {
     items: Item[] = [];
     message: { categories: boolean[], time: number, distance: number }; // basically filter values
     guest: Boolean = false;
+    itterateAvatar: number = 0;
 
     // async
     manualRefresh = new Subject();
@@ -164,13 +165,15 @@ export class ItemsComponent implements OnInit {
     }
 
     getPropertyString(idx: number): string {
-        enum Properties {Stark, Sonnenschein, Sauber, Pünktlich, Lustig, Lieb, 'Guter Zuhörer', 'Grüner Daumen', 'Glas Halbvoll', Gesprächig, Geschickt, Tierlieb}
+        enum Properties {'Stark wie ein Bär', Sonnenschein, Saubermensch, 'Der mit der Uhr tanzt', 'Beinahe Otta Waalkes', Lieb, 'Guter Zuhörer', 'Grüner Daumen', 'Optimist', Gesprächig, Geschickt, Tierfreund}
         return Properties[idx];
     }
 
-    getBestProperty(arr) {
+    getBestProperty(arr, distance) {
         if (arr == null) {
-            return this.getPropertyString(2);
+            let idx = Math.floor((distance / 0.8) % (11 * 0.8));
+            console.log(idx);
+            return this.getPropertyString(idx);
         } else {
             let max = Math.max(...arr);
             let idx = arr.indexOf(max);

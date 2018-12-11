@@ -47,7 +47,7 @@
                             horizontalAlignment="left" verticalAlignment="bottom" height="20" class="fa"></Label>
                         <Label row="7" col="1" colSpan="3" textWrap="true" [text]="item.createdBy.nickname"
                             horizontalAlignment="left" verticalAlignment="center" height="20" class="fa"></Label>
-                        <Label row="8" col="1" colSpan="3" textWrap="true" [text]="getBestProperty(item.createdBy.ratings)" horizontalAlignment="left"
+                        <Label row="8" col="1" colSpan="3" textWrap="true" [text]="getBestProperty(item.createdBy.rating, item.distance)" horizontalAlignment="left"
                             verticalAlignment="center" height="20" class="fa"></Label>
                         <Button row="9" col="0" colSpan="3" textWrap="true" text="Da will ich helfen!" class="willHelpButton"
                             (tap)="onClick(item._id,$event)"></Button>

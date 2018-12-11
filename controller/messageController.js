@@ -22,10 +22,9 @@ exports.messagesOverview = (req, res, next) => {
             return res.status(404).send("BA_002");
         }
         // Messages werden nicht geschickt, wenn bereits bewertet wurde
-        console.log(result);
         for(var i = 0; i < result.length; i++) {
             // Man ist Aide
-            //console.log(result[i]);
+            console.log(result[i]).henquiry;
             if(result[i].henquiry._id == '5c0e7d20e47c2d6d61f6fb20') {
                 console.log("Man ist Aide");
                 console.log(result[i]);

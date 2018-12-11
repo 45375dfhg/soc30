@@ -20,8 +20,8 @@
         </GridLayout>
         <GridLayout row="1" col="0" colSpan="2" rows="auto,auto" columns="*,*">
             <Label textWrap="true" class="fa subText" row="0" col="0" colSpan="2" text="Wann kannst du Hilfe gebrauchen?"></Label>
-            <Button class="buttonLeft orangeButton" row="1" col="0" (tap)="pickDate()" [text]="day + '. ' + month + '. ' + year"></Button>
-            <Button class="buttonRight orangeButton" row="1" col="1" (tap)="pickTime()" [text]="hour + ':' + minute + 'Uhr'"></Button>
+            <Button class="buttonLeft orangeButton" row="1" col="0" (tap)="pickDate()" [text]="dayDisplay + '.' + monthDisplay + '.' + yearDisplay"></Button>
+            <Button class="buttonRight orangeButton" row="1" col="1" (tap)="pickTime()" [text]="hourDisplay + ':' + minuteDisplay + 'Uhr'"></Button>
         </GridLayout>
         <GridLayout row="2" col="0" colSpan="2" rows="auto,auto" columns="*,*">
                 <Label textWrap="true" class="fa subText" row="0" col="0" colSpan="2" text="Wie viele Helfer brauchst du?"></Label>

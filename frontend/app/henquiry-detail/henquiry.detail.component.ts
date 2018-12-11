@@ -41,10 +41,15 @@ export class HenquiryDetailComponent implements OnInit {
 
     private today = new Date();
     private year: number;
+    private yearDisplay: string;
     private month: number;
+    private monthDisplay: string;
     private day: number;
+    private dayDisplay: string; 
     private hour: number;
+    private hourDisplay: string;
     private minute: number;
+    private minuteDisplay: string;
     private duration: number;
     private amount: number;
     private category: { category: number, subcategory: number }
@@ -64,6 +69,11 @@ export class HenquiryDetailComponent implements OnInit {
         this.year = this.today.getFullYear();
         this.hour = this.today.getHours();
         this.minute = this.today.getMinutes();
+        this.dayDisplay = (this.today.getDate() + 1).toString();
+        this.monthDisplay = this.today.getMonth().toString();
+        this.yearDisplay = this.today.getFullYear().toString();
+        this.hourDisplay = this.today.getHours().toString();
+        this.minuteDisplay = this.today.getMinutes().toString();
         this.duration = 30; // placeholder
         this.amount = 1;
         this.category = {
@@ -139,6 +149,9 @@ export class HenquiryDetailComponent implements OnInit {
             this.day = result.day;
             this.month = result.month - 1;
             this.year = result.year;
+            this.dayDisplay = (result.day < 10) ?  "0" + result.day : result.day.toString();
+            this.monthDisplay = (result.month < 10) ? "0" + result.month : result.month.toString();
+            this.yearDisplay = result.year.toString();
         }).catch((error) => {
             console.log('Error: ' + error);
         });
@@ -155,50 +168,13 @@ export class HenquiryDetailComponent implements OnInit {
             is24HourView: true
         }).then((result) => {
             this.hour = result.hour;
+            this.hourDisplay = (result.hour < 10) ? "0" + result.hour : result.hour.toString();
             this.minute = result.minute
+            this.minuteDisplay = (result.minute < 10) ? "0" + result.minute : result.minute.toString();
         }).catch((error) => {
             console.log('Error: ' + error);
         });
     }
-
-    /*
-  onPickerLoadedDate(args) {
-      let datePicker = <DatePicker>args.object;
-
-      let today = new Date();
-      let tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-      let future = new Date();
-
-      // define max value
-      future.setMonth(future.getMonth() + 3);
-
-      // base values
-      datePicker.year = today.getFullYear();;
-      datePicker.month = today.getMonth();
-      datePicker.day = today.getDate() + 1;
-
-      // ranges
-      datePicker.minDate = tomorrow;
-      datePicker.maxDate = future;
-  }
-  */
-
-    /*
-    // maybe fix minute interval?
-    onPickerLoadedTime(args) {
-        let timePicker = <TimePicker>args.object;
-        let now = new Date();
-
-        timePicker.minuteInterval = 15;
-        timePicker.hour = now.getHours();
-        timePicker.minute = 0;
-    }
-
-    onTimeChanged(args) {
-        let time = new Date(args.value);
-        this.hour = time.getHours(), this.minute = time.getMinutes();
-    }
-    */
 
     onTapMinute(duration) {
         this.duration = duration;
@@ -208,20 +184,6 @@ export class HenquiryDetailComponent implements OnInit {
     onTapAmount(amount) {
         this.amount = amount;
     }
-
-    /*
-    onDayChanged(args) {
-        this.day = args.value;
-    }
-
-    onMonthChanged(args) {
-        this.month = args.value;
-    }
-
-    onYearChanged(args) {
-        this.year = args.value;
-    }
-    */
 
     submitHenquiry() {
         if (!this.appSet.getUser('guest')) {

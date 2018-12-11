@@ -17,6 +17,7 @@ ActionBar {
     border-width: 1;
     border-color: #FF6600;
     margin:10 15;
+    height:50;
 }
 
 .categoryButtonSelected{
@@ -25,6 +26,7 @@ ActionBar {
     border-width: 1;
     border-color: #FF6600;
     margin:10 15;
+    height:50;
 }
 
 .nextButton{
@@ -33,6 +35,7 @@ ActionBar {
     border-width: 2;
     border-color: #FF6600; 
     margin:10 15;
+    height:50;
 }
 
 .nextButton:active{
@@ -46,6 +49,7 @@ ActionBar {
     border-width: 2;
     border-color: #001144;
     margin:10 15;
+    height:50;
 }
 
 .blueButton:active{
@@ -83,6 +87,7 @@ ActionBar {
 Button {
     border-radius: 25;
     font-family: 'Lato', 'Lato-Bold'; 
+    height:50;
 }
 
 

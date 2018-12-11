@@ -343,7 +343,7 @@ export class ItemService {
     public getSubs() {
         return [
             ["Reparieren", "Umräumen", "Umziehen"],
-            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spühlen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
+            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spülen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
             ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
             ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtnern", "Heckenschneiden", "Rechen"],
             ["Gassigehen", "Käfigsäubern", "Tiere füttern"]

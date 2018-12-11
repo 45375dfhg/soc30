@@ -1,11 +1,10 @@
-<ActionBar title="Bewertung">
+<ActionBar title="Spreche ein kleines Lob aus">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 
 
 <GridLayout rows="auto,*,auto" columns="*,*,*">
-    <Label row="0" col="0" colSpan="3" class="heading" text="Spreche {{ helper }} ein kleines Lob aus"
-        verticalAlignment="center" horizontalAlignment="center"></Label>
+    <StackLayout row="0" col="0" class="space"></StackLayout>
     <GridLayout row="1" col="0" colSpan="3" rows="*,*,*,*" columns="*,*,*">
         <GridLayout row="0" col="0" rows="auto,auto" columns="*">
             <Image row="0" col="0" [src]="getCategoryIconSource('hoeren')" verticalAlignment="center"

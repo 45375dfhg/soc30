@@ -42,13 +42,14 @@
   }
  
   TextField {
-    placeholder-color: #C4AFB4;
+    placeholder-color: #D8DAE5;
     color: #001144;
     border-radius: 25;
     margin-top: 20;
     border-width: 1;
-    border-color: #FF6600;
+    border-color: #D8DAE5;
     padding:10 20;
+    font-size:14;
   }
 
   .invalid-feedback {

@@ -30,12 +30,14 @@ font-family: 'Lato', 'Lato-Bold';
 }
 
 .chatTextField{
+    placeholder-color: #D8DAE5;
     margin:0 0 5 10;
     color: #001144;
     border-radius: 25 0 0 25;
     border-width: 1;
     border-color: #FF6600;
-    padding:0 10;
+    padding:0 10 0 20;
+    font-size:14;
 }
 
 
@@ -66,6 +68,8 @@ font-family: 'Lato', 'Lato-Bold';
     color: #001144;
     text-align: center;
     margin:5 50;
+    background-color: #D8DAE5;
+    border-radius: 25;
 }
 
 .chatBubble{
@@ -74,7 +78,7 @@ font-family: 'Lato', 'Lato-Bold';
     border-color: #D8DAE5;
     padding:10;
     width:auto;
-    border-radius: 20;
+    border-radius: 25;
     font-size: 14;
 }
  

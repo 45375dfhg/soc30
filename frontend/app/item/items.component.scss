@@ -5,13 +5,15 @@ ActionBar {
 }
 
 Button {
-    background-color: #FF6600;
-    color: white;
     border-radius: 25;
     font-family: 'Lato', 'Lato-Bold'; 
 }
 
 .willHelpButton {
+    background-color: white;
+    color: #FF6600;
+    border-color:#FF6600;
+    border-width: 2;
     margin:20 0 0 0;
     font-size:13;
 }
@@ -19,6 +21,7 @@ Button {
 .willHelpButton:active{
     background-color: #d8510e;
 }
+
 
 .greyButton {
     margin:20 0 0 0;
@@ -54,13 +57,23 @@ Button {
 }
 
   .gridItem {
-    background-color: white;; 
-    color:#001144;
-    border-width: 1;
-    border-color: #001144;
     margin:5 15;
     padding:10 10 10 15;
-    border-radius:20;
+}
+
+
+.border{
+    border-radius: 25;
+    border-width: 1;
+    border-color: #D8DAE5;
+    color: #001144;
+}
+
+.border-expanded{
+    border-radius: 25;
+    border-width: 1;
+    border-color:#FF6600;
+    color: #001144;
 }
 
 .icon {

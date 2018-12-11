@@ -15,6 +15,9 @@ registerElement('Carousel', () => Carousel);
 registerElement('CarouselItem', () => CarouselItem);
 
 
+import * as app from 'application';
+
+declare var android;
 
 @Component({
     selector: "ns-app",
@@ -23,7 +26,14 @@ registerElement('CarouselItem', () => CarouselItem);
 })
 export class AppComponent {
 
-    public constructor(private router: RouterExtensions) { }
+    public constructor(private router: RouterExtensions) { 
+        if(isIOS){
+            topmost().ios.controller.navigationBar.barStyle = 1;
+        } else {
+            let decorrView = app.android.startActivity.getWindow().getDecorView();
+            decorrView.setSystemUiVisibility(android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
 
     public ngOnInit(): void {
         if (isAndroid) {

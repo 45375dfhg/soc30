@@ -12,6 +12,10 @@ GridLayout{
     font-size: 17;
 }
 
+.space{
+    height:10;
+}
+
 Label{
     color: #001144;
 }
@@ -30,29 +34,25 @@ Button{
 .confirmButton{
     background-color:white;
     color:#FF6600;
-    border-width:1;
+    border-width:2;
     border-color:#FF6600;
 }
 
 .confirmButton:active{
     background-color:#FF6600;
     color:white;
-    border-width:1;
-    border-color:#FF6600;
 }
 
 .backButton{
     color: #001144;
     background-color:white;
-    border-width:1;
+    border-width:2;
     border-color:#001144;
 }
 
 .backButton:active{
     color: white;
     background-color:#001144;
-    border-width:1;
-    border-color:#001144;
 }
 
 

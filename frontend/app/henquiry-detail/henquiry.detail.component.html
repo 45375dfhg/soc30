@@ -1,4 +1,4 @@
-<ActionBar title="Hilfegesuch erstellen">
+<ActionBar title="Lass dir helfen!">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 <!--<StackLayout>
@@ -28,8 +28,8 @@
                 <Button class="buttonLeft orangeButton" row="1" col="0" (tap)="durationUp()" [text]="duration + ' Minuten'"></Button>
                 <Button class="buttonRight orangeButton" row="1" col="1" (tap)="personUp()" [text]="amount + ' Person(en)'"></Button>
         </GridLayout>
-        <Button class="buttonLeft blueButton" row="4" col="0" text="Doch nicht" (tap)="goBack()"></Button>
-        <Button class="orangeButton buttonRight" row="4" col="1" text="Ab geht die Post!" (tap)="submitHenquiry()" [nsRouterLink]="['../henquiry']"></Button>
+        <Button class="buttonLeft blueButton" row="4" col="0" text="Zurück" (tap)="goBack()"></Button>
+        <Button class="submitButton buttonRight" row="4" col="1" text="Ab geht die Post!" (tap)="submitHenquiry()" [nsRouterLink]="['../henquiry']"></Button>
     </GridLayout>
 </StackLayout>
 

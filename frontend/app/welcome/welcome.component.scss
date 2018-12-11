@@ -11,7 +11,7 @@ GridLayout Label{
 .fa{
     margin:0 30 0 30;
     font-size:14;
-
+    font-family: 'Lato';
 }
 
 .heading{
@@ -28,32 +28,26 @@ Button{
     background-color: white;
     color: #FF6600;
     border-radius: 25;
-    border-width: 1;
+    border-width: 2;
     border-color: #FF6600;
 }
 
 .orangeButton:active{
     background-color: #FF6600;
     color: white;
-    border-radius: 25;
-    border-width: 1;
-    border-color: #FF6600;
 }
 
 .blueButton{
     background-color: white;
     color: #001144;
     border-radius: 25;
-    border-width: 1;
+    border-width: 2;
     border-color: #001144;
 }
 
 .blueButton:active{
     background-color: #001144;
     color: white;
-    border-radius: 25;
-    border-width: 1;
-    border-color: #001144;
 }
 
 

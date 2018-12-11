@@ -10,8 +10,8 @@ ActionBar {
     border-width: 1;
     border-color: #D8DAE5;
     margin:5 5;
-    width:60;
-    height:60;
+    width:40;
+    height:40;
 }
 
 .deactivated {
@@ -20,7 +20,8 @@ ActionBar {
     border-width: 1;
     border-color: #D8DAE5;
     margin:5 5;
-    padding:0;
+    width:40;
+    height:40;
 }
 
 .gridItem {
@@ -52,6 +53,7 @@ Image{
 .emptyScreen{
     font-family: 'Lato', 'Lato-Bold'; 
     color:#001144;
+    text-align: center;
 }
 
 .emptytext1{

@@ -3,6 +3,7 @@
 </ActionBar>
 
 <StackLayout *ngIf="!guest; else guestModus">
+    <ScrollView>
     <GridLayout rows="auto, auto, auto, *, auto" columns="*">
         <Label class="icon" row="0" col="0" text="&#xf08b;" (onTap)="logout()" verticalAlignment="top"
             horizontalAlignment="right"></Label>
@@ -24,7 +25,7 @@
                 horizontalAlignment="center"></Label>
         </GridLayout>
 
-        <GridLayout row="2" col="0" rows="auto,auto" columns="*,*,*">
+        <GridLayout class="ratings" row="2" col="0" rows="auto,auto" columns="*,*,*">
             <Image row="0" col="0" [src]="getPropertyIconSource(icon1)" class="ratingIcon"></Image>
             <Label row="1" col="0" class="ratingText fa" [text]="getPropertyString(icon1)" verticalAlignment="center" horizontalAlignment="center"></Label>
             <Image row="0" col="1" [src]="getPropertyIconSource(icon2)" class="ratingIcon"></Image>
@@ -40,6 +41,7 @@
             <Button row="2" col="0" text="Email-Adresse wurde bestätigt"></Button>
         </GridLayout>
     </GridLayout>
+</ScrollView>
 </StackLayout>
 <ng-template #guestModus>
     <GridLayout rows="auto, auto, auto, *, auto" columns="*">

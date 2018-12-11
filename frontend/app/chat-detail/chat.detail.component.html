@@ -3,7 +3,7 @@
 </ActionBar>
 <StackLayout [items]="polledMessageObj$ | async">
     <GridLayout rows="auto,*,auto" columns="*,*,*,*,*">
-        <Button row="0" colSpan="5" text="Back" (tap)="goBack()" class="backButton"></Button>
+        <Button row="0" colSpan="5" text="Zurück" (tap)="goBack()" class="backButton"></Button>
         <ScrollView #ScrollList row="1" col="0" colSpan="5">
             <StackLayout>
                 <StackLayout *ngFor="let message of polledMessages$">

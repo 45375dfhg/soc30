@@ -11,7 +11,6 @@ ActionBar {
     font-size: 14;
 }
 
-
 .categoryButton{
     background-color: white;
     color: #FF6600;
@@ -31,7 +30,7 @@ ActionBar {
 .nextButton{
     background-color: white;
     color: #FF6600;
-    border-width: 1;
+    border-width: 2;
     border-color: #FF6600; 
     margin:10 15;
 }
@@ -44,7 +43,7 @@ ActionBar {
 .blueButton{
     background-color: white;
     color: #001144;
-    border-width: 1;
+    border-width: 2;
     border-color: #001144;
     margin:10 15;
 }
@@ -71,13 +70,14 @@ ActionBar {
 }
 
 .subHeading{
-    font-size: 25;
-    margin:5 0 5 10;
+    font-family: 'Lato-Bold';
+    font-size: 14;
+    margin:5 0 5 30;
 }
 
 .icon{
     font-family: "FontAwesome";
-    margin: 0 10 0 10;
+    margin: 0 10 0 30;
 }
 
 Button {

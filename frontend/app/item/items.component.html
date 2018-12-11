@@ -35,18 +35,20 @@
                         <Image row="0" rowSpan="3" col="2" [src]="setIcon(item.category.category, item.category.subcategory)"
                             height="100" verticalAlignment="center" horizontalAlignment="right"></Image>
 
-                        <StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>
+                        <!--<StackLayout row="3" class="hr-light m-t-5 m-b-5" colSpan="4"></StackLayout>-->
 
                         <Label row="4" col="0" colSpan="2" textWrap="true" [text]="formatTerra(item.startTime, item.endTime)"
                             verticalAlignment="bottom" height="20" class="fa"></Label>
                         <Label row="5" col="0" colSpan="2" textWrap="true" [text]="formatDuration(item.startTime, item.endTime)"
                             verticalAlignment="top" height="20" class="fa"></Label>
-                        <Image row="6" rowSpan="3" col="0" [src]="getAvatar(item.createdBy.avatar)" height="150"
-                            verticalAlignment="center" horizontalAlignment="center"></Image>
+                        <Image row="6" rowSpan="3" col="0" [src]="getAvatar(item.createdBy.avatar)" height="100"
+                            verticalAlignment="center" horizontalAlignment="left"></Image>
                         <Label row="6" col="1" colSpan="3" textWrap="true" [text]="item.createdBy.firstname + ' ' + item.createdBy.surname[0] + '.'"
                             horizontalAlignment="left" verticalAlignment="bottom" height="20" class="fa"></Label>
                         <Label row="7" col="1" colSpan="3" textWrap="true" [text]="item.createdBy.nickname"
                             horizontalAlignment="left" verticalAlignment="center" height="20" class="fa"></Label>
+                        <Label row="8" col="1" colSpan="3" textWrap="true" text="ratingssss" horizontalAlignment="left"
+                            verticalAlignment="center" height="20" class="fa"></Label>
                         <Button row="9" col="0" colSpan="3" textWrap="true" text="Da will ich helfen!" class="willHelpButton"
                             (tap)="onClick(item._id,$event)"></Button>
                         <Label row="10" col="3" text="&#xf077;" verticalAlignment="bottom" class="icon"></Label>

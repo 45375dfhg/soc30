@@ -1,4 +1,4 @@
-<ActionBar title="Hilfegesuch erstellen">
+<ActionBar title="Lass dir helfen!">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 <StackLayout *ngIf="!categorySelected; else subcategory">
@@ -22,7 +22,7 @@
                         <GridLayout row="0" rows="auto" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', categoryId.toString() + i.toString()]"
                             pageTransition="slideLeft" class="border category">
                             <Label row="0" col="0" colSpan="3" [text]="sub" class="fa subHeading" verticalAlignment="center"></Label>
-                            <Image row="0" rowSpan="2" col="3" [src]="setIcon(categoryId, i)" height="100"
+                            <Image class="subIcon" row="0" rowSpan="2" col="3" [src]="setIcon(categoryId, i)" height="50"
                                 verticalAlignment="center" horizontalAlignment="right"></Image>
                             <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
                         </GridLayout>

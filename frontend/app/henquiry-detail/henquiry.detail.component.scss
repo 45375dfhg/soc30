@@ -23,10 +23,23 @@ Button {
     color: white;
 }
 
+.submitButton{
+    background-color: white;
+    color: #FF6600;
+    border-width: 2;
+    border-color: #FF6600;
+}
+
+.submitButton:active{
+    background-color: #FF6600;
+    color: white;
+}
+
+
 .blueButton{
     background-color: white;
     color: #001144;
-    border-width: 1;
+    border-width: 2;
     border-color: #001144;
 }
 

@@ -13,7 +13,7 @@
   }
 
   .codeText{
-    margin:40 20 0 20;
+    margin:40 20 0 35;
   }
 
   .invalid-feedback{
@@ -51,9 +51,9 @@
 }
  
 .navButton{
-  background-color: #FF6600;
-  color: white;
-  border-width: 1;
+  background-color: white;
+  color: #FF6600;
+  border-width: 2;
   border-color: #FF6600;
 }
 
@@ -72,30 +72,35 @@
 
 
   Button {
-    font-size:15;
     border-radius: 25;
-    margin:15 10 10 10;
+    margin:25 15 10 15;
   }
 
   .navButton:active {
-    background-color: #d8510e;
-    border-color: #d8510e;
+    background-color: #FF6600;
+    border-color: #FF6600;
   }
  
   TextField {
-    placeholder-color: #C4AFB4;
+    font-family: 'Lato';
+    placeholder-color: #D8DAE5;
     color: #001144;
     border-radius: 25;
     border-width: 1;
-    border-color: #FF6600;
+    border-color: #D8DAE5;
     padding:10 20;
     margin:15 20 0 20;
+    font-size:14;
   }
 
   .greyButton {
     background-color: #C4AFB4;
   }
 
+
+  .genders{
+    margin:0 0 30 0;
+  }
 
 
 

@@ -25,7 +25,7 @@ exports.register = function (req, res, next) {
   }
   if (req.body.email && req.body.password && req.body.passwordConf && 
     req.body.surname && req.body.firstname && req.body.postalcode
-    && req.body.street && req.body.housenm && req.body.city) {
+    && req.body.street && req.body.housenm && req.body.city && req.body.nickname) {
     var address = {postalcode: req.body.postalcode, street: req.body.street, housenm: req.body.housenm,
     city: req.body.city};
     if(!address.postalcode || !address.street || !address.housenm || !address.city) {
@@ -61,7 +61,7 @@ exports.register = function (req, res, next) {
           password: hashedPassword,
           surname: req.body.surname,
           firstname: req.body.firstname,
-          nickname: "Neuling",
+          nickname: req.body.nickname,
           address: address,
           registerDate: new Date(),
           coordinates: {latitude: latitude, longitude:longitude},

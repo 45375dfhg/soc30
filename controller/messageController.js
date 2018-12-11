@@ -24,28 +24,12 @@ exports.messagesOverview = (req, res, next) => {
         // Messages werden nicht geschickt, wenn bereits bewertet wurde
         for(var i = 0; i < result.length; i++) {
             // Man ist Aide
-            console.log(result[i].henquiry);
-            if(result[i].henquiry._id == '5c0e7d20e47c2d6d61f6fb20') {
-                console.log("Man ist Aide");
-                console.log(result[i]);
-            }
-            //console.log(result[i].henquiry._id);
             if(result[i].aide._id == userId) {
-                if(result[i].henquiry._id == '5c0e7d20e47c2d6d61f6fb20') {
-                    console.log("Man ist Aide");
-                    console.log(result[i]);
-                }
-                //console.log(result[i]);
                 if(result[i].henquiry.ratedFiler.indexOf(result[i].aide._id) > -1) {
                     result.splice(i,1);
                     i--;
                 }
             } else {
-                if(result[i].henquiry._id == '5c0e7d20e47c2d6d61f6fb20') {
-                    console.log("Man ist Filer?");
-                    console.log(result[i]);
-                }
-                //console.log(result[i]);
                 if(result[i].henquiry.ratedAide.indexOf(result[i].aide._id) > -1) {
                     result.splice(i,1);
                     i--;

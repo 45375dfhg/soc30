@@ -23,7 +23,6 @@ ActionBar {
     padding:0;
 }
 
-
 .gridItem {
     background-color: white;; 
     color:#001144;
@@ -34,11 +33,9 @@ ActionBar {
     border-radius:20;
 }
 
-
 Image{
 
 }
-
 
 .icon {
      font-family: "FontAwesome";
@@ -52,3 +49,20 @@ Image{
     font-size: 17;
 }
  
+.emptyScreen{
+    font-family: 'Lato', 'Lato-Bold'; 
+    color:#001144;
+}
+
+.emptytext1{
+    margin:60 50 20 50;
+}
+
+.emptytext2{
+    margin:0 50 60 50;
+}
+
+.emptytext3{
+    font-size: 12;
+    margin:50 70 20 70;
+}

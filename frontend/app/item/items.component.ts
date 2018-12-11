@@ -80,7 +80,6 @@ export class ItemsComponent implements OnInit {
                 concatMap(_ => items$),
                 map(res => {
                     let currentUser = JSON.parse(this.appSet.getUser('currentUser'));
-                    console.log('refreshed')
                     return res
                         // filter(entry => currentUser._id != entry.createdBy._id)
                         .filter(fdist => fdist.distance <= this.message.distance)

@@ -8,6 +8,8 @@ import { AppSettingsService } from '../shared/services/appsettings.service';
 import { getCategoryIconSource } from "../app.component";
 import { ItemService } from '../shared/services/item.service'
 
+import _ from "lodash";
+
 
 @Component({
     moduleId: module.id,
@@ -17,17 +19,17 @@ import { ItemService } from '../shared/services/item.service'
 })
 export class ProfileComponent implements OnInit {
 
-
     getAvatar = this.itemService.getAvatar;
     getAvatarStrings = this.itemService.getAvatarStrings;
 
-
-
-
     // sync
     private profile;
-    private rating; // received as aide
-    private ratings; // received as
+    private ratingsFiler;
+    private icon1;
+    private icon2;
+    private icon3;
+    private guest: boolean = false;
+    private registerDate;
 
     public constructor(
         private authenticationService: AuthenticationService,
@@ -42,7 +44,7 @@ export class ProfileComponent implements OnInit {
         if (this.appSet.getUser('currentUser')) {
             this.loadProfile();
         } else {
-            // dummy data
+            this.guest = true;
         }
     }
 
@@ -51,14 +53,44 @@ export class ProfileComponent implements OnInit {
         let id = currentUser._id;
         this.profileService.getProfile(id).subscribe(
             res => {
-                console.log(res);
+                console.log(res.ratings);
+                this.ratingsFiler = this.getIdxOfThreeHighestProperties(res.ratings);
+                this.icon1 = this.ratingsFiler[0];
+                this.icon2 = this.ratingsFiler[1];
+                this.icon3 = this.ratingsFiler[2];
+                // console.log(typeof res.registerDate);
+                let tmp = new Date(res.registerDate);
+                // console.log(tmp);
+                this.registerDate = tmp.getFullYear();
                 this.profile = res;
             });
+    }
+
+    getIdxOfThreeHighestProperties(arr) {
+        let tmp = [];
+        for (let i = 0; i < 3; i++) {
+            let max = _.max(arr);
+            let idx = arr.indexOf(max);
+            tmp.push(arr.indexOf(max));
+            arr[idx] = null;
+        }
+        console.log(tmp);
+        return tmp;
     }
 
     logout() {
         this.authenticationService.logout();
         this.router.navigate(["/welcome"], { clearHistory: true });
+    }
+
+    getPropertyIconSource(idx: number): string {
+        enum Properties {stark, sonnenschein, sauber, puenktlich, lustig, lieb, hoeren, gruenerdaumen, glashalbvoll, gespraechig, geschickt, tierlieb}
+        return this.getCategoryIconSource(Properties[idx]);
+    }
+
+    getPropertyString(idx: number): string {
+        enum Properties {Stark, Sonnenschein, Sauber, Pünktlich, Lustig, Lieb, 'Guter Zuhörer', 'Grüner Daumen', 'Glas Halbvoll', Gesprächig, Geschickt, Tierlieb}
+        return Properties[idx];
     }
 
     getCategoryIconSource(icon: string): string {

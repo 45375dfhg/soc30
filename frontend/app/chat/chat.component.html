@@ -20,6 +20,49 @@
                                         <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
                                                 horizontalAlignment="right" class="icon" [nsRouterLink]="['../chats', item._id]"></Label>
                                         <GridLayout row="4" col="0" colSpan="3" rows="auto" columns="auto,auto,auto">
+                                                <ng-container *ngIf="userIsFiler(item); then filer; else aide"></ng-container>
+                                                <ng-template #filer>
+                                                        <ng-container *ngIf="userCanRate(item); then rateAide; else accept"></ng-container>
+                                                        <ng-template #rateAide>
+                                                                <Button row="0" col="2" text="&#xf005;" class="icon chatButtons"
+                                                                        (tap)="rateTap($event, item)" [nsRouterLink]="['../rating', roleForIdString(item) + item.henquiry._id]"></Button>
+                                                        </ng-template>
+                                                        <ng-template #accept>
+                                                                <Button row="0" col="2" text="&#xf00c;" class="icon chatButtons"
+                                                                        (tap)="acceptTap($event, item)"></Button>
+                                                        </ng-template>
+                                                </ng-template>
+                                                <ng-template #aide>
+                                                        <ng-container *ngIf="userCanRate(item); then rateFiler; else cancel"></ng-container>
+                                                        <ng-template #rateFiler>
+                                                                <Button row="0" col="2" text="&#xf005;" class="icon chatButtons"
+                                                                        (tap)="rateTap($event, item)" [nsRouterLink]="['../rating', roleForIdString(item) + item.henquiry._id]"></Button>
+                                                        </ng-template>
+                                                        <ng-template #cancel>
+                                                                <Button row="0" col="2" text="&#xf00d;" class="icon chatButtons"
+                                                                        (tap)="cancelTap($event, item)"></Button>
+                                                        </ng-template>
+                                                </ng-template>
+                                        </GridLayout>
+                                </GridLayout>
+                        </FlexboxLayout>
+                </ng-template>
+        </RadListView>
+</StackLayout>
+<ng-template #noEntries>
+        <GridLayout rows="auto,auto,auto,auto" class="emptyScreen fa">
+                <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
+                        horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>
+                <Label row="1" text="Oder brauchst du selbst Hilfe? Dann setz einfach ein Hilfegesuch auf!"
+                        horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext2"></Label>
+                <Image row="2" [src]="getCategoryIconSource('kaffeetasse')" horizontalAlignment="center"
+                        verticalAlignment="center" height="25%" class="emptyimage1"></Image>
+                <Label row="3" text="Hier geht bald die Post ab! Dann hast du die Möglichkeit mit deinen Nachbarn zu schreiben."
+                        horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
+        </GridLayout>
+</ng-template>
+
+<!--
                                                 <ng-container *ngIf="acceptPossible(item); then accept; else noAccept"></ng-container>
                                                 <ng-template #accept>
                                                         <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"
@@ -43,26 +86,7 @@
                                                 </ng-template>
                                                 <ng-template #noRate>
                                                         <Button row="0" col="2" text="noRate" class="icon deactivated"></Button>
-                                                </ng-template>
-                                        </GridLayout>
-                                </GridLayout>
-                        </FlexboxLayout>
-                </ng-template>
-        </RadListView>
-</StackLayout>
-<ng-template #noEntries>
-        <GridLayout rows="auto,auto,auto,auto" class="emptyScreen fa">
-                <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
-                        horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>
-                <Label row="1" text="Oder brauchst du selbst Hilfe? Dann setz einfach ein Hilfegesuch auf!"
-                        horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext2"></Label>
-                <Image row="2" [src]="getCategoryIconSource('kaffeetasse')" horizontalAlignment="center"
-                        verticalAlignment="center" height="25%" class="emptyimage1"></Image>
-                <Label row="3" text="Hier geht bald die Post ab! Dann hast du die Möglichkeit mit deinen Nachbarn zu schreiben."
-                        horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
-        </GridLayout>
-</ng-template>
-
+                                                </ng-template>-->
 <!--(itemTap)="onItemTap($event)"
 <Button row="0" col="0" colSpan="2" height="25" text="Chat away" [nsRouterLink]="['../chats', item._id]"></Button>-->
 <!--*ngIf="entries | async; else noEntries

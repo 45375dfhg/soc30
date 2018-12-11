@@ -87,15 +87,15 @@ export class ChatComponent implements OnInit {
     readStatus(item) {
         if (item.readFiler == null) {
             if (!item.readAide) {
-                return "Eine neue Nachricht"
+                return "Eine neue Nachricht."
             } else {
-                return "Alles gelesen"
+                return "Alles gelesen."
             }
         } else {
             if (!item.readFiler) {
-                return "Eine neue Nachricht"
+                return "Eine neue Nachricht."
             } else {
-                return "Alles gelesen"
+                return "Alles gelesen."
             }
         }
     }
@@ -103,7 +103,7 @@ export class ChatComponent implements OnInit {
     applyStatus(item) {
         if (this.userIsFiler(item)) {
             if (this.filerCanAcceptHenquiry(item)) {
-                return 'Möchtest du ' + item.aide.firstname + ' annehmen';
+                return 'Möchtest du ' + item.aide.firstname + ' annehmen?';
             }
             if (this.filerCanCloseHenquiry(item)) {
                 return 'Den Termin festmachen?'
@@ -112,14 +112,14 @@ export class ChatComponent implements OnInit {
                 return 'Hat der Termin stattgefunden?'
             }
             if (this.userCanRate(item)) {
-                return 'Du kannst '  + item.aide.firstname + ' bewerten'
+                return 'Du kannst '  + item.aide.firstname + ' bewerten!'
             }
         } else {
             if (this.aideCanCancelHenquiry(item)) {
                 return 'Möchtest du absagen?'
             }
             if (this.userCanRate(item)) {
-                return 'Du kannst '  + item.filer.firstname + ' bewerten'
+                return 'Du kannst '  + item.filer.firstname + ' bewerten!'
             }
         }
     }
@@ -228,7 +228,11 @@ export class ChatComponent implements OnInit {
         if (this.userIsFiler(item)) {
             return false;
         } else {
-            return true;
+            if (item.henquiry.closed) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -252,11 +256,15 @@ export class ChatComponent implements OnInit {
     // REST/henquiries/close
     filerCanCloseHenquiry(item) {
         if (this.userIsFiler(item)) {
-            if ((item.henquiry.aide == null) || (item.henquiry.aide.length < 1)) {
-                return false;
+            if (item.henquiry.closed != true) {
+                if ((item.henquiry.aide == null) || (item.henquiry.aide.length < 1)) {
+                    return false;
+                } else {
+                    return true;
+                }
             } else {
-                return true;
-            }
+                return false;
+            }   
         } else {
             return false;
         }
@@ -265,7 +273,10 @@ export class ChatComponent implements OnInit {
     // REST/henquiries/success
     filerCanSuccessHenquiry(item) {
         if (this.userIsFiler(item)) {
-            return true;
+            if (item.henquiry.happened) {
+                return false;
+            } else {
+                return true;
             /*
             let time = new Date(item.henquiry.endTime);
             if (Date.now() > time.getTime()) {
@@ -274,6 +285,7 @@ export class ChatComponent implements OnInit {
                 return false;
             }
             */
+            }
         } else {
             return false;
         }

@@ -28,6 +28,10 @@ exports.getHenquiries = (req, res, next) => {
             userResult.coordinates.longitude);
           // Das FE filtert die weiteren Henquiries (z.B. 1km, 5km, etc.)
           // BE filtert einfach 200km entfernte Henquiries
+          if(list_henquiries[i].distance > 200) {
+            list_henquiries.splice(i,1);
+            i--;
+          }
         }
         // Eigene Henquiries und Henquiries, wo man sich beworben hat bzw. hilft werden nicht mitgeschickt
         // Die Koordinaten, aide und potentialAide werden wieder entfernt
@@ -643,7 +647,6 @@ exports.rateFiler = (req, res, next) => {
     rating = new Array(rating);
   }*/
   Henquiry.findById(henquiryId, function(errHenquiry, resultHenquiry) {
-    var filerId = resultHenquiry.createdBy;
     if(errHenquiry) {
       logger.log('error', new Date() + 'POST/ratefiler, Code: AK_001, Error:' + errHenquiry);
       return res.status(500).send("AK_001");
@@ -651,6 +654,7 @@ exports.rateFiler = (req, res, next) => {
     if(!resultHenquiry) {
       return res.status(404).send("AK_002");
     }
+    var filerId = resultHenquiry.createdBy;
     if(!resultHenquiry.happened || !resultHenquiry.closed || resultHenquiry.removed) {
       // Henquiry in einem für diese Anfrage ungültigen Zustand
       return res.status(400).send("AK_003");

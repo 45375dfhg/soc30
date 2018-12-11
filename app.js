@@ -52,9 +52,8 @@ app.use(function (err, req, res, next) {
   res.send(err.message);
 });
 
-// listen on port 3000
-app.listen(12345, function () {
-  console.log('Express app listening on port 12345');
+app.listen(config.port, function () {
+  console.log('Express app listening on port ' + config.port);
 });
 
 module.exports = app;

@@ -77,7 +77,41 @@ exports.register = function (req, res, next) {
           var token = jwt.sign({ id: user._id }, config.secret, {
             expiresIn: 86400*31 // expires in 31 days
           });
-          return res.status(200).send({ auth: true, token: token , _id: user._id});
+          if(req.body.code && req.body.hostEmail) {
+            console.log("hier");
+            var code = req.body.code;
+            var email = req.body.hostEmail;
+            User.findOne({email:email, "invite.codes":code}, function(err, resultHost) {
+              if(err) {
+                logger.log('error', new Date() + 'PUT/profile/verify, Code: CF_001, Error:' + err);
+                return res.status(500).send("CF_001");
+              }
+              if(!resultHost) {
+                return res.status(404).send("CF_002");
+              }
+              if(!user) {
+                return res.status(404).send("CF_004");
+              }
+              user.invite.level = resultHost.invite.level+1;
+              if(resultHost.invite.level < 2) {
+                for(var i = 0; i < 4; i++) {
+                  var codeToInsert = Math.floor(Math.random()*100000);
+                  if(user.invite.codes.indexOf(codeToInsert) > -1) {
+                    i--;
+                  } else {
+                    user.invite.codes.push(codeToInsert);
+                  }
+                }
+              }
+              resultHost.invite.children.push(user._id);
+              resultHost.invite.codes.splice(resultHost.invite.codes.indexOf(code),1);
+              resultHost.save();
+              user.save();
+              return res.status(200).send({ auth: true, token: token , _id: user._id});
+            });
+          } else {
+              return res.status(200).send({ auth: true, token: token , _id: user._id});
+          }
         });
       } else {
         return res.status(400).send("CC_003");

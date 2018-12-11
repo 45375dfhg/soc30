@@ -1,5 +1,5 @@
-**Anleitung, um das Backend zu starten**
-Das Backend besteht aus zwei Komponenten: Dem MongoDB-Server und dem Node.js-Server.
+**Anleitung, um das Backend zu starten**  
+Das Backend besteht aus zwei Komponenten: Dem MongoDB-Server und dem Node.js-Server.  
 Voraussetzung auf dem Zielsystem ist, dass MongoDB installiert ist. Getestet ist es mit Version 4.0.4 auf Ubuntu 18.04.
 Im Lieferumfang ist ein Backup der gesamten Datenbank mit Testdaten inklusive eines Admin-Nutzers vorhanden. Das Backup kann mittels des Befehls **mongorestore dump/** im Terminal eingespielt werden. Das Terminal muss sich im Verzeichnis befinden, in dem sich der Ordner dump befindet.
 Um die Datenbank mit Authentifizierungsschutz zu starten, muss "mongod --auth" eingetippt werden. Der Server lässt sich auch ohne --auth starten.

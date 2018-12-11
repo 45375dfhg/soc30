@@ -25,7 +25,7 @@ export class RatingComponent implements OnInit {
     private rating = [];
     private helper: string;
     private idx: number;
-    private disabled = false;
+    private disabled = true;
 
     private categories = [false, false, false, false, false, false, false, false, false, false, false, false]
 
@@ -38,8 +38,14 @@ export class RatingComponent implements OnInit {
         this.page.enableSwipeBackNavigation = false;
     }
 
-    toggleCategory(id) {
+    toggleCategory(id, args) {
+        this.changeColorCategory(args);
         this.categories[id] = !this.categories[id];
+        if(this.categories.find(a => a === true)){
+            this.disabled = false;
+        } else {
+            this.disabled = true;
+        }
         console.log(this.categories);
     }
 
@@ -65,6 +71,15 @@ export class RatingComponent implements OnInit {
             }
         })
     }
+
+    changeColorCategory(args) {
+		let btn = args.object; // tapped on object
+		if (btn.className === "ratingItem") {
+			btn.className = "ratingItemSelected";
+		} else {
+			btn.className = "ratingItem";
+		}
+	}
 
     submitRating() {
         let role = this.id.slice(this.idx, this.idx + 2);

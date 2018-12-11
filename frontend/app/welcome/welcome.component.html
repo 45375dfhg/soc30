@@ -29,9 +29,16 @@
                     <Label class="fa" row="1" text="'Social 30' verbindet dich mit den Menschen in deiner Umgebung!"
                         textWrap="true" horizontalAlignment="center" verticalAlignment="center" height="100%"></Label>
                     <Image row="2" [src]="getCategoryIconSource('login03')"></Image>
-
                 </GridLayout>
             </CarouselItem>
+            <CarouselItem>
+            <GridLayout rows="auto" columns="*,*,*,*,*">
+                <TextField [(ngModel)]="ip" class="ip" row="0" col="0" colSpan="4" hint="Server-IP">
+                </TextField>
+                <Button class="icon submitIp" (tap)="changeIp()" row="0" col="4" text="&#xf00c;">
+                </Button>
+            </GridLayout>
+        </CarouselItem>
         </Carousel>
 
 

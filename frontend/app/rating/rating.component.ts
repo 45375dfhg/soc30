@@ -70,15 +70,10 @@ export class RatingComponent implements OnInit {
         let role = this.id.slice(this.idx, this.idx + 2);
         let henqId = this.id.slice(this.idx + 2);
         this.createRatingArray();
-        console.log('role: ' + role);
-        console.log('henqId: ' + henqId);
-        console.log('id: ' + this.id);
-        console.log(this.rating);
         if (role === 'XY') {
             this.itemService.rateItem(henqId, this.rating).subscribe();
         }
         if (role === 'YZ') {
-            console.log('reached into YZ')
             this.itemService.rateFilerItem(henqId, this.rating).subscribe();
         }
         this.goBack();
@@ -92,19 +87,3 @@ export class RatingComponent implements OnInit {
         return getCategoryIconSource(icon);
     }
 }
-
-
-    /*
-    deleteRating(val) {
-        let idx = this.rating.indexOf(val);
-        if (idx !== -1) {
-            this.rating.splice(idx, 1);
-        }
-    }
-
-    addRating(val) {
-        if (this.rating.indexOf(val) != -1) {
-            this.rating.push(val);
-        }
-    }
-    */

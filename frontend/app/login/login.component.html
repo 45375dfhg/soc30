@@ -13,12 +13,6 @@
         </Label>
         <Label row="6" text="Angemeldet bleiben" class="remember" horizontalAlignment="left" verticalAlignment="center"></Label>
         <Switch row="6" class="remember" horizontalAlignment="right" verticalAlignment="center"></Switch>
-        <GridLayout row="7" rows="auto" columns="*,*,*,*,*">
-                <TextField class="ip" row="0" col="0" colSpan="4" hint="Server-IP">
-                </TextField>
-                <Button class="icon submitIp" row="0" col="4" text="&#xf00c;">
-                </Button>
-            </GridLayout>
         <Button row="9" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
         </Button>
         <Button row="10" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="goBack()">

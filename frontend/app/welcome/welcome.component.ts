@@ -6,9 +6,8 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { Router } from '@angular/router';
 import { AppSettingsService } from '../shared/services/appsettings.service';
 
-// clean before prod
 import { AuthenticationService } from '../shared/services/authentication.service';
-
+import { Config } from '../shared/config';
 
 @Component({
 	moduleId: module.id,
@@ -20,6 +19,10 @@ import { AuthenticationService } from '../shared/services/authentication.service
 
 export class WelcomeComponent implements OnInit {
 	@ViewChild('carousel') carouselRef: ElementRef;
+	
+	// sync
+	private ip: string;
+	
 	constructor(
 		private page: Page, 
 		private appSet: AppSettingsService,
@@ -28,9 +31,14 @@ export class WelcomeComponent implements OnInit {
 		private authenticationService: AuthenticationService) {
 		page.actionBarHidden = true;
 		this.page.enableSwipeBackNavigation = false;
+		this.ip = Config.apiUrl;
 	}
 
 	ngOnInit() { }
+
+	changeIp() {
+		Config.apiUrl = this.ip;
+	}
 
 	onTapGuest() {
 		// reset login status - clean before prod

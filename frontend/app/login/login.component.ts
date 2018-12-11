@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 		private routerExtension: RouterExtensions,
 		private authenticationService: AuthenticationService,
 		private alertService: AlertService,
-		private page: Page,
+		private page: Page
 	) {
 		page.actionBarHidden = true;
 		this.page.enableSwipeBackNavigation = false;

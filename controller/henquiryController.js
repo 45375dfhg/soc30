@@ -28,10 +28,6 @@ exports.getHenquiries = (req, res, next) => {
             userResult.coordinates.longitude);
           // Das FE filtert die weiteren Henquiries (z.B. 1km, 5km, etc.)
           // BE filtert einfach 200km entfernte Henquiries
-          if(list_henquiries[i].distance > 200) {
-            list_henquiries.splice(i,1);
-            i--;
-          }
         }
         // Eigene Henquiries und Henquiries, wo man sich beworben hat bzw. hilft werden nicht mitgeschickt
         // Die Koordinaten, aide und potentialAide werden wieder entfernt

@@ -6,7 +6,7 @@ import { AuthenticationService } from '../shared/services/authentication.service
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { getCategoryIconSource } from "../app.component";
 import { ItemService } from '../shared/services/item.service'
-
+import { isAndroid, isIOS, device } from "tns-core-modules/platform";
 import _ from "lodash";
 
 
@@ -31,6 +31,9 @@ export class ProfileComponent implements OnInit {
     private registerDate;
     private status: number;
 
+    private isLogoutVisible: boolean;
+    private isActionVisible: boolean;
+
     public constructor(
         private authenticationService: AuthenticationService,
         private profileService: ProfileService,
@@ -46,6 +49,14 @@ export class ProfileComponent implements OnInit {
             this.loadProfile();
         } else {
             this.guest = true;
+        }
+
+        if (isIOS) {
+            this.isLogoutVisible = false;
+            this.isActionVisible = true;
+        } else {
+            this.isLogoutVisible = true;
+            this.isActionVisible = false;
         }
     }
 
@@ -86,8 +97,8 @@ export class ProfileComponent implements OnInit {
     }
 
     logout() {
-        this.authenticationService.logout();
         console.log("Logout function");
+        this.authenticationService.logout();
         this.router.navigate(['../welcome']);
     }
 

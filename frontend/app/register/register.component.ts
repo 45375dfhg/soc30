@@ -58,7 +58,10 @@ export class RegisterComponent implements OnInit {
             street: ['', Validators.required],
             city: ['', Validators.required],
             housenm: ['', Validators.required],
-            avatar: this.currentAvatar
+            nickname: ['', Validators.required],
+            avatar: this.currentAvatar,
+            code: [''],
+            hostEmail: ['']
         }, { validator: this.pwMatchValidator });
 
         // get return url from route parameters or default to '/'

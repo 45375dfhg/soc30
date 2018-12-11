@@ -4,12 +4,10 @@ The frontend is based on [Nativescript](https://www.nativescript.org/nativescrip
 
 Our primary development platform has been an Android based Nexus Huawei 6P. Development and testing time with iOS based devices has been limited due to a lack of devices in our team. 
 
-You'll find an .apk and ios version of the app inside this repository as well as all required data to build the app yourself.
-The pre-built files assume your server to be the localhost and reachable on the port '12345'. 
+You'll find an .apk version of the app in the root directory as well as all required data to build the app yourself.
+The pre-built file includes a text field below the login to change the server IP to your preference. We can't provide a pre-built app for iOS because the iPhone would have to be jail-breaked to make any use of it.
 
 For the .apk version you need to move the file onto your device by whatever means are at your hand (sharing via google drive works for example). Then, on your Android device you can just open and install the app via the .apk file. 
-
-About the iOS version: ...
 
 ## how to install
 
@@ -17,9 +15,10 @@ About the iOS version: ...
 
 The official Nativescript CLI Setup: [Here](https://docs.nativescript.org/start/quick-setup)
 
-If you do **not** want to run the backend on 
+To change the IP that the frontend tries to reach you have to change the apiUrl value inside'./app/shared/config.ts'. 
 
 If you run into any kind of installation problems after setting up Nativescript run: 'tns doctor'
+
 Do NOT run any npm commands with su or sudo - it will cause major conflicts further down the line. Same applies to an installation of npm / node.js - you will need to re-do its installation from scratch if previously installed as admin.
 
 Linux or Windows based machines can **not** build the app for iOS.

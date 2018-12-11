@@ -1,8 +1,9 @@
 {
+  "appId": "Social 30",
   "description": "NativeScript Application",
-  "license": "SEE LICENSE IN <your-license-filename>",
+  "license": "not applicable as of 12/11",
   "readme": "NativeScript Application",
-  "repository": "<fill-your-repository-here>",
+  "repository": "https://github.com/assoron/soc30/",
   "nativescript": {
     "id": "org.nativescript.nestedroutertabview",
     "tns-ios": {

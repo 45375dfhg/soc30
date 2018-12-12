@@ -3,8 +3,8 @@
 </ActionBar>
 <StackLayout marginTop="5">
     <GridLayout rows="auto,*" columns="*,*">
-        <Button row="0" col="0" [disabled]="true" text="Neue Gesuche" class="refreshButton" pageTransition="fade" (tap)="refreshDataClick()"></Button>
-        <Button row="0" col="1" [disabled]="dis" text="Die Suche eingrenzen" class="filterButton" (tap)="goToFilter()"
+        <Button row="0" col="0" text="Neue Gesuche" class="refreshButton" pageTransition="fade" (tap)="refreshDataClick()"></Button>
+        <Button row="0" col="1" text="Die Suche eingrenzen" class="filterButton" (tap)="goToFilter()"
             pageTransition="fade"></Button>
         <RadListView row="1" col="0" colSpan="2" [items]="guest ? items : polledItems$ | async" #myListView
             [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)" style="height:100%">

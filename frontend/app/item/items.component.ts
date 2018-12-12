@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
@@ -65,6 +65,8 @@ export class ItemsComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private data: DataService,
         private page: Page,
+        private currentRoute: ActivatedRoute,
+        private routerExtension: RouterExtensions
     ) {
         // subscribe to changes in the message (which is the badly named filter)
         this.data.currentMessage.subscribe(message => this.message = message)
@@ -185,8 +187,11 @@ export class ItemsComponent implements OnInit {
         }
     }
 
+    // https://github.com/NativeScript/nativescript-angular/issues/1252#issuecomment-380017432
     goToFilter() {
-        this.router.navigate(['/filterItems']);
+        if (!this.appSet.getUser('guest')) { 
+        this.router.navigate(['../filterItems'], { relativeTo: this.currentRoute });
+        }
     }
 }
 

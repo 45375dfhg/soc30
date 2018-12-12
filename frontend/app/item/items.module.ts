@@ -6,11 +6,6 @@ import { FilterItemsComponent } from "../filterItems/filterItems.component";
 
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
-// interceptor
-// import { TokenInterceptor } from '../shared/helper/token.interceptor';
-// import { HTTP_INTERCEPTORS } from "@angular/common/http";
-
-
 @NgModule({
     imports: [
         NativeScriptCommonModule,

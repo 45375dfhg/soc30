@@ -100,7 +100,9 @@ export class CalendarComponent implements OnInit {
 
     refreshCalendar() {
         // brute force but whatever
-        this.receiveAndOrder();
+        if (!this.appSet.getUser('guest')) {
+            this.receiveAndOrder();
+        }
     }
 
     // forces dummy data to fit the calendar data format

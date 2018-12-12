@@ -81,14 +81,16 @@ export class RatingComponent implements OnInit {
 		}
 	}
 
+    // this will fail horribly when the ids contain an actual XY inside
+    // will need to clean this mess up later
     submitRating() {
         console.log(this.id);
         let role = this.id.slice(this.idx, this.idx + 2);
         this.createRatingArray();
         if (role === 'XY') {
-            let aideIdx = this.id.indexOf('QBD');
+            let aideIdx = this.id.indexOf('ZZZZZ');
             let henqId = this.id.slice(this.idx + 2, aideIdx);
-            let aideId = this.id.slice(aideIdx + 3);
+            let aideId = this.id.slice(aideIdx + 5);
             console.log(this.id)
             console.log(henqId)
             console.log(aideId)

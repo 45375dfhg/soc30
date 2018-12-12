@@ -5,6 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
 import { DatePicker } from "tns-core-modules/ui/date-picker";
 import { TimePicker } from "tns-core-modules/ui/time-picker";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 import * as ModalPicker from 'nativescript-modal-datetimepicker';
 
 import { getCategoryIconSource } from "../app.component";
@@ -45,7 +46,7 @@ export class HenquiryDetailComponent implements OnInit {
     private month: number;
     private monthDisplay: string;
     private day: number;
-    private dayDisplay: string; 
+    private dayDisplay: string;
     private hour: number;
     private hourDisplay: string;
     private minute: number;
@@ -116,7 +117,7 @@ export class HenquiryDetailComponent implements OnInit {
         }
     }
 
-    durationUp(){
+    durationUp() {
         if (this.duration >= 120) {
             this.duration = 30;
         } else {
@@ -124,7 +125,7 @@ export class HenquiryDetailComponent implements OnInit {
         }
     }
 
-    personUp(){
+    personUp() {
         if (this.amount >= 4) {
             this.amount = 1;
         } else {
@@ -149,7 +150,7 @@ export class HenquiryDetailComponent implements OnInit {
             this.day = result.day;
             this.month = result.month - 1;
             this.year = result.year;
-            this.dayDisplay = (result.day < 10) ?  "0" + result.day : result.day.toString();
+            this.dayDisplay = (result.day < 10) ? "0" + result.day : result.day.toString();
             this.monthDisplay = (result.month < 10) ? "0" + result.month : result.month.toString();
             this.yearDisplay = result.year.toString();
         }).catch((error) => {
@@ -187,25 +188,34 @@ export class HenquiryDetailComponent implements OnInit {
 
     submitHenquiry() {
         if (!this.appSet.getUser('guest')) {
-            // overly verbose but it works
-            let start = new Date();
-            start.setFullYear(this.year);
-            start.setMonth(this.month);
-            start.setDate(this.day);
-            start.setHours(this.hour - 1);
-            start.setMinutes(this.minute);
+            dialogs.confirm({
+                title: "Bestätigung",
+                message: "Möchtest du dieses Gesuch veröffentlichen?",
+                okButtonText: "Ja",
+                cancelButtonText: "Lieber nicht",
+            }).then(r => {
+                if (r) {
+                    // overly verbose but it works
+                    let start = new Date();
+                    start.setFullYear(this.year);
+                    start.setMonth(this.month);
+                    start.setDate(this.day);
+                    start.setHours(this.hour - 1);
+                    start.setMinutes(this.minute);
 
-            // adds the duration in minutes to the start time 
-            let end = new Date(start.getTime() + this.duration * 60000)
+                    // adds the duration in minutes to the start time 
+                    let end = new Date(start.getTime() + this.duration * 60000)
 
-            // console.log(this.category)
-            this.itemService.postItem(+this.amount, start, end, this.category).subscribe(
-                res => this.routerExtension.backToPreviousPage(), // needs to be changed to a better target
-                err => {
-                    if (err instanceof HttpErrorResponse) {
-                        console.log(`Status: ${err.status}, ${err.statusText}, ${err}`);
-                    }
-                });
+                    // console.log(this.category)
+                    this.itemService.postItem(+this.amount, start, end, this.category).subscribe(
+                        res => this.routerExtension.backToPreviousPage(), // needs to be changed to a better target
+                        err => {
+                            if (err instanceof HttpErrorResponse) {
+                                console.log(`Status: ${err.status}, ${err.statusText}, ${err}`);
+                            }
+                        });
+                }
+            })
         } else {
             alert({
                 title: "Du bist ein Gast ",
@@ -219,6 +229,4 @@ export class HenquiryDetailComponent implements OnInit {
         this.routerExtension.back();
     }
 }
-
-// routerExtension.navigate(["/home"], { clearHistory: true })
 

@@ -1,14 +1,6 @@
 <ActionBar title="Lass dir helfen!">
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-<!--<StackLayout>
-    <Label text="{{id}}"></Label>
-    <Label text={{idtype}}></Label>
-    <Button text="Zurück" (tap)="goBack()"></Button>
-</StackLayout>
--->
-
-
 <StackLayout *ngIf="currentPage === 0">
     <GridLayout rows="auto,auto,auto,*,auto" columns="*,*">
         <GridLayout row="0" col="0" colSpan="2" rows="auto" columns="*,auto,*">
@@ -32,30 +24,3 @@
         <Button class="submitButton buttonRight" row="4" col="1" text="Ab geht die Post!" (tap)="submitHenquiry()" [nsRouterLink]="['../henquiry']"></Button>
     </GridLayout>
 </StackLayout>
-
-
-<!--[nsRouterLink]="['../henquiry']"-->
-
-<!--<StackLayout *ngIf="currentPage === 0">
-    <GridLayout rows="auto,auto,auto,auto,*,auto" columns="*,*">
-        <Button row="0" col="0" colSpan="2" (tap)="pickTime()" text="Zeit wählen"></Button>
-        <Button row="1" col="0" colSpan="2" (tap)="pickDate()" text="Datum wählen"></Button>
-        <GridLayout row="2" col="0" colSpan="2" rows="*,*" columns="*,*,*,*">
-            <Label row="0" col="0" colSpan="4" text="Wie lange dauert die Hilfe?" class="fa"></Label>
-            <Button row="1" col="0" text="30" (tap)="onTapMinute(30)"></Button>
-            <Button row="1" col="1" text="60" (tap)="onTapMinute(60)"></Button>
-            <Button row="1" col="2" text="90" (tap)="onTapMinute(90)"></Button>
-            <Button row="1" col="6" text="+" (tap)="onTapMinute(180)"></Button>
-        </GridLayout>
-        <GridLayout row="3" col="0" colSpan="2" rows="*,*" columns="*,*,*,*">
-            <Label row="0" col="0" colSpan="4" text="Wie viele Leute brauchst du?" class="fa"></Label>
-            <Button row="1" col="0" text="1" (tap)="onTapAmount(1)"></Button>
-            <Button row="1" col="1" text="2" (tap)="onTapAmount(2)"></Button>
-            <Button row="1" col="2" text="3" (tap)="onTapAmount(3)"></Button>
-            <Button row="1" col="6" text="4" (tap)="onTapAmount(4)"></Button>
-        </GridLayout>
-        <Button row="5" col="0" text="Zurück" (tap)="goBack()"></Button>
-        <Button row="5" col="1" text="Weiter" (tap)="switchStatus(1)"></Button>
-    </GridLayout>
-</StackLayout>
--->

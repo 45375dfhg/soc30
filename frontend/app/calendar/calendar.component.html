@@ -23,7 +23,7 @@
 </StackLayout>
 -->
 <StackLayout *ngIf="ex; else noEntries" marginTop="5">
-        <Button text="Refresh" class="refreshButton" (tap)="refreshCalendar()"></Button>
+        <Button text="Neue Einträge" class="refreshButton" (tap)="refreshCalendar()"></Button>
     <RadListView [items]="entries" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
         <ng-template tkListItemTemplate let-month="item">

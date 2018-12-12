@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var user_controller = require('../controller/userController');
-var category_controller = require('../controller/categoryController');
+//var category_controller = require('../controller/categoryController');
 var henquiry_controller = require('../controller/henquiryController');
 var message_controller = require('../controller/messageController');
 var verifyToken = require('../controller/verifyToken');
@@ -78,6 +78,6 @@ router.post('/messages/specific', verifyToken, message_controller.sendMessage);
 
 // POST route for populating category collection
 // Only available for a specific user (so that nobody else can do something there...)
-router.post('/categories', verifyToken, category_controller.populateCategoryCollection);
+//router.post('/categories', verifyToken, category_controller.populateCategoryCollection);
 
 module.exports = router;

@@ -49,9 +49,12 @@ Linux or Windows based machines can **not** build the app for iOS.
 
 1. Cloud builds will surely fail.
 2. If you try to build the app (creating an .apk) you'll most likely run into issues related to the carousel plugin. To fix those you need to navigate to your ./node_modules/nativescript-carousel/index.d.ts file. In the first line you need to change
- `/// <reference path="./node_modules/tns-platform-declarations/android.d.ts" />`
+
+`/// <reference path="./node_modules/tns-platform-declarations/android.d.ts" />`
+
 to
- `/// <reference path="../tns-platform-declarations/android.d.ts" />`
+
+`/// <reference path="../tns-platform-declarations/android.d.ts" />`
 
 
 ## the structure

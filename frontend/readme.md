@@ -61,7 +61,7 @@ to
 1. henquiry-detail.component can't link back to the first part of henquiry.component. 
 2. the border of an active calendar month fails for older android phones (API <23) when loading more than 15 entries
 3. register validation only applies after pressing submit which forces the user to backtrack his mistakes
-4. when applying for an henquiry which overlaps with another applied for henquiry the http error AG_009 isn't properly routed to the alert.service
+4. when applying for an henquiry which overlaps with another already applied for henquiry the http error AE_009 isn't properly routed to the alert.service
 
 ## the structure
 

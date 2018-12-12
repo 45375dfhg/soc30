@@ -11,4 +11,4 @@ Inside the root direcotry, you find Dokumente.zip which includes:
 - API documentation
 - Pflichtenheft
 - Benutzerhandbuch
-- a list sample data for the database
+- a list of sample data for the database

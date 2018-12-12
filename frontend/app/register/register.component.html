@@ -21,7 +21,6 @@
             </TextField>
             <Label row="9" colSpan="2" *ngIf="submitted && f.password.errors?.required" class="invalid-feedback" text="Es fehlt ein Password!">
             </Label>
-
             <TextField row="10" colSpan="2" formControlName="confPassword" hint="Passwort bestätigen" secure="true">
             </TextField>
             <Label row="11" colSpan="2" *ngIf="submitted && f.confPassword.errors?.required" class="invalid-feedback"
@@ -39,7 +38,6 @@
             </Button>
         </GridLayout>
     </StackLayout>
-
     <StackLayout *ngIf="currentPage === 1" >
         <GridLayout rows="auto,auto,auto,auto,auto,auto,auto,auto,*,auto,auto" columns="*,*" formGroupname="address">
             <Label row="0" colSpan="2" text="Teil werden!" class="heading"></Label>
@@ -65,7 +63,6 @@
             </Button>
         </GridLayout>
     </StackLayout>
-
     <StackLayout *ngIf="currentPage === 2">
         <GridLayout rows="auto,auto,auto,auto,auto,*,auto,auto" columns="*,*">
             <Label row="0" colSpan="2" text="Teil werden!" class="heading"></Label>
@@ -93,7 +90,6 @@
             </Button>
         </GridLayout>
     </StackLayout>
-
     <StackLayout *ngIf="currentPage === 3">
         <GridLayout rows="auto,*,auto,*,auto,auto" columns="*,*">
             <Label row="0" colSpan="2" textWrap="true" text="Bevor's gleich losgeht ..." class="heading"></Label>

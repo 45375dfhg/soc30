@@ -13,3 +13,11 @@ See the API Documentation for further information if needed.
   
 **Test data**  
 There are already some test data in the database. A list of them is included in Beispieldatensätze.pdf.  
+
+**What does the application do?**  
+- Cycle from creating a help request to rating someone
+- Chat between two persons
+- Distance calculation works, but we dont get the latest coordinates, because we don't use any APIs like Google's. So for now, the coordinates are random coordinates in the area of Stuttgart.
+- Invite friends: You can invite friends by code, but for now everybody can use the application
+- Filter requests by distance, category and time effort
+- Terra: a helper gets terra after the help has happened. 30 min = 1 Terra

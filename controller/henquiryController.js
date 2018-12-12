@@ -592,6 +592,9 @@ exports.rate = (req, res, next) => {
       logger.log('error', new Date() + 'POST/rate, Code: AL_001, Error:' + errHenquiry);
       return res.status(500).send("AL_001");
     }
+    if(!resultHenquiry) {
+      return res.status(404).send("AL_007");
+    }
     if(!(userId == resultHenquiry.createdBy)) {
       return res.status(403).send("AL_002");
     }

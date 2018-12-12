@@ -14,7 +14,7 @@
                                                 <Label row="1" col="1" colSpan="2" textWrap="true" [text]="getName(item)"
                                                         verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
                                                 <Label row="2" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
-                                                        verticalAlignment="top" horizontalAlignment="left" class="fa"></Label>
+                                                [ngClass]="{ 'newMessage': newMessage }" verticalAlignment="top" horizontalAlignment="left" class="fa"></Label>
                                                 <Image row="0" rowSpan="3" col="0" [src]="statusToAvatar(item)" height="70"
                                                         verticalAlignment="center" horizontalAlignment="center"></Image>
                                                 <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"

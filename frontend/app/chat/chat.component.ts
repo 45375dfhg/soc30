@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit {
     // sync
     // private entries;
     private guest: boolean = false;
+    private newMessage: boolean = false;
 
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
@@ -106,14 +107,18 @@ export class ChatComponent implements OnInit {
     readStatus(item) {
         if (item.readFiler == null) {
             if (!item.readAide) {
+                this.newMessage = true;
                 return "Eine neue Nachricht."
             } else {
+                this.newMessage = false;
                 return "Alles gelesen."
             }
         } else {
             if (!item.readFiler) {
+                this.newMessage = true;
                 return "Eine neue Nachricht."
             } else {
+                this.newMessage = false;
                 return "Alles gelesen."
             }
         }

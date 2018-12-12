@@ -23,11 +23,18 @@ GridLayout Label{
 }
 
 Button{
-    margin:0 10 15 10;
     text-transform: none;
     font-size:14;
     height:50;
 }
+
+.buttonRight{
+    margin:20 15 15 5;
+  }
+
+  .buttonLeft{
+    margin:20 5 15 15;
+  }
 
 .orangeButton{
     background-color: white;
@@ -44,6 +51,7 @@ Button{
 }
 
 .blueButton{
+    margin:0 15 15 15;
     background-color: white;
     color: #001144;
     border-radius: 25;

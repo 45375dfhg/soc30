@@ -6,10 +6,6 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { ProfileComponent } from "./profile.component";
 import { VerificationComponent } from '../verification/verification.component';
 
-// interceptor
-// import { TokenInterceptor } from '../shared/helper/token.interceptor';
-// import { HTTP_INTERCEPTORS } from "@angular/common/http";
-
 @NgModule({
     imports: [
         NativeScriptCommonModule,

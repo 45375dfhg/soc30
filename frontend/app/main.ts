@@ -10,6 +10,6 @@ import { AppModule } from "./app.module";
 // that sets up a NativeScript application and can bootstrap the Angular framework.
 
 platformNativeScriptDynamic().bootstrapModule(AppModule); // <page-router-outlet>
-// platformNativeScriptDynamic({ createFrameOnBootstrap: true }).bootstrapModule(AppModule); // <router-outlet>
+
 
 

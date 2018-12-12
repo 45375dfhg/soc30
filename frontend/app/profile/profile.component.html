@@ -16,7 +16,6 @@
                 <Label row="2" col="0" class="userSince" text="Mitglied seit {{registerDate}}" horizontalAlignment="center"></Label>
                 <Label row="3" col="0" class="nickName fa" text="{{profile?.nickname}}" horizontalAlignment="center"></Label>
             </GridLayout>
-
             <GridLayout row="1" col="0" rows="auto,auto" columns="*,auto,*" class="claas">
                 <Label row="0" col="0" class="numberText fa" text={{profile?.timeHelped}} verticalAlignment="center"
                     horizontalAlignment="center"></Label>
@@ -28,7 +27,6 @@
                 <Label row="1" col="2" class="numberExplainText fa" text="Terra-Punkte" verticalAlignment="center"
                     horizontalAlignment="center"></Label>
             </GridLayout>
-
             <GridLayout class="ratings" row="2" col="0" rows="auto,auto" columns="*,*,*">
                 <Image row="0" col="0" [src]="getPropertyIconSource(icon1)" class="ratingIcon"></Image>
                 <Label row="1" col="0" class="ratingText fa" [text]="getPropertyString(icon1)" verticalAlignment="center"
@@ -40,7 +38,6 @@
                 <Label row="1" col="2" class="ratingText fa" [text]="getPropertyString(icon3)" verticalAlignment="center"
                     horizontalAlignment="center"></Label>
             </GridLayout>
-
             <GridLayout row="4" col="0" rows="auto,auto,auto" columns="*">
                 <StackLayout *ngIf="verifyable(); else notVeri">
                     <Button row="0" col="0" text="Hier kannst du dich verifizieren!" [nsRouterLink]="['../verify']"></Button>
@@ -65,7 +62,6 @@
             <Label row="2" col="0" class="userSince" text="Heute Mitglied werden!" horizontalAlignment="center"></Label>
             <Label row="3" col="0" class="nickName fa" text="Das Beispiel" horizontalAlignment="center"></Label>
         </GridLayout>
-
         <GridLayout row="1" col="0" rows="auto,auto" columns="*,auto,*" class="claas">
             <Label row="0" col="0" class="numberText fa" text="Viele" verticalAlignment="center" horizontalAlignment="center"></Label>
             <Label row="1" col="0" class="numberExplainText fa" text="Minuten geholfen" verticalAlignment="center"
@@ -75,7 +71,6 @@
             <Label row="1" col="2" class="numberExplainText fa" text="Terra-Punkte" verticalAlignment="center"
                 horizontalAlignment="center"></Label>
         </GridLayout>
-
         <GridLayout row="2" col="0" rows="auto,auto" columns="*,*,*">
             <Image row="0" col="0" [src]="getCategoryIconSource('lustig')" class="ratingIcon"></Image>
             <Label row="1" col="0" class="ratingText fa" text="Lustig" verticalAlignment="center" horizontalAlignment="center"></Label>
@@ -85,7 +80,6 @@
             <Label row="1" col="2" class="ratingText fa" text="Pünktlich" verticalAlignment="center"
                 horizontalAlignment="center"></Label>
         </GridLayout>
-
         <GridLayout row="4" col="0" rows="auto,auto,auto" columns="*">
             <Button row="0" col="0" text="Post-Adresse wurde bestätigt"></Button>
             <Button isEnabled = "false" class="noNumber" row="1" col="0" text="Handynummer bestätigen"></Button>
@@ -93,40 +87,3 @@
         </GridLayout>
     </GridLayout>
 </ng-template>
-
-
-<!--
-    USEFUL FOR DUMMY DATA INSIDE AN NGIF!!!!!!!
-<GridLayout rows="auto, auto, auto, *, auto" columns="*">
-    <Label class="icon" row="0" col="0" text="&#xf08b;" (tap)="logout()" verticalAlignment="top" horizontalAlignment="right"></Label>
-    <GridLayout row="0" col="0" rows="auto,auto,auto,auto" columns="*">
-        <Image class="profilPic" row="0" col="0" [src]="getAvatar(3)" horizontalAlignment="center"></Image>
-        <Label class="userName fa" row="1" col="0" text="Max Mustermann"
-            horizontalAlignment="center"></Label>
-        <Label row="2" col="0" class="userSince" text="Mitglied seid heute" horizontalAlignment="center"></Label>
-        <Label row="3" col="0" class="nickName fa" text="Blumenficker" horizontalAlignment="center"></Label>
-    </GridLayout>
-
-    <GridLayout row="1" col="0" rows="auto,auto" columns="*,auto,*" class="claas">
-        <Label row="0" col="0" class="numberText fa" text="240" verticalAlignment="center" horizontalAlignment="center"></Label>
-        <Label row="1" col="0" class="numberExplainText fa" text="Minuten Geholfen" verticalAlignment="center" horizontalAlignment="center"></Label>
-        <StackLayout row="0" rowSpan="2" col="1" class="line"></StackLayout>
-        <Label row="0" col="2" class="numberText fa" text="12" verticalAlignment="center" horizontalAlignment="center"></Label>
-        <Label row="1" col="2" class="numberExplainText fa" text="Terra-Punkte" verticalAlignment="center" horizontalAlignment="center"></Label>
-    </GridLayout>
-
-    <GridLayout row="2" col="0" rows="auto,auto" columns="*,*,*">
-        <Image row="0" col="0" [src]="getCategoryIconSource('lustig')" class="ratingIcon"></Image>
-        <Label row="1" col="0" class="ratingText fa" text="Lustig" verticalAlignment="center" horizontalAlignment="center"></Label>
-        <Image row="0" col="1" [src]="getCategoryIconSource('lieb')" class="ratingIcon"></Image>
-        <Label row="1" col="1" class="ratingText fa" text="Lieb" verticalAlignment="center" horizontalAlignment="center"></Label>
-        <Image row="0" col="2" [src]="getCategoryIconSource('puenktlich')" class="ratingIcon"></Image>
-        <Label row="1" col="2" class="ratingText fa" text="Pünktlich" verticalAlignment="center" horizontalAlignment="center"></Label>
-    </GridLayout>
-
-    <GridLayout row="4" col="0" rows="auto,auto,auto" columns="*">
-        <Button row="0" col="0" text="Post-Adresse wurde bestätigt"></Button>
-        <Button row="1" col="0" text="Handynummer bestätigen"></Button>
-        <Button row="2" col="0" text="Email-Adresse wurde bestätigt"></Button>
-    </GridLayout>
-</GridLayout>-->

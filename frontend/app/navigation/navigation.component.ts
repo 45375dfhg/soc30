@@ -66,14 +66,4 @@ export class NavigationComponent {
         const iconPrefix = isAndroid ? "res://" : "res://";
         return iconPrefix + icon;
     }
-
-    /*
-    backActivatedRoute() {
-        this.routerExtension.back({ relativeTo: this.activeRoute });
-    }
-
-    back() {
-        this.routerExtension.back();
-    }
-    */
 }

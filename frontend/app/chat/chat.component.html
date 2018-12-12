@@ -5,52 +5,50 @@
         <RadListView [items]="polledChatOverview$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group"
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">
-                        <FlexboxLayout flexDirection="row">
-                                <GridLayout rows="auto,auto" columns="auto, *, auto" class="border gridItem">
-                                        <GridLayout row="0" col="0" colSpan="3" rows="auto,auto,auto" columns="auto, *, auto"
-                                                pageTransition="slideLeft" [nsRouterLink]="['../chats', item._id]">
-                                                <Label row="0" col="1" colSpan="2" textWrap="true" [text]="formatCategory(item.henquiry.category.category,item.henquiry.category.subcategory) + ' am ' + formatStartTimeToDateDecimal(item.henquiry.startTime)"
-                                                        verticalAlignment="bottom" horizontalAlignment="left" class="fa heading"></Label>
-                                                <Label row="1" col="1" colSpan="2" textWrap="true" [text]="getName(item)"
-                                                        verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
-                                                <Label row="2" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
-                                                        verticalAlignment="top" horizontalAlignment="left" class="fa"></Label>
-                                                <Image row="0" rowSpan="3" col="0" [src]="statusToAvatar(item)" height="70"
-                                                        verticalAlignment="center" horizontalAlignment="center"></Image>
-                                                <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
-                                                        horizontalAlignment="right" class="icon"></Label>
-                                        </GridLayout>
-                                        <GridLayout row="1" col="0" colSpan="3" rows="auto" columns="auto,*">
-                                                <Label row="0" col="1" textWrap="true" [text]="applyStatus(item)"
-                                                        verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
-                                                <ng-container *ngIf="userIsFiler(item); then filer; else aide"></ng-container>
-                                                <ng-template #filer>
-                                                        <ng-container *ngIf="userCanRate(item); then rateAide; else accept"></ng-container>
-                                                        <ng-template #rateAide>
-                                                                <Button row="0" col="0" text="&#xf005;" class="icon chatButtons"
-                                                                        (tap)="rateTap($event, item)" pageTransition="fade"
-                                                                        [nsRouterLink]="['../rating', roleForIdString(item) + item.henquiry._id + 'ZZZZZ' + item.henquiry.aide[0]]"></Button>
-                                                        </ng-template>
-                                                        <ng-template #accept>
-                                                                <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"
-                                                                        (tap)="acceptTap($event, item)"></Button>
-                                                        </ng-template>
-                                                </ng-template>
-                                                <ng-template #aide>
-                                                        <ng-container *ngIf="userCanRate(item); then rateFiler; else cancel"></ng-container>
-                                                        <ng-template #rateFiler>
-                                                                <Button row="0" col="0" text="&#xf005;" class="icon chatButtons"
-                                                                        (tap)="rateTap($event, item)" pageTransition="fade"
-                                                                        [nsRouterLink]="['../rating', roleForIdString(item) + item.henquiry._id]"></Button>
-                                                        </ng-template>
-                                                        <ng-template #cancel>
-                                                                <Button row="0" col="0" text="&#xf00d;" class="icon chatButtons"
-                                                                        (tap)="cancelTap($event, item)"></Button>
-                                                        </ng-template>
-                                                </ng-template>
-                                        </GridLayout>
+                        <GridLayout rows="auto,auto" columns="auto, *, auto" class="border gridItem">
+                                <GridLayout row="0" col="0" colSpan="3" rows="auto,auto,auto" columns="auto, *, auto"
+                                        pageTransition="slideLeft" [nsRouterLink]="['../chats', item._id]">
+                                        <Label row="0" col="1" colSpan="2" textWrap="true" [text]="formatCategory(item.henquiry.category.category,item.henquiry.category.subcategory) + ' am ' + formatStartTimeToDateDecimal(item.henquiry.startTime)"
+                                                verticalAlignment="bottom" horizontalAlignment="left" class="fa heading"></Label>
+                                        <Label row="1" col="1" colSpan="2" textWrap="true" [text]="getName(item)"
+                                                verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
+                                        <Label row="2" col="1" colSpan="2" textWrap="true" [text]="readStatus(item)"
+                                                verticalAlignment="top" horizontalAlignment="left" class="fa"></Label>
+                                        <Image row="0" rowSpan="3" col="0" [src]="statusToAvatar(item)" height="70"
+                                                verticalAlignment="center" horizontalAlignment="center"></Image>
+                                        <Label row="1" col="2" text="&#xf054;" verticalAlignment="center"
+                                                horizontalAlignment="right" class="icon"></Label>
                                 </GridLayout>
-                        </FlexboxLayout>
+                                <GridLayout row="1" col="0" colSpan="3" rows="auto" columns="auto,*">
+                                        <Label row="0" col="1" textWrap="true" [text]="applyStatus(item)"
+                                                verticalAlignment="center" horizontalAlignment="left" class="fa"></Label>
+                                        <ng-container *ngIf="userIsFiler(item); then filer; else aide"></ng-container>
+                                        <ng-template #filer>
+                                                <ng-container *ngIf="userCanRate(item); then rateAide; else accept"></ng-container>
+                                                <ng-template #rateAide>
+                                                        <Button row="0" col="0" text="&#xf005;" class="icon chatButtons"
+                                                                (tap)="rateTap($event, item)" pageTransition="fade"
+                                                                [nsRouterLink]="['../rating', roleForIdString(item) + item.henquiry._id + 'ZZZZZ' + item.henquiry.aide[0]]"></Button>
+                                                </ng-template>
+                                                <ng-template #accept>
+                                                        <Button row="0" col="0" text="&#xf00c;" class="icon chatButtons"
+                                                                (tap)="acceptTap($event, item)"></Button>
+                                                </ng-template>
+                                        </ng-template>
+                                        <ng-template #aide>
+                                                <ng-container *ngIf="userCanRate(item); then rateFiler; else cancel"></ng-container>
+                                                <ng-template #rateFiler>
+                                                        <Button row="0" col="0" text="&#xf005;" class="icon chatButtons"
+                                                                (tap)="rateTap($event, item)" pageTransition="fade"
+                                                                [nsRouterLink]="['../rating', roleForIdString(item) + item.henquiry._id]"></Button>
+                                                </ng-template>
+                                                <ng-template #cancel>
+                                                        <Button row="0" col="0" text="&#xf00d;" class="icon chatButtons"
+                                                                (tap)="cancelTap($event, item)"></Button>
+                                                </ng-template>
+                                        </ng-template>
+                                </GridLayout>
+                        </GridLayout>
                 </ng-template>
         </RadListView>
 </StackLayout>

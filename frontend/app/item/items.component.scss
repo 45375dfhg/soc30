@@ -19,17 +19,16 @@ Button {
     height:50;
 }
 
-.willHelpButton:active{
-    background-color: #d8510e;
-}
+
 
 
 .greyButton {
     margin:20 0 0 0;
     font-size:13;
-    background-color: #C4AFB4;
-    color: #001144;
+    background-color: #D8DAE5;
     height:50;
+    border-color:#D8DAE5;
+    color:#666e99;
 }
 
 .filterButton {
@@ -63,6 +62,14 @@ Button {
   .gridItem {
     margin:5 15;
     padding:10 10 10 15;
+}
+
+.avatarGrid{
+    margin:10 0 0 0;
+}
+
+.terraGrid{
+    margin:10 0 0 0;
 }
 
 

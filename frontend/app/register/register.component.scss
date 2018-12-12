@@ -76,8 +76,15 @@ font-size:12;
 
   Button {
     border-radius: 25;
-    margin:25 15 10 15;
     height:50;
+  }
+
+  .buttonRight{
+    margin:25 15 10 5;
+  }
+
+  .buttonLeft{
+    margin:25 5 10 15;
   }
 
   .navButton:active {
@@ -98,8 +105,10 @@ font-size:12;
   }
 
   .greyButton {
-    background-color: #C4AFB4;
+    background-color: #D8DAE5;
     height:50;
+    border-color:#D8DAE5;
+    color:#666e99;
   }
 
 

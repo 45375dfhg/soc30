@@ -41,12 +41,19 @@ Image{
 }
 
 Button{
-    margin:10 10 15 10;
     text-transform: none;
     font-size:14;
     border-radius:25;
     height:50;
 }
+
+.buttonRight{
+    margin:10 15 15 5;
+  }
+
+  .buttonLeft{
+    margin:10 5 15 15;
+  }
 
 .confirmButton{
     background-color:white;
@@ -75,9 +82,13 @@ Button{
 }
 
 .greyButton {
-    background-color: #C4AFB4;
+    background-color: #D8DAE5;
     height:50;
+    border-color:#D8DAE5;
+    color:#666e99;
   }
+
+  
 
 
 

@@ -13,9 +13,9 @@
         </Label>
         <Label row="6" text="Angemeldet bleiben" class="remember" horizontalAlignment="left" verticalAlignment="center"></Label>
         <Switch row="6" class="remember" horizontalAlignment="right" verticalAlignment="center"></Switch>
-        <Button row="9" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
+        <Button row="9" class="confirmButton" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
         </Button>
-        <Button row="10" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="goBack()">
+        <Button row="10" class="backButton" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="goBack()">
         </Button>
         <Label row="11" class="mid" [nsRouterLink]="['../register']">
             <FormattedString><Span text="Du bist noch nicht dabei?" color="#001144"></Span><Span text=" Werde jetzt Teil!"

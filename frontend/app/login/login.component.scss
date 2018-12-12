@@ -35,15 +35,35 @@
 
   Button {
     font-size:15;
-    background-color: #FF6600;
-    color: white;
+    border-width:1;
     border-radius: 25;
     margin:0 0 20 0;
     height:50;
   }
 
-  Button:active {
-    background-color: #d8510e;
+
+  .confirmButton{
+    background-color: white;
+    color: #FF6600;
+    border-color: #FF6600;
+  }
+
+  .confirmButton:active{
+    background-color: #FF6600;
+    color: white;
+    border-color: #FF6600;
+  }
+
+  .backButton{
+    background-color: white;
+    color: #001144;
+    border-color: #001144;
+  }
+
+  .backButton:active{
+    background-color: 001144;
+    color: white;
+    border-color: #001144;
   }
  
   .field {
@@ -65,9 +85,10 @@
  
 
   .greyButton {
-    background-color: #C4AFB4;
+    background-color: #D8DAE5;
     height:50;
-   
+    border-color:#D8DAE5;
+    color:#666e99;
   }
 
 

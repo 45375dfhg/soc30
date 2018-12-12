@@ -45,6 +45,14 @@ Linux or Windows based machines can **not** build the app for iOS.
 - afterwards select your iOS device on the top left of the screen (right next to the project name)
 - click the play button to build the app on your device
 
+### known building issues
+
+1. Cloud builds will surely fail.
+2. If you try to build the app (creating an .apk) you'll most likely run into issues related to the carousel plugin. To fix those you need to navigate to your ./node_modules/nativescript-carousel/index.d.ts file. In the first line you need to change
+'/// <reference path="./node_modules/tns-platform-declarations/android.d.ts" />'
+to
+'/// <reference path="../tns-platform-declarations/android.d.ts" />'
+
 ## the structure
 
 The stucture is based on the angular style guide. Each component which is usually a website is situated inside its own folder. A component folder contains a typescript file (.ts), an html file (.html) and a css file (.scss). Central functions as functions that work with the REST api are usually seperated inside services. Services like other shared functions, data models and e.g. interceptors are saved inside the 'shared' folder. 

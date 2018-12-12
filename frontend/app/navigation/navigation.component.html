@@ -1,0 +1,25 @@
+<StackLayout>
+  <GridLayout rows="auto,*">
+    <GridLayout row="1">
+      <TabView androidTabsPosition="bottom" iosIconRenderingMode="alwaysOriginal" (selectedIndexChanged)="tabViewIndexChange($event)"
+      tabBackgroundColor="#E8EBED" selectedTabTextColor="#001144" tabTextColor="#95B2C3" >
+
+        <page-router-outlet *tabItem="homeTab" name="itemsoutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="calendarTab" name="calendaroutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="createTab" name="henquiryoutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="chatTab" name="chatoutlet">
+        </page-router-outlet>
+
+        <page-router-outlet *tabItem="profileTab" name="profileoutlet">
+        </page-router-outlet>
+
+      </TabView>
+    </GridLayout>
+  </GridLayout>
+</StackLayout>

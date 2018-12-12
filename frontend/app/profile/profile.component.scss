@@ -1,0 +1,94 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+Button {
+    background-color: white;
+    color: #FF6600;
+    border-color:#FF6600;
+    border-width: 1;
+    border-radius: 25;
+    margin:5 15 5 15;
+    height:50;
+}
+
+.noNumber{
+    border-color:#D8DAE5;
+    color:#D8DAE5;
+}
+
+.logoutButton{
+    width:50;
+    height:50;
+    font-size:20;
+    margin:15 15 0 0;
+}
+
+.logoutButton:active{
+    color:white;
+    background-color: #FF6600; 
+}
+
+.ratingText{
+    color: #001144;
+}
+
+.ratings{
+    margin:5 15 5 15;
+}
+
+.numberExplainText{
+    color:#A1A7BA;
+}
+
+.numberText{
+    font-size:16;
+    color: #001144;
+}
+
+.ratingIcon{
+    height:75;
+}
+
+.nickName{
+    color: #001144;
+}
+
+.claas{
+    border-width: 1;
+    border-color: #D8DAE5;
+    border-radius:25;
+    padding:10;
+    margin:10 15;
+}
+
+.line{
+    width:1; 
+    background-color:#D8DAE5;
+    height:50;
+}
+
+.fa{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.userName{
+    color: #001144;
+    font-size: 16;
+}
+
+.userSince{
+    color:#A1A7BA;
+    font-size: 14;
+}
+
+.profilPic{
+    height: 100;
+    margin:15 0 10 0;
+}
+
+.icon{
+    font-family: "FontAwesome";
+  }

@@ -1,0 +1,98 @@
+  
+  StackLayout {
+    font-family: 'Lato', 'Lato-Bold'; 
+    margin:70 30 20 30;
+  }
+  
+  Label{
+    color:#001144;
+  }
+
+  .mid{
+    text-align: center;
+  }
+
+  .icon{
+    font-family: "FontAwesome";
+}
+
+
+.heading{
+  font-size:24;
+  text-align: center;
+}
+  
+  
+  .remember{
+    margin:15 0 0 0;
+  }
+  
+  Image {
+    margin-bottom: 10;
+    height: 100;
+  }
+ 
+
+  Button {
+    font-size:15;
+    border-width:1;
+    border-radius: 25;
+    margin:0 0 20 0;
+    height:50;
+  }
+
+
+  .confirmButton{
+    background-color: white;
+    color: #FF6600;
+    border-color: #FF6600;
+  }
+
+  .confirmButton:active{
+    background-color: #FF6600;
+    color: white;
+    border-color: #FF6600;
+  }
+
+  .backButton{
+    background-color: white;
+    color: #001144;
+    border-color: #001144;
+  }
+
+  .backButton:active{
+    background-color: 001144;
+    color: white;
+    border-color: #001144;
+  }
+ 
+  .field {
+    placeholder-color: #D8DAE5;
+    color: #001144;
+    border-radius: 25;
+    margin-top: 20;
+    border-width: 1;
+    border-color: #001144;;
+    padding:10 20;
+    font-size:14;
+  }
+
+ 
+  .invalid-feedback {
+    margin-top: 0 20;
+    text-align: center;
+  }
+ 
+
+  .greyButton {
+    background-color: #D8DAE5;
+    height:50;
+    border-color:#D8DAE5;
+    color:#666e99;
+  }
+
+
+
+
+
+  

@@ -1,0 +1,25 @@
+<StackLayout [formGroup]="signUpForm">
+    <GridLayout rows="auto,*,auto,auto,auto,auto,auto,auto,*,auto,auto,auto">
+
+        <Label row="0" text="Willkommen zurück!" class="heading"></Label>
+        <TextField class="field" row="2" formControlName="email" hint="E-Mail Adresse" keyboardType="email" autocorrect="false"
+            autocapitalizationType="none" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        </TextField>
+        <Label row="3" *ngIf="submitted && f.email.errors" class="invalid-feedback" text="Kein Nutzername angegeben!">
+        </Label>
+        <TextField class="field" row="4" formControlName="password" hint="Passwort" secure="true" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+        </TextField>
+        <Label row="5" *ngIf="submitted && f.password.errors" class="invalid-feedback" text="Ups! Es fehlt ein Passwort!">
+        </Label>
+        <Label row="6" text="Angemeldet bleiben" class="remember" horizontalAlignment="left" verticalAlignment="center"></Label>
+        <Switch row="6" class="remember" horizontalAlignment="right" verticalAlignment="center"></Switch>
+        <Button row="9" class="confirmButton" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Loslegen!" (tap)="onSubmit()">
+        </Button>
+        <Button row="10" class="backButton" [ngClass]="{ 'greyButton': loading }" [disabled]="loading" text="Ein Schritt zurück" (tap)="goBack()">
+        </Button>
+        <Label row="11" class="mid" [nsRouterLink]="['../register']">
+            <FormattedString><Span text="Du bist noch nicht dabei?" color="#001144"></Span><Span text=" Werde jetzt Teil!"
+                    color="#FF6600"></Span></FormattedString>
+        </Label>
+    </GridLayout>
+</StackLayout>

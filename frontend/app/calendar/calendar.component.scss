@@ -1,0 +1,106 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.expandedHeading{
+    margin: 0 0 30 0;
+}
+
+
+.border{
+    border-width: 1;
+    border-color: #D8DAE5;
+    border-radius:25;
+}
+
+.expandedBorder{
+    border-width: 1;
+    border-color: #FF6600;
+    border-radius:25;
+}
+
+.refreshButton{
+    font-size:15;
+    background-color: #E8EBED;
+    color: #001144;
+    border-radius: 25;
+    font-family: 'Lato', 'Lato-Bold'; 
+    margin:0 15 5 15;
+    height:50;
+}
+
+.refreshButton:active {
+    background-color: #001144;
+    color: #E8EBED;
+}
+
+
+.gridItem{
+    background-color: white;; 
+    color:#001144;
+    margin:5 15;
+    padding:10 0 10 0;
+    
+  }
+
+
+ .henqueryItem{
+    background-color: white;; 
+    color:#001144;
+    margin:0 0 20 0;
+
+  }
+
+ 
+.icon{
+    font-family: "FontAwesome";
+    margin: 0 10 0 0;
+}  
+
+
+.fa{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+
+.heading{
+    font-size: 14;
+}
+
+
+.dateDay{
+    font-size: 25;
+    color:#FF6600;
+}
+
+.dateDayname{
+    color:#FF6600;
+    font-size: 12;
+}
+
+
+.hequeryStatus{
+    font-size: 12;
+    color:#FF6600;
+}
+
+.emptyScreen{
+    font-family: 'Lato', 'Lato-Bold'; 
+    color:#001144;
+    text-align: center;
+}
+
+.emptytext1{
+    margin:60 50 20 50;
+}
+
+.emptytext2{
+    margin:0 50 60 50;
+}
+
+.emptytext3{
+    font-size: 12;
+    margin:50 70 20 70;
+}

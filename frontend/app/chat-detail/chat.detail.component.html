@@ -1,0 +1,19 @@
+<ActionBar title="Mein Plauderkasten">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
+<StackLayout [items]="polledMessageObj$ | async">
+    <GridLayout rows="auto,*,auto" columns="*,*,*,*,*">
+        <Button row="0" colSpan="5" text="Zurück" (tap)="goBack()" class="backButton"></Button>
+        <ScrollView #ScrollList row="1" col="0" colSpan="5">
+            <StackLayout>
+                <StackLayout *ngFor="let message of polledMessages$">
+                    <StackLayout [className]="userRole(message.participant)">
+                        <Label [horizontalAlignment]="userRole(message.participant)" textWrap="true" [text]="message.message" class="chatBubble"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+        <TextField row="3" col="0" colSpan="4" #textfield class="chatTextField" hint="Nachricht eingeben" [(ngModel)]="msg"></TextField>
+        <Button row="3" col="4" #btn text="&#xf075;" (tap)=sendMessage(msg) class="sendButton icon"></Button>
+    </GridLayout>
+</StackLayout>

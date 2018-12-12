@@ -1,0 +1,47 @@
+{
+  "appId": "Social 30",
+  "description": "NativeScript Application",
+  "license": "not applicable as of 12/11",
+  "readme": "NativeScript Application",
+  "repository": "https://github.com/assoron/soc30/",
+  "nativescript": {
+    "id": "org.nativescript.nestedroutertabview",
+    "tns-ios": {
+      "version": "5.0.0"
+    },
+    "tns-android": {
+      "version": "5.0.0"
+    }
+  },
+  "dependencies": {
+    "@angular/animations": "~7.0.0",
+    "@angular/common": "~7.0.0",
+    "@angular/compiler": "~7.0.0",
+    "@angular/core": "~7.0.0",
+    "@angular/forms": "~7.0.0",
+    "@angular/http": "~7.0.0",
+    "@angular/platform-browser": "~7.0.0",
+    "@angular/platform-browser-dynamic": "~7.0.0",
+    "@angular/router": "~7.0.0",
+    "@types/lodash": "^4.14.118",
+    "lodash": "^4.17.11",
+    "nativescript-angular": "next",
+    "nativescript-carousel": "^4.1.0",
+    "nativescript-modal-datetimepicker": "^1.1.11",
+    "nativescript-theme-core": "~1.0.4",
+    "nativescript-ui-listview": "^4.0.0",
+    "reflect-metadata": "~0.1.8",
+    "rxjs": "~6.3.0",
+    "tns-core-modules": "next",
+    "zone.js": "~0.8.26"
+  },
+  "devDependencies": {
+    "@angular/compiler-cli": "~7.0.0",
+    "@nativescript/schematics": "~0.4.0",
+    "@ngtools/webpack": "~7.0.0",
+    "nativescript-dev-typescript": "~0.7.0",
+    "nativescript-dev-webpack": "~0.18.0",
+    "tns-platform-declarations": "^5.0.5",
+    "typescript": "^3.1.6"
+  }
+}

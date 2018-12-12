@@ -1,0 +1,95 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+GridLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.heading{
+    font-size: 17;
+}
+
+.space{
+    height:10;
+}
+
+
+Label{
+    color: #001144;
+}
+
+Image{
+    height:75;
+}
+
+
+.ratingItem{
+    margin:5;
+    border-radius: 25;
+    border-width: 1;
+    border-color:white;
+}
+
+.ratingItemSelected{
+    margin:5;
+    border-radius: 25;
+    border-width: 1;
+    border-color:#FF6600;
+}
+
+Button{
+    text-transform: none;
+    font-size:14;
+    border-radius:25;
+    height:50;
+}
+
+.buttonRight{
+    margin:10 15 15 5;
+  }
+
+  .buttonLeft{
+    margin:10 5 15 15;
+  }
+
+.confirmButton{
+    background-color:white;
+    color:#FF6600;
+    border-width:2;
+    border-color:#FF6600;
+    height:50;
+}
+
+.confirmButton:active{
+    background-color:#FF6600;
+    color:white;
+}
+
+.backButton{
+    color: #001144;
+    background-color:white;
+    border-width:2;
+    border-color:#001144;
+    height:50;
+}
+
+.backButton:active{
+    color: white;
+    background-color:#001144;
+}
+
+.greyButton {
+    background-color: #D8DAE5;
+    height:50;
+    border-color:#D8DAE5;
+    color:#666e99;
+  }
+
+  
+
+
+
+

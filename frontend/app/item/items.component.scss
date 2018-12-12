@@ -1,0 +1,101 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+Button {
+    border-radius: 25;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.willHelpButton {
+    background-color: white;
+    color: #FF6600;
+    border-color:#FF6600;
+    border-width: 2;
+    margin:20 0 0 0;
+    font-size:13;
+    height:50;
+}
+
+
+
+
+.greyButton {
+    margin:20 0 0 0;
+    font-size:13;
+    background-color: #D8DAE5;
+    height:50;
+    border-color:#D8DAE5;
+    color:#666e99;
+}
+
+.filterButton {
+    margin:5 15 5 5;
+    font-size:15;
+    background-color: #E8EBED;
+    color: #001144;
+    border-radius: 25;
+    height:50;
+}
+
+.filterButton:active {
+    background-color: #001144;
+    color: #E8EBED;
+}
+
+.refreshButton{
+    margin:5 5 5 15;
+    font-size:15;
+    background-color: #E8EBED;
+    color: #001144;
+    border-radius: 25;
+    height:50;
+}
+
+.refreshButton:active{
+    background-color: #001144;
+    color: #E8EBED;
+}
+
+  .gridItem {
+    margin:5 15;
+    padding:10 10 10 15;
+}
+
+.avatarGrid{
+    margin:10 0 0 0;
+}
+
+.terraGrid{
+    margin:10 0 0 0;
+}
+
+
+.border{
+    border-radius: 25;
+    border-width: 1;
+    border-color: #D8DAE5;
+    color: #001144;
+}
+
+.border-expanded{
+    border-radius: 25;
+    border-width: 1;
+    border-color:#FF6600;
+    color: #001144;
+}
+
+.icon {
+     font-family: "FontAwesome";
+ }
+
+.fa {
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.heading {
+    font-size: 17;
+}
+ 

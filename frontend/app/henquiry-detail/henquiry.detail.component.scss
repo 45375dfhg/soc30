@@ -1,0 +1,98 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+
+Button {
+    border-radius: 25;
+    font-family: 'Lato', 'Lato-Bold'; 
+    font-size: 15;
+    height:50;
+}
+
+.orangeButton{
+    background-color: white;
+    color: #FF6600;
+    border-width: 1;
+    border-color: #FF6600;
+    height:50;
+}
+
+.orangeButton:active{
+    background-color: #FF6600;
+    color: white;
+}
+
+.submitButton{
+    background-color: white;
+    color: #FF6600;
+    border-width: 2;
+    border-color: #FF6600;
+    height:50;
+}
+
+.submitButton:active{
+    background-color: #FF6600;
+    color: white;
+}
+
+
+.blueButton{
+    background-color: white;
+    color: #001144;
+    border-width: 2;
+    border-color: #001144;
+    height:50;
+}
+
+.blueButton:active{
+    background-color: #001144;
+    color: white;
+}
+
+.buttonLeft{
+margin:10 5 10 15;
+}
+
+.buttonRight{
+    margin:10 15 10 5;
+}
+
+
+.fa{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.categoryImage{
+    height:100;
+    margin:10 10;
+}
+
+.category{
+    border-radius: 25;
+    border-width: 1;
+    border-color: #FF6600;
+    padding:5 10;
+    text-align: center;
+    margin:15 0 20 0;
+    
+}
+
+.categoryText{
+    color:#FF6600;
+    font-size: 17;
+    width:125;
+}
+
+.subText{
+    color: #001144;
+    font-size: 14;
+    margin:10 15 0 15;
+}
+
+
+
+
+ 

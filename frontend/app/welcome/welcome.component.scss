@@ -1,0 +1,97 @@
+GridLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+
+GridLayout Label{
+    color: #001144;
+    text-align: center;
+}
+
+.fa{
+    margin:0 30 0 30;
+    font-size:14;
+    font-family: 'Lato';
+}
+
+.heading{
+    font-size:24;
+}
+
+.icon{
+    font-family: "FontAwesome";
+}
+
+Button{
+    text-transform: none;
+    font-size:14;
+    height:50;
+}
+
+.buttonRight{
+    margin:20 15 15 5;
+  }
+
+  .buttonLeft{
+    margin:20 5 15 15;
+  }
+
+.orangeButton{
+    background-color: white;
+    color: #FF6600;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #FF6600;
+    height:50;
+}
+
+.orangeButton:active{
+    background-color: #FF6600;
+    color: white;
+}
+
+.blueButton{
+    margin:0 15 15 15;
+    background-color: white;
+    color: #001144;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #001144;
+    height:50;
+}
+
+.blueButton:active{
+    background-color: #001144;
+    color: white;
+}
+
+.ip{
+    placeholder-color: #D8DAE5;
+    color: #001144;
+    border-radius: 25 0 0 25;
+    border-width: 1;
+    border-color: #D8DAE5;
+    padding:10 20;
+    font-size:14;
+    margin:10 0 0 0;
+  }
+
+  .submitIp{
+    margin:10 0 0 0;
+    border-radius:0 25 25 0;
+    background-color: #FF6600;
+    color:white;
+    border-color:#FF6600;
+  }
+
+  .submitIp:active{
+    margin:10 0 0 0;
+    border-radius:0 25 25 0;
+    background-color: white;
+    color:#FF6600;
+    border-color:#FF6600;
+  }
+
+
+
+

@@ -1,0 +1,123 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold';
+}
+
+
+GridLayout {
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+
+.fa {
+    color: #001144;
+    font-size:15;
+}
+
+Button {
+    text-transform: none;
+    height:50;
+}
+
+.category{
+    margin:20 15 0 15;
+}
+
+.time{
+    margin:25 15 0 15;
+}
+
+.distance{
+    margin:25 15 0 15;
+}
+
+.applyButton {
+    background-color: white;
+    color: #FF6600;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #FF6600;
+    margin:10 15 15 5;
+    height:50;
+}
+
+.applyButton:active {
+    background-color: #FF6600;
+    color: white;
+}
+
+.orangeButtonTime {
+    background-color: white;
+    color: #FF6600;
+    border-radius: 50;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:5;
+    height:50;
+}
+
+.orangeButtonTimeSelected {
+    background-color: #FF6600;
+    color: white;
+    border-radius: 50;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:5;
+    height:50;
+}
+
+.orangeButtonAmount {
+    background-color: white;
+    color: #FF6600;
+    border-radius: 50;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:5;
+    height:50;
+}
+
+.orangeButtonAmountSelected {
+    background-color: #FF6600;
+    color: white;
+    border-radius: 50;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:5;
+    height:50;
+}
+
+.orangeButtonCategory {
+    background-color: white;
+    color: #FF6600;
+    border-radius: 50;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:5;
+    height:50;
+}
+
+.orangeButtonCategorySelected {
+    background-color: #FF6600;
+    color: white;
+    border-radius: 50;
+    border-width: 1;
+    border-color: #FF6600;
+    margin:5;
+    height:50;
+}
+
+.blueButton {
+    background-color: white;
+    color: #001144;
+    border-radius: 25;
+    border-width: 2;
+    border-color: #001144;
+    margin:10 5 15 15;
+    height:50;
+}
+
+.blueButton:active {
+    background-color: #001144;
+    color: white;
+}

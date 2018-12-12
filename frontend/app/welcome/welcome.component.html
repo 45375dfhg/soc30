@@ -1,0 +1,50 @@
+<GridLayout rows="*, auto">
+    <GridLayout row="0">
+        <Carousel #carousel indicatorOffset="0,10" ios:finite="true" ios:bounce="false" showIndicator="true"
+            indicatorAnimation="DROP" indicatorColor="#001144" indicatorColorUnselected="#D8DAE5">
+            <CarouselItem>
+                <GridLayout rows="*,*,5*">
+                    <Label class="heading" row="0" text="Alltagsheld werden" textWrap="true" horizontalAlignment="center"
+                        verticalAlignment="center"></Label>
+                    <Label class="fa" row="1" text="Du hast Zeit und möchtest jemandem helfen? Sieh nach, wer deine Hilfe brauchen könnte!"
+                        textWrap="true" horizontalAlignment="center" verticalAlignment="center" height="100%"></Label>
+                    <Image row="2" [src]="getCategoryIconSource('login01')"></Image>
+                </GridLayout>
+            </CarouselItem>
+            <CarouselItem>
+                <GridLayout rows="*,*,5*">
+                    <Label class="heading" row="0" text="Unter die Arme greifen" textWrap="true" horizontalAlignment="center"
+                        verticalAlignment="center"></Label>
+                    <Label class="fa" row="1" text="Du brauchst Unterstützung im Alltag? Deine Nachbarn helfen dir gerne weiter!"
+                        textWrap="true" horizontalAlignment="center" verticalAlignment="center" height="100%"></Label>
+                    <Image row="2" [src]="getCategoryIconSource('login02')"></Image>
+                </GridLayout>
+            </CarouselItem>
+            <CarouselItem>
+                <GridLayout rows="*,*,5*">
+                    <Label class="heading" row="0" text="Gemeinschaft erleben" textWrap="true" horizontalAlignment="center"
+                        verticalAlignment="center"></Label>
+                    <Label class="fa" row="1" text="'Social 30' verbindet dich mit den Menschen in deiner Umgebung!"
+                        textWrap="true" horizontalAlignment="center" verticalAlignment="center" height="100%"></Label>
+                    <Image row="2" [src]="getCategoryIconSource('login03')"></Image>
+                </GridLayout>
+            </CarouselItem>
+            <CarouselItem>
+                <GridLayout rows="auto" columns="*,*,*,*,*">
+                    <TextField [(ngModel)]="ip" class="ip" row="0" col="0" colSpan="4" hint="Server-IP">
+                    </TextField>
+                    <Button class="icon submitIp" (tap)="changeIp()" row="0" col="4" text="&#xf00c;">
+                    </Button>
+                </GridLayout>
+            </CarouselItem>
+        </Carousel>
+    </GridLayout>
+    <GridLayout row="1">
+        <GridLayout rows="*,*" columns=" *, *">
+            <Button class="orangeButton buttonLeft" row="0" col="0" text="Teil werden?" [nsRouterLink]="['../register']"></Button>
+            <Button class="orangeButton buttonRight" row="0" col="1" text="Bereits dabei?" [nsRouterLink]="['../login']"></Button>
+            <Button class="blueButton" row="1" col="0" colSpan="2" text="Reinschnuppern?" (tap)="onTapGuest()"
+                [nsRouterLink]="['../home']"></Button>
+        </GridLayout>
+    </GridLayout>
+</GridLayout>

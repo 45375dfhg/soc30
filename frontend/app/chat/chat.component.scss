@@ -1,0 +1,74 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.newMessage{
+    color:#FF6600;
+}
+
+.chatButtons{
+    border-radius: 100;
+    color:#001144;
+    border-width: 1;
+    border-color: #D8DAE5;
+    margin:5 5;
+    width:40;
+    height:40;
+}
+
+.deactivated {
+    border-radius: 100;
+    color: gray;
+    border-width: 1;
+    border-color: #D8DAE5;
+    margin:5 5;
+    width:40;
+    height:40;
+}
+
+.gridItem {
+    background-color: white;; 
+    color:#001144;
+    border-width: 1;
+    border-color: #D8DAE5;
+    margin:5 15;
+    padding:10 10 10 10;
+    border-radius:20;
+}
+
+Image{
+
+}
+
+.icon {
+     font-family: "FontAwesome";
+ }
+
+.fa {
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.heading {
+    font-size: 17;
+}
+ 
+.emptyScreen{
+    font-family: 'Lato', 'Lato-Bold'; 
+    color:#001144;
+    text-align: center;
+}
+
+.emptytext1{
+    margin:60 50 20 50;
+}
+
+.emptytext2{
+    margin:0 50 60 50;
+}
+
+.emptytext3{
+    font-size: 12;
+    margin:50 70 20 70;
+}

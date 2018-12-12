@@ -1,0 +1,88 @@
+ActionBar {
+    background-color:  #FF6600;
+    color: #001144;
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+StackLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+Button{
+    background-color: #FF6600;
+    color: white;
+    height:50;
+}
+
+Button:active{
+    background-color: #d8510e;
+}
+
+.backButton{
+margin:10;
+border-radius: 25;
+font-family: 'Lato', 'Lato-Bold'; 
+height:50;
+}
+
+.sendButton{
+    margin:0 10 5 0;
+    border-radius: 0 25 25 0;
+    font-family: 'Lato', 'Lato-Bold'; 
+    height:50;
+}
+
+.chatTextField{
+    placeholder-color: #D8DAE5;
+    margin:0 0 5 10;
+    color: #001144;
+    border-radius: 25 0 0 25;
+    border-width: 1;
+    border-color: #FF6600;
+    padding:0 10 0 20;
+    font-size:14;
+    height:50;
+}
+
+
+
+.icon {
+     font-family: "FontAwesome";
+ }
+
+.fa {
+    font-family: 'Lato', 'Lato-Bold'; 
+}
+
+.heading {
+    font-size: 17;
+}
+
+.right {
+    text-align: right;
+    margin:5 10 5 50;
+}
+
+.left {
+    text-align: left;
+    margin:5 50 5 10;
+}
+
+.center {
+    color: #001144;
+    text-align: center;
+    margin:5 50;
+    background-color: #D8DAE5;
+    border-radius: 25;
+}
+
+.chatBubble{
+    color:#001144;
+    border-width: 1;
+    border-color: #D8DAE5;
+    padding:10;
+    width:auto;
+    border-radius: 25;
+    font-size: 14;
+}
+ 

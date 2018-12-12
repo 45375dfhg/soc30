@@ -1,0 +1,122 @@
+  
+  StackLayout{
+    font-family: 'Lato', 'Lato-Bold'; 
+  }
+  
+  Label{
+    color:#001144;
+    
+  }
+
+  .mid{
+    text-align: center;
+  }
+
+  .codeText{
+    margin:40 20 0 35;
+  }
+
+  .invalid-feedback{
+    text-align: center;
+    margin:0 20;
+  }
+
+.heading{
+  font-size:24;
+  text-align: center;
+  margin:70 0 20 0;
+}
+  
+.longText{
+  margin:0 20;
+  text-align: center;
+font-size:12;
+}
+  
+.status{
+  height:20;
+}
+
+.avatar{
+  height: 200;
+}
+
+.chooseAvatar{
+  margin:10 20;
+}
+
+.icon{
+  font-family: "FontAwesome";
+  font-size: 30;
+  margin:0 5;
+}
+ 
+.navButton{
+  background-color: white;
+  color: #FF6600;
+  border-width: 2;
+  border-color: #FF6600;
+  height:50;
+}
+
+.genderButton{
+  background-color: white;
+  color: #FF6600;
+  border-width: 1;
+  border-color: #FF6600;
+  height:50;
+}
+
+.genderButtonSelected{
+  background-color: #FF6600;
+  color: white;
+  border-color: #FF6600;
+}
+
+
+  Button {
+    border-radius: 25;
+    height:50;
+  }
+
+  .buttonRight{
+    margin:25 15 10 5;
+  }
+
+  .buttonLeft{
+    margin:25 5 10 15;
+  }
+
+  .navButton:active {
+    background-color: #FF6600;
+    border-color: #FF6600;
+  }
+ 
+  TextField {
+    font-family: 'Lato';
+    placeholder-color: #D8DAE5;
+    color: #001144;
+    border-radius: 25;
+    border-width: 1;
+    border-color: #001144;;
+    padding:10 20;
+    margin:15 20 0 20;
+    font-size:14;
+  }
+
+  .greyButton {
+    background-color: #D8DAE5;
+    height:50;
+    border-color:#D8DAE5;
+    color:#666e99;
+  }
+
+
+  .genders{
+    margin:0 0 15 0;
+  }
+
+
+
+
+  

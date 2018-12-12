@@ -1,0 +1,68 @@
+<ActionBar title="Mein Kalender">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
+<StackLayout *ngIf="ex; else noEntries" marginTop="5">
+        <Button text="Aktualisieren" class="refreshButton" (tap)="refreshCalendar()"></Button>
+    <RadListView [items]="entries" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
+        style="height:100%">
+        <ng-template tkListItemTemplate let-month="item">
+            <GridLayout rows="*" columns="*, *, *, *" class="border gridItem">
+                <Label row="0" col="0" colSpan="4" [text]="month.key" horizontalAlignment="center" verticalAlignment="center"
+                    class="fa heading"></Label>
+                <Label row="1" col="4" text="&#xf078;" verticalAlignment="center" horizontalAlignment="right" class="icon"></Label>
+            </GridLayout>
+        </ng-template>
+        <ng-template tkTemplateKey="expanded" let-month="item">
+            <GridLayout rows="* , auto" columns="*, *, *, *" class="expandedBorder gridItem">
+                <Label row="0" col="0" colSpan="4" [text]="month.key" horizontalAlignment="center" verticalAlignment="center"
+                    class="fa heading expandedHeading"></Label>
+                <StackLayout row="1" col="0" colSpan="4">
+                    <StackLayout *ngFor="let day of month.value">
+                        <GridLayout rows="*" columns="*,*,*,*" class="henqueryDate">
+                            <GridLayout row="0" rows="auto,auto">
+                                <Label row="0" col="0" [text]="day.key[0]" horizontalAlignment="center"
+                                    verticalAlignment="center" class="fa dateDay"></Label>
+                                <Label row="1" col="0" [text]="day.key[3]" horizontalAlignment="center"
+                                    verticalAlignment="center" class="fa dateDayname"></Label>
+                            </GridLayout>
+                            <StackLayout row="1" col="1" colSpan="3">
+                                <StackLayout *ngFor="let henquiry of day.value">
+                                    <GridLayout rows="auto,auto,auto,auto" columns="*" class="henqueryItem">
+                                        <Label row="0" col="0" horizontalAlignment="left" textWrap="true"
+                                            verticalAlignment="center" [text]="formatCategory(henquiry.category.category, henquiry.category.subcategory)"
+                                            class="fa hequeryInfo">
+                                        </Label>
+                                        <Label row="1" col="0" *ngIf="henquiry.createdBy.surname" [text]="formatCategoryByUser(henquiry.category, henquiry.createdBy, henquiry.aide)"
+                                            horizontalAlignment="left" verticalAlignment="center" class="fa heading"
+                                            textWrap="true"></Label>
+                                        <Label row="2" col="0" horizontalAlignment="left" textWrap="true"
+                                            verticalAlignment="center" [text]="formatLocation(henquiry.createdBy)"
+                                            class="fa hequeryInfo" textWrap="true">
+                                        </Label>
+                                        <Label row="3" col="0" [text]="formatStartTime(henquiry.startTime)"
+                                            horizontalAlignment="left" verticalAlignment="center" class="fa hequeryStatus">
+                                        </Label>
+                                    </GridLayout>
+                                </StackLayout>
+                            </StackLayout>
+                        </GridLayout>
+                    </StackLayout>
+                </StackLayout>
+                <Label row="1" col="4" text="&#xf077;" verticalAlignment="bottom" horizontalAlignment="right" class="icon"></Label>
+            </GridLayout>
+        </ng-template>
+    </RadListView>
+</StackLayout>
+<ng-template #noEntries>
+    <GridLayout rows="auto,auto,auto,auto,auto" class="emptyScreen">
+        <Button row="0" text="Refresh" class="refreshButton" pageTransition="fade" (tap)="refreshCalendar()"></Button>
+        <Label row="1" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
+            horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>
+        <Label row="2" text="Oder brauchst du selbst Hilfe? Dann setz einfach ein Hilfegesuch auf!" horizontalAlignment="center"
+            verticalAlignment="center" textWrap="true" class="emptytext2"></Label>
+        <Image row="3" [src]="getCategoryIconSource('kaffeetasse')" horizontalAlignment="center" verticalAlignment="center"
+            height="25%" class="emptyimage1"></Image>
+        <Label row="4" text="Hier siehst du bald eine Übersicht, wann du verabredet bist um Hilfe zu bekommen oder zu geben."
+            horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
+    </GridLayout>
+</ng-template>

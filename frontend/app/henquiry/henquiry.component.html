@@ -1,0 +1,35 @@
+<ActionBar title="Lass dir helfen!">
+    <NavigationButton visibility="collapsed"></NavigationButton>
+</ActionBar>
+<StackLayout *ngIf="!categorySelected; else subcategory">
+    <GridLayout rows="auto,auto,auto,auto,auto,auto,*,auto" columns="*">
+        <Label class="subText fa" row="0" col="0" textWrap="true" text="Bei welcher Tätigkeit möchtest du dir helfen lassen?"></Label>
+        <Button class="categoryButton" row="1" col="0" (tap)="changeCategory(0, $event)" text="Schwerer Haushalt"></Button>
+        <Button class="categoryButton" row="2" col="0" (tap)="changeCategory(1, $event)" text="Leichter Haushalt"></Button>
+        <Button class="categoryButton" row="3" col="0" (tap)="changeCategory(3, $event)" text="Gartenarbeit"></Button>
+        <Button class="categoryButton" row="4" col="0" (tap)="changeCategory(2, $event)" text="Gesellschaft"></Button>
+        <Button class="categoryButton" row="5" col="0" (tap)="changeCategory(4, $event)" text="Tiere"></Button>
+        <Button class="nextButton" row="7" (tap)="switchStatus(currentCategory)" text="Nächster Schritt" col="0"></Button>
+    </GridLayout>
+</StackLayout>
+<ng-template #subcategory>
+    <GridLayout rows="auto, *, auto" columns="*">
+        <Label class="subText fa" row="0" col="0" text="Wo genau brauchst du Hilfe?"></Label>
+        <StackLayout row="1" col="0">
+            <ScrollView>
+                <StackLayout>
+                    <StackLayout *ngFor="let sub of subNames; let i = index">
+                        <GridLayout row="0" rows="auto" columns="*,*,*,*,auto" [nsRouterLink]="['../henquiries', categoryId.toString() + i.toString()]"
+                            pageTransition="slideLeft" class="border category">
+                            <Label row="0" col="0" colSpan="3" [text]="sub" class="fa subHeading" verticalAlignment="center"></Label>
+                            <Image class="subIcon" row="0" rowSpan="2" col="3" [src]="setIcon(categoryId, i)" height="50"
+                                verticalAlignment="center" horizontalAlignment="right"></Image>
+                            <Label row="0" rowSpan="2" col="4" text="&#xf054;" class="icon" verticalAlignment="center"></Label>
+                        </GridLayout>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+        <Button row="2" col="0" class="blueButton" text="Zurück" (tap)="switchStatus(categoryId)"></Button>
+    </GridLayout>
+</ng-template>

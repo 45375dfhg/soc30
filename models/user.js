@@ -8,11 +8,10 @@ var UserSchema = new Schema({
   email: { type: String, unique: true, required: true, trim: true },
   password: { type: String, required: true },
   nickname: { type: String, required: true, trim: true },
+  // Gibt an, wieviele Minuten ein Helfer bereits insgesamt geholfen hat
   timeHelped: {type: Number, default: 0},
   // Index des Arrays = Das Kriterium
-  ratings: [{type: Number}], // Das ist ratingsAsAide (ungünstige Namensgebung i know)
-  // ratingsAsFiler: [{type: Number}],
-  // TODO: muss am Ende alles required sein
+  ratings: [{type: Number}], 
   address: { 
       postalcode: { type: Number },
       street: { type: String },

@@ -187,7 +187,7 @@ exports.deleteHenquiry = (req, res, next) => {
             var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
             + "-" + result.startTime.getDate();
             var potentialAideAndAide = result.aide.concat(result.potentialAide);
-            console.log("vor der loop");
+            //console.log("vor der loop");
             if(potentialAideAndAide.length == 0) {
               result.delete();
               return res.send("");
@@ -211,7 +211,7 @@ exports.deleteHenquiry = (req, res, next) => {
                   }
                   meetingsIdx++;
                 }
-                console.log("hier " + i);
+                //console.log("hier " + i);
                 // Synchronisation: Result erst löschen, wenn alle Nutzer bearbeitet wurden
                 if(idx == potentialAideAndAide.length-1) {
                   result.delete();
@@ -264,7 +264,7 @@ exports.apply = (req, res, next) => {
         }
         var dateOfHenquiry = result.startTime.getFullYear()+ "-" + (result.startTime.getMonth()+1)
         + "-" + result.startTime.getDate();
-        console.log(dateOfHenquiry);
+        //console.log(dateOfHenquiry);
         // Prüfen, ob es zu einer Kollision in der Zeit kommt zwischen der aktuellen Bewerbung
         // und bereits vorhandenen Henquiries (die man auch im Kalender sehen würde), d.h.
         // man ist Ersteller, hat sich irgendwo beworben oder wurde als Helfer angenommen
@@ -330,7 +330,7 @@ exports.apply = (req, res, next) => {
 };
 
 exports.acceptApplicants = (req, res, next) => {
-  console.log("Accept application");
+  //console.log("Accept application");
   var henquiryId = req.body.henquiryId;
   var applicants = req.body.applicants;
   if(!applicants) {
@@ -391,7 +391,7 @@ exports.acceptApplicants = (req, res, next) => {
 
 // Hilfsgesuche für neue Bewerber schließen. Henquiry wird nicht mehr in der Suche angezeigt werden.
 exports.closeHenquiry = (req, res, next) => {
-  console.log("Close henquiry");
+  //console.log("Close henquiry");
   var henquiryId = req.body.henquiryId;
   Henquiry.findById(henquiryId, function(err, result) {
     if(err) { 
@@ -485,7 +485,7 @@ exports.henquirySuccess = (req, res, next) => {
 };
 
 exports.cancelApplication = (req, res, next) => {
-  console.log("Cancel application");
+  //console.log("Cancel application");
   var henquiryId = req.body.henquiryId;
   var userId = new mongoose.mongo.ObjectId(req.userId);
   Henquiry.findById(henquiryId, function(err, result) {

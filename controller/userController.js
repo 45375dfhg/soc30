@@ -78,7 +78,7 @@ exports.register = function (req, res, next) {
             expiresIn: 86400*31 // expires in 31 days
           });
           if(req.body.code && req.body.hostEmail) {
-            console.log("hier");
+            //console.log("hier");
             var code = req.body.code;
             var email = req.body.hostEmail;
             User.findOne({email:email, "invite.codes":code}, function(err, resultHost) {

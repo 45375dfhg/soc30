@@ -126,17 +126,3 @@ export class ChatDetailComponent implements OnInit {
         this.routerExtension.back();
     }
 }
-
-/*
-          timer(0, 10000).pipe(
-                merge(this.manualRefresh),
-                concatMap(_ => msgObj$),
-                map(res => {
-                    this.polledMessages$ = res.messages;
-                    this.polledAideId$ = res.aide._id;
-                    return res;
-                }),
-                catchError(err => throwError(err))
-            );
-        }
-        */

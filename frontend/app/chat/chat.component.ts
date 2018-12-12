@@ -1,11 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 
 import { Observable, timer, throwError, BehaviorSubject } from 'rxjs';
-import { concatMap, map, catchError, switchMap } from 'rxjs/operators';
+import { concatMap, map, catchError, switchMap, tap } from 'rxjs/operators';
 
-import { Button } from 'tns-core-modules/ui/button'
+import { Button } from 'tns-core-modules/ui/button';
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { ChatService } from "../shared/services/chat.service";
@@ -29,6 +30,7 @@ export class ChatComponent implements OnInit {
     // sync
     // private entries;
     private guest: boolean = false;
+    private ex: boolean = true;
 
     // imported this way to avoid angular namespace problems
     // cant use imported service functions inside html
@@ -60,18 +62,6 @@ export class ChatComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        /*if (!this.appSet.getUser('guest')) {
-            // the stream
-            const chatOverview$ = this.chatService.getChatsOverview();
-
-            // polling every 10s, concatMap subscribes to the stream
-            this.polledChatOverview$ = timer(0, 10000).pipe(
-                concatMap(_ => chatOverview$),
-                map(res => res),
-                catchError(err => throwError(err))
-            );
-        }
-        */
         if (!this.appSet.getUser('guest')) {
             const chatOverview$ = this.chatService.getChatsOverview();
 
@@ -79,7 +69,12 @@ export class ChatComponent implements OnInit {
             this.polledChatOverview$ = this.load$.pipe(
                 switchMap(_ => timer(0, 10000).pipe(
                     concatMap(_ => chatOverview$),
-                    map(res => res),
+                    map(res => {
+                        if (res.length === 0) {
+                            this.ex = false;
+                        }
+                        return res;
+                    }),
                     catchError(err => throwError(err))
                 ))
             )
@@ -146,8 +141,12 @@ export class ChatComponent implements OnInit {
     // https://stackoverflow.com/a/40665664
     onChangeCssClassButtonTap(args) {
         var button = args.object as Button;
-        button.className = "icon deactivated";
-        button.isEnabled = false;
+        if (button.className == "icon deactivated") {
+            button.className = "icon chatButtons"
+        } else {
+            button.className = "icon deactivated";
+        }
+        button.isEnabled = !button.isEnabled;
     }
 
     // just pass the whole item.henquiry object
@@ -174,15 +173,21 @@ export class ChatComponent implements OnInit {
     cancelTap(args, item) {
         this.onChangeCssClassButtonTap(args);
         if (this.aideCanCancelHenquiry(item)) {
-            this.itemService.cancelItem(item.henquiry._id).subscribe();
-            this.refreshDataClick();
+            dialogs.confirm({
+                title: "Bestätigung",
+                message: "Wirklich absagen?",
+                okButtonText: "Ja",
+                cancelButtonText: "Nein",
+            }).then(r => {
+                if (r) {
+                    this.itemService.cancelItem(item.henquiry._id).subscribe(
+                        res => this.refreshDataClick()
+                    );
+                } else {
+                    this.onChangeCssClassButtonTap(args);
+                }
+            });
         }
-        /*
-        if (this.filerCanCloseHenquiry(item)) {
-            console.log('reached close')
-            this.itemService.closeItem(item.henquiry._id).subscribe();
-        }
-        */
     }
 
     acceptPossible(item): boolean {
@@ -199,18 +204,54 @@ export class ChatComponent implements OnInit {
         this.onChangeCssClassButtonTap(args);
         if (this.filerCanAcceptHenquiry(item)) {
             let aide = item.aide._id;
-            this.itemService.acceptItem(item.henquiry._id, aide).subscribe();
-            this.refreshDataClick();
+            dialogs.confirm({
+                title: "Bestätigung",
+                message: "Diesen Helfer auswählen?",
+                okButtonText: "Ja",
+                cancelButtonText: "Nein",
+            }).then(r => {
+                if (r) {
+                    this.onChangeCssClassButtonTap(args);
+                    this.itemService.acceptItem(item.henquiry._id, aide).subscribe(
+                        res => this.refreshDataClick());
+                } else {
+                    this.onChangeCssClassButtonTap(args);
+                }
+            })
             return;
         }
         if (this.filerCanCloseHenquiry(item)) {
-            this.itemService.closeItem(item.henquiry._id).subscribe();
-            this.refreshDataClick();
+            dialogs.confirm({
+                title: "Bestätigung",
+                message: "Den Termin finalisieren?",
+                okButtonText: "Ja",
+                cancelButtonText: "Noch nicht",
+            }).then(r => {
+                if (r) {
+                    this.itemService.closeItem(item.henquiry._id).subscribe(
+                        res => this.refreshDataClick()
+                    );
+                } else {
+                    this.onChangeCssClassButtonTap(args);
+                }
+            });
             return;
         }
         if (this.filerCanSuccessHenquiry(item)) {
-            this.itemService.successItem(item.henquiry._id).subscribe();
-            this.refreshDataClick();
+            dialogs.confirm({
+                title: "Bestätigung",
+                message: "Der Termin war erfolreich?",
+                okButtonText: "Ja",
+                cancelButtonText: "Leider nein",
+            }).then(r => {
+                if (r) {
+                    this.itemService.successItem(item.henquiry._id).subscribe(
+                        res => this.refreshDataClick()
+                    );
+                } else {
+                    this.onChangeCssClassButtonTap(args);
+                }
+            })
             return;
         }
     }
@@ -225,20 +266,9 @@ export class ChatComponent implements OnInit {
 
     rateTap(args, item) {
         this.onChangeCssClassButtonTap(args);
-        // this.refreshDataClick();
-        /*
-        if (this.userIsFiler(item)) {
-            // ['../henquiries', categoryId.toString() + i.toString()]
-            this.router.navigate(['../rating'])
-            // 'X' + item.henquiry._id
-        } else {
-            this.router.navigate(['../rating', 'Y' + item.henquiry._id])
-        }
-        */
     }
 
     roleForIdString(item) {
-        // its tuesday ok and I dont have much time
         if (this.userIsFiler(item)) {
             return item.aide.firstname + 'XY';
         } else {
@@ -286,7 +316,7 @@ export class ChatComponent implements OnInit {
     filerCanCloseHenquiry(item) {
         if (this.userIsFiler(item)) {
             if (!item.henquiry.happened) {
-                if (item.henquiry.closed != true) {
+                if (item.henquiry.closed === false) {
                     if ((item.henquiry.aide == null) || (item.henquiry.aide.length < 1)) {
                         return false;
                     } else {
@@ -304,21 +334,27 @@ export class ChatComponent implements OnInit {
 
     }
 
+
+    /*
+    let time = new Date(item.henquiry.endTime);
+    if (Date.now() > time.getTime()) {
+        return true;
+    } else {
+        return false;
+    }
+    */
+    // uncomment to add a timer logic
     // REST/henquiries/success
     filerCanSuccessHenquiry(item) {
         if (this.userIsFiler(item)) {
             if (item.henquiry.happened) {
                 return false;
             } else {
-                return true;
-                /*
-                let time = new Date(item.henquiry.endTime);
-                if (Date.now() > time.getTime()) {
+                if (item.henquiry.closed) {
                     return true;
                 } else {
                     return false;
                 }
-                */
             }
         } else {
             return false;
@@ -328,4 +364,5 @@ export class ChatComponent implements OnInit {
     getCategoryIconSource(icon: string): string {
         return getCategoryIconSource(icon);
     }
+
 }

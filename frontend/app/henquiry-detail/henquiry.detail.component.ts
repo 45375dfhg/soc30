@@ -71,7 +71,7 @@ export class HenquiryDetailComponent implements OnInit {
         this.hour = this.today.getHours();
         this.minute = this.today.getMinutes();
         this.dayDisplay = (this.today.getDate() + 1).toString();
-        this.monthDisplay = this.today.getMonth().toString();
+        this.monthDisplay = (this.today.getMonth() + 1).toString();
         this.yearDisplay = this.today.getFullYear().toString();
         this.hourDisplay = this.today.getHours().toString();
         this.minuteDisplay = this.today.getMinutes().toString();

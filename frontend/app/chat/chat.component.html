@@ -1,7 +1,7 @@
 <ActionBar title="Mein Plauderkasten">
         <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-<StackLayout *ngIf="polledChatOverview$ | async; else noEntries" marginTop="5">
+<StackLayout *ngIf="ex; else noEntries" marginTop="5">
         <RadListView [items]="polledChatOverview$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group"
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">

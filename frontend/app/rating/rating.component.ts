@@ -5,9 +5,6 @@ import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 
-import { Observable, timer, throwError, BehaviorSubject } from 'rxjs';
-import { concatMap, map, switchMap, catchError } from 'rxjs/operators';
-
 import { AppSettingsService } from '../shared/services/appsettings.service';
 import { ItemService } from "../shared/services/item.service";
 

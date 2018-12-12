@@ -30,7 +30,6 @@ export class CalendarComponent implements OnInit {
     private entries;
     private dates: string[] = [];
     private ex: boolean = false;
-    private dis: boolean = false;
 
     // async
     private polledCalendar$: Observable<any>;
@@ -62,8 +61,6 @@ export class CalendarComponent implements OnInit {
         if (!this.appSet.getUser('guest')) {
             this.receiveAndOrder();
         } else {
-            console.log('user is a guest');
-            this.dis = true;
             this.guestData(this.calendarService.getGuestItems);
         }
     }

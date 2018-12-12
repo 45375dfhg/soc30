@@ -22,7 +22,8 @@ declare var android;
 })
 export class AppComponent {
 
-    public constructor(private router: RouterExtensions) { 
+    public constructor(
+        private routerExtension: RouterExtensions) { 
         if(isIOS){
             //topmost().ios.controller.navigationBar.barStyle = 1;
         } else {

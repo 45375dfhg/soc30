@@ -143,6 +143,7 @@ export class RegisterComponent implements OnInit {
             this.currentAvatar += direction;
         }
         this.currentAvatar = +this.currentAvatar % 6;
+        this.registerForm.patchValue({avatar: this.currentAvatar});
     }
 
     getCategoryIconSource(icon: string): string {

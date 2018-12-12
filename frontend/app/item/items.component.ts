@@ -18,6 +18,7 @@ import { Button } from 'tns-core-modules/ui/button'
 import { isIOS, isAndroid } from "tns-core-modules/platform";
 import { alert } from "tns-core-modules/ui/dialogs";
 import { ListViewEventData } from "nativescript-ui-listview";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 declare var UIView, NSMutableArray, NSIndexPath;
 
@@ -110,7 +111,16 @@ export class ItemsComponent implements OnInit {
     onClick(id, event) {
         this.onChangeCssClassButtonTap(event);
         if (!this.appSet.getUser('guest')) {
-            this.applyTo(id);
+            dialogs.confirm({
+                title: "Bestätigung",
+                message: "Du möchtest helfen?",
+                okButtonText: "Ja",
+                cancelButtonText: "Heute nicht",
+            }).then(r => {
+                if (r) {
+                    this.applyTo(id);
+                }
+            })
         } else {
             alert({
                 title: "Du bist ein Gast ",
@@ -129,7 +139,7 @@ export class ItemsComponent implements OnInit {
 
     applyTo(id) {
         this.itemService.applyItem(id).subscribe(
-            res => console.log('suc'),
+            res => this.refreshDataClick(),
             err => {
                 if (err instanceof HttpErrorResponse) {
                     console.log(`Status: ${err.status}, ${err.statusText}`);
@@ -171,7 +181,7 @@ export class ItemsComponent implements OnInit {
     }
 
     getPropertyString(idx: number): string {
-        enum Properties {'Stark wie ein Bär', Sonnenschein, Saubermensch, 'Der mit der Uhr tanzt', 'Beinahe Otta Waalkes', Lieb, 'Guter Zuhörer', 'Grüner Daumen', 'Optimist', Gesprächig, Geschickt, Tierfreund}
+        enum Properties { 'Stark wie ein Bär', Sonnenschein, Saubermensch, 'Der mit der Uhr tanzt', 'Beinahe Otta Waalkes', Lieb, 'Guter Zuhörer', 'Grüner Daumen', 'Optimist', Gesprächig, Geschickt, Tierfreund }
         return Properties[idx];
     }
 
@@ -189,8 +199,8 @@ export class ItemsComponent implements OnInit {
 
     // https://github.com/NativeScript/nativescript-angular/issues/1252#issuecomment-380017432
     goToFilter() {
-        if (!this.appSet.getUser('guest')) { 
-        this.router.navigate(['../filterItems'], { relativeTo: this.currentRoute });
+        if (!this.appSet.getUser('guest')) {
+            this.router.navigate(['../filterItems'], { relativeTo: this.currentRoute });
         }
     }
 }

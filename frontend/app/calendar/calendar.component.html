@@ -2,7 +2,7 @@
     <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
 <StackLayout *ngIf="ex; else noEntries" marginTop="5">
-        <Button text="Neue Einträge" class="refreshButton" (tap)="refreshCalendar()"></Button>
+        <Button text="Aktualisieren" class="refreshButton" (tap)="refreshCalendar()"></Button>
     <RadListView [items]="entries" [itemTemplateSelector]="templateSelector" class="list-group" (itemTap)="onItemTap($event)"
         style="height:100%">
         <ng-template tkListItemTemplate let-month="item">

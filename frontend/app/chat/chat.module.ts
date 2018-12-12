@@ -8,10 +8,6 @@ import { ChatComponent } from "./chat.component";
 import { ChatDetailComponent } from '../chat-detail/chat.detail.component';
 import { RatingComponent } from "../rating/rating.component";
 
-// interceptor
-// import { TokenInterceptor } from '../shared/helper/token.interceptor';
-// import { HTTP_INTERCEPTORS } from "@angular/common/http";
-
 @NgModule({
     imports: [
         NativeScriptCommonModule,
@@ -22,7 +18,7 @@ import { RatingComponent } from "../rating/rating.component";
             { path: "", redirectTo: "chat" },
             { path: "chat", component: ChatComponent },
             { path: "chats/:id", component: ChatDetailComponent},
-            { path: "rating/:id", component: RatingComponent}
+            { path: "rating/:id", component: RatingComponent, runGuardsAndResolvers: 'always'}
         ])
     ],
     declarations: [

@@ -1,9 +1,10 @@
 import { Component } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 import { Page, isAndroid } from "tns-core-modules/ui/page";
 
 import * as application from "tns-core-modules/application";
+
 
 
 @Component({

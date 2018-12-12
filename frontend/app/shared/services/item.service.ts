@@ -7,6 +7,7 @@ import { Item } from "../models/item";
 import { Config } from "../config";
 
 import { AppSettingsService } from './appsettings.service';
+import { AlertService } from './alert.service';
 
 @Injectable()
 export class ItemService {
@@ -14,7 +15,7 @@ export class ItemService {
 
     private items: Item[];
 
-    constructor(private http: HttpClient, private appSet: AppSettingsService) { }
+    constructor(private http: HttpClient, private appSet: AppSettingsService, private alertService: AlertService) { }
 
     public getItems() {
         return this.http.get<Item[]>(this.baseUrl + "henquiries")
@@ -360,6 +361,7 @@ export class ItemService {
 
     private handleErrors(operation: string) {
         return (err: any) => {
+            this.alertService.catchAndSelect(err); // comment out if errors in error handling
             let errMsg = `error in ${operation}() retrieving ${this.baseUrl}`;
             console.log(`${errMsg}:`, err);
             if (err instanceof HttpErrorResponse) {

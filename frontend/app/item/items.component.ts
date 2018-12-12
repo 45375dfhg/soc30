@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { HttpErrorResponse } from "@angular/common/http";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
@@ -136,11 +135,7 @@ export class ItemsComponent implements OnInit {
 
     applyTo(id) {
         this.itemService.applyItem(id).subscribe(
-            res => this.refreshDataClick(),
-            err => {
-                this.alertService.catchAndSelect(err);
-                console.log('error caught')
-            }
+            res => this.refreshDataClick()
         );
     }
 

@@ -4,8 +4,6 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first} from 'rxjs/operators';
 import { Page } from "tns-core-modules/ui/page";
-import { Observable } from "rxjs";
-import { HttpErrorResponse } from "@angular/common/http";
 
 import { getCategoryIconSource } from "../app.component";
 import { AuthenticationService } from '../shared/services/authentication.service';

@@ -26,6 +26,7 @@ export class AlertService {
             this.displaySelectedErrors(err.error);
         } else {
             console.log(err);
+            console.log('false inside cas')
         }
     }
 

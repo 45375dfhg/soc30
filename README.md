@@ -6,7 +6,7 @@ Under the following google drive [link](https://drive.google.com/file/d/1G0spQcr
 
 Information about the backend and how to set it up can likewise be found inside the backend folder's readme.md. A guide to setup and import the database are included as well as the required steps to change the IP address to your likings.
 
-Inside the root direcotry, you find Dokumente.zip which includes:
+Inside the root directory you find Dokumente.zip which includes:
 - concept paper
 - API documentation
 - Pflichtenheft

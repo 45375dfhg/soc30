@@ -65,7 +65,6 @@ export class ProfileComponent implements OnInit {
         let id = currentUser._id;
         this.profileService.getProfile(id).subscribe(
             res => {
-                console.log(res.ratings);
                 this.ratingsFiler = this.getIdxOfThreeHighestProperties(res.ratings);
                 this.icon1 = this.ratingsFiler[0];
                 this.icon2 = this.ratingsFiler[1];
@@ -85,7 +84,6 @@ export class ProfileComponent implements OnInit {
             tmp.push(arr.indexOf(max));
             arr[idx] = null;
         }
-        console.log(tmp);
         return tmp;
     }
 

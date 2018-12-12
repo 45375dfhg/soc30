@@ -137,6 +137,9 @@ export class ChatComponent implements OnInit {
             if (this.aideCanCancelHenquiry(item)) {
                 return 'Möchtest du absagen?'
             }
+            if (!this.aideCanCancelHenquiry(item) && !this.userCanRate(item)) {
+                return "Dein Gegenüber braucht noch."
+            }
             if (this.userCanRate(item)) {
                 return 'Du kannst ' + item.filer.firstname + ' bewerten!'
             }

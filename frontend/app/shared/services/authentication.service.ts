@@ -29,7 +29,6 @@ export class AuthenticationService {
         return this.http.post<any>(this.loginUrl, params, {headers: headers})
             .pipe(
                 map(user => {
-                    console.log('reached map(user)')
                     // login successful if there's a jwt token in the response
                     if (user && user.token && user._id) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -63,7 +62,6 @@ export class AuthenticationService {
         return this.http.post<any>(this.registerUrl, params)
             .pipe(
                 map(user => {
-                    console.log('reached register map')
                     if (user && user.token) {
                         this.appSet.setUser('currentUser', JSON.stringify(user));
                     }

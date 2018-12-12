@@ -72,7 +72,6 @@ export class ChatDetailComponent implements OnInit {
     }
 
     sendMessage(msg: string) {
-        console.log(msg);
         if (msg.replace(/\s/g,'').length < 1) {
             return
         }

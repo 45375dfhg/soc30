@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 
-import { Observable, timer, throwError } from 'rxjs';
-import { concatMap, map, catchError, tap } from 'rxjs/operators';
+import { Observable, timer, throwError, BehaviorSubject } from 'rxjs';
+import { concatMap, map, catchError, switchMap } from 'rxjs/operators';
 
 import { Button } from 'tns-core-modules/ui/button'
 
@@ -24,6 +24,7 @@ export class ChatComponent implements OnInit {
 
     // async
     private polledChatOverview$: Observable<any>;
+    private load$ = new BehaviorSubject('');
 
     // sync
     // private entries;
@@ -59,7 +60,7 @@ export class ChatComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (!this.appSet.getUser('guest')) {
+        /*if (!this.appSet.getUser('guest')) {
             // the stream
             const chatOverview$ = this.chatService.getChatsOverview();
 
@@ -70,6 +71,24 @@ export class ChatComponent implements OnInit {
                 catchError(err => throwError(err))
             );
         }
+        */
+        if (!this.appSet.getUser('guest')) {
+            const chatOverview$ = this.chatService.getChatsOverview();
+
+            // polls the items from the stream above, maps them 
+            this.polledChatOverview$ = this.load$.pipe(
+                switchMap(_ => timer(0, 10000).pipe(
+                    concatMap(_ => chatOverview$),
+                    map(res => res),
+                    catchError(err => throwError(err))
+                ))
+            )
+        }
+    }
+
+    // resets the timer of the polling
+    refreshDataClick() {
+        this.load$.next('');
     }
 
     statusToAvatar(item) {
@@ -112,14 +131,14 @@ export class ChatComponent implements OnInit {
                 return 'Hat der Termin stattgefunden?'
             }
             if (this.userCanRate(item)) {
-                return 'Du kannst '  + item.aide.firstname + ' bewerten!'
+                return 'Du kannst ' + item.aide.firstname + ' bewerten!'
             }
         } else {
             if (this.aideCanCancelHenquiry(item)) {
                 return 'Möchtest du absagen?'
             }
             if (this.userCanRate(item)) {
-                return 'Du kannst '  + item.filer.firstname + ' bewerten!'
+                return 'Du kannst ' + item.filer.firstname + ' bewerten!'
             }
         }
     }
@@ -156,6 +175,7 @@ export class ChatComponent implements OnInit {
         this.onChangeCssClassButtonTap(args);
         if (this.aideCanCancelHenquiry(item)) {
             this.itemService.cancelItem(item.henquiry._id).subscribe();
+            this.refreshDataClick();
         }
         /*
         if (this.filerCanCloseHenquiry(item)) {
@@ -180,14 +200,17 @@ export class ChatComponent implements OnInit {
         if (this.filerCanAcceptHenquiry(item)) {
             let aide = item.aide._id;
             this.itemService.acceptItem(item.henquiry._id, aide).subscribe();
+            this.refreshDataClick();
             return;
         }
         if (this.filerCanCloseHenquiry(item)) {
             this.itemService.closeItem(item.henquiry._id).subscribe();
+            this.refreshDataClick();
             return;
         }
         if (this.filerCanSuccessHenquiry(item)) {
             this.itemService.successItem(item.henquiry._id).subscribe();
+            this.refreshDataClick();
             return;
         }
     }
@@ -202,6 +225,7 @@ export class ChatComponent implements OnInit {
 
     rateTap(args, item) {
         this.onChangeCssClassButtonTap(args);
+        // this.refreshDataClick();
         /*
         if (this.userIsFiler(item)) {
             // ['../henquiries', categoryId.toString() + i.toString()]
@@ -228,7 +252,7 @@ export class ChatComponent implements OnInit {
         if (this.userIsFiler(item)) {
             return false;
         } else {
-            if (item.henquiry.closed) {
+            if (item.henquiry.closed || item.henquiry.happened || item.henquiry.removed) {
                 return false;
             } else {
                 return true;
@@ -242,10 +266,14 @@ export class ChatComponent implements OnInit {
             if (item.henquiry.potentialAide == null) {
                 return false;
             } else {
-                if (item.henquiry.potentialAide.indexOf(item.aide._id) === -1) {
-                    return false;
+                if ((item.henquiry.closed === false) && (item.henquiry.happened === false) && (item.henquiry.removed === false)) {
+                    if (item.henquiry.potentialAide.indexOf(item.aide._id) === -1) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else {
-                    return true;
+                    return false;
                 }
             }
         } else {
@@ -253,21 +281,27 @@ export class ChatComponent implements OnInit {
         }
     }
 
+
     // REST/henquiries/close
     filerCanCloseHenquiry(item) {
         if (this.userIsFiler(item)) {
-            if (item.henquiry.closed != true) {
-                if ((item.henquiry.aide == null) || (item.henquiry.aide.length < 1)) {
-                    return false;
+            if (!item.henquiry.happened) {
+                if (item.henquiry.closed != true) {
+                    if ((item.henquiry.aide == null) || (item.henquiry.aide.length < 1)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else {
-                    return true;
+                    return false;
                 }
             } else {
                 return false;
-            }   
+            }
         } else {
             return false;
         }
+
     }
 
     // REST/henquiries/success
@@ -277,14 +311,14 @@ export class ChatComponent implements OnInit {
                 return false;
             } else {
                 return true;
-            /*
-            let time = new Date(item.henquiry.endTime);
-            if (Date.now() > time.getTime()) {
-                return true;
-            } else {
-                return false;
-            }
-            */
+                /*
+                let time = new Date(item.henquiry.endTime);
+                if (Date.now() > time.getTime()) {
+                    return true;
+                } else {
+                    return false;
+                }
+                */
             }
         } else {
             return false;

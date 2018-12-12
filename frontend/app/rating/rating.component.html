@@ -67,7 +67,7 @@
         </GridLayout>
     </GridLayout>
     <GridLayout row="2" col="0" colSpan="3" rows="auto" columns="*,*">
-        <Button row="0" col="1" [ngClass]="{ 'greyButton': disabled, 'confirmButton': !disabled }" isEnabled = "{{ disabled }}" text="Lob aussprechen!" (tap)="submitRating()"></Button>
+        <Button row="0" col="1" [ngClass]="{ 'greyButton': disabled, 'confirmButton': !disabled }" isEnabled="{{!disabled }}" text="Lob aussprechen!" (tap)="submitRating()"></Button>
         <Button row="0" col="0" class="backButton" (tap)="goBack()" text="Lieber später"></Button>
     </GridLayout>
 </GridLayout>

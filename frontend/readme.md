@@ -53,6 +53,8 @@ The app structure in its routing and modularity is based on [Adjenkov's](https:/
 
 The workaround results in us using 'tns-core-modules: next' and 'nativescript-angular: next' as well as an more split up modules.ts approach. Each main component that is part of the tabview got its own module.ts which if existing allows to route to further nested children. This nesting structure forced us to outsource 'tns-core-modules/application-settings' (which is similiar to localStorage) to a service since the nested view doesn't allow certain components to communcicate with each other directly.
 
+Nativescript itself comes with Typscript 2.7.* which doesn't allow for the usage of certain Nativescript plugins (which is kinda odd). That's why we manually changed our project to use the latest Typescript version which is 3.1.12.
+
 `tree -I 'node_modules|hooks|platforms|App_Resources|*.js|*.scss|fonts'`
 ```
 .

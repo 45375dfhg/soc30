@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
+import { Router } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
@@ -34,6 +35,7 @@ export class ItemsComponent implements OnInit {
     message: { categories: boolean[], time: number, distance: number }; // basically filter values
     guest: Boolean = false;
     itterateAvatar: number = 0;
+    private dis: boolean = false;
 
     // async
     manualRefresh = new Subject();
@@ -58,7 +60,7 @@ export class ItemsComponent implements OnInit {
 
     constructor(
         private itemService: ItemService,
-        private router: RouterExtensions,
+        private router: Router,
         private appSet: AppSettingsService,
         private authenticationService: AuthenticationService,
         private data: DataService,
@@ -96,6 +98,8 @@ export class ItemsComponent implements OnInit {
                 catchError(err => throwError(err))
             );
         } else {
+            this.dis = true;
+            console.log(this.dis)
             this.guest = true;
             this.items = this.itemService.getGuestItems(12);
         }
@@ -179,6 +183,10 @@ export class ItemsComponent implements OnInit {
             let idx = arr.indexOf(max);
             return this.getPropertyString(idx);
         }
+    }
+
+    goToFilter() {
+        this.router.navigate(['/filterItems']);
     }
 }
 

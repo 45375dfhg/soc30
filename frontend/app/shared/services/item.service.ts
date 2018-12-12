@@ -96,11 +96,12 @@ export class ItemService {
             );
     }
 
-    public rateItem(id: string, aide) {
+    public rateItem(id: string, aideId: string, ratings) {
         let params = new HttpParams()
             .set('henquiryId', id)
+            .set('aideId', aideId)
             // needs to be stringify'd because otherwise we'd get [object object]
-            .set('ratings', JSON.stringify(aide));
+            .set('ratings', JSON.stringify(ratings));
 
         return this.http.post<any>(this.baseUrl + "henquiries/rate", params)
             .pipe(
@@ -343,10 +344,10 @@ export class ItemService {
     public getSubs() {
         return [
             ["Reparieren", "Umräumen", "Umziehen"],
-            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müllrausbringen", "Schrubben", "Spülen", "Sprühflasche", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
-            ["Kochen", "Spazierengehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
-            ["Blumengießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtnern", "Heckenschneiden", "Rechen"],
-            ["Gassigehen", "Käfigsäubern", "Tiere füttern"]
+            ["Bügeln", "Einkaufen", "Handschuhe", "Kehren", "Müll rausbringen", "Schrubben", "Spülen", "Reinigen", "Staubsaugen", "Wäsche aufhängen", "Wäsche waschen"],
+            ["Kochen", "Spazieren gehen", "Brettspiele spielen", "Vorlesen", "Gesellschaft"],
+            ["Blumen gießen", "Blumen pflanzen", "Blumen eintopfen", "Gärtnern", "Hecken schneiden", "Rechen"],
+            ["Gassi gehen", "Käfig säubern", "Tiere füttern"]
         ];
     }
 

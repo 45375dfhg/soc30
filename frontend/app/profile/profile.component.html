@@ -14,14 +14,14 @@
                 <Image class="profilPic" row="0" col="0" [src]="getAvatar(profile?.avatar)" horizontalAlignment="center"></Image>
                 <Label class="userName fa" row="1" col="0" text="{{profile?.firstname}} {{profile?.surname}}"
                     horizontalAlignment="center"></Label>
-                <Label row="2" col="0" class="userSince" text="Mitglied seid {{registerDate}}" horizontalAlignment="center"></Label>
+                <Label row="2" col="0" class="userSince" text="Mitglied seit {{registerDate}}" horizontalAlignment="center"></Label>
                 <Label row="3" col="0" class="nickName fa" text="{{profile?.nickname}}" horizontalAlignment="center"></Label>
             </GridLayout>
 
             <GridLayout row="1" col="0" rows="auto,auto" columns="*,auto,*" class="claas">
                 <Label row="0" col="0" class="numberText fa" text={{profile?.timeHelped}} verticalAlignment="center"
                     horizontalAlignment="center"></Label>
-                <Label row="1" col="0" class="numberExplainText fa" text="Minuten Geholfen" verticalAlignment="center"
+                <Label row="1" col="0" class="numberExplainText fa" text="Minuten geholfen" verticalAlignment="center"
                     horizontalAlignment="center"></Label>
                 <StackLayout row="0" rowSpan="2" col="1" class="line"></StackLayout>
                 <Label row="0" col="2" class="numberText fa" text="{{profile?.terra}}" verticalAlignment="center"
@@ -70,7 +70,7 @@
 
         <GridLayout row="1" col="0" rows="auto,auto" columns="*,auto,*" class="claas">
             <Label row="0" col="0" class="numberText fa" text="Viele" verticalAlignment="center" horizontalAlignment="center"></Label>
-            <Label row="1" col="0" class="numberExplainText fa" text="Minuten Geholfen" verticalAlignment="center"
+            <Label row="1" col="0" class="numberExplainText fa" text="Minuten geholfen" verticalAlignment="center"
                 horizontalAlignment="center"></Label>
             <StackLayout row="0" rowSpan="2" col="1" class="line"></StackLayout>
             <Label row="0" col="2" class="numberText fa" text="Einige" verticalAlignment="center" horizontalAlignment="center"></Label>

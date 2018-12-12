@@ -79,7 +79,7 @@ export class ChatDetailComponent implements OnInit {
         this.chatService.sendChatMessage(this.id, msg).subscribe(
             res => {
                 this.msg = '';
-                this.refreshDataClick()
+                this.refreshDataClick();
             }
         );
         setTimeout(() => {

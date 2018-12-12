@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { Page } from "tns-core-modules/ui/page";
 import { getCategoryIconSource } from "../app.component";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 import { Observable, timer, throwError, BehaviorSubject } from 'rxjs';
 import { concatMap, map, switchMap, catchError } from 'rxjs/operators';
@@ -41,7 +42,7 @@ export class RatingComponent implements OnInit {
     toggleCategory(id, args) {
         this.changeColorCategory(args);
         this.categories[id] = !this.categories[id];
-        if(this.categories.find(a => a === true)){
+        if (this.categories.find(a => a === true)) {
             this.disabled = false;
         } else {
             this.disabled = true;
@@ -73,34 +74,43 @@ export class RatingComponent implements OnInit {
     }
 
     changeColorCategory(args) {
-		let btn = args.object; // tapped on object
-		if (btn.className === "ratingItem") {
-			btn.className = "ratingItemSelected";
-		} else {
-			btn.className = "ratingItem";
-		}
-	}
+        let btn = args.object; // tapped on object
+        if (btn.className === "ratingItem") {
+            btn.className = "ratingItemSelected";
+        } else {
+            btn.className = "ratingItem";
+        }
+    }
 
     // this will fail horribly when the ids contain an actual XY inside
     // will need to clean this mess up later
     submitRating() {
-        console.log(this.id);
-        let role = this.id.slice(this.idx, this.idx + 2);
-        this.createRatingArray();
-        if (role === 'XY') {
-            let aideIdx = this.id.indexOf('ZZZZZ');
-            let henqId = this.id.slice(this.idx + 2, aideIdx);
-            let aideId = this.id.slice(aideIdx + 5);
-            console.log(this.id)
-            console.log(henqId)
-            console.log(aideId)
-            this.itemService.rateItem(henqId, aideId, this.rating).subscribe();
-        }
-        if (role === 'YZ') {
-            let henqId = this.id.slice(this.idx + 2);
-            this.itemService.rateFilerItem(henqId, this.rating).subscribe();
-        }
-        this.goBack();
+        dialogs.confirm({
+            title: "Bestätigung",
+            message: "Möchtest du diese Bewertung abschicken?",
+            okButtonText: "Ja",
+            cancelButtonText: "Lieber nicht",
+        }).then(r => {
+            if (r) {
+                console.log(this.id);
+                let role = this.id.slice(this.idx, this.idx + 2);
+                this.createRatingArray();
+                if (role === 'XY') {
+                    let aideIdx = this.id.indexOf('ZZZZZ');
+                    let henqId = this.id.slice(this.idx + 2, aideIdx);
+                    let aideId = this.id.slice(aideIdx + 5);
+                    console.log(this.id)
+                    console.log(henqId)
+                    console.log(aideId)
+                    this.itemService.rateItem(henqId, aideId, this.rating).subscribe();
+                }
+                if (role === 'YZ') {
+                    let henqId = this.id.slice(this.idx + 2);
+                    this.itemService.rateFilerItem(henqId, this.rating).subscribe();
+                }
+                this.goBack();
+            }
+        })
     }
 
     public goBack() {

@@ -237,37 +237,3 @@ export class CalendarComponent implements OnInit {
         return getCategoryIconSource(icon);
     }
 }
-
-/*
-            // the stream
-            const calendar$ = this.calendarService.getEntries();
-
-            this.polledCalendar$ = timer(0, 10000).pipe(
-                concatMap(_ => calendar$),
-                tap(res => {
-                    // chaining the functions, using (result) as a initial value
-                    // this needs to be redone but works for now
-                    // technically a job for the backend but might scale badly
-                    // so its getting outsourced to frontend
-                    if (res.length > 0) {
-                        this.ex = true;
-                    }
-                    let output = _.flow([
-                        this.groupEntries,
-                        this.formatEntries,
-                        this.sortEntries,
-                        this.sortInnerEntries,
-                        this.groupbyMonth,
-                        this.formatEntries,
-                        this.sortbyStartWithCurrentMonth,
-                        this.changeMonthNumToLiteral
-                    ])
-                        (res);
-                    console.log(res)
-                    this.entries = output;
-                    return output;
-                }),
-                catchError(err => throwError(err))
-
-            )
-            */

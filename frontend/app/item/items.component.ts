@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Page } from "tns-core-modules/ui/page";
-import { RouterExtensions } from 'nativescript-angular/router';
 import { getCategoryIconSource } from "../app.component";
 
 import { Observable, Subject, timer, throwError } from 'rxjs';
@@ -11,8 +10,8 @@ import { concatMap, map, merge, catchError } from 'rxjs/operators';
 import { Item } from "../shared/models/item";
 import { ItemService } from "../shared/services/item.service";
 import { AppSettingsService } from '../shared/services/appsettings.service';
-import { AuthenticationService } from '../shared/services/authentication.service';
 import { DataService } from '../shared/services/data.service';
+import { AlertService } from '../shared/services/alert.service';
 
 import { Button } from 'tns-core-modules/ui/button'
 import { isIOS, isAndroid } from "tns-core-modules/platform";
@@ -63,11 +62,10 @@ export class ItemsComponent implements OnInit {
         private itemService: ItemService,
         private router: Router,
         private appSet: AppSettingsService,
-        private authenticationService: AuthenticationService,
         private data: DataService,
         private page: Page,
         private currentRoute: ActivatedRoute,
-        private routerExtension: RouterExtensions
+        private alertService: AlertService
     ) {
         // subscribe to changes in the message (which is the badly named filter)
         this.data.currentMessage.subscribe(message => this.message = message)
@@ -102,7 +100,6 @@ export class ItemsComponent implements OnInit {
             );
         } else {
             this.dis = true;
-            console.log(this.dis)
             this.guest = true;
             this.items = this.itemService.getGuestItems(12);
         }
@@ -141,10 +138,10 @@ export class ItemsComponent implements OnInit {
         this.itemService.applyItem(id).subscribe(
             res => this.refreshDataClick(),
             err => {
-                if (err instanceof HttpErrorResponse) {
-                    console.log(`Status: ${err.status}, ${err.statusText}`);
-                }
-            });
+                this.alertService.catchAndSelect(err);
+                console.log('error caught')
+            }
+        );
     }
 
     refreshDataClick() {
@@ -188,7 +185,6 @@ export class ItemsComponent implements OnInit {
     getBestProperty(arr, distance) {
         if (arr == null) {
             let idx = Math.floor((distance / 0.8) % (11 * 0.8));
-            console.log(idx);
             return this.getPropertyString(idx);
         } else {
             let max = Math.max(...arr);

@@ -95,7 +95,7 @@ export class RegisterComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.alertService.catchAndSelect(error);
+                    this.alertService.catchAndSelect(error.error);
                     this.loading = false;
                 }
             );

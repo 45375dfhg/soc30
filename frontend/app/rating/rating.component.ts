@@ -44,7 +44,6 @@ export class RatingComponent implements OnInit {
         } else {
             this.disabled = true;
         }
-        console.log(this.categories);
     }
 
     ngOnInit(): void {
@@ -57,9 +56,7 @@ export class RatingComponent implements OnInit {
                 this.idx = this.id.indexOf('YZ');
                 this.helper = this.id.slice(0, this.idx)
             }
-        } else {
-            console.log('how the fuck did the user get here?');
-        }
+        } 
     }
 
     createRatingArray() {
@@ -89,16 +86,12 @@ export class RatingComponent implements OnInit {
             cancelButtonText: "Lieber nicht",
         }).then(r => {
             if (r) {
-                console.log(this.id);
                 let role = this.id.slice(this.idx, this.idx + 2);
                 this.createRatingArray();
                 if (role === 'XY') {
                     let aideIdx = this.id.indexOf('ZZZZZ');
                     let henqId = this.id.slice(this.idx + 2, aideIdx);
                     let aideId = this.id.slice(aideIdx + 5);
-                    console.log(this.id)
-                    console.log(henqId)
-                    console.log(aideId)
                     this.itemService.rateItem(henqId, aideId, this.rating).subscribe();
                 }
                 if (role === 'YZ') {

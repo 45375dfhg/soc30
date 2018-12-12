@@ -33,8 +33,6 @@ export class ItemService {
             // needs to be stringify'd because otherwise we'd get [object object]
             .set('category', JSON.stringify(cat));
 
-        console.log(params);
-
         return this.http.post<any>(this.baseUrl + "henquiries", params)
             .pipe(
                 catchError(this.handleErrors('postItem'))
@@ -57,7 +55,6 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-        console.log('inside cancelItem')
         return this.http.put<any>(this.baseUrl + "henquiries/cancel", params)
             .pipe(
                 catchError(this.handleErrors('cancelItem'))
@@ -79,7 +76,6 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-        console.log('inside closeItem')
         return this.http.put<any>(this.baseUrl + "henquiries/close", params)
             .pipe(
                 catchError(this.handleErrors('closeItem'))

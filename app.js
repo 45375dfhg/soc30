@@ -20,16 +20,6 @@ db.once('open', function () {
   
 });
 
-//use sessions for tracking logins
-app.use(session({
-  secret: 'work hard', // has to be changed
-  resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: db
-  })
-}));
-
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

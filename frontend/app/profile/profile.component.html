@@ -4,7 +4,6 @@
 </ActionBar>
 
 <StackLayout *ngIf="!guest; else guestModus">
-    <ScrollView>
         <GridLayout rows="auto, auto, auto, *, auto" columns="*">
             <StackLayout *ngIf="isLogoutVisible" row="0" col="0">
                 <Button class="icon logoutButton" text="&#xf08b;" (tap)="logout()" verticalAlignment="top"
@@ -53,7 +52,6 @@
                 <Button row="2" col="0" text="Email-Adresse wurde bestätigt"></Button>
             </GridLayout>
         </GridLayout>
-    </ScrollView>
 </StackLayout>
 <ng-template #guestModus>
     <GridLayout rows="auto, auto, auto, *, auto" columns="*">

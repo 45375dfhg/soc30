@@ -12,3 +12,10 @@ Inside the root directory you find Dokumente.zip which includes:
 - Pflichtenheft
 - Benutzerhandbuch
 - a list of sample data for the database
+
+## team members
+
+- Egner, Pascal
+- Roboto, Mariia
+- Steinbrecht, Richard
+- Lohmann, Claas-Tim

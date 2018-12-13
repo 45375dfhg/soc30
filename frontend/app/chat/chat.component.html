@@ -1,7 +1,7 @@
 <ActionBar title="Mein Plauderkasten">
         <NavigationButton visibility="collapsed"></NavigationButton>
 </ActionBar>
-<StackLayout *ngIf="ex; else noEntries" marginTop="5">
+<StackLayout marginTop="5">
         <RadListView [items]="polledChatOverview$ | async" #myListView [itemTemplateSelector]="templateSelector" class="list-group"
                 style="height:100%">
                 <ng-template tkListItemTemplate let-item="item">
@@ -52,7 +52,7 @@
                 </ng-template>
         </RadListView>
 </StackLayout>
-<ng-template #noEntries>
+<!--<ng-template #noEntries>
         <GridLayout rows="auto,auto,auto,auto" class="emptyScreen fa">
                 <Label row="0" text="Schau doch mal auf der Startseite vorbei, bestimmt kann jemand genau deine Unterstützung gebrauchen!"
                         horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext1"></Label>
@@ -63,4 +63,4 @@
                 <Label row="3" text="Hier geht bald die Post ab! Dann hast du die Möglichkeit mit deinen Nachbarn zu schreiben."
                         horizontalAlignment="center" verticalAlignment="center" textWrap="true" class="emptytext3"></Label>
         </GridLayout>
-</ng-template>
+</ng-template>-->

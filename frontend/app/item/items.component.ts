@@ -115,6 +115,13 @@ export class ItemsComponent implements OnInit {
             }).then(r => {
                 if (r) {
                     this.applyTo(id);
+                    dialogs.alert({
+                        title: "Bewerbung erfolgreich!",
+                        message: "Im Plauderkasten hast du jetzt einen neuen Chat.",
+                        okButtonText: "Okay"
+                    }).then(() => console.log('suc'))
+                } else {
+                    this.onChangeCssClassButtonTap(event);
                 }
             })
         } else {
@@ -129,8 +136,12 @@ export class ItemsComponent implements OnInit {
     // https://stackoverflow.com/a/40665664
     onChangeCssClassButtonTap(args) {
         var button = args.object as Button;
-        button.className = "greyButton";
-        button.isEnabled = false;
+        if (button.className == "greyButton") {
+            button.className = "willHelpButton";
+        } else {
+            button.className = "greyButton"
+        }
+        button.isEnabled = !button.isEnabled;
     }
 
     applyTo(id) {

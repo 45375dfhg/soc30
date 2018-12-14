@@ -70,11 +70,12 @@ export class HenquiryDetailComponent implements OnInit {
         this.year = this.today.getFullYear();
         this.hour = this.today.getHours();
         this.minute = this.today.getMinutes();
-        this.dayDisplay = (this.today.getDate() + 1).toString();
-        this.monthDisplay = (this.today.getMonth() + 1).toString();
+        // this.dayDisplay = ((this.today.getDate() + 1) < 10)  ? '0' + (this.today.getDate() + 1): (this.today.getDate() + 1).toString();
+        this.dayDisplay = "Morgen";
+        this.monthDisplay = ((this.today.getMonth() + 1) < 10) ? '0' + (this.today.getMonth() + 1) : (this.today.getMonth() + 1).toString();
         this.yearDisplay = this.today.getFullYear().toString();
-        this.hourDisplay = this.today.getHours().toString();
-        this.minuteDisplay = this.today.getMinutes().toString();
+        this.hourDisplay = (this.today.getHours() < 10) ? '0' + this.today.getHours() : this.today.getHours().toString();
+        this.minuteDisplay = (this.today.getMinutes() < 10) ? '0' + this.today.getMinutes() : this.today.getMinutes().toString();
         this.duration = 30; // placeholder
         this.amount = 1;
         this.category = {

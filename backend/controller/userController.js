@@ -67,7 +67,17 @@ exports.register = function (req, res, next) {
           registerDate: new Date(),
           coordinates: {latitude: latitude, longitude:longitude},
           invite: {level:3, codes:[], children:[]},
+          terra: 0,
           ratings: ratings
+        }
+        if(req.body.email == 'jonas.sch@gmx.de') {
+          userData.terra = 4;
+          userData.coordinates.longitude = 9.219349;
+          userData.coordinates.latitude = 48.804654;
+        }
+        else if(req.body.email == 'zoe.mey@gmx.de') {
+          userData.coordinates.longitude = 9.207547;
+          userData.coordinates.latitude = 48.787752;
         }
         User.create(userData, function (error, user) {
           if (error) {

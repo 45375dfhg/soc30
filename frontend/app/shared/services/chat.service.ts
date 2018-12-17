@@ -9,12 +9,11 @@ import { Config } from "../config";
 @Injectable()
 export class ChatService {
 
-    baseUrl = Config.apiUrl + "messages/";
 
     constructor(private http: HttpClient) { }
 
     public getChatsOverview() {
-        return this.http.get<any>(this.baseUrl + 'overview/').pipe(
+        return this.http.get<any>(Config.apiUrl + 'messages/' + 'overview/').pipe(
             catchError(this.handleErrors('getChatsOverview'))
         );
     }
@@ -23,7 +22,7 @@ export class ChatService {
         let httpParams = new HttpParams()
             .set('messageId', id);
 
-        return this.http.put<any>(this.baseUrl + "specific/", httpParams).pipe(
+        return this.http.put<any>(Config.apiUrl + 'messages/' + "specific/", httpParams).pipe(
             catchError(this.handleErrors('getSpecificChat'))
         );
     }
@@ -33,14 +32,14 @@ export class ChatService {
             .set('messageId', id)
             .set('message', msg);
 
-        return this.http.post<any>(this.baseUrl + 'specific/', httpParams).pipe(
+        return this.http.post<any>(Config.apiUrl + 'messages/' + 'specific/', httpParams).pipe(
             catchError(this.handleErrors('sendChatMessage'))
         );
     }
 
     private handleErrors(operation: string) {
         return (err: any) => {
-            let errMsg = `error in ${operation}() retrieving ${this.baseUrl}`;
+            let errMsg = `error in ${operation}() retrieving ${Config.apiUrl + 'messages/'}`;
             console.log(`${errMsg}:`, err);
             if (err instanceof HttpErrorResponse) {
                 console.log(`Status: ${err.status}, ${err.statusText}`);

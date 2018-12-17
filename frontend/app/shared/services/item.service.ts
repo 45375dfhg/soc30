@@ -11,14 +11,13 @@ import { AlertService } from './alert.service';
 
 @Injectable()
 export class ItemService {
-    baseUrl = Config.apiUrl;
 
     private items: Item[];
 
     constructor(private http: HttpClient, private appSet: AppSettingsService, private alertService: AlertService) { }
 
     public getItems() {
-        return this.http.get<Item[]>(this.baseUrl + "henquiries")
+        return this.http.get<Item[]>(Config.apiUrl + "henquiries")
             .pipe(
                 catchError(this.handleErrors('getItems'))
             );
@@ -34,7 +33,7 @@ export class ItemService {
             // needs to be stringify'd because otherwise we'd get [object object]
             .set('category', JSON.stringify(cat));
 
-        return this.http.post<any>(this.baseUrl + "henquiries", params)
+        return this.http.post<any>(Config.apiUrl + "henquiries", params)
             .pipe(
                 catchError(this.handleErrors('postItem'))
             );
@@ -46,7 +45,7 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-        return this.http.put<any>(this.baseUrl + "henquiries/apply", params)
+        return this.http.put<any>(Config.apiUrl + "henquiries/apply", params)
             .pipe(
                 catchError(this.handleErrors('applyItem'))
             );
@@ -56,7 +55,7 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-        return this.http.put<any>(this.baseUrl + "henquiries/cancel", params)
+        return this.http.put<any>(Config.apiUrl + "henquiries/cancel", params)
             .pipe(
                 catchError(this.handleErrors('cancelItem'))
             );
@@ -67,7 +66,7 @@ export class ItemService {
             .set('henquiryId', id)
             .set('applicants', amount);
 
-        return this.http.put<any>(this.baseUrl + "henquiries/accept", params)
+        return this.http.put<any>(Config.apiUrl + "henquiries/accept", params)
             .pipe(
                 catchError(this.handleErrors('acceptItem'))
             );
@@ -77,7 +76,7 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-        return this.http.put<any>(this.baseUrl + "henquiries/close", params)
+        return this.http.put<any>(Config.apiUrl + "henquiries/close", params)
             .pipe(
                 catchError(this.handleErrors('closeItem'))
             );
@@ -87,7 +86,7 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id)
 
-        return this.http.put<any>(this.baseUrl + "henquiries/success", params)
+        return this.http.put<any>(Config.apiUrl + "henquiries/success", params)
             .pipe(
                 catchError(this.handleErrors('successItem'))
             );
@@ -100,7 +99,7 @@ export class ItemService {
             // needs to be stringify'd because otherwise we'd get [object object]
             .set('ratings', JSON.stringify(ratings));
 
-        return this.http.post<any>(this.baseUrl + "henquiries/rate", params)
+        return this.http.post<any>(Config.apiUrl + "henquiries/rate", params)
             .pipe(
                 catchError(this.handleErrors('rateItem'))
             );
@@ -112,7 +111,7 @@ export class ItemService {
             // needs to be stringify'd because otherwise we'd get [object object]
             .set('ratings', JSON.stringify(rating));
 
-        return this.http.post<any>(this.baseUrl + "henquiries/ratefiler", params)
+        return this.http.post<any>(Config.apiUrl + "henquiries/ratefiler", params)
             .pipe(
                 catchError(this.handleErrors('rateFilerItem'))
             );
@@ -122,7 +121,7 @@ export class ItemService {
         let params = new HttpParams()
             .set('henquiryId', id);
 
-        return this.http.put<any>(this.baseUrl + "henquiries/specific", params)
+        return this.http.put<any>(Config.apiUrl + "henquiries/specific", params)
             .pipe(
                 catchError(this.handleErrors('getItem'))
             );
@@ -362,7 +361,7 @@ export class ItemService {
     private handleErrors(operation: string) {
         return (err: any) => {
             this.alertService.catchAndSelect(err); // comment out if errors in error handling
-            let errMsg = `error in ${operation}() retrieving ${this.baseUrl}`;
+            let errMsg = `error in ${operation}() retrieving ${Config.apiUrl}`;
             console.log(`${errMsg}:`, err);
             if (err instanceof HttpErrorResponse) {
                 console.log(`Status: ${err.status}, ${err.statusText}`);

@@ -10,9 +10,6 @@ import { AppSettingsService } from '../services/appsettings.service';
 export class AuthenticationService {
     constructor(private http: HttpClient, private appSet: AppSettingsService) { }
 
-    loginUrl = Config.apiUrl + "login";
-    registerUrl = Config.apiUrl + "register";
-
     login(email: string, password: string) {
         
         // HttpParams is immutable so we need to concatinate
@@ -26,7 +23,7 @@ export class AuthenticationService {
             .set('logpassword', password);
 
         // returns an Observable and thus this needs to be subscribed to 
-        return this.http.post<any>(this.loginUrl, params, {headers: headers})
+        return this.http.post<any>(Config.apiUrl + 'login', params, {headers: headers})
             .pipe(
                 map(user => {
                     // login successful if there's a jwt token in the response
@@ -59,7 +56,7 @@ export class AuthenticationService {
             .set('hostEmail', user.hostEmail)
             .set('code', user.code)
 
-        return this.http.post<any>(this.registerUrl, params)
+        return this.http.post<any>(Config.apiUrl + 'register', params)
             .pipe(
                 map(user => {
                     if (user && user.token) {

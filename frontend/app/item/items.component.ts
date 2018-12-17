@@ -78,7 +78,7 @@ export class ItemsComponent implements OnInit {
 
             // polls the items from the stream above, maps them 
             // by applying the filter values from the dataService stream
-            this.polledItems$ = timer(0, 100000).pipe(
+            this.polledItems$ = timer(0, 1000000000).pipe(
                 merge(this.manualRefresh),
                 concatMap(_ => items$),
                 map(res => {

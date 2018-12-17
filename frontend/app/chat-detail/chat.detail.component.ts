@@ -47,7 +47,7 @@ export class ChatDetailComponent implements OnInit {
 
             // polls the items from the stream above, maps them 
             this.polledMessageObj$ = this.load$.pipe(
-                switchMap(_ => timer(0, 10000).pipe(
+                switchMap(_ => timer(0, 2000).pipe(
                     concatMap(_ => msgObj$),
                     map(res => {
                         this.polledMessages$ = res.messages;

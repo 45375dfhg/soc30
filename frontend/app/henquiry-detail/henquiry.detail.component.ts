@@ -141,10 +141,11 @@ export class HenquiryDetailComponent implements OnInit {
 
     pickDate() {
         const picker = new ModalPicker.ModalDatetimepicker();
+        let today = new Date();
         picker.pickDate({
             title: 'An welchem Tag brauchst du die Hilfe?',
             theme: 'none',
-            minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+            minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
             maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
             is24HourView: true
         }).then((result) => {
@@ -161,10 +162,11 @@ export class HenquiryDetailComponent implements OnInit {
 
     pickTime() {
         const picker = new ModalPicker.ModalDatetimepicker();
+        let today = new Date();
         picker.pickTime({
             title: 'Um wie viel Uhr brauchst du die Hilfe?',
             theme: 'none',
-            minDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+            minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
             maxDate: new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000),
             startingHour: 8,
             is24HourView: true

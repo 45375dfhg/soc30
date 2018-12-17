@@ -68,10 +68,12 @@ exports.register = function (req, res, next) {
           coordinates: {latitude: latitude, longitude:longitude},
           invite: {level:3, codes:[], children:[]},
           terra: 0,
+          timeHelped: 0,
           ratings: ratings
         }
         if(req.body.email == 'jonas.sch@gmx.de') {
           userData.terra = 4;
+          userData.timeHelped = 120;
           userData.coordinates.longitude = 9.219349;
           userData.coordinates.latitude = 48.804654;
         }

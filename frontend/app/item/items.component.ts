@@ -135,13 +135,16 @@ export class ItemsComponent implements OnInit {
 
     // https://stackoverflow.com/a/40665664
     onChangeCssClassButtonTap(args) {
-        var button = args.object as Button;
+        let button = args.object as Button;
         if (button.className == "greyButton") {
             button.className = "willHelpButton";
+            button.isEnabled = !button.isEnabled;
         } else {
-            button.className = "greyButton"
+            if (button.className == "willHelpButton") {
+                button.className = "greyButton"
+                button.isEnabled = !button.isEnabled;
+            }
         }
-        button.isEnabled = !button.isEnabled;
     }
 
     applyTo(id) {

@@ -144,7 +144,7 @@ export class ItemService {
                         surname: "Musterman",
                         firstname: "Max",
                         nickname: "Das Beispiel",
-                        avatar: (i % 6)
+                        avatar: ((i % 6) < 3) ? (i % 6) + 3 : (i % 6),
                     },
                     0.8 * (i + 1),
                     ''

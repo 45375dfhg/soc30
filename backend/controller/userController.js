@@ -66,7 +66,7 @@ exports.register = function (req, res, next) {
           avatar: parseInt(req.body.avatar),
           registerDate: new Date(),
           coordinates: {latitude: latitude, longitude:longitude},
-          invite: {level:3, codes:[], children:[]},
+          invite: {level:0, codes:[], children:[]},
           terra: 0,
           timeHelped: 0,
           ratings: ratings

@@ -35,10 +35,15 @@ export class LoginComponent implements OnInit {
 		this.page.enableSwipeBackNavigation = false;
 	}
 
+
+	/*
+		zoe.mey@gmx.de
+		zoe
+	*/
 	ngOnInit() {
 		this.signUpForm = this.formBuilder.group({
-			email: ['', Validators.required],
-			password: ['', Validators.required]
+			email: ['jonas.sch@gmx.de', Validators.required],
+			password: ['jonas', Validators.required]
 		});
 
 		// reset login status

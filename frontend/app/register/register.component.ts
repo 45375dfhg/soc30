@@ -45,20 +45,25 @@ export class RegisterComponent implements OnInit {
         this.currentPage = newPage;
     }
 
+    /*
+        70374 - Endersbacher Str. 23
+        zoe.mey@gmx.de
+    */
+
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            email: ['', [
+            email: ['jonas.sch@gmx.de', [
                 Validators.required,
                 Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
-            password: ['', Validators.required],
-            confPassword: ['', Validators.required],
-            surname: ['', Validators.required],
-            firstname: ['', Validators.required],
-            postalcode: ['', Validators.required],
-            street: ['', Validators.required],
-            city: ['', Validators.required],
-            housenm: ['', Validators.required],
-            nickname: ['', Validators.required],
+            password: ['jonas', Validators.required],
+            confPassword: ['jonas', Validators.required],
+            surname: ['Schmidt', Validators.required],
+            firstname: ['Jonas', Validators.required],
+            postalcode: ['70372', Validators.required],
+            street: ['Tölzer Str.', Validators.required],
+            city: ['Stuttgart', Validators.required],
+            housenm: ['6', Validators.required],
+            nickname: ['Jones', Validators.required],
             avatar: this.currentAvatar,
             code: [''],
             hostEmail: ['']

@@ -9,14 +9,13 @@ import { Config } from "../config";
 
 @Injectable()
 export class CalendarService {
-    baseUrl = Config.apiUrl + "calendar";
 
     private entries;
 
     constructor(private http: HttpClient) { }
 
     public getEntries() {
-        return this.http.get<Item[]>(this.baseUrl)
+        return this.http.get<Item[]>(Config.apiUrl + "calendar")
             .pipe(
                 map(entries => {
                     let entryList: Item[] = [];
@@ -70,7 +69,7 @@ export class CalendarService {
     
     private handleErrors(operation: string) {
         return (err: any) => {
-            let errMsg = `error in ${operation}() retrieving ${this.baseUrl}`;
+            let errMsg = `error in ${operation}() retrieving ${Config.apiUrl + "calendar"}`;
             console.log(`${errMsg}:`, err);
             if (err instanceof HttpErrorResponse) {
                 console.log(`Status: ${err.status}, ${err.statusText}`);

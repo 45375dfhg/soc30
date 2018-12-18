@@ -9,15 +9,13 @@ import { Config } from "../config";
 @Injectable()
 export class ProfileService {
 
-    baseUrl = Config.apiUrl;
-
     constructor(private http: HttpClient) { }
 
     public getProfile(id: string) {
         let httpParams = new HttpParams()
             .set('userId', id)
 
-        return this.http.put<any>(this.baseUrl + "profile/", httpParams)
+        return this.http.put<any>(Config.apiUrl + "profile/", httpParams)
             .pipe(
                 catchError(this.handleErrors('getProfile'))
             );
@@ -28,7 +26,7 @@ export class ProfileService {
             .set('code', user.code)
             .set('email', user.email);
 
-        return this.http.put<any>(this.baseUrl + 'profile/verify', httpParams)
+        return this.http.put<any>(Config.apiUrl + 'profile/verify', httpParams)
             .pipe(
                 catchError(this.handleErrors('verifyProfile'))
             );
@@ -48,7 +46,7 @@ export class ProfileService {
 
     private handleErrors(operation: string) {
         return (err: any) => {
-            let errMsg = `error in ${operation}() retrieving ${this.baseUrl}`;
+            let errMsg = `error in ${operation}() retrieving ${Config.apiUrl}`;
             console.log(`${errMsg}:`, err);
             if (err instanceof HttpErrorResponse) {
                 console.log(`Status: ${err.status}, ${err.statusText}`);
